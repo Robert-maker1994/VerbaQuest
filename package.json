@@ -1,0 +1,7 @@
+{
+    "name": "verba-quest",
+    "workspaces": [
+        "packages/api",
+        "packages/frontend"
+    ]
+}
