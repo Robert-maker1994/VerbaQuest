@@ -16,10 +16,12 @@ export async function createTables() {
     const db = await pool.connect();
 
     try {
-        const data = await fs.readFile("./seeder/createTables.sql", 'utf-8');
+        const data = await fs.readFile("./seeder/sql/createTables.sql", 'utf-8');
+        const seed = await fs.readFile("./seeder/sql/seed.sql", 'utf-8');
 
         await db.query(data);
-        console.log("query is complete");
+        await db.query(seed);
+        console.log("Creating database and seed data is complete");
     } catch (error) {
         console.error("Error creating tables", error);
         throw error;
@@ -45,8 +47,6 @@ export async function createDatabase() {
 
     try {
         await client.connect();
-
-
         await client.query(`CREATE DATABASE ${dbName}`);
         console.log(`Database "${dbName}" created successfully.`);
     } catch (err) {
@@ -75,8 +75,7 @@ async function create() {
 
 async function main() {
     const database = await create();
-    
-    if(database) {
-        
-    }
+  
 }
+
+main()

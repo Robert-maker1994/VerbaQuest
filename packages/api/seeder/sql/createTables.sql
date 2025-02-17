@@ -20,7 +20,7 @@ CREATE TABLE crosswords (
     language_id INTEGER NOT NULL REFERENCES languages(language_id) ON DELETE CASCADE,
     title VARCHAR(255),
     date_created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    difficulty VARCHAR(50)
+    difficulty INTEGER NOT NULL
 );
 
 -- Create the crossword_words table
@@ -29,10 +29,7 @@ CREATE TABLE crossword_words (
     crossword_id INTEGER NOT NULL REFERENCES crosswords(crossword_id) ON DELETE CASCADE,
     word_id INTEGER NOT NULL REFERENCES words(word_id) ON DELETE CASCADE,
     clue TEXT NOT NULL,
-    row INTEGER NOT NULL,
-    col INTEGER NOT NULL,
-    direction CHAR(1) NOT NULL,
-    UNIQUE (crossword_id, word_id, row, col, direction)
+    UNIQUE (crossword_id, word_id)
 );
 
 -- Create the users table
@@ -83,7 +80,7 @@ CREATE TABLE crossword_topics (
 CREATE TABLE tenses (
     tense_id SERIAL PRIMARY KEY,
     tense_name VARCHAR(255) NOT NULL,
-    language_code VARCHAR(10) NOT NULL  -- Corrected: Was missing
+    language_id INTEGER NOT NULL
 );
 
 -- Create the verbs table
@@ -91,7 +88,7 @@ CREATE TABLE verbs (
     verb_id SERIAL PRIMARY KEY,
     infinitive VARCHAR(255) UNIQUE NOT NULL,
     english_translation VARCHAR(255) NOT NULL,
-    language_code VARCHAR(10) NOT NULL  -- Corrected: Was missing
+    language_id INTEGER NOT NULL
 );
 
 -- Create the conjugations table
@@ -102,7 +99,7 @@ CREATE TABLE conjugations (
     grammatical_person VARCHAR(50) NOT NULL,  -- Corrected: Was missing NOT NULL
     conjugated_form VARCHAR(255) NOT NULL,
     reflexive BOOLEAN NOT NULL DEFAULT FALSE,
-    language_code VARCHAR(10) NOT NULL  -- Corrected: Was missing
+    language_id INTEGER NOT NULL
 );
 
 -- Create the user_verb_progress table
@@ -126,14 +123,10 @@ CREATE INDEX idx_word_of_the_day_date ON word_of_the_day (date);
 CREATE INDEX idx_crossword_topics_crossword_id ON crossword_topics (crossword_id);
 CREATE INDEX idx_crossword_topics_topic_id ON crossword_topics (topic_id);
 CREATE INDEX idx_words_language_id ON words (language_id);
-CREATE INDEX idx_verbs_language_code ON verbs(language_code);
+CREATE INDEX idx_verbs_language_id ON verbs(language_id);
 CREATE INDEX idx_conjugations_verb_id ON conjugations(verb_id);
 CREATE INDEX idx_conjugations_tense_id ON conjugations(tense_id);
 CREATE INDEX idx_user_verb_progress_user_id ON user_verb_progress(user_id);
 CREATE INDEX idx_user_verb_progress_conjugation_id ON user_verb_progress(conjugation_id);
-CREATE INDEX idx_tenses_language_code ON tenses(language_code); -- Added index
+CREATE INDEX idx_tenses_language_id ON tenses(language_id); -- Added index
 
--- Optional: Add some initial data (for testing)
-INSERT INTO languages (language_code, language_name) VALUES
-('en', 'English'),
-('es', 'Spanish');
