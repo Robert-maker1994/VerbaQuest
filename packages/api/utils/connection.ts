@@ -1,5 +1,5 @@
 import { Pool, PoolClient } from "pg"
-import { loadDatabaseConfig } from "../config/config";
+import { loadDatabaseConfig } from "../libs/config/config";
 
 const dbConfig = loadDatabaseConfig();
   

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { crosswordService } from "../services/crossword";
-import CrosswordGenerator from "../utils/crossword-generator";
+import CrosswordGenerator from "../../utils/crossword-generator";
 
 
 const getCrosswordByFilter = async (req: Request, res: Response) => {

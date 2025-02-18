@@ -1,4 +1,4 @@
-import { getConnection } from "../utils/connection";
+import { getConnection } from "../../utils/connection";
 
 async function crosswordService() {
     const client = await getConnection();
