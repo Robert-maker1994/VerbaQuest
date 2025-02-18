@@ -1,6 +1,6 @@
-import { getConnection } from "../libs/connection";
+import { getConnection } from "../utils/connection";
 
-async function getCrossword(filter?: string) {
+async function crosswordService() {
     const client = await getConnection();
 
     const crossword = await client.query<{
@@ -21,4 +21,4 @@ async function getCrossword(filter?: string) {
     return crossword.rows
 }
 
-export { getCrossword }
+export { crosswordService }

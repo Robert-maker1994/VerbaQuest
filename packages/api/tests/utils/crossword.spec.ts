@@ -1,4 +1,4 @@
-import CrosswordGenerator from './crossword'; // Adjust path as needed
+import CrosswordGenerator from '../../libs/utils/crossword-generator'; // Adjust path as needed
 
 describe('CrosswordGenerator', () => {
     let generator: CrosswordGenerator;

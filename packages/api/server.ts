@@ -1,5 +1,5 @@
 import express from 'express';
-import crosswordRouter from './routes/crossword';
+import crosswordRouter from './libs/routes/crossword';
 require("dotenv").config();
 
 

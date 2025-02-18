@@ -1,4 +1,8 @@
-
+interface StartPos {
+    x: number,
+    y: number,
+    word: string
+}
 
 class CrosswordGenerator {
     private board: (string | null)[][];
@@ -6,21 +10,23 @@ class CrosswordGenerator {
     private wordBank: WordObj[];
     private wordsActive: WordObj[];
     private bounds: Bounds;
-
+    startPos: StartPos[]
     constructor() {
         this.board = [];
         this.wordArr = [];
         this.wordBank = [];
         this.wordsActive = [];
         this.bounds = new Bounds();
+        this.startPos = [];
     }
 
     public generateCrossword(words: string[]): string[][] | null {
         this.wordArr = words;
-        this.cleanVars();
+        // Clear stat
+        this.cleanState();
 
-        for (let i = 0; i < 10; i++) { 
-            this.cleanVars();
+        for (let i = 0; i < 10; i++) {
+            this.cleanState();
             if (this.populateBoard()) {
                 return this.boardToArrays();
             }
@@ -41,7 +47,7 @@ class CrosswordGenerator {
         return crossword;
     }
 
-    private cleanVars(): void {
+    private cleanState(): void {
         this.bounds.clean();
         this.wordBank = [];
         this.wordsActive = [];
@@ -85,8 +91,7 @@ class CrosswordGenerator {
         }
     }
     private addWordToBoard(): boolean {
-        let i: number, len: number, curIndex: number, curWord: WordObj, curChar: string, curMatch: number, testWord: WordObj, testChar: string,
-            minMatchDiff: number = 9999, curMatchDiff: number;
+        let i: number, len: number, curIndex: number, curWord: WordObj, curChar: string, testWord: WordObj, testChar: string, minMatchDiff: number = 9999, curMatchDiff: number, word: string = "";
 
         if (this.wordsActive.length < 1) {
             curIndex = 0;
@@ -182,7 +187,7 @@ class CrosswordGenerator {
                 }
 
                 curMatchDiff = curWord.totalMatches - curWord.effectiveMatches;
-
+                word = curWord.string
                 if (curMatchDiff < minMatchDiff && curWord.successfulMatches.length > 0) {
                     minMatchDiff = curMatchDiff;
                     curIndex = i;
@@ -208,6 +213,10 @@ class CrosswordGenerator {
         this.wordsActive[pushIndex].x = matchData.x;
         this.wordsActive[pushIndex].y = matchData.y;
         this.wordsActive[pushIndex].dir = matchData.dir;
+        
+        if(word.length) {
+            this.startPos.push({ x: matchData.x, y: matchData.y, word }); // Setting startPos
+        }
 
         for (i = 0, len = this.wordsActive[pushIndex].char.length; i < len; i++) {
             let xIndex = matchData.x;
