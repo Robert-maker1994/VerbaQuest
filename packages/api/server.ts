@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import express from 'express';
 import crosswordRouter from './libs/routes/crossword';
 require("dotenv").config();
