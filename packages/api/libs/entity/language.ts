@@ -1,12 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Word } from './word';
-import { Crossword } from './crossword';
-import { Topic } from './topic';
-import { Verb } from './verb';
-import { Tense } from './tense';
+import { Words } from './word';
+import { Crosswords } from './crossword';
+import { Topics } from './topic';
+import { Verbs } from './verb';
+import { Tenses } from './tense';
 
 @Entity()
-export class Language {
+export class Languages {
   @PrimaryGeneratedColumn()
   language_id: number;
 
@@ -16,18 +16,16 @@ export class Language {
   @Column({ type: 'varchar', length: 255, nullable: false })
   language_name: string;
 
-  @OneToMany(() => Word, word => word.language)
-  words: Word[];
+  @OneToMany(() => Words, word => word.language)
+  words: Words[];
 
-  @OneToMany(() => Crossword, crossword => crossword.language)
-  crosswords: Crossword[];
+  @OneToMany(() => Crosswords, crossword => crossword.language)
+  crosswords: Crosswords[];
 
-  @OneToMany(() => Topic, topic => topic.language)
-  topics: Topic[];
+  @OneToMany(() => Topics, topic => topic.language)
+  topics: Topics[];
 
-  @OneToMany(() => Verb, verb => verb.language)
-  verbs: Verb[];
 
-  @OneToMany(() => Tense, tense => tense.language)
-  tenses: Tense[];
+  @OneToMany(() => Tenses, tense => tense.language)
+  tenses: Tenses[];
 }

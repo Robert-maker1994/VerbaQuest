@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Language } from './language';
-import { CrosswordWord } from './crosswordWord';
-import { CrosswordTopic } from './crosswordTopic';
+import { Languages } from './language';
+import { CrosswordWords } from './crosswordWord';
+import { CrosswordTopics } from './crosswordTopic';
 
 @Entity()
-export class Crossword {
+export class Crosswords {
   @PrimaryGeneratedColumn()
   crossword_id: number;
 
@@ -20,12 +20,9 @@ export class Crossword {
   @Column({ type: 'varchar', length: 50, nullable: true })
   difficulty: string;
 
-  @ManyToOne(() => Language, language => language, { onDelete: 'CASCADE' })
-  language: Language;
+  @ManyToOne(() => Languages, language => language, { onDelete: 'CASCADE' })
+  language: Languages;
 
-  @OneToMany(() => CrosswordWord, crosswordWord => crosswordWord.crossword)
-  crosswordWords: CrosswordWord[];
-
-  @OneToMany(() => CrosswordTopic, crosswordTopic => crosswordTopic.crossword)
-  crosswordTopics: CrosswordTopic[];
+  @OneToMany(() => CrosswordTopics, crosswordTopic => crosswordTopic.crossword)
+  crosswordTopics: CrosswordTopics[];
 }

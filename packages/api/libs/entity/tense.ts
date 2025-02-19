@@ -1,21 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Language } from './language';
-import { Conjugation } from './conjugation';
+import { Languages } from './language';
+import { Conjugations } from './conjugation';
 
 @Entity()
-export class Tense {
+export class Tenses {
   @PrimaryGeneratedColumn()
   tense_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   tense_name: string;
 
-  @Column({ type: 'varchar', length: 10, nullable: false })
-  language_code: string;
+  @Column({ type: 'int',  nullable: false })
+  language_id: string;
 
-  @ManyToOne(() => Language, language => language.tenses, { onDelete: 'CASCADE' })
-  language: Language;
+  @ManyToOne(() => Languages, language => language.tenses, { onDelete: 'CASCADE' })
+  language: Languages;
 
-  @OneToMany(() => Conjugation, conjugation => conjugation.tense)
-  conjugations: Conjugation[];
+  @OneToMany(() => Conjugations, conjugation => conjugation.tense)
+  conjugations: Conjugations[];
 }

@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Language } from './language';
-import { Conjugation } from './conjugation';
+import { Languages } from './language';
+import { Conjugations } from './conjugation';
 
 @Entity()
-export class Verb {
+export class Verbs {
   @PrimaryGeneratedColumn()
   verb_id: number;
 
@@ -13,12 +13,12 @@ export class Verb {
   @Column({ type: 'varchar', length: 255, nullable: false })
   english_translation: string;
 
-  @Column({ type: 'varchar', length: 10, nullable: false })
-  language_code: string;
+  @Column({ type: 'int', length: 10, nullable: false })
+  language_id: string;
 
-  @ManyToOne(() => Language, language => language.verbs, { onDelete: 'CASCADE' })
-  language: Language;
+  @ManyToOne(() => Languages, language => language, { onDelete: 'CASCADE' })
+  language: Languages;
 
-  @OneToMany(() => Conjugation, conjugation => conjugation.verb)
-  conjugations: Conjugation[];
+  @OneToMany(() => Conjugations, conjugation => conjugation)
+  conjugations: Conjugations[];
 }

@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index } from 'typeorm';
-import { Crossword } from './crossword';
-import { Word } from './word';
+import { Crosswords } from './crossword';
+import { Words } from './word';
 
 @Entity()
 @Index(['crossword_id', 'word_id'], { unique: true })
-export class CrosswordWord {
+export class CrosswordWords {
   @PrimaryGeneratedColumn()
   crossword_word_id: number;
 
@@ -17,9 +17,9 @@ export class CrosswordWord {
   @Column({ type: 'text', nullable: false })
   clue: string;
 
-  @ManyToOne(() => Crossword, crossword => crossword.crosswordWords, { onDelete: 'CASCADE' })
-  crossword: Crossword;
+  @ManyToOne(() => Crosswords, crossword => crossword.crossword_id, { onDelete: 'CASCADE' })
+  crossword: Crosswords;
 
-  @ManyToOne(() => Word, word => word.crosswordWords, { onDelete: 'CASCADE' })
-  word: Word;
+  @ManyToOne(() => Words, word => word.word_id, { onDelete: 'CASCADE' })
+  word: Words;
 }

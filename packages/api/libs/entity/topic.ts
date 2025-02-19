@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Language } from './language';
-import { CrosswordTopic } from './crosswordTopic';
+import { Languages } from './language';
+import { CrosswordTopics } from './crosswordTopic';
 
 @Entity()
-export class Topic {
+export class Topics {
   @PrimaryGeneratedColumn()
   topic_id: number;
 
@@ -13,9 +13,9 @@ export class Topic {
   @Column({ type: 'int', nullable: false })
   language_id: number;
 
-  @ManyToOne(() => Language, language => language.topics, { onDelete: 'CASCADE' })
-  language: Language;
+  @ManyToOne(() => Languages, language => language.topics, { onDelete: 'CASCADE' })
+  language: Languages;
 
-  @OneToMany(() => CrosswordTopic, crosswordTopic => crosswordTopic.topic)
-  crosswordTopics: CrosswordTopic[];
+  @OneToMany(() => CrosswordTopics, crosswordTopic => crosswordTopic.topic)
+  crosswordTopics: CrosswordTopics[];
 }
