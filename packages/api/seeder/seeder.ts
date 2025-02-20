@@ -1,6 +1,7 @@
 import { Pool, Client } from 'pg';
 import fs from "node:fs/promises"
 
+require("dotenv").config();
 
 
 export async function createTables() {
