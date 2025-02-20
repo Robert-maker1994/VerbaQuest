@@ -15,7 +15,6 @@ const getCrosswordByFilter = async (req: Request, res: Response) => {
     for (let i = 0; i < generator.startPos.length; i++) {
         const element = generator.startPos[i];
         for (const md of cw) {
-            console.log({ md, element })
             if (md.word_text === element.word) {
                 metaData.push({
                     startPos: { x: element.x, y: element.y },

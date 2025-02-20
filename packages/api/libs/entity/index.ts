@@ -1,6 +1,7 @@
 export * from "./conjugation"
 export * from "./crossword"
 export * from "./crosswordTopic"
+export * from "./crosswordWord"
 export * from "./language"
 export * from "./tense"
 export * from "./topic"
