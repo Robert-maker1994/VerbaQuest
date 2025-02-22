@@ -1,8 +1,9 @@
 import { AppDataSource } from "../../datasource";
 import { CrosswordTopics, Topics, Words, CrosswordWords, Crosswords } from "../entity";
 
-async function crosswordService() {
+async function crosswordService(name?: string) {
     try {
+
         const client = AppDataSource;
 
         const crossword = await client
@@ -12,10 +13,14 @@ async function crosswordService() {
         .leftJoin(CrosswordTopics, "ct", "c.crossword_id = ct.crossword_id")
         .leftJoin(Topics, "t", "ct.topic_id = t.topic_id")
         .leftJoin(CrosswordWords, "cw", "c.crossword_id = cw.crossword_id")
-        .leftJoin(Words, "w", "cw.word_id = w.word_id")
-        .where("c.crossword_id = :crosswordId", { crosswordId: 1 });
+        .leftJoin(Words, "w", "cw.word_id = w.word_id");
 
-        return crossword.getRawMany()
+        if(name) {
+            crossword.where("t.topic_name = :topicName", { topicName: name });
+        }
+        console.log(await crossword.getRawMany(), name)
+    
+        return crossword.getRawMany();
     } catch (err){
         throw new Error(`Error in Crossword server ${err}`)
     }

@@ -3,10 +3,13 @@ import { crosswordService } from "../services/crossword";
 import CrosswordGenerator from "../../utils/crossword-generator";
 
 
-const getCrosswordByFilter = async (req: Request, res: Response) => {
-    const cw = await crosswordService();
+const getCrossword = async (req: Request, res: Response) => {
+    const cw = await crosswordService(req.query['name'].toString());
 
-
+    if(!cw.length) {
+        
+        return res.status(404).send('Sorry, cant find that');
+    }
     const words = cw.map((v) => v.word_text)
     const generator = new CrosswordGenerator();
     const crossword = generator.generateCrossword(words);
@@ -25,13 +28,15 @@ const getCrosswordByFilter = async (req: Request, res: Response) => {
         }
     }
 
+
+
     res.send({
         crossword,
         metaData,
         title: cw[0].title
     });
-
 };
 
 
-export { getCrosswordByFilter };
+
+export { getCrossword };
