@@ -1,36 +1,43 @@
 import { AppDataSource } from "../../datasource";
 import {
-	CrosswordTopics,
-	CrosswordWords,
-	Crosswords,
-	Topics,
-	Words,
+    Crosswords
 } from "../entity";
 
-async function crosswordService(name?: string) {
-	try {
-		const client = AppDataSource;
+type crosswordServiceParams = { id?: string; name?: string }
 
-		const crossword = await client
-			.createQueryBuilder(Crosswords, "c")
-			.addSelect("c.title", "title")
-			.addSelect("w.word_text", "word_text")
-			.addSelect("cw.clue", "clue")
-			.addSelect("t.topic_name", "topic_name")
-			.leftJoin(CrosswordTopics, "ct", "c.crossword_id = ct.crossword_id")
-			.leftJoin(Topics, "t", "ct.topic_id = t.topic_id")
-			.leftJoin(CrosswordWords, "cw", "c.crossword_id = cw.crossword_id")
-			.leftJoin(Words, "w", "cw.word_id = w.word_id");
+export class ServiceError extends Error { }
 
-		if (name) {
-			crossword.where("t.topic_name ILIKE  %:topicName%", { topicName: name });
-		}
-		console.log(await crossword.getRawMany(), name);
+async function crosswordService(q?: crosswordServiceParams) {
+    try {
+        const client = AppDataSource;
 
-		return crossword.getRawMany();
-	} catch (err) {
-		throw new Error(`Error in Crossword server ${err}`);
-	}
+        const crossword = await client
+            .createQueryBuilder(Crosswords, "c")
+            .leftJoinAndSelect("c.crosswordTopics", "ct")
+            .leftJoinAndSelect("ct.topics", "t")
+            .leftJoinAndSelect("c.crosswordWords", "cw")
+            .leftJoinAndSelect("cw.word", "w")
+            .select(["c.title",
+                "w.word_text",
+                "cw.clue",
+                "t.topic_name"
+            ]);
+
+            if (q?.name) {
+                const query = q?.name;
+            crossword.where("unaccent(Lower(t.topic_name)) ILike :name", {
+                name: `%${query?.toLowerCase()}%`
+            });
+        }
+        if (q?.id) {
+            const id = q?.id;
+            crossword.where("c.crossword_id = :id", { id });
+        }
+
+        return await crossword.getMany();
+    } catch (err) {
+        throw new ServiceError(`Error in Crossword server ${err}`);
+    }
 }
 
 export { crosswordService };

@@ -1,6 +1,7 @@
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -24,8 +25,18 @@ export class Words {
 
 	@ManyToOne(
 		() => Languages,
-		(language) => language.words,
+		(language) => language,
 		{ onDelete: "CASCADE" },
 	)
 	language: Languages;
+
+	@OneToMany(
+		() => Words,
+		(word) => word.crosswordWord,
+		{ onDelete: "CASCADE" },
+	)
+	@JoinColumn({
+		name: "word_id"
+	})
+	crosswordWord: CrosswordWords[];
 }

@@ -90,16 +90,16 @@ class CrosswordGenerator {
 		}
 	}
 	private addWordToBoard(): boolean {
-		let i: number;
-		let len: number;
-		let curIndex: number;
-		let curWord: WordObj;
-		let curChar: string;
-		let testWord: WordObj;
-		let testChar: string;
-		let minMatchDiff = 9999;
-		let curMatchDiff: number;
-		let word = "";
+		let i: number,
+			len: number,
+			curIndex: number,
+			curWord: WordObj,
+			curChar: string,
+			testWord: WordObj,
+			testChar: string,
+			minMatchDiff = 9999,
+			curMatchDiff: number,
+			word = "";
 
 		if (this.wordsActive.length < 1) {
 			curIndex = 0;
@@ -180,13 +180,11 @@ class CrosswordGenerator {
 												if (crossVal[0] !== null) {
 													isMatch = false;
 													break;
-													// biome-ignore lint:
-													// biome-ignore lint/style/noUselessElse:
+
 												} else if (crossVal[1] !== null) {
 													isMatch = false;
 													break;
-													// biome-ignore lint:
-													// biome-ignore lint/style/noUselessElse:
+
 												} else if (crossVal[2] !== null) {
 													isMatch = false;
 													break;
