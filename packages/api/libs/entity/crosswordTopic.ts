@@ -2,6 +2,7 @@ import {
 	Column,
 	Entity,
 	Index,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
@@ -25,6 +26,9 @@ export class CrosswordTopics {
 		(crossword) => crossword.crosswordTopics,
 		{ onDelete: "CASCADE" },
 	)
+	@JoinColumn({
+		name: 'crossword_id'
+	})
 	crossword: Crosswords;
 
 	@ManyToOne(
@@ -32,5 +36,8 @@ export class CrosswordTopics {
 		(topic) => topic.crosswordTopics,
 		{ onDelete: "CASCADE" },
 	)
-	topic: Topics;
+	@JoinColumn({
+		name: 'topic_id'
+	})
+	topics: Topics;
 }

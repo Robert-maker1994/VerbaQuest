@@ -21,7 +21,7 @@ export const AppDataSource = new DataSource({
 	password: password,
 	database: database,
 	synchronize: true,
-	logging: true,
+	logging: false,
 	entities: [
 		Conjugations,
 		Crosswords,

@@ -28,7 +28,7 @@ export class Topics {
 
 	@OneToMany(
 		() => CrosswordTopics,
-		(crosswordTopic) => crosswordTopic.topic,
+		(crosswordTopic) => crosswordTopic.topics,
 	)
 	crosswordTopics: CrosswordTopics[];
 }

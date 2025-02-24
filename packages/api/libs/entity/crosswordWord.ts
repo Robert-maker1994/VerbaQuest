@@ -2,6 +2,7 @@ import {
 	Column,
 	Entity,
 	Index,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
@@ -25,15 +26,22 @@ export class CrosswordWords {
 
 	@ManyToOne(
 		() => Crosswords,
-		(crossword) => crossword.crossword_id,
+		(crossword) => crossword.crosswordWords,
 		{ onDelete: "CASCADE" },
 	)
+	@JoinColumn({
+		name: "crossword_id"
+	})
 	crossword: Crosswords;
 
 	@ManyToOne(
 		() => Words,
-		(word) => word.word_id,
+		(word) => word.crosswordWord,
 		{ onDelete: "CASCADE" },
 	)
+	@JoinColumn({
+		name: "word_id"
+	})
 	word: Words;
+
 }

@@ -112,6 +112,8 @@ CREATE TABLE user_verb_progress(
     last_attempted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(user_id, conjugation_id)
 );
+-- Handles Accents
+CREATE EXTENSION IF NOT EXISTS unaccent;
 
 -- Optional: Add indexes for performance
 CREATE INDEX idx_crossword_words_crossword_id ON crossword_words (crossword_id);

@@ -1,6 +1,7 @@
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -37,5 +38,18 @@ export class Crosswords {
 		() => CrosswordTopics,
 		(crosswordTopic) => crosswordTopic.crossword,
 	)
-	crosswordTopics: CrosswordTopics[];
+	@JoinColumn({
+			name: "crossword_id"
+		})
+	crosswordTopics: CrosswordTopics;
+
+	@OneToMany(
+		() => CrosswordWords,
+		(crosswordWords) => crosswordWords.crossword,
+		{ onDelete: "CASCADE" },
+	)
+	@JoinColumn({
+		name: "crossword_id"
+	})
+	crosswordWords: CrosswordWords[];
 }

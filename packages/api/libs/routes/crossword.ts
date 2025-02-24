@@ -4,8 +4,7 @@ import { getCrossword } from "../controller/crossword";
 const crosswordRouter = express.Router();
 
 crosswordRouter.get("/", getCrossword);
-// crosswordRouter.post('/', createCrossword);
-// crosswordRouter.put('/', updateCrossword);
-// crosswordRouter.delete('/', deleteCrossword);
+crosswordRouter.get("/:id", getCrossword);
+crosswordRouter.get("/search", getCrossword);
 
 export default crosswordRouter;
