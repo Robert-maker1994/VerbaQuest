@@ -10,10 +10,7 @@
 		"lint": " biome  check",
 		"lint:fix": " biome  check --write"
 	},
-	"keywords": [
-		"language",
-		"learning"
-	],
+	"keywords": ["language", "learning"],
 	"author": "Robert Lawson",
 	"license": "MIT",
 	"dependencies": {

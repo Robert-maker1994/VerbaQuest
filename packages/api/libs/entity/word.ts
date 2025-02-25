@@ -6,7 +6,7 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { CrosswordWords } from "./crosswordWord";
+import type { CrosswordWords } from "./crosswordWord";
 import { Languages } from "./language";
 
 @Entity()
@@ -36,7 +36,7 @@ export class Words {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: "word_id"
+		name: "word_id",
 	})
 	crosswordWord: CrosswordWords[];
 }

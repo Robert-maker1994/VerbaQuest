@@ -30,7 +30,7 @@ export class CrosswordWords {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: "crossword_id"
+		name: "crossword_id",
 	})
 	crossword: Crosswords;
 
@@ -40,8 +40,7 @@ export class CrosswordWords {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: "word_id"
+		name: "word_id",
 	})
 	word: Words;
-
 }

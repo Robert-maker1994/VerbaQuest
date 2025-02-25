@@ -27,7 +27,7 @@ export class CrosswordTopics {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: 'crossword_id'
+		name: "crossword_id",
 	})
 	crossword: Crosswords;
 
@@ -37,7 +37,7 @@ export class CrosswordTopics {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: 'topic_id'
+		name: "topic_id",
 	})
 	topics: Topics;
 }

@@ -1,38 +1,41 @@
-import { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
+import type { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 import admin from "./admin";
-import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
 interface QuestRequest extends Request {
-  user: DecodedIdToken
+	user: DecodedIdToken;
 }
 
 class UnauthorizedError extends Error {
-  public statusCode: number;
+	public statusCode: number;
 
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-  }
+	constructor(message: string, statusCode: number) {
+		super(message);
+		this.statusCode = statusCode;
+	}
 }
 
-export async function authMiddleware(req: QuestRequest, res: Response, next: NextFunction) {
-  const token = req.headers.authorization?.split("Bearer ")[1];
+export async function authMiddleware(
+	req: QuestRequest,
+	res: Response,
+	next: NextFunction,
+) {
+	const token = req.headers.authorization?.split("Bearer ")[1];
 
-  if (!token) {
-   throw new UnauthorizedError("Unauthorized", 401)
-  }
+	if (!token) {
+		throw new UnauthorizedError("Unauthorized", 401);
+	}
 
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    req.user = decodedToken;
+	try {
+		const decodedToken = await admin.auth().verifyIdToken(token);
+		req.user = decodedToken;
 
-    next();
-  } catch (error) {
-    if (error instanceof UnauthorizedError) {
-      res.status(error.statusCode).send(error.message);
-    }  else {
-
-     res.status(500).send("Internal Error")
-    }
-  }
+		next();
+	} catch (error) {
+		if (error instanceof UnauthorizedError) {
+			res.status(error.statusCode).send(error.message);
+		} else {
+			res.status(500).send("Internal Error");
+		}
+	}
 }

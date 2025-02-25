@@ -15,7 +15,7 @@ export function loadDatabaseConfig() {
 		const apiKey = process.env.AUTH_API_KEY;
 		const projectId = process.env.AUTH_PROJECT_ID;
 		const clientEmail = process.env.AUTH_EMAIL_CLIENT;
-		const privateKey = process.env.AUTH_PROJECT_KEY
+		const privateKey = process.env.AUTH_PROJECT_KEY;
 
 		let port = 5433;
 
@@ -44,7 +44,7 @@ export function loadDatabaseConfig() {
 			apiKey: apiKey,
 			projectId,
 			privateKey,
-			clientEmail
+			clientEmail,
 		};
 	} catch (error) {
 		throw new ConfigError();

@@ -39,8 +39,8 @@ export class Crosswords {
 		(crosswordTopic) => crosswordTopic.crossword,
 	)
 	@JoinColumn({
-			name: "crossword_id"
-		})
+		name: "crossword_id",
+	})
 	crosswordTopics: CrosswordTopics;
 
 	@OneToMany(
@@ -49,7 +49,7 @@ export class Crosswords {
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({
-		name: "crossword_id"
+		name: "crossword_id",
 	})
 	crosswordWords: CrosswordWords[];
 }

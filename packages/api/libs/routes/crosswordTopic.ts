@@ -1,9 +1,11 @@
 import express from "express";
-import { getCrosswordTopic, createCrosswordTopic } from "../controller/crosswordTopic";
 import { authMiddleware } from "../auth/authMiddleware";
+import {
+	createCrosswordTopic,
+	getCrosswordTopic,
+} from "../controller/crosswordTopic";
 
 const crosswordTopicRouter = express.Router();
-
 
 // Get all crossword topics
 crosswordTopicRouter.get("/", getCrosswordTopic);
@@ -16,6 +18,5 @@ crosswordTopicRouter.post("/", authMiddleware, createCrosswordTopic);
 
 // Delete a crossword topic
 // crosswordTopicRouter.delete("/:id", deleteCrosswordTopic);
-
 
 export default crosswordTopicRouter;

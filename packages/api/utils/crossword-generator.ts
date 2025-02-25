@@ -180,11 +180,9 @@ class CrosswordGenerator {
 												if (crossVal[0] !== null) {
 													isMatch = false;
 													break;
-
 												} else if (crossVal[1] !== null) {
 													isMatch = false;
 													break;
-
 												} else if (crossVal[2] !== null) {
 													isMatch = false;
 													break;

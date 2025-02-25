@@ -1,5 +1,5 @@
+import { beforeEach, describe, it } from "vitest";
 import CrosswordGenerator from "../../utils/crossword-generator"; // Adjust path as needed
-import { describe, it, beforeEach } from 'vitest'
 
 describe("CrosswordGenerator", () => {
 	let generator: CrosswordGenerator;
