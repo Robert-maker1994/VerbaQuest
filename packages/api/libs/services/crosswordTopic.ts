@@ -140,7 +140,7 @@ const createCrosswordService = async (data: CreateBody) => {
 
     } catch (err) {
         if (err instanceof CrosswordTopicError) {
-            throw new CrosswordTopicError(`Error in getting crossword topic by ID: ${err}`, 500);
+            throw err;
         }
         console.log(err)
         throw new Error(`Unhandled error ${err}`)

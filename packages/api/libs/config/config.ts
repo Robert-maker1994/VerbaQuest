@@ -12,6 +12,10 @@ export function loadDatabaseConfig() {
 		const password = process.env.DB_PASSWORD;
 		const host = process.env.DB_HOST;
 		const database = process.env.DB_NAME;
+		const apiKey = process.env.AUTH_API_KEY;
+		const projectId = process.env.AUTH_PROJECT_ID;
+		const clientEmail = process.env.AUTH_EMAIL_CLIENT;
+		const privateKey = process.env.AUTH_PROJECT_KEY
 
 		let port = 5433;
 
@@ -23,8 +27,11 @@ export function loadDatabaseConfig() {
 			}
 			port = parsedPort;
 		}
-
 		if (!user || !password || !host || !database) {
+			throw new ConfigError();
+		}
+
+		if (!apiKey || !projectId || !clientEmail) {
 			throw new ConfigError();
 		}
 
@@ -34,6 +41,10 @@ export function loadDatabaseConfig() {
 			host: host,
 			port: port,
 			database: database,
+			apiKey: apiKey,
+			projectId,
+			privateKey,
+			clientEmail
 		};
 	} catch (error) {
 		throw new ConfigError();
