@@ -1,5 +1,6 @@
 import express from "express";
 import { getCrosswordTopic, createCrosswordTopic } from "../controller/crosswordTopic";
+import { authMiddleware } from "../auth/authMiddleware";
 
 const crosswordTopicRouter = express.Router();
 
@@ -8,7 +9,7 @@ const crosswordTopicRouter = express.Router();
 crosswordTopicRouter.get("/", getCrosswordTopic);
 
 // Create a new crossword topic
-crosswordTopicRouter.post("/", createCrosswordTopic);
+crosswordTopicRouter.post("/", authMiddleware, createCrosswordTopic);
 
 // Update an existing crossword topic
 // crosswordTopicRouter.put("/:id", updateCrosswordTopic);

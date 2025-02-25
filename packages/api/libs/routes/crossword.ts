@@ -3,7 +3,7 @@ import { getCrossword } from "../controller/crossword";
 
 const crosswordRouter = express.Router();
 
-crosswordRouter.get("/", getCrossword);
+crosswordRouter.get("/",getCrossword);
 crosswordRouter.get("/:id", getCrossword);
 crosswordRouter.get("/search", getCrossword);
 
