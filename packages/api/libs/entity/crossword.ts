@@ -1,55 +1,58 @@
 import {
 	Column,
 	Entity,
+	Index,
 	JoinColumn,
+	JoinTable,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { CrosswordTopics } from "./crosswordTopic";
-import { CrosswordWords } from "./crosswordWord";
+import { CrosswordWord } from "./crosswordWord";
 import { Languages } from "./language";
+import { Topic } from "./topic";
+import { UserCrossword } from "./users";
 
 @Entity()
-export class Crosswords {
+export class Crossword {
 	@PrimaryGeneratedColumn()
 	crossword_id: number;
 
-	@Column({ type: "int", nullable: false })
-	language_id: number;
-
-	@Column({ type: "varchar", length: 255, nullable: true })
-	title: string;
-
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-	date_created: Date;
-
-	@Column({ type: "varchar", length: 50, nullable: true })
-	difficulty: string;
-
 	@ManyToOne(
 		() => Languages,
-		(language) => language,
+		(language) => language.crosswords,
 		{ onDelete: "CASCADE" },
 	)
+	@JoinColumn({ name: "language_id" })
 	language: Languages;
 
-	@OneToMany(
-		() => CrosswordTopics,
-		(crosswordTopic) => crosswordTopic.crossword,
-	)
-	@JoinColumn({
-		name: "crossword_id",
-	})
-	crosswordTopics: CrosswordTopics;
+	@Column({ length: 255, nullable: true })
+	title: string;
+
+	@Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
+	date_created: Date;
+
+	@Column()
+	difficulty: number;
 
 	@OneToMany(
-		() => CrosswordWords,
-		(crosswordWords) => crosswordWords.crossword,
-		{ onDelete: "CASCADE" },
+		() => CrosswordWord,
+		(crosswordWord) => crosswordWord.crossword,
 	)
-	@JoinColumn({
-		name: "crossword_id",
+	crosswordWords: CrosswordWord[];
+
+	@OneToMany(
+		() => UserCrossword,
+		(userCrossword) => userCrossword.crossword,
+	)
+	userCrosswords: UserCrossword[];
+
+	@ManyToMany(() => Topic)
+	@JoinTable({
+		name: "crossword_topics",
+		joinColumn: { name: "crossword_id", referencedColumnName: "crossword_id" },
+		inverseJoinColumn: { name: "topic_id", referencedColumnName: "topic_id" },
 	})
-	crosswordWords: CrosswordWords[];
+	topics: Topic[];
 }
