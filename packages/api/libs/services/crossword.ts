@@ -54,7 +54,6 @@ async function createUserCrossword(body: CreateCrosswordBody) {
 	try {
 		const { title, topic, words, language, userId } = body;
 
-		console.log(body)
 		const languageRepo = queryRunner.manager.getRepository(Languages);
 		const topicRepo = queryRunner.manager.getRepository(Topics);
 		const crosswordRepo = queryRunner.manager.getRepository(Crosswords);

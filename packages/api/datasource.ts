@@ -1,15 +1,13 @@
 import { DataSource } from "typeorm";
 import { loadDatabaseConfig } from "./libs/config/config";
 import {
-	Conjugations,
-	CrosswordTopics,
-	CrosswordWords,
-	Crosswords,
+	Crossword,
+	CrosswordWord,
 	Languages,
-	Tenses,
-	Topics,
+	Topic,
 	Words,
 } from "./libs/entity";
+import { User, UserCrossword } from "./libs/entity/users";
 
 const { host, user, password, database, port } = loadDatabaseConfig();
 
@@ -23,13 +21,13 @@ export const AppDataSource = new DataSource({
 	synchronize: true,
 	logging: false,
 	entities: [
-		Conjugations,
-		Crosswords,
-		CrosswordTopics,
-		CrosswordWords,
+		Crossword,
+
+		CrosswordWord,
 		Languages,
-		Tenses,
-		Topics,
+		Topic,
+		User,
+		UserCrossword,
 		Words,
 	],
 	subscribers: [],

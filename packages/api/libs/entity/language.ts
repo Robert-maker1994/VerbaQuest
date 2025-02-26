@@ -1,19 +1,29 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Crosswords } from "./crossword";
-import { Tenses } from "./tense";
-import { Topics } from "./topic";
-import { Verbs } from "./verb";
+import { Crossword } from "./crossword";
+import { Topic } from "./topic";
 import { Words } from "./word";
+
+export enum LanguageCode {
+	English = "EN",
+	FRENCH = "FR",
+	SPANISH = "ES",
+}
+
+export enum LanguageName {
+	English = "english",
+	FRENCH = "france",
+	SPANISH = "spanish",
+}
 
 @Entity()
 export class Languages {
 	@PrimaryGeneratedColumn()
 	language_id: number;
 
-	@Column({ type: "varchar", length: 10, unique: true, nullable: false })
+	@Column({ type: "enum", enum: LanguageCode, nullable: false })
 	language_code: string;
 
-	@Column({ type: "varchar", length: 255, nullable: false })
+	@Column({ type: "enum", enum: LanguageName, nullable: false })
 	language_name: string;
 
 	@OneToMany(
@@ -23,20 +33,14 @@ export class Languages {
 	words: Words[];
 
 	@OneToMany(
-		() => Crosswords,
+		() => Crossword,
 		(crossword) => crossword.language,
 	)
-	crosswords: Crosswords[];
+	crosswords: Crossword[];
 
 	@OneToMany(
-		() => Topics,
+		() => Topic,
 		(topic) => topic.language,
 	)
-	topics: Topics[];
-
-	@OneToMany(
-		() => Tenses,
-		(tense) => tense.language,
-	)
-	tenses: Tenses[];
+	topics: Topic[];
 }

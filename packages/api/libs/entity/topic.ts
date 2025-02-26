@@ -2,37 +2,32 @@ import {
 	Column,
 	Entity,
 	JoinColumn,
+	ManyToMany,
 	ManyToOne,
-	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { CrosswordTopics } from "./crosswordTopic";
+import { Crossword } from "./crossword";
 import { Languages } from "./language";
 
 @Entity()
-export class Topics {
+export class Topic {
 	@PrimaryGeneratedColumn()
 	topic_id: number;
 
-	@Column({ type: "varchar", length: 255, unique: true, nullable: false })
+	@Column({ length: 255, unique: true })
 	topic_name: string;
-
-	@Column({ type: "int", nullable: false })
-	@JoinColumn({
-		name: "language_id"
-	})
-	language_id: number;
 
 	@ManyToOne(
 		() => Languages,
 		(language) => language.topics,
 		{ onDelete: "CASCADE" },
 	)
-	language: Languages[];
+	@JoinColumn({ name: "language_id" })
+	language: Languages;
 
-	@OneToMany(
-		() => CrosswordTopics,
-		(crosswordTopic) => crosswordTopic.topics,
+	@ManyToMany(
+		() => Crossword,
+		(crossword) => crossword.topics,
 	)
-	crosswordTopics: CrosswordTopics[];
+	crosswords: Crossword[];
 }

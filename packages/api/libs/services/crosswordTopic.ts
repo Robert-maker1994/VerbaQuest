@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../datasource";
-import { CrosswordTopics, Crosswords, Languages, Topics } from "../entity";
+import { Crossword, CrosswordTopic, Languages, Topic } from "../entity";
 
 export class CrosswordTopicError extends Error {
 	public statusCode: number;
@@ -15,7 +15,7 @@ async function getAllCrosswordTopics() {
 		const client = AppDataSource;
 
 		const crosswordTopics = await client
-			.createQueryBuilder(CrosswordTopics, "ct")
+			.createQueryBuilder(CrosswordTopic, "ct")
 			.select(["ct.crossword_topic_id", "t.topic_name"])
 			.leftJoin("ct.topics", "t")
 			.getMany();
@@ -34,7 +34,7 @@ async function getCrosswordTopicByName(name: string) {
 		const client = AppDataSource;
 
 		const crosswordTopics = await client
-			.createQueryBuilder(CrosswordTopics, "ct")
+			.createQueryBuilder(CrosswordTopic, "ct")
 			.leftJoinAndSelect("ct.topics", "t")
 			.select(["ct.crossword_topic_id", "t.topic_name"])
 			.where("unaccent(Lower(t.topic_name)) ILike :name", {
@@ -55,7 +55,7 @@ async function getCrosswordTopicById(id: number) {
 		const client = AppDataSource;
 
 		const crosswordTopic = await client
-			.createQueryBuilder(CrosswordTopics, "ct")
+			.createQueryBuilder(CrosswordTopic, "ct")
 			.select(["ct.crossword_topic_id", "t.topic_name"])
 			.leftJoin("ct.topics", "t")
 			.where("ct.crossword_topic_id = :id", { id })
@@ -111,7 +111,7 @@ const createCrosswordService = async (data: CreateBody) => {
 	}
 
 	try {
-		const topicRepository = AppDataSource.getRepository(Topics);
+		const topicRepository = AppDataSource.getRepository(Topic);
 
 		const existingTopic = await topicRepository.findOneBy({
 			topic_name: data.topicName,
@@ -120,27 +120,31 @@ const createCrosswordService = async (data: CreateBody) => {
 			throw new TopicError("Topic is already defined", 200);
 		}
 
-		const crosswordRepository = AppDataSource.getRepository(Crosswords);
+		const crosswordRepository = AppDataSource.getRepository(Crossword);
 
 		const crosswordTopicRepository =
-			AppDataSource.getRepository(CrosswordTopics);
+			AppDataSource.getRepository(CrosswordTopic);
 
 		const topic = topicRepository.create({
 			topic_name: data.topicName,
-			language_id: language.language_id,
+			language: {
+				language_id: language.language_id,
+			},
 		});
 		await topicRepository.save(topic);
 
 		const crossword = crosswordRepository.create({
 			title: data.crosswordTitle,
-			language_id: language.language_id,
+			language: {
+				language_id: language.language_id,
+			},
 			difficulty: data.difficulty,
 		});
 
 		const savedCrossword = await crosswordRepository.save(crossword);
 
 		const crosswordTopic = crosswordTopicRepository.create({
-			crossword_id: savedCrossword.crossword_id,
+			crossword_id: savedCrossword[0].crossword_id,
 			topic_id: topic.topic_id,
 		});
 

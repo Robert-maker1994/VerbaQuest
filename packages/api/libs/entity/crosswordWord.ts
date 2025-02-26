@@ -5,42 +5,35 @@ import {
 	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
+	Unique,
 } from "typeorm";
-import { Crosswords } from "./crossword";
+import { Crossword } from "./crossword";
 import { Words } from "./word";
 
 @Entity()
-@Index(["crossword_id", "word_id"], { unique: true })
-export class CrosswordWords {
+@Unique(["crossword", "words"])
+export class CrosswordWord {
 	@PrimaryGeneratedColumn()
 	crossword_word_id: number;
 
-	@Column({ type: "int", nullable: false })
-	crossword_id: number;
-
-	@Column({ type: "int", nullable: false })
-	word_id: number;
-
-	@Column({ type: "text", nullable: false })
-	clue: string;
-
 	@ManyToOne(
-		() => Crosswords,
+		() => Crossword,
 		(crossword) => crossword.crosswordWords,
 		{ onDelete: "CASCADE" },
 	)
-	@JoinColumn({
-		name: "crossword_id",
-	})
-	crossword: Crosswords;
+	@JoinColumn({ name: "crossword_id" })
+	@Index("idx_crossword_words_crossword_id")
+	crossword: Crossword;
 
 	@ManyToOne(
 		() => Words,
-		(word) => word.crosswordWord,
+		(word) => word.crosswordWords,
 		{ onDelete: "CASCADE" },
 	)
-	@JoinColumn({
-		name: "word_id",
-	})
-	word: Words;
+	@JoinColumn({ name: "word_id" })
+	@Index("idx_crossword_words_word_id")
+	words: Words;
+
+	@Column({ type: "text" })
+	clue: string;
 }
