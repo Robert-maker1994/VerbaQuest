@@ -11,7 +11,7 @@ CREATE TABLE words (
     language_id INTEGER NOT NULL REFERENCES languages(language_id) ON DELETE CASCADE,
     word_text VARCHAR(255) NOT NULL,
     definition TEXT,
-    wordle_valid BOOLEAN DEFAULT FALSE -- Added for Wordle compatibility
+    wordle_valid BOOLEAN DEFAULT FALSE
 );
 
 -- Create the crosswords table
@@ -20,7 +20,8 @@ CREATE TABLE crosswords (
     language_id INTEGER NOT NULL REFERENCES languages(language_id) ON DELETE CASCADE,
     title VARCHAR(255),
     date_created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    difficulty INTEGER NOT NULL
+    difficulty INTEGER NOT NULL,
+    isPublic BOOLEAN DEFAULT TRUE
 );
 
 -- Create the crossword_words table
@@ -42,14 +43,15 @@ CREATE TABLE users (
     google_id VARCHAR(255) UNIQUE
 );
 
--- Create the user_crossword_progress table
-CREATE TABLE user_crossword_progress (
-    user_crossword_progress_id SERIAL PRIMARY KEY,
+-- Create the user_crosswords table
+CREATE TABLE user_crosswords (
+    user_crossword_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     crossword_id INTEGER NOT NULL REFERENCES crosswords(crossword_id) ON DELETE CASCADE,
     grid_state TEXT,
     completed BOOLEAN NOT NULL DEFAULT FALSE,
-    last_attempted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    last_attempted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, crossword_id)
 );
 
 -- Create the word_of_the_day table
@@ -112,14 +114,15 @@ CREATE TABLE user_verb_progress(
     last_attempted TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(user_id, conjugation_id)
 );
+
 -- Handles Accents
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
 -- Optional: Add indexes for performance
 CREATE INDEX idx_crossword_words_crossword_id ON crossword_words (crossword_id);
 CREATE INDEX idx_crossword_words_word_id ON crossword_words (word_id);
-CREATE INDEX idx_user_crossword_progress_user_id ON user_crossword_progress (user_id);
-CREATE INDEX idx_user_crossword_progress_crossword_id ON user_crossword_progress (crossword_id);
+CREATE INDEX idx_user_crossword_user_id ON user_crosswords (user_id);
+CREATE INDEX idx_user_crossword_crossword_id ON user_crosswords (crossword_id);
 CREATE INDEX idx_word_of_the_day_language_id ON word_of_the_day (language_id);
 CREATE INDEX idx_word_of_the_day_date ON word_of_the_day (date);
 CREATE INDEX idx_crossword_topics_crossword_id ON crossword_topics (crossword_id);
@@ -131,4 +134,3 @@ CREATE INDEX idx_conjugations_tense_id ON conjugations(tense_id);
 CREATE INDEX idx_user_verb_progress_user_id ON user_verb_progress(user_id);
 CREATE INDEX idx_user_verb_progress_conjugation_id ON user_verb_progress(conjugation_id);
 CREATE INDEX idx_tenses_language_id ON tenses(language_id); -- Added index
-

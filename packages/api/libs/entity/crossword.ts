@@ -9,6 +9,7 @@ import {
 import { CrosswordTopics } from "./crosswordTopic";
 import { CrosswordWords } from "./crosswordWord";
 import { Languages } from "./language";
+import { UserCrosswords } from "./userCrosswords";
 
 @Entity()
 export class Crosswords {
@@ -16,6 +17,9 @@ export class Crosswords {
 	crossword_id: number;
 
 	@Column({ type: "int", nullable: false })
+	@JoinColumn({
+		name: "language_id",
+	})
 	language_id: number;
 
 	@Column({ type: "varchar", length: 255, nullable: true })
@@ -26,6 +30,9 @@ export class Crosswords {
 
 	@Column({ type: "varchar", length: 50, nullable: true })
 	difficulty: string;
+
+	@Column({ type: "boolean", default: true })
+	isPublic: boolean;
 
 	@ManyToOne(
 		() => Languages,
@@ -52,4 +59,7 @@ export class Crosswords {
 		name: "crossword_id",
 	})
 	crosswordWords: CrosswordWords[];
+
+	@OneToMany(() => UserCrosswords, userCrossword => userCrossword.crossword)
+	userCrosswords: UserCrosswords[];
 }

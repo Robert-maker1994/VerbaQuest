@@ -3,9 +3,9 @@ INSERT INTO languages (language_id, language_code, language_name) VALUES
     (2, 'ES', 'Spanish'),
     (3, 'FR', 'French');
 
-INSERT INTO crosswords (crossword_id, language_id, title, date_created, difficulty) VALUES 
-	(1, 2, 'Días de la semana', CURRENT_DATE, 1),
-	(2, 2, 'Fútbol', CURRENT_DATE, 1);
+INSERT INTO crosswords (language_id, title, date_created, difficulty) VALUES 
+	(2, 'Días de la semana', CURRENT_DATE, 1),
+	(2, 'Fútbol', CURRENT_DATE, 1);
 
 INSERT INTO words (word_id, language_id, word_text, definition) VALUES
     (1, 2, 'Lunes', 'Monday'),
@@ -117,4 +117,8 @@ INSERT INTO conjugations (verb_id, tense_id, grammatical_person, conjugated_form
     (2, 1, 'vosotros/vosotras', 'coméis', FALSE, 2),
     (2, 1, 'ellos/ellas/ustedes', 'comen', FALSE, 2);
 
+
+-- Insert a new user into the users table
+INSERT INTO users (username, password_hash, email, created_at, google_id)
+VALUES ('verba', 'password123', 'verba@gmail.com', CURRENT_TIMESTAMP, NULL);
 

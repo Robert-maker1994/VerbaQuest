@@ -1,6 +1,7 @@
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -17,6 +18,9 @@ export class Topics {
 	topic_name: string;
 
 	@Column({ type: "int", nullable: false })
+	@JoinColumn({
+		name: "language_id"
+	})
 	language_id: number;
 
 	@ManyToOne(
@@ -24,7 +28,7 @@ export class Topics {
 		(language) => language.topics,
 		{ onDelete: "CASCADE" },
 	)
-	language: Languages;
+	language: Languages[];
 
 	@OneToMany(
 		() => CrosswordTopics,

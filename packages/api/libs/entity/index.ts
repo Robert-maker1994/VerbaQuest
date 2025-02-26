@@ -7,3 +7,4 @@ export * from "./tense";
 export * from "./topic";
 export * from "./verb";
 export * from "./word";
+export * from "./userCrosswords"

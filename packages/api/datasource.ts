@@ -8,6 +8,8 @@ import {
 	Languages,
 	Tenses,
 	Topics,
+	UserCrosswords,
+	Users,
 	Words,
 } from "./libs/entity";
 
@@ -20,7 +22,7 @@ export const AppDataSource = new DataSource({
 	username: user,
 	password: password,
 	database: database,
-	synchronize: true,
+	synchronize: false,
 	logging: false,
 	entities: [
 		Conjugations,
@@ -30,6 +32,8 @@ export const AppDataSource = new DataSource({
 		Languages,
 		Tenses,
 		Topics,
+		UserCrosswords,
+		Users,
 		Words,
 	],
 	subscribers: [],

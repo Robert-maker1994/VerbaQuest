@@ -1,5 +1,7 @@
 import { AppDataSource } from "../../datasource";
 import { CrosswordTopics, Crosswords, Languages, Topics } from "../entity";
+import { LanguageError } from "../errors";
+import { TopicError } from "../errors/topicError";
 
 export class CrosswordTopicError extends Error {
 	public statusCode: number;
@@ -70,24 +72,7 @@ async function getCrosswordTopicById(id: number) {
 			);
 		}
 		throw new Error(`Unhandled error ${err}`);
-	}
-}
 
-export class LanguageError extends Error {
-	public statusCode: number;
-
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
-	}
-}
-
-export class TopicError extends Error {
-	public statusCode: number;
-
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
 	}
 }
 
