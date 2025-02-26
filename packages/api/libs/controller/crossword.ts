@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import CrosswordGenerator from "../../utils/crossword-generator";
-import { crosswordService } from "../services/crossword";
+import { createUserCrossword, crosswordService } from "../services/crossword";
+import { AuthRequest } from "../types/questRequest";
 
 interface Metadata {
 	startPos: { x: number; y: number };
@@ -60,4 +61,15 @@ const getCrossword = async (req: Request, res: Response) => {
 	res.send(response);
 };
 
-export { getCrossword };
+async function createNewCrossword(req: AuthRequest, res: Response) {
+	const body = {
+		...req.body,
+		userId: req.user.userId
+	}
+
+	const crossword = await createUserCrossword(body);
+
+	
+}
+
+export { getCrossword, createNewCrossword };
