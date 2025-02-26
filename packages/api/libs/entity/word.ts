@@ -1,12 +1,13 @@
 import {
 	Column,
 	Entity,
+	Index,
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import type { CrosswordWords } from "./crosswordWord";
+import { CrosswordWord } from "./crosswordWord";
 import { Languages } from "./language";
 
 @Entity()
@@ -14,29 +15,27 @@ export class Words {
 	@PrimaryGeneratedColumn()
 	word_id: number;
 
-	@Column({ type: "int", nullable: false })
-	language_id: number;
+	@ManyToOne(
+		() => Languages,
+		(language) => language.words,
+		{ onDelete: "CASCADE" },
+	)
+	@JoinColumn({ name: "language_id" })
+	@Index("idx_words_language_id")
+	language: Languages;
 
-	@Column({ type: "varchar", length: 255, nullable: false })
+	@Column({ length: 255 })
 	word_text: string;
 
 	@Column({ type: "text", nullable: true })
 	definition: string;
 
-	@ManyToOne(
-		() => Languages,
-		(language) => language,
-		{ onDelete: "CASCADE" },
-	)
-	language: Languages;
+	@Column({ default: false })
+	wordle_valid: boolean;
 
 	@OneToMany(
-		() => Words,
-		(word) => word.crosswordWord,
-		{ onDelete: "CASCADE" },
+		() => CrosswordWord,
+		(crosswordWord) => crosswordWord.words,
 	)
-	@JoinColumn({
-		name: "word_id",
-	})
-	crosswordWord: CrosswordWords[];
+	crosswordWords: CrosswordWord[];
 }

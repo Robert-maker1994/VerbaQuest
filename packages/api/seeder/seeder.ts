@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { Client, Pool } from "pg";
+import { seed } from "./seed";
 
 require("dotenv").config();
 
@@ -57,8 +58,10 @@ export async function createDatabase() {
 async function create() {
 	try {
 		await createDatabase();
-		await createTables();
 
+		seed().catch((error) => {
+			console.error("Error seeding data:", error);
+		});
 		return true;
 	} catch (error) {
 		console.error("Failed to create database");
@@ -67,7 +70,7 @@ async function create() {
 }
 
 async function main() {
-	const database = await create();
+	await create();
 }
 
 main();
