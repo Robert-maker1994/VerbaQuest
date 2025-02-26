@@ -1,11 +1,9 @@
 import {
 	Column,
 	Entity,
-	Index,
 	JoinColumn,
 	ManyToMany,
 	ManyToOne,
-	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { Crossword } from "./crossword";
