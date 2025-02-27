@@ -1,11 +1,11 @@
 import { AppDataSource } from "../../datasource";
-import { Crossword, CrosswordWord, Languages, Topic, UserCrossword, Words } from "../entity";
+import { Crossword, CrosswordWord, type LanguageName, type Languages, Topic, UserCrossword, Words } from "../entity";
 import { CrosswordError, LanguageError, TopicError } from "../errors";
+import { getLanguage } from "./language";
 
 type crosswordServiceParams = { id?: string; name?: string };
 
 async function crosswordService(q?: crosswordServiceParams) {
-	try {
 		const client = AppDataSource;
 
 		const crosswordQuery = client
@@ -27,20 +27,17 @@ async function crosswordService(q?: crosswordServiceParams) {
 		}
 
 		return await crosswordQuery.getMany();
-	} catch (err) {
-		throw err;
-	}
 }
 
 interface CreateCrosswordBody {
 	title: string,
 	topic: string,
 	words: string[],
-	language: string,
+	language: LanguageName,
 	userId: number
 }
 
-async function createUserCrossword(body: CreateCrosswordBody) {
+async function createCrossword(body: CreateCrosswordBody) {
 	const client = AppDataSource;
 	const queryRunner = client.createQueryRunner();
 
@@ -50,18 +47,15 @@ async function createUserCrossword(body: CreateCrosswordBody) {
 	try {
 		const { title, topic, words, language, userId } = body;
 
-		const languageRepo = queryRunner.manager.getRepository(Languages);
 		const topicRepo = queryRunner.manager.getRepository(Topic);
 		const crosswordRepo = queryRunner.manager.getRepository(Crossword);
 		const userCrosswordRepo = queryRunner.manager.getRepository(UserCrossword);
 		const wordsRepo = queryRunner.manager.getRepository(Words);
 		const crosswordWordsRepo = queryRunner.manager.getRepository(CrosswordWord);
 
-		const languageEntity = await languageRepo.findOneBy({ language_name: language });
-
-		if (!languageEntity) {
-			throw new LanguageError("Unknown language, please provide a different language", 200);
-		}
+		const languageEntity = await getLanguage({
+			language_name: language
+		})
 
 		let topicEntity = await topicRepo.findOneBy({ topic_name: topic });
 
@@ -141,7 +135,6 @@ const deleteCrossword = async (params: crosswordServiceParams) => {
 
 	const crosswordToDelete = await crossword.getOne();
 
-
 	if (!crosswordToDelete) {
 		throw new CrosswordError("Crossword not found", 404);
 	}
@@ -162,6 +155,7 @@ interface UpdateCrosswordBody {
 	id: string,
 	completed?: boolean
 }
+
 async function updateCrosswordService(body: UpdateCrosswordBody, userId: number) {
 	const client = AppDataSource;
 	const queryRunner = client.createQueryRunner();
@@ -177,7 +171,7 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 		const userCrosswordRepo = queryRunner.manager.getRepository(UserCrossword);
 
 		const userCrosswordEntity = await userCrosswordRepo.findOne({
-			where: { crossword: { crossword_id: parseInt(body.id) }, user: { user_id: userId } },
+			where: { crossword: { crossword_id: Number.parseInt(body.id) }, user: { user_id: userId } },
 			relations: ["crossword"],
 		});
 		if (!userCrosswordEntity) {
@@ -196,7 +190,7 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 		if (body?.title) {
 			crosswordEntity.title = body.title;
 		}
-		let language
+		let language: Languages
 		if (body?.topic) {
 			let topicEntity = await topicRepo.findOne({
 				where: { topic_id: body.topic_id },
@@ -258,4 +252,4 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 	}
 }
 
-export { crosswordService, createUserCrossword, deleteCrossword, updateCrosswordService };
+export { crosswordService, createCrossword, deleteCrossword, updateCrosswordService };
