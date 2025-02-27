@@ -19,7 +19,7 @@ export async function seed() {
 	const crosswordWordsRepository = AppDataSource.getRepository(CrosswordWord);
 	const crosswordsRepository = AppDataSource.getRepository(Crossword);
 	const userRepository = AppDataSource.getRepository(User);
-	await AppDataSource.query(`CREATE EXTENSION IF NOT EXISTS unaccent;`);
+	await AppDataSource.query("CREATE EXTENSION IF NOT EXISTS unaccent;");
 
 	await userRepository.save([{
 		username: "verba",

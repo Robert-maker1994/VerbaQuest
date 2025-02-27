@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import CrosswordGenerator from "../../utils/crossword-generator";
-import { createUserCrossword, crosswordService, deleteCrossword, updateCrosswordService } from "../services/crossword";
-import { AuthRequest } from "../types/questRequest";
+import { createCrossword, crosswordService, deleteCrossword, updateCrosswordService } from "../services/crossword";
+import type { AuthRequest } from "../types/questRequest";
 import { CrosswordError } from "../errors";
 
 interface Metadata {
@@ -74,7 +74,7 @@ async function createNewCrossword(req: AuthRequest, res: Response, next: NextFun
 			userId: req.user.userId
 		}
 
-		const crossword = await createUserCrossword(body);
+		const crossword = await createCrossword(body);
 
 		res.status(201).send(crossword);
 	} catch (err) {
@@ -94,7 +94,7 @@ async function deleteUserCrossword(req: AuthRequest, res: Response, next: NextFu
 
 		await deleteCrossword(params);
 
-		res.status(200).send(`Crossword has been delete`);
+		res.status(200).send("Crossword has been delete");
 	} catch (err) {
 		next(err)
 	}
@@ -104,7 +104,7 @@ async function updateUserCrossword(req: AuthRequest, res: Response, next: NextFu
 	try {
 		const updatedCrossword = await updateCrosswordService(req.body, req.user.userId);
 
-		res.status(200).send(updatedCrossword);
+		res.status(204).send(updatedCrossword);
 	} catch (err) {
 		next(err)
 	}
