@@ -36,6 +36,9 @@ export class Crossword {
 	@Column()
 	difficulty: number;
 
+	@Column({ type: "boolean", default: true })
+	is_Public: boolean;
+
 	@OneToMany(
 		() => CrosswordWord,
 		(crosswordWord) => crosswordWord.crossword,

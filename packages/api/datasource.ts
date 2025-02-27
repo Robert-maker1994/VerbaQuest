@@ -18,11 +18,10 @@ export const AppDataSource = new DataSource({
 	username: user,
 	password: password,
 	database: database,
-	synchronize: true,
+	synchronize: false,
 	logging: false,
 	entities: [
 		Crossword,
-
 		CrosswordWord,
 		Languages,
 		Topic,

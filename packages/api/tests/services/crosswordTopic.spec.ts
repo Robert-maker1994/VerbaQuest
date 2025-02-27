@@ -10,12 +10,12 @@ import {
 import { ServiceError } from "../../libs/services/crossword";
 import {
 	CrosswordTopicError,
-	LanguageError,
 	createCrosswordTopicService,
 	getAllCrosswordTopics,
 	getCrosswordTopicById,
 	getCrosswordTopicByName,
 } from "../../libs/services/crosswordTopic";
+import { LanguageError } from "../../libs/errors";
 
 const mocks = vi.hoisted(() => {
 	return {
