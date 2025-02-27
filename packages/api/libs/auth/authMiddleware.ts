@@ -1,10 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
-import admin from "./admin";
 import { AppDataSource } from "../../datasource";
 import { User } from "../entity";
-import { AuthRequest } from "../types/questRequest";
 import { UnauthorizedError, UserError } from "../errors";
-
+import type { AuthRequest } from "../types/questRequest";
+import admin from "./admin";
 
 export async function authMiddleware(
 	req: AuthRequest,
@@ -21,20 +20,20 @@ export async function authMiddleware(
 		const decodedToken = await admin.auth().verifyIdToken(token);
 
 		if (!decodedToken.email) {
-			throw new UserError("User not found", 500)
+			throw new UserError("User not found", 500);
 		}
 
 		const userRepo = await AppDataSource.getRepository(User).findOneBy({
-			email: decodedToken.email
-		})
+			email: decodedToken.email,
+		});
 
 		req.user = {
 			email: userRepo.email,
-			userId: userRepo.user_id
+			userId: userRepo.user_id,
 		};
 
 		next();
 	} catch (error) {
-		next(error)
+		next(error);
 	}
 }

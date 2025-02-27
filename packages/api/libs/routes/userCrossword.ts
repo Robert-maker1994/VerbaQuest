@@ -1,5 +1,10 @@
 import express from "express";
-import { createUserCrosswordController, getUserCrosswordController, updateUserCrosswordController, deleteUserCrosswordController } from "../controller/userCrossword";
+import {
+	createUserCrosswordController,
+	deleteUserCrosswordController,
+	getUserCrosswordController,
+	updateUserCrosswordController,
+} from "../controller/userCrossword";
 
 const userCrosswordRouter = express.Router();
 

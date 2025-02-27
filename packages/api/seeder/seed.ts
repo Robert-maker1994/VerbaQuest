@@ -21,11 +21,13 @@ export async function seed() {
 	const userRepository = AppDataSource.getRepository(User);
 	await AppDataSource.query("CREATE EXTENSION IF NOT EXISTS unaccent;");
 
-	await userRepository.save([{
-		username: "verba",
-		password_hash: "test1234",
-		email: "verba@gmail.com"
-	}])
+	await userRepository.save([
+		{
+			username: "verba",
+			password_hash: "test1234",
+			email: "verba@gmail.com",
+		},
+	]);
 
 	// Insert languages
 	const languages = [
@@ -87,20 +89,32 @@ export async function seed() {
 	await topicsRepository.save(topics);
 
 	const futbolTopic = await topicsRepository.findOneBy({
-		topic_name: "Fútbol"
-	})
+		topic_name: "Fútbol",
+	});
 	const daysOfTheWeekTopic = await topicsRepository.findOneBy({
-		topic_name: "Días de la semana"
-	})
+		topic_name: "Días de la semana",
+	});
 
 	// Insert crosswords
 	const crosswords = [
-		{ title: "Weekdays", language: languages[1], difficulty: 1, topics: [daysOfTheWeekTopic] },
-		{ title: "Football Terms", language: languages[1], difficulty: 2, topics: [futbolTopic] },
+		{
+			title: "Weekdays",
+			language: languages[1],
+			difficulty: 1,
+			topics: [daysOfTheWeekTopic],
+		},
+		{
+			title: "Football Terms",
+			language: languages[1],
+			difficulty: 2,
+			topics: [futbolTopic],
+		},
 	];
 	await crosswordsRepository.save(crosswords);
 	const weekdays = await crosswordsRepository.findOneBy({ title: "Weekdays" });
-	const football = await crosswordsRepository.findOneBy({ title: "Football Terms" });
+	const football = await crosswordsRepository.findOneBy({
+		title: "Football Terms",
+	});
 
 	// Insert crossword words
 	const crosswordWords = [

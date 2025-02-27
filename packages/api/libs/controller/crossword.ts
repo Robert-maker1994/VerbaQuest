@@ -1,8 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import CrosswordGenerator from "../../utils/crossword-generator";
-import { createCrossword, crosswordService, deleteCrossword, updateCrosswordService } from "../services/crossword";
-import type { AuthRequest } from "../types/questRequest";
 import { CrosswordError } from "../errors";
+import {
+	createCrossword,
+	crosswordService,
+	deleteCrossword,
+	updateCrosswordService,
+} from "../services/crossword";
+import type { AuthRequest } from "../types/questRequest";
 
 interface Metadata {
 	startPos: { x: number; y: number };
@@ -15,10 +20,13 @@ interface CrosswordResponse {
 	metadata: Metadata[];
 }
 
-const getCrossword = async (req: Request, res: Response, next: NextFunction) => {
+const getCrossword = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
 	req.query;
 	try {
-
 		const name = req.query?.name && { name: String(req.query?.name) };
 		const id = req.query?.id && { id: String(req.query?.id) };
 
@@ -29,7 +37,7 @@ const getCrossword = async (req: Request, res: Response, next: NextFunction) => 
 		const cw = await crosswordService(params);
 		console.log(cw);
 		if (!cw.length) {
-			throw new CrosswordError("Crossword not found", 200)
+			throw new CrosswordError("Crossword not found", 200);
 		}
 
 		const response: CrosswordResponse[] = [];
@@ -62,27 +70,34 @@ const getCrossword = async (req: Request, res: Response, next: NextFunction) => 
 
 		res.send(response);
 	} catch (err) {
-		next(err)
+		next(err);
 	}
 };
 
-async function createNewCrossword(req: AuthRequest, res: Response, next: NextFunction) {
+async function createNewCrossword(
+	req: AuthRequest,
+	res: Response,
+	next: NextFunction,
+) {
 	try {
-
 		const body = {
 			...req.body,
-			userId: req.user.userId
-		}
+			userId: req.user.userId,
+		};
 
 		const crossword = await createCrossword(body);
 
 		res.status(201).send(crossword);
 	} catch (err) {
-		next(err)
+		next(err);
 	}
 }
 
-async function deleteUserCrossword(req: AuthRequest, res: Response, next: NextFunction) {
+async function deleteUserCrossword(
+	req: AuthRequest,
+	res: Response,
+	next: NextFunction,
+) {
 	try {
 		const name = req.query?.name && { name: String(req.query?.name) };
 		const id = req.query?.id && { id: String(req.query?.id) };
@@ -96,18 +111,30 @@ async function deleteUserCrossword(req: AuthRequest, res: Response, next: NextFu
 
 		res.status(200).send("Crossword has been delete");
 	} catch (err) {
-		next(err)
+		next(err);
 	}
 }
 
-async function updateUserCrossword(req: AuthRequest, res: Response, next: NextFunction) {
+async function updateUserCrossword(
+	req: AuthRequest,
+	res: Response,
+	next: NextFunction,
+) {
 	try {
-		const updatedCrossword = await updateCrosswordService(req.body, req.user.userId);
+		const updatedCrossword = await updateCrosswordService(
+			req.body,
+			req.user.userId,
+		);
 
 		res.status(204).send(updatedCrossword);
 	} catch (err) {
-		next(err)
+		next(err);
 	}
 }
 
-export { getCrossword, createNewCrossword, deleteUserCrossword, updateUserCrossword };
+export {
+	getCrossword,
+	createNewCrossword,
+	deleteUserCrossword,
+	updateUserCrossword,
+};

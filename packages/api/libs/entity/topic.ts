@@ -4,7 +4,7 @@ import {
 	JoinColumn,
 	ManyToMany,
 	ManyToOne,
-	PrimaryGeneratedColumn
+	PrimaryGeneratedColumn,
 } from "typeorm";
 import { Crossword } from "./crossword";
 import { Languages } from "./language";

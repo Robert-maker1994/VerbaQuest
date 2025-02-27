@@ -1,10 +1,10 @@
 import type { Request } from "express";
 
 type QuestUser = {
-	email: string,
-	userId: number
-}
+	email: string;
+	userId: number;
+};
 
 export interface AuthRequest extends Request {
-    user: QuestUser;
+	user: QuestUser;
 }

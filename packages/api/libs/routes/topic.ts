@@ -1,6 +1,9 @@
 import express from "express";
-import { getTopicsController, createTopicController } from "../controller/topic";
 import { authMiddleware } from "../auth/authMiddleware";
+import {
+	createTopicController,
+	getTopicsController,
+} from "../controller/topic";
 
 const topicRouter = express.Router();
 

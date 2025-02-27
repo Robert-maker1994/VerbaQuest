@@ -1,6 +1,6 @@
 import express from "express";
-import { getWordsController, createWordController } from "../controller";
 import { authMiddleware } from "../auth/authMiddleware";
+import { createWordController, getWordsController } from "../controller";
 
 const wordRouter = express.Router();
 

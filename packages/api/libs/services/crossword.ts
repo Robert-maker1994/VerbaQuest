@@ -1,40 +1,56 @@
 import { AppDataSource } from "../../datasource";
-import { Crossword, CrosswordWord, type LanguageName, type Languages, Topic, UserCrossword, Words } from "../entity";
+import {
+	Crossword,
+	CrosswordWord,
+	type LanguageName,
+	type Languages,
+	Topic,
+	UserCrossword,
+	Words,
+} from "../entity";
 import { CrosswordError, LanguageError, TopicError } from "../errors";
 import { getLanguage } from "./language";
 
 type crosswordServiceParams = { id?: string; name?: string };
 
 async function crosswordService(q?: crosswordServiceParams) {
-		const client = AppDataSource;
+	const client = AppDataSource;
 
-		const crosswordQuery = client
-			.createQueryBuilder(Crossword, "c")
-			.leftJoinAndSelect("c.crosswordWords", "cw")
-			.leftJoinAndSelect("cw.words", "w")
-			.leftJoinAndSelect("c.topics", "t")
-			.select(["c.title", "w.word_text", "cw.clue", "t.topic_name", "c.crossword_id", "w.word_id", "t.topic_id"]);
+	const crosswordQuery = client
+		.createQueryBuilder(Crossword, "c")
+		.leftJoinAndSelect("c.crosswordWords", "cw")
+		.leftJoinAndSelect("cw.words", "w")
+		.leftJoinAndSelect("c.topics", "t")
+		.select([
+			"c.title",
+			"w.word_text",
+			"cw.clue",
+			"t.topic_name",
+			"c.crossword_id",
+			"w.word_id",
+			"t.topic_id",
+		]);
 
-		if (q?.name) {
-			const query = q?.name;
-			crosswordQuery.where("unaccent(Lower(t.topic_name)) ILike :name", {
-				name: `%${query?.toLowerCase()}%`,
-			});
-		}
-		if (q?.id) {
-			const id = q?.id;
-			crosswordQuery.where("c.crossword_id = :id", { id });
-		}
+	if (q?.name) {
+		const query = q?.name;
+		crosswordQuery.where("unaccent(Lower(t.topic_name)) ILike :name", {
+			name: `%${query?.toLowerCase()}%`,
+		});
+	}
+	if (q?.id) {
+		const id = q?.id;
+		crosswordQuery.where("c.crossword_id = :id", { id });
+	}
 
-		return await crosswordQuery.getMany();
+	return await crosswordQuery.getMany();
 }
 
 interface CreateCrosswordBody {
-	title: string,
-	topic: string,
-	words: string[],
-	language: LanguageName,
-	userId: number
+	title: string;
+	topic: string;
+	words: string[];
+	language: LanguageName;
+	userId: number;
 }
 
 async function createCrossword(body: CreateCrosswordBody) {
@@ -54,8 +70,8 @@ async function createCrossword(body: CreateCrosswordBody) {
 		const crosswordWordsRepo = queryRunner.manager.getRepository(CrosswordWord);
 
 		const languageEntity = await getLanguage({
-			language_name: language
-		})
+			language_name: language,
+		});
 
 		let topicEntity = await topicRepo.findOneBy({ topic_name: topic });
 
@@ -72,13 +88,13 @@ async function createCrossword(body: CreateCrosswordBody) {
 			is_Public: false,
 			language: languageEntity,
 			difficulty: 1,
-			topics: [topicEntity]
+			topics: [topicEntity],
 		});
 		const savedCrossword = await crosswordRepo.save(crosswordEntity);
 
 		const userCrosswordEntity = userCrosswordRepo.create({
 			user: {
-				user_id: userId
+				user_id: userId,
 			},
 			crossword: savedCrossword,
 			grid_state: "",
@@ -119,8 +135,7 @@ const deleteCrossword = async (params: crosswordServiceParams) => {
 	const crossword = crosswordQuery
 		.leftJoinAndSelect("c.crosswordWords", "cw")
 		.leftJoinAndSelect("cw.words", "w")
-		.leftJoinAndSelect("c.topics", "t")
-
+		.leftJoinAndSelect("c.topics", "t");
 
 	if (params?.name) {
 		const query = params?.name;
@@ -144,7 +159,7 @@ const deleteCrossword = async (params: crosswordServiceParams) => {
 	}
 
 	await AppDataSource.getRepository(Crossword).remove(crosswordToDelete);
-}
+};
 
 interface UpdateCrosswordBody {
 	title?: string;
@@ -152,11 +167,14 @@ interface UpdateCrosswordBody {
 	topic_id?: number;
 	words?: string[];
 	grid_state: string;
-	id: string,
-	completed?: boolean
+	id: string;
+	completed?: boolean;
 }
 
-async function updateCrosswordService(body: UpdateCrosswordBody, userId: number) {
+async function updateCrosswordService(
+	body: UpdateCrosswordBody,
+	userId: number,
+) {
 	const client = AppDataSource;
 	const queryRunner = client.createQueryRunner();
 
@@ -171,14 +189,20 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 		const userCrosswordRepo = queryRunner.manager.getRepository(UserCrossword);
 
 		const userCrosswordEntity = await userCrosswordRepo.findOne({
-			where: { crossword: { crossword_id: Number.parseInt(body.id) }, user: { user_id: userId } },
+			where: {
+				crossword: { crossword_id: Number.parseInt(body.id) },
+				user: { user_id: userId },
+			},
 			relations: ["crossword"],
 		});
 		if (!userCrosswordEntity) {
-			throw new CrosswordError("Crossword not found or does not belong to the user", 404);
+			throw new CrosswordError(
+				"Crossword not found or does not belong to the user",
+				404,
+			);
 		}
 
-		const crosswordEntity = userCrosswordEntity.crossword
+		const crosswordEntity = userCrosswordEntity.crossword;
 		if (body.grid_state) {
 			userCrosswordEntity.grid_state = body.grid_state;
 		}
@@ -190,24 +214,24 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 		if (body?.title) {
 			crosswordEntity.title = body.title;
 		}
-		let language: Languages
+		let language: Languages;
 		if (body?.topic) {
 			let topicEntity = await topicRepo.findOne({
 				where: { topic_id: body.topic_id },
-				relations: ["language"], 
+				relations: ["language"],
 			});
 			language = topicEntity.language;
 			if (!topicEntity) {
-				throw new TopicError("No topic has been found to update", 200)
+				throw new TopicError("No topic has been found to update", 200);
 			}
 
 			try {
 				if (topicEntity.topic_name !== body.topic) {
-					topicEntity.topic_name = body.topic
+					topicEntity.topic_name = body.topic;
 					topicEntity = await topicRepo.save(topicEntity);
 				}
 			} catch {
-				throw new TopicError("Cannot update title", 200)
+				throw new TopicError("Cannot update title", 200);
 			}
 
 			crosswordEntity.topics = [topicEntity];
@@ -252,4 +276,9 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 	}
 }
 
-export { crosswordService, createCrossword, deleteCrossword, updateCrosswordService };
+export {
+	crosswordService,
+	createCrossword,
+	deleteCrossword,
+	updateCrosswordService,
+};

@@ -1,8 +1,19 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AppDataSource } from "../../datasource";
-import {  createCrossword, crosswordService } from "../../libs/services/crossword";
-import { Crossword, Languages,  Words, CrosswordWord, User, UserCrossword, LanguageName } from "../../libs/entity";
+import {
+	Crossword,
+	CrosswordWord,
+	LanguageName,
+	Languages,
+	User,
+	UserCrossword,
+	Words,
+} from "../../libs/entity";
 import { CustomError } from "../../libs/errors/customError";
+import {
+	createCrossword,
+	crosswordService,
+} from "../../libs/services/crossword";
 
 const mocks = vi.hoisted(() => {
 	return {
@@ -190,7 +201,7 @@ describe("crosswordService", () => {
 				language: new Languages(),
 				crosswordWords: [],
 				userCrosswords: [],
-				topics: []
+				topics: [],
 			});
 
 			vi.mocked(userCrosswordRepository.create).mockResolvedValueOnce({
@@ -208,15 +219,15 @@ describe("crosswordService", () => {
 				definition: "",
 				language: new Languages(),
 				wordle_valid: false,
-				crosswordWords: []
+				crosswordWords: [],
 			});
 
 			vi.mocked(wordsRepo.findOneBy).mockRejectedValue(undefined);
 			vi.mocked(crosswordWordsRepo.create).mockReturnValue({
 				clue: "A clue for ",
 				crossword_word_id: 0,
-				crossword: new Crossword,
-				words: new Words
+				crossword: new Crossword(),
+				words: new Words(),
 			});
 
 			vi.mocked(client.getMany).mockRejectedValueOnce("reject");
@@ -226,7 +237,7 @@ describe("crosswordService", () => {
 				topic: "Objects",
 				words: ["Sofa", "Bed", "Microwave", "Desk", "Television"],
 				userId: 1,
-				language: LanguageName.English
+				language: LanguageName.English,
 			});
 
 			await expect(res).toBeInstanceOf(Crossword);
