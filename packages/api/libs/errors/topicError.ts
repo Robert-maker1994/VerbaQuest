@@ -1,8 +1,3 @@
-export class TopicError extends Error {
-	public statusCode: number;
+import { CustomError } from "./customError";
 
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
-	}
-}
+export class TopicError extends CustomError {}

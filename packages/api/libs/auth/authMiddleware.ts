@@ -1,28 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 import admin from "./admin";
 import { AppDataSource } from "../../datasource";
-import { Users } from "../entity";
+import { User } from "../entity";
 import { AuthRequest } from "../types/questRequest";
+import { UnauthorizedError, UserError } from "../errors";
 
-
-
-class UnauthorizedError extends Error {
-	public statusCode: number;
-
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
-	}
-}
-class CustomError extends Error {
-	public statusCode: number;
-
-	constructor(message: string, statusCode: number) {
-		super(message);
-		this.statusCode = statusCode;
-	}
-}
-class UserError extends CustomError {}
 
 export async function authMiddleware(
 	req: AuthRequest,
@@ -42,10 +24,10 @@ export async function authMiddleware(
 			throw new UserError("User not found", 500)
 		}
 
-		const userRepo = await AppDataSource.getRepository(Users).findOneBy({
+		const userRepo = await AppDataSource.getRepository(User).findOneBy({
 			email: decodedToken.email
 		})
-	
+
 		req.user = {
 			email: userRepo.email,
 			userId: userRepo.user_id
@@ -53,16 +35,6 @@ export async function authMiddleware(
 
 		next();
 	} catch (error) {
-
-		if (error instanceof UnauthorizedError) {
-			res.status(error.statusCode).send(error.message);
-		}
-		if (error instanceof UserError) {
-			res.status(error.statusCode).send(error.message)
-		}
-
-		console.error("Error in Auth Middleware", error)
-		res.status(500).send("Internal Error");
-
+		next(error)
 	}
 }

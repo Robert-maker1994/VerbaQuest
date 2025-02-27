@@ -6,6 +6,7 @@ import {
 	LanguageName,
 	Languages,
 	Topic,
+	User,
 	Words,
 } from "../libs/entity";
 
@@ -17,6 +18,14 @@ export async function seed() {
 	const topicsRepository = AppDataSource.getRepository(Topic);
 	const crosswordWordsRepository = AppDataSource.getRepository(CrosswordWord);
 	const crosswordsRepository = AppDataSource.getRepository(Crossword);
+	const userRepository = AppDataSource.getRepository(User);
+	await AppDataSource.query(`CREATE EXTENSION IF NOT EXISTS unaccent;`);
+
+	await userRepository.save([{
+		username: "verba",
+		password_hash: "test1234",
+		email: "verba@gmail.com"
+	}])
 
 	// Insert languages
 	const languages = [
@@ -68,6 +77,7 @@ export async function seed() {
 		{ word_text: "Estadio", definition: "Stadium", language: languages[1] },
 	];
 	await wordsRepository.save(words);
+	const wordRepo = await wordsRepository.find();
 
 	// Insert topics
 	const topics = [
@@ -76,28 +86,37 @@ export async function seed() {
 	];
 	await topicsRepository.save(topics);
 
+	const futbolTopic = await topicsRepository.findOneBy({
+		topic_name: "Fútbol"
+	})
+	const daysOfTheWeekTopic = await topicsRepository.findOneBy({
+		topic_name: "Días de la semana"
+	})
+
 	// Insert crosswords
 	const crosswords = [
-		{ title: "Weekdays", language: languages[1], difficulty: 1 },
-		{ title: "Football Terms", language: languages[1], difficulty: 2 },
+		{ title: "Weekdays", language: languages[1], difficulty: 1, topics: [daysOfTheWeekTopic] },
+		{ title: "Football Terms", language: languages[1], difficulty: 2, topics: [futbolTopic] },
 	];
 	await crosswordsRepository.save(crosswords);
+	const weekdays = await crosswordsRepository.findOneBy({ title: "Weekdays" });
+	const football = await crosswordsRepository.findOneBy({ title: "Football Terms" });
 
 	// Insert crossword words
 	const crosswordWords = [
-		{ crossword: crosswords[0], word: words[0], clue: "Monday" },
-		{ crossword: crosswords[0], word: words[1], clue: "Tuesday" },
-		{ crossword: crosswords[0], word: words[2], clue: "Wednesday" },
-		{ crossword: crosswords[0], word: words[3], clue: "Thursday" },
-		{ crossword: crosswords[0], word: words[4], clue: "Friday" },
-		{ crossword: crosswords[0], word: words[5], clue: "Saturday" },
-		{ crossword: crosswords[0], word: words[6], clue: "Sunday" },
-		{ crossword: crosswords[1], word: words[7], clue: "Football" },
-		{ crossword: crosswords[1], word: words[8], clue: "Goalkeeper" },
-		{ crossword: crosswords[1], word: words[9], clue: "Defender" },
-		{ crossword: crosswords[1], word: words[10], clue: "Midfielder" },
-		{ crossword: crosswords[1], word: words[11], clue: "Forward/Striker" },
-		{ crossword: crosswords[1], word: words[12], clue: "Stadium" },
+		{ crossword: weekdays, words: wordRepo[0], clue: "Monday" },
+		{ crossword: weekdays, words: wordRepo[1], clue: "Tuesday" },
+		{ crossword: weekdays, words: wordRepo[2], clue: "Wednesday" },
+		{ crossword: weekdays, words: wordRepo[3], clue: "Thursday" },
+		{ crossword: weekdays, words: wordRepo[4], clue: "Friday" },
+		{ crossword: weekdays, words: wordRepo[5], clue: "Saturday" },
+		{ crossword: weekdays, words: wordRepo[6], clue: "Sunday" },
+		{ crossword: football, words: wordRepo[7], clue: "Football" },
+		{ crossword: football, words: wordRepo[8], clue: "Goalkeeper" },
+		{ crossword: football, words: wordRepo[9], clue: "Defender" },
+		{ crossword: football, words: wordRepo[10], clue: "Midfielder" },
+		{ crossword: football, words: wordRepo[11], clue: "Forward/Striker" },
+		{ crossword: football, words: wordRepo[12], clue: "Stadium" },
 	];
 	await crosswordWordsRepository.save(crosswordWords);
 

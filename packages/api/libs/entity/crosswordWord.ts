@@ -24,7 +24,7 @@ export class CrosswordWord {
 	@JoinColumn({ name: "crossword_id" })
 	@Index("idx_crossword_words_crossword_id")
 	crossword: Crossword;
-
+ 
 	@ManyToOne(
 		() => Words,
 		(word) => word.crosswordWords,
