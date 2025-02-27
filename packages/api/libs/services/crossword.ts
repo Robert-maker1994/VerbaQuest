@@ -108,7 +108,6 @@ async function createUserCrossword(body: CreateCrosswordBody) {
 			});
 			await crosswordWordsRepo.save(crosswordWordEntity);
 		}
-
 		await queryRunner.commitTransaction();
 		return crosswordService({ id: String(savedCrossword.crossword_id) });
 	} catch (err) {
@@ -201,7 +200,7 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 		if (body?.topic) {
 			let topicEntity = await topicRepo.findOne({
 				where: { topic_id: body.topic_id },
-				relations: ["language"], // Include the language relation
+				relations: ["language"], 
 			});
 			language = topicEntity.language;
 			if (!topicEntity) {
@@ -218,7 +217,6 @@ async function updateCrosswordService(body: UpdateCrosswordBody, userId: number)
 			}
 
 			crosswordEntity.topics = [topicEntity];
-			console.log("edited topic", topicEntity)
 		}
 
 		if (body.words) {
