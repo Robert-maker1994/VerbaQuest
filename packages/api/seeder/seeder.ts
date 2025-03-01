@@ -11,20 +11,22 @@ export async function createDatabase() {
 		password: process.env.DB_PASSWORD,
 		host: process.env.DB_HOST,
 		port: Number.parseInt(process.env.DB_PORT),
-		database: "postgres", // Connect to the 'postgres' database to create others
+		database: "postgres",
 	});
 
 	try {
 		await client.connect();
-		// Check if the database already exists
-		const res = await client.query(`SELECT 1 FROM pg_database WHERE datname='${dbName}'`);
+
+		const res = await client.query(
+			`SELECT 1 FROM pg_database WHERE datname='${dbName}'`,
+		);
 		if (res.rows.length > 0) {
 			console.log(`Database "${dbName}" already exists.`);
 			return false;
 		}
-			await client.query(`CREATE DATABASE ${dbName}`);
-			console.log(`Database "${dbName}" created successfully.`);
-			return true;
+		await client.query(`CREATE DATABASE ${dbName}`);
+		console.log(`Database "${dbName}" created successfully.`);
+		return true;
 	} catch (err) {
 		console.error("Error creating database:", err);
 		return false;
@@ -37,13 +39,12 @@ export async function createDatabase() {
 async function create() {
 	try {
 		const dbCreated = await createDatabase();
-	console.log({dbCreated})
-        if (!dbCreated) {
-
-            await seed().catch((error) => {
-                console.error("Error seeding data:", error);
-            });
-        }
+		console.log({ dbCreated });
+		if (!dbCreated) {
+			await seed().catch((error) => {
+				console.error("Error seeding data:", error);
+			});
+		}
 		return true;
 	} catch (error) {
 		console.error("Failed to create database");

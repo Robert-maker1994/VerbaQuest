@@ -19,17 +19,16 @@ export function loadConfig() {
 			apiKey: process.env.AUTH_API_KEY,
 			clientEmail: process.env.AUTH_EMAIL_CLIENT,
 			privateKey: process.env.AUTH_PRIVATE_KEY,
-
-		}
+		};
 
 		for (const [key, value] of Object.entries(config)) {
 			if (!value) {
-				throw new ConfigError(key)
+				throw new ConfigError(key);
 			}
 		}
 
 		return {
-			...config
+			...config,
 		};
 	} catch (error) {
 		throw new ConfigError("Uncourt error");

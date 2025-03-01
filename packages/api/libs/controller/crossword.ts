@@ -21,9 +21,11 @@ interface CrosswordResponse {
 	metadata: Metadata[];
 }
 
-async function getCrosswordDetails(req: Request,
+async function getCrosswordDetails(
+	req: Request,
 	res: Response,
-	next: NextFunction) {
+	next: NextFunction,
+) {
 	try {
 		const crosswordDetails = await getCrosswordDetailsService();
 		res.send(crosswordDetails);
@@ -73,7 +75,6 @@ async function getRandomCrossword(
 	}
 }
 
-
 const getCrossword = async (
 	req: Request,
 	res: Response,
@@ -89,7 +90,6 @@ const getCrossword = async (
 			...name,
 		};
 		const cw = await getCrosswordToGen(params);
-
 
 		if (!cw.length) {
 			throw new CrosswordError("Crossword not found", 200);

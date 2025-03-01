@@ -26,9 +26,7 @@ async function getCrosswordDetails() {
 	}
 
 	return crosswordQuery;
-
 }
-
 
 async function getCrosswordToGen(q?: crosswordServiceParams) {
 	const client = AppDataSource;
@@ -299,5 +297,5 @@ export {
 	createCrossword,
 	deleteCrossword,
 	updateCrosswordService,
-	getCrosswordDetails
+	getCrosswordDetails,
 };

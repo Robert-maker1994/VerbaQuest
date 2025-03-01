@@ -1,13 +1,13 @@
 import "reflect-metadata";
-import express from "express";
 import cors from "cors";
+import express from "express";
 import methodOverride from "method-override";
 import { AppDataSource } from "./datasource";
 import { errorHandler } from "./errorHandle";
 import { loadConfig } from "./libs/config/config";
 import initializeRoutes from "./libs/routes/router";
 
-const config = loadConfig()
+const config = loadConfig();
 
 AppDataSource.initialize()
 	.then(() => {
