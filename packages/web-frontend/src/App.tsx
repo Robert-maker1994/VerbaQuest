@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 // interface Position {
 //   x: number;
@@ -24,44 +24,41 @@ import axios from 'axios';
 // }
 
 interface Crosswords {
-  title: string,
-  crossword_id: string
+	title: string;
+	crossword_id: string;
 }
 
 function App() {
-  const [crosswordData, setCrosswordData] = useState<Crosswords[] | null>(null);
+	const [crosswordData, setCrosswordData] = useState<Crosswords[] | null>(null);
 
+	useEffect(() => {
+		if (!crosswordData) {
+			axios
+				.get<Crosswords[]>("http://localhost:5001/crossword")
+				.then((response) => {
+					setCrosswordData(response.data);
+				})
+				.catch((error) => {
+					console.error("Error fetching crossword data:", error);
+				});
+		}
+	}, [crosswordData]);
 
-  useEffect(() => {
-    if (!crosswordData) {
+	if (!crosswordData) {
+		return <div>Loading...</div>;
+	}
 
-      axios.get<Crosswords[]>('http://localhost:5001/crossword')
-        .then(response => {
-          setCrosswordData(response.data);
-        })
-        .catch(error => {
-          console.error("Error fetching crossword data:", error);
-        });
-    }
-  }, [crosswordData]);
-
-
-  if (!crosswordData) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div>
-      {
-        crosswordData.map((crossword) => {
-          return <div key={crossword.crossword_id}>
-            <h3>{crossword.title}</h3>
-          </div>
-        })
-
-      }
-    </div>
-  );
+	return (
+		<div>
+			{crosswordData.map((crossword) => {
+				return (
+					<div key={crossword.crossword_id}>
+						<h3>{crossword.title}</h3>
+					</div>
+				);
+			})}
+		</div>
+	);
 }
 
 export default App;
