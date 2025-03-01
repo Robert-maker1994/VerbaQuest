@@ -32,6 +32,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 5001
 
 CMD ["sh", "-c", "npm run seeder && npm run start"]

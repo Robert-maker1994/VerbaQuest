@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
-import { loadDatabaseConfig } from "../config/config";
+import { loadConfig } from "../config/config";
 
-const { projectId, privateKey, clientEmail } = loadDatabaseConfig();
+const { projectId, privateKey, clientEmail } = loadConfig();
 
 if (!admin.apps.length) {
 	admin.initializeApp({

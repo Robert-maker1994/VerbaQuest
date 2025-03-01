@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { loadConfig } from "../libs/config/config";
 import {
 	Crossword,
 	CrosswordWord,
@@ -10,8 +11,7 @@ import {
 	UserCrossword,
 	Words,
 } from "../libs/entity";
-import { loadDatabaseConfig } from "../libs/config/config";
-const { host, user, password, database, pg_port } = loadDatabaseConfig();
+const { host, user, password, database, pg_port } = loadConfig();
 
 export async function seed() {
 	const AppDataSource = await new DataSource({
@@ -44,7 +44,7 @@ export async function seed() {
 	const userRepository = AppDataSource.getRepository(User);
 
 	const existingUser = await userRepository.findOneBy({ username: "verba" });
-	
+
 	if (existingUser) {
 		console.log("Seed data already exists. Skipping seeding process.");
 		await AppDataSource.destroy();

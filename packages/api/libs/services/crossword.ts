@@ -8,12 +8,29 @@ import {
 	UserCrossword,
 	Words,
 } from "../entity";
-import { CrosswordError, LanguageError, TopicError } from "../errors";
+import { CrosswordError, TopicError } from "../errors";
 import { getLanguage } from "./language";
 
 type crosswordServiceParams = { id?: string; name?: string };
 
-async function crosswordService(q?: crosswordServiceParams) {
+async function getCrosswordDetails() {
+	const client = AppDataSource;
+	const crosswordQuery = await client
+		.createQueryBuilder(Crossword, "c")
+		.select(["c.title", "c.crossword_id"])
+		.where("c.is_Public = :isPublic", { isPublic: true })
+		.getMany();
+
+	if (!crosswordQuery.length) {
+		throw new CrosswordError("Crosswords service has no entries", 404);
+	}
+
+	return crosswordQuery;
+
+}
+
+
+async function getCrosswordToGen(q?: crosswordServiceParams) {
 	const client = AppDataSource;
 
 	const crosswordQuery = client
@@ -21,6 +38,7 @@ async function crosswordService(q?: crosswordServiceParams) {
 		.leftJoinAndSelect("c.crosswordWords", "cw")
 		.leftJoinAndSelect("cw.words", "w")
 		.leftJoinAndSelect("c.topics", "t")
+		.where("c.is_Public = :isPublic", { isPublic: true })
 		.select([
 			"c.title",
 			"w.word_text",
@@ -119,7 +137,7 @@ async function createCrossword(body: CreateCrosswordBody) {
 			await crosswordWordsRepo.save(crosswordWordEntity);
 		}
 		await queryRunner.commitTransaction();
-		return crosswordService({ id: String(savedCrossword.crossword_id) });
+		return getCrosswordToGen({ id: String(savedCrossword.crossword_id) });
 	} catch (err) {
 		await queryRunner.rollbackTransaction();
 
@@ -277,8 +295,9 @@ async function updateCrosswordService(
 }
 
 export {
-	crosswordService,
+	getCrosswordToGen,
 	createCrossword,
 	deleteCrossword,
 	updateCrosswordService,
+	getCrosswordDetails
 };

@@ -3,8 +3,9 @@ import CrosswordGenerator from "../../utils/crossword-generator";
 import { CrosswordError } from "../errors";
 import {
 	createCrossword,
-	crosswordService,
 	deleteCrossword,
+	getCrosswordDetails as getCrosswordDetailsService,
+	getCrosswordToGen,
 	updateCrosswordService,
 } from "../services/crossword";
 import type { AuthRequest } from "../types/questRequest";
@@ -20,6 +21,59 @@ interface CrosswordResponse {
 	metadata: Metadata[];
 }
 
+async function getCrosswordDetails(req: Request,
+	res: Response,
+	next: NextFunction) {
+	try {
+		const crosswordDetails = await getCrosswordDetailsService();
+		res.send(crosswordDetails);
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function getRandomCrossword(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	try {
+		const crosswords = await getCrosswordToGen();
+		if (!crosswords.length) {
+			throw new CrosswordError("No crosswords found", 404);
+		}
+		const randomIndex = Math.floor(Math.random() * crosswords.length);
+		const randomCrossword = crosswords[randomIndex];
+		const words = randomCrossword.crosswordWords.map((v) => v.words.word_text);
+		const generator = new CrosswordGenerator();
+		const metadata = [];
+
+		const crossword = generator.generateCrossword(words);
+
+		for (let i = 0; i < generator.startPos.length; i++) {
+			const element = generator.startPos[i];
+			for (const md of randomCrossword.crosswordWords) {
+				if (md.words.word_text === element.word) {
+					metadata.push({
+						startPos: { x: element.x, y: element.y },
+						word: md.words.word_text,
+						clue: md.clue,
+					});
+				}
+			}
+		}
+		const response: CrosswordResponse = {
+			metadata,
+			crossword,
+			title: randomCrossword?.title,
+		};
+		res.send(response);
+	} catch (err) {
+		next(err);
+	}
+}
+
+
 const getCrossword = async (
 	req: Request,
 	res: Response,
@@ -34,8 +88,9 @@ const getCrossword = async (
 			...id,
 			...name,
 		};
-		const cw = await crosswordService(params);
-		console.log(cw);
+		const cw = await getCrosswordToGen(params);
+
+
 		if (!cw.length) {
 			throw new CrosswordError("Crossword not found", 200);
 		}
@@ -136,5 +191,7 @@ export {
 	getCrossword,
 	createNewCrossword,
 	deleteUserCrossword,
+	getCrosswordDetails,
+	getRandomCrossword,
 	updateUserCrossword,
 };

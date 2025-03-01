@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { loadDatabaseConfig } from "./libs/config/config";
+import { loadConfig } from "./libs/config/config";
 import {
 	Crossword,
 	CrosswordWord,
@@ -9,7 +9,7 @@ import {
 } from "./libs/entity";
 import { User, UserCrossword } from "./libs/entity/users";
 
-const { host, user, password, database, pg_port } = loadDatabaseConfig();
+const { host, user, password, database, pg_port } = loadConfig();
 
 export const AppDataSource = new DataSource({
 	type: "postgres",

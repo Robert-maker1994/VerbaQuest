@@ -11,11 +11,15 @@
 		"token": "ts-node genToken.ts",
 		"lint:fix": " biome  check --write"
 	},
-	"keywords": ["language", "learning"],
+	"keywords": [
+		"language",
+		"learning"
+	],
 	"author": "Robert Lawson",
 	"license": "MIT",
 	"dependencies": {
 		"@types/express": "^5.0.0",
+		"cors": "^2.8.5",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
 		"firebase": "^11.3.1",

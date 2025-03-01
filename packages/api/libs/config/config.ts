@@ -6,13 +6,14 @@ class ConfigError extends Error {
 	}
 }
 
-export function loadDatabaseConfig() {
+export function loadConfig() {
 	try {
 		const config = {
 			password: process.env.DB_PASSWORD,
 			user: process.env.DB_USER,
 			projectId: process.env.AUTH_PROJECT_ID,
 			host: process.env.DB_HOST,
+			port: process.env.PORT,
 			pg_port: process.env.PG_PORT,
 			database: process.env.DB_NAME,
 			apiKey: process.env.AUTH_API_KEY,
@@ -21,16 +22,6 @@ export function loadDatabaseConfig() {
 
 		}
 
-		let port = 5432;
-
-		if (process.env.PG_PORT) {
-			const parsedPort = Number.parseInt(process.env.PG_PORT);
-
-			if (Number.isNaN(parsedPort)) {
-				throw new ConfigError("Port is not a number");
-			}
-			port = parsedPort;
-		}
 		for (const [key, value] of Object.entries(config)) {
 			if (!value) {
 				throw new ConfigError(key)
