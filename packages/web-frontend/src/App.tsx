@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -53,7 +54,7 @@ function App() {
 			{crosswordData.map((crossword) => {
 				return (
 					<div key={crossword.crossword_id}>
-						<h3>{crossword.title}</h3>
+						<Typography variant="h3">{crossword.title}</Typography>
 					</div>
 				);
 			})}
