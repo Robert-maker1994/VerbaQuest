@@ -1,4 +1,4 @@
-import { AppDataSource } from "../datasource";
+import { DataSource } from "typeorm";
 import {
 	Crossword,
 	CrosswordWord,
@@ -7,11 +7,34 @@ import {
 	Languages,
 	Topic,
 	User,
+	UserCrossword,
 	Words,
 } from "../libs/entity";
+import { loadDatabaseConfig } from "../libs/config/config";
+const { host, user, password, database, pg_port } = loadDatabaseConfig();
 
 export async function seed() {
-	await AppDataSource.initialize();
+	const AppDataSource = await new DataSource({
+		type: "postgres",
+		host: host,
+		port: Number.parseInt(pg_port),
+		username: user,
+		password: password,
+		database: database,
+		synchronize: true,
+		logging: true,
+		entities: [
+			Crossword,
+			CrosswordWord,
+			Languages,
+			Topic,
+			User,
+			UserCrossword,
+			Words,
+		],
+		subscribers: [],
+		migrations: [],
+	}).initialize();
 
 	const languageRepository = AppDataSource.getRepository(Languages);
 	const wordsRepository = AppDataSource.getRepository(Words);
@@ -19,6 +42,15 @@ export async function seed() {
 	const crosswordWordsRepository = AppDataSource.getRepository(CrosswordWord);
 	const crosswordsRepository = AppDataSource.getRepository(Crossword);
 	const userRepository = AppDataSource.getRepository(User);
+
+	const existingUser = await userRepository.findOneBy({ username: "verba" });
+	
+	if (existingUser) {
+		console.log("Seed data already exists. Skipping seeding process.");
+		await AppDataSource.destroy();
+		return;
+	}
+
 	await AppDataSource.query("CREATE EXTENSION IF NOT EXISTS unaccent;");
 
 	await userRepository.save([

@@ -1,0 +1,43 @@
+services:
+  verbaquest-db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+    ports:
+      - "5433:5432"
+    networks:
+      - verbaquest
+  
+  backend:
+    depends_on:
+      - verbaquest-db
+    build:
+      context: ./packages/api
+      dockerfile: Dockerfile
+    env_file:
+      - ./packages/api/docker.env
+    ports:
+      - "3000:3000"
+    networks:
+      - verbaquest
+
+  frontend:
+    build:
+      context: ./packages/web-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - verbaquest-db
+    ports:
+      - "8080:8080"
+    networks:
+      - verbaquest
+
+
+networks:
+  verbaquest:
+
+volumes:
+  verbaquest_data:

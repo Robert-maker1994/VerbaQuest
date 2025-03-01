@@ -3,5 +3,7 @@
 /packages/*/coverage/*
 /packages/*/genToken.ts
 
-packages\api\.env
+packages\*\.env
+packages\*\docker.env
 /packages/api/verba-quest.json
+secrets/*

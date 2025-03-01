@@ -9,12 +9,12 @@ import {
 } from "./libs/entity";
 import { User, UserCrossword } from "./libs/entity/users";
 
-const { host, user, password, database, port } = loadDatabaseConfig();
+const { host, user, password, database, pg_port } = loadDatabaseConfig();
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
 	host: host,
-	port: port,
+	port: Number.parseInt(pg_port),
 	username: user,
 	password: password,
 	database: database,

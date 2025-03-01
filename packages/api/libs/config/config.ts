@@ -1,52 +1,46 @@
 require("dotenv").config();
 
 class ConfigError extends Error {
-	constructor() {
-		super("Config Error please check your environment variables");
+	constructor(message) {
+		super(`Config Error please check your environment variables ${message}`);
 	}
 }
 
 export function loadDatabaseConfig() {
 	try {
-		const user = process.env.DB_USER;
-		const password = process.env.DB_PASSWORD;
-		const host = process.env.DB_HOST;
-		const database = process.env.DB_NAME;
-		const apiKey = process.env.AUTH_API_KEY;
-		const projectId = process.env.AUTH_PROJECT_ID;
-		const clientEmail = process.env.AUTH_EMAIL_CLIENT;
-		const privateKey = process.env.AUTH_PRIVATE_KEY;
+		const config = {
+			password: process.env.DB_PASSWORD,
+			user: process.env.DB_USER,
+			projectId: process.env.AUTH_PROJECT_ID,
+			host: process.env.DB_HOST,
+			pg_port: process.env.PG_PORT,
+			database: process.env.DB_NAME,
+			apiKey: process.env.AUTH_API_KEY,
+			clientEmail: process.env.AUTH_EMAIL_CLIENT,
+			privateKey: process.env.AUTH_PRIVATE_KEY,
 
-		let port = 5433;
+		}
+
+		let port = 5432;
 
 		if (process.env.PG_PORT) {
 			const parsedPort = Number.parseInt(process.env.PG_PORT);
 
 			if (Number.isNaN(parsedPort)) {
-				throw new ConfigError();
+				throw new ConfigError("Port is not a number");
 			}
 			port = parsedPort;
 		}
-		if (!user || !password || !host || !database) {
-			throw new ConfigError();
-		}
-
-		if (!apiKey || !projectId || !clientEmail) {
-			throw new ConfigError();
+		for (const [key, value] of Object.entries(config)) {
+			if (!value) {
+				throw new ConfigError(key)
+			}
 		}
 
 		return {
-			user: user,
-			password: password,
-			host: host,
-			port: port,
-			database: database,
-			apiKey: apiKey,
-			projectId,
-			privateKey,
-			clientEmail,
+			...config
 		};
 	} catch (error) {
-		throw new ConfigError();
+		throw new ConfigError("Uncourt error");
 	}
 }

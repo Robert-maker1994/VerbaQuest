@@ -1,36 +1,7 @@
-import fs from "node:fs/promises";
 import { Client, Pool } from "pg";
 import { seed } from "./seed";
 
 require("dotenv").config();
-
-export async function createTables() {
-	const pool = new Pool({
-		user: process.env.DB_USER, // Use environment variables!
-		password: process.env.DB_PASSWORD,
-		host: process.env.DB_HOST,
-		port: Number.parseInt(process.env.PG_PORT || "5433"),
-		database: process.env.DB_NAME,
-	});
-
-	const db = await pool.connect();
-
-	try {
-		const data = await fs.readFile("./seeder/sql/createTables.sql", "utf-8");
-		const seed = await fs.readFile("./seeder/sql/seed.sql", "utf-8");
-
-		await db.query(data);
-		await db.query(seed);
-		console.log("Creating database and seed data is complete");
-	} catch (error) {
-		console.error("Error creating tables", error);
-		throw error;
-	} finally {
-		await db.release(true);
-		await pool.end();
-		console.log("pool is ended");
-	}
-}
 
 export async function createDatabase() {
 	const dbName = process.env.DB_NAME;
@@ -39,16 +10,24 @@ export async function createDatabase() {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASSWORD,
 		host: process.env.DB_HOST,
-		port: Number.parseInt(process.env.DB_PORT || "5433"),
+		port: Number.parseInt(process.env.DB_PORT),
 		database: "postgres", // Connect to the 'postgres' database to create others
 	});
 
 	try {
 		await client.connect();
-		await client.query(`CREATE DATABASE ${dbName}`);
-		console.log(`Database "${dbName}" created successfully.`);
+		// Check if the database already exists
+		const res = await client.query(`SELECT 1 FROM pg_database WHERE datname='${dbName}'`);
+		if (res.rows.length > 0) {
+			console.log(`Database "${dbName}" already exists.`);
+			return false;
+		}
+			await client.query(`CREATE DATABASE ${dbName}`);
+			console.log(`Database "${dbName}" created successfully.`);
+			return true;
 	} catch (err) {
 		console.error("Error creating database:", err);
+		return false;
 	} finally {
 		client.end();
 		console.log("postgres database closed");
@@ -57,11 +36,14 @@ export async function createDatabase() {
 
 async function create() {
 	try {
-		await createDatabase();
+		const dbCreated = await createDatabase();
+	console.log({dbCreated})
+        if (!dbCreated) {
 
-		seed().catch((error) => {
-			console.error("Error seeding data:", error);
-		});
+            await seed().catch((error) => {
+                console.error("Error seeding data:", error);
+            });
+        }
 		return true;
 	} catch (error) {
 		console.error("Failed to create database");
