@@ -7,3 +7,4 @@ packages\*\.env
 packages\*\docker.env
 /packages/api/verba-quest.json
 secrets/*
+packages/api/docker.env
