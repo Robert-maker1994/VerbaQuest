@@ -8,6 +8,8 @@ import {
 	Words,
 } from "./libs/entity";
 import { User, UserCrossword } from "./libs/entity/users";
+import { LanguagesTs1741095288212 } from "./migrations/1741095288212-languages";
+import { a2 } from "vitest/dist/chunks/reporters.DTtkbAtP";
 
 const { host, user, password, database, pg_port } = loadConfig();
 
@@ -19,6 +21,7 @@ export const AppDataSource = new DataSource({
 	password: password,
 	database: database,
 	synchronize: false,
+	migrationsRun: true,
 	logging: false,
 	entities: [
 		Crossword,
@@ -30,5 +33,6 @@ export const AppDataSource = new DataSource({
 		Words,
 	],
 	subscribers: [],
-	migrations: [],
+	migrations: [LanguagesTs1741095288212, a2],
+	migrationsTableName: "verba_migrations",
 });

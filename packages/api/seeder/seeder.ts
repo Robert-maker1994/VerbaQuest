@@ -1,8 +1,5 @@
-import { Client, Pool } from "pg";
-import { seed } from "./seed";
-
-require("dotenv").config();
-
+import { Client } from "pg";
+import 'dotenv/config'
 export async function createDatabase() {
 	const dbName = process.env.DB_NAME;
 
@@ -10,7 +7,7 @@ export async function createDatabase() {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASSWORD,
 		host: process.env.DB_HOST,
-		port: Number.parseInt(process.env.DB_PORT),
+		port: Number.parseInt(process.env.PG_PORT),
 		database: "postgres",
 	});
 
@@ -38,13 +35,8 @@ export async function createDatabase() {
 
 async function create() {
 	try {
-		const dbCreated = await createDatabase();
-		console.log({ dbCreated });
-		if (!dbCreated) {
-			await seed().catch((error) => {
-				console.error("Error seeding data:", error);
-			});
-		}
+		await createDatabase();
+		console.log("Create verba database")
 		return true;
 	} catch (error) {
 		console.error("Failed to create database");
