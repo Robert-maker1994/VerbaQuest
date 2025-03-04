@@ -1,5 +1,4 @@
-require("dotenv").config();
-
+import 'dotenv/config'
 class ConfigError extends Error {
 	constructor(message) {
 		super(`Config Error please check your environment variables ${message}`);
@@ -31,6 +30,9 @@ export function loadConfig() {
 			...config,
 		};
 	} catch (error) {
-		throw new ConfigError("Uncourt error");
+		if (error instanceof ConfigError) {
+			throw error;
+		}
+		throw new ConfigError(error.message);
 	}
 }

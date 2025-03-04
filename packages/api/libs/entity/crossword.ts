@@ -27,7 +27,7 @@ export class Crossword {
 	@JoinColumn({ name: "language_id" })
 	language: Languages;
 
-	@Column({ length: 255, nullable: true })
+	@Column({ type: "citext", unique: true })
 	title: string;
 
 	@Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
