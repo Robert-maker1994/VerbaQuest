@@ -14,7 +14,7 @@ export class Topic {
 	@PrimaryGeneratedColumn()
 	topic_id: number;
 
-	@Column({ length: 255, unique: true })
+	@Column({ type: "citext", unique: true })
 	topic_name: string;
 
 	@ManyToOne(

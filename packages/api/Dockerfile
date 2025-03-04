@@ -32,4 +32,4 @@ COPY . .
 
 EXPOSE 5001
 
-CMD ["sh", "-c", "npm run seeder && npm run start"]
+CMD ["sh", "-c", "npm run start"]
