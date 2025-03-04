@@ -8,8 +8,11 @@ import {
 	Words,
 } from "./libs/entity";
 import { User, UserCrossword } from "./libs/entity/users";
-import { LanguagesTs1741095288212 } from "./migrations/1741095288212-languages";
-import { a2 } from "vitest/dist/chunks/reporters.DTtkbAtP";
+import { CreateDatabase1741102530726 } from "./migrations/1741102530726-createdatabase";
+import { DefaultUser1741102694977 } from "./migrations/1741102694977-defaultUser";
+import { LanguagesTs1741102694988 } from "./migrations/1741102694988-languages";
+import { A2SpanishCrosswords1741103308928 } from "./migrations/1741103308928-A2Spanish";
+
 
 const { host, user, password, database, pg_port } = loadConfig();
 
@@ -22,7 +25,7 @@ export const AppDataSource = new DataSource({
 	database: database,
 	synchronize: false,
 	migrationsRun: true,
-	logging: false,
+	logging: true,
 	entities: [
 		Crossword,
 		CrosswordWord,
@@ -33,6 +36,6 @@ export const AppDataSource = new DataSource({
 		Words,
 	],
 	subscribers: [],
-	migrations: [LanguagesTs1741095288212, a2],
+	migrations: [CreateDatabase1741102530726, DefaultUser1741102694977, LanguagesTs1741102694988, A2SpanishCrosswords1741103308928],
 	migrationsTableName: "verba_migrations",
 });

@@ -17,7 +17,7 @@ interface CSVRow {
 	[key: string]: string;
 }
 
-export class A2SpanishCrosswords1741089289800 implements MigrationInterface {
+export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		const csvFilePath = path.join(__dirname, "../seeder/a2-spanish.csv");
 		const targetLanguageCode: LanguageCode = LanguageCode.SPANISH;
