@@ -24,10 +24,10 @@ export class Words {
 	@Index("idx_words_language_id")
 	language: Languages;
 
-	@Column({ length: 255 })
+	@Column({ length: 255, unique: true, collation: "utf8mb4_unicode_ci" })
 	word_text: string;
 
-	@Column({ type: "text", nullable: true })
+	@Column({ type: "text", unique: true, collation: "utf8mb4_unicode_ci" })
 	definition: string;
 
 	@Column({ default: false })

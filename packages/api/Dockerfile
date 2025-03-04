@@ -1,7 +1,6 @@
 
 FROM node:18-alpine
 
-# Define build-time variables
 ARG USER
 ARG POSTGRES_USER
 ARG POSTGRES_PASSWORD
@@ -12,7 +11,6 @@ ARG DB_HOST
 ARG DB_NAME
 ARG PG_PORT
 
-# Set environment variables from build-time variables
 ENV USER=${USER}
 ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

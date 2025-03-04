@@ -9,16 +9,18 @@ import {
 	updateCrosswordService,
 } from "../services/crossword";
 import type { AuthRequest } from "../types/questRequest";
+import { generateCrossword } from "./gen";
 
-interface Metadata {
-	startPos: { x: number; y: number };
-	word: string;
-	clue: string;
+interface WordData {
+    word: string;
+    start_row: number;
+    start_col: number;
+    direction: "horizontal" | "vertical";
 }
 interface CrosswordResponse {
 	crossword: string[][];
 	title: string;
-	metadata: Metadata[];
+	metadata: WordData[];
 }
 
 async function getCrosswordDetails(
@@ -47,25 +49,10 @@ async function getRandomCrossword(
 		const randomIndex = Math.floor(Math.random() * crosswords.length);
 		const randomCrossword = crosswords[randomIndex];
 		const words = randomCrossword.crosswordWords.map((v) => v.words.word_text);
-		const generator = new CrosswordGenerator();
-		const metadata = [];
-
-		const crossword = generator.generateCrossword(words);
-
-		for (let i = 0; i < generator.startPos.length; i++) {
-			const element = generator.startPos[i];
-			for (const md of randomCrossword.crosswordWords) {
-				if (md.words.word_text === element.word) {
-					metadata.push({
-						startPos: { x: element.x, y: element.y },
-						word: md.words.word_text,
-						clue: md.clue,
-					});
-				}
-			}
-		}
+		const [crossword, metadata] = generateCrossword(words)
+	
 		const response: CrosswordResponse = {
-			metadata,
+			metadata: metadata.words_data,
 			crossword,
 			title: randomCrossword?.title,
 		};

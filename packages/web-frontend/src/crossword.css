@@ -1,0 +1,96 @@
+/* crossword.css */
+.crossword-container {
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif; /* Modern sans-serif font */
+    padding: 20px;
+  }
+  
+ .crossword-grid {
+    display: grid;
+    gap: 7px;
+}
+
+.crossword-row {
+    display: grid;
+    column-gap: 7px;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+  }
+  
+  .crossword-cell {
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    box-sizing: border-box;
+    border-radius: 5px; /* Rounded cell corners */
+    background: linear-gradient(to bottom, #f8f8f8, #f0f0f0); /* Subtle gradient */
+    position: relative; /* Needed for absolute positioning of .crossword-number */
+  }
+  
+  .crossword-cell:not(:empty) {
+    background: linear-gradient(to bottom, #80deea, #4dd0e1); /* Teal gradient for cells with letters */
+    color: white; /* White text color for contrast on teal */
+    font-weight: bold;
+  }
+  
+  .crossword-cell:empty {
+    background-color: #333; /* Dark gray for black squares */
+    border: none;
+  }
+  
+  .crossword-cell.correct{
+    background-color: green;
+  }
+  .crossword-number{
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      font-size: 10px;
+      color: #ff6d00;
+      font-weight: bold;
+  }
+  
+  .clue-container{
+      display: flex;
+      gap: 20px;
+      margin: 20px auto;
+      width: fit-content;
+  }
+  .clues {
+    font-family: sans-serif;
+    line-height: 1.6;
+    flex: 1;
+    margin-top: 20px;
+    border: solid 2px #2962ff;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .clues h3 {
+    margin-top: 15px;
+    color: #2962ff;
+  }
+  
+  .clues ol {
+    padding-left: 25px;
+  }
+
+  .crossword-cell input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    font-size: 1.2em; /* Match the font-size of .crossword-cell */
+    padding: 0;
+    box-sizing: border-box; /* Makes padding part of the total width/height */
+    background-color: transparent; /* Make input background transparent */
+    color: black; /* Ensure input text is black */
+    font-weight: bold;
+  }
+
+  .crossword-cell input:focus {
+    outline: none; /* Remove default focus outline */
+    background-color: #f0f0f0; /* Add a light background on focus */
+  }

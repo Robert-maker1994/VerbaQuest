@@ -2,6 +2,7 @@ interface StartPos {
 	x: number;
 	y: number;
 	word: string;
+	direction: 'across' | 'down';
 }
 
 class CrosswordGenerator {
@@ -10,7 +11,7 @@ class CrosswordGenerator {
 	private wordBank: WordObj[];
 	private wordsActive: WordObj[];
 	private bounds: Bounds;
-	startPos: StartPos[];
+	public startPos: StartPos[];
 	constructor() {
 		this.board = [];
 		this.wordArr = [];
@@ -27,12 +28,14 @@ class CrosswordGenerator {
 
 		for (let i = 0; i < 10; i++) {
 			this.cleanState();
+			// console.log("populated", this.populateBoard())
 			if (this.populateBoard()) {
+				// console.log("boar", this.boardToArrays())
+
 				return this.boardToArrays();
 			}
 		}
 
-		return null;
 	}
 
 	private boardToArrays(): string[][] {
@@ -40,10 +43,11 @@ class CrosswordGenerator {
 		for (let i = this.bounds.top - 1; i < this.bounds.bottom + 2; i++) {
 			const row: string[] = [];
 			for (let j = this.bounds.left - 1; j < this.bounds.right + 2; j++) {
-				row.push(this.board[j][i] || "");
+				row.push(this.board[j][i] || "#");
 			}
 			crossword.push(row);
 		}
+		// console.log(crossword)
 		return crossword;
 	}
 
@@ -52,6 +56,7 @@ class CrosswordGenerator {
 		this.wordBank = [];
 		this.wordsActive = [];
 		this.board = [];
+		this.startPos = [];
 
 		for (let i = 0; i < 32; i++) {
 			this.board.push([]);
@@ -63,13 +68,41 @@ class CrosswordGenerator {
 
 	private populateBoard(): boolean {
 		this.prepareBoard();
+		this.wordBank.sort((a, b) => b.string.length - a.string.length);
+		if (this.wordBank.length > 0) {
+			this.placeFirstWord();
+		}
 
 		for (let i = 0; i < this.wordBank.length; i++) {
-			if (!this.addWordToBoard()) {
+			console.log(i)
+			if (!this.addWordToBoard(this.wordBank[i])) {
+				if(this.board.length < 3)
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private placeFirstWord() {
+		const firstWord = this.wordBank.shift();
+		if (firstWord) {
+			const x = 16;
+			const y = 16;
+			const dir = 0; //across
+
+			firstWord.x = x;
+			firstWord.y = y;
+			firstWord.dir = dir;
+
+			this.wordsActive.push(firstWord);
+			this.startPos.push({ x, y, direction: 'across', word: firstWord.string });
+
+			for (let i = 0; i < firstWord.char.length; i++) {
+				const currentX = x + i;
+				this.board[currentX][y] = firstWord.char[i];
+				this.bounds.update(currentX, y)
+			}
+		}
 	}
 
 	private prepareBoard(): void {
@@ -89,171 +122,92 @@ class CrosswordGenerator {
 			}
 		}
 	}
-	private addWordToBoard(): boolean {
-		let i: number,
-			len: number,
-			curIndex: number,
-			curWord: WordObj,
-			curChar: string,
-			testWord: WordObj,
-			testChar: string,
-			minMatchDiff = 9999,
-			curMatchDiff: number,
-			word = "";
+	private addWordToBoard(wordToPlace: WordObj): boolean {
+		let bestPlacement: { x: number, y: number, direction: 0 | 1, intersection: number } | null = null;
 
-		if (this.wordsActive.length < 1) {
-			curIndex = 0;
-			for (i = 0, len = this.wordBank.length; i < len; i++) {
-				if (
-					this.wordBank[i].totalMatches < this.wordBank[curIndex].totalMatches
-				) {
-					curIndex = i;
-				}
-			}
-			this.wordBank[curIndex].successfulMatches = [{ x: 12, y: 12, dir: 0 }];
-		} else {
-			curIndex = -1;
+		for (const activeWord of this.wordsActive) {
+			for (let i = 0; i < activeWord.char.length; i++) {
+				const activeChar = activeWord.char[i];
+				const activeX = activeWord.x + (activeWord.dir === 0 ? i : 0);
+				const activeY = activeWord.y + (activeWord.dir === 1 ? i : 0);
 
-			for (i = 0, len = this.wordBank.length; i < len; i++) {
-				curWord = this.wordBank[i];
-				curWord.effectiveMatches = 0;
-				curWord.successfulMatches = [];
-				for (let j = 0, lenJ = curWord.char.length; j < lenJ; j++) {
-					curChar = curWord.char[j];
-					for (let k = 0, lenK = this.wordsActive.length; k < lenK; k++) {
-						testWord = this.wordsActive[k];
-						for (let l = 0, lenL = testWord.char.length; l < lenL; l++) {
-							testChar = testWord.char[l];
+				const intersection = wordToPlace.char.findIndex(char => char === activeChar);
 
-							if (curChar === testChar) {
-								curWord.effectiveMatches++;
-
-								const curCross = { x: testWord.x, y: testWord.y, dir: 0 };
-								if (testWord.dir === 0) {
-									curCross.dir = 1;
-									curCross.x += l;
-									curCross.y -= j;
-								} else {
-									curCross.dir = 0;
-									curCross.y += l;
-									curCross.x -= j;
-								}
-
-								let isMatch = true;
-
-								for (
-									let m = -1, lenM = curWord.char.length + 1;
-									m < lenM;
-									m++
-								) {
-									const crossVal: (string | null)[] = [];
-									if (m !== j) {
-										if (curCross.dir === 0) {
-											const xIndex = curCross.x + m;
-
-											if (xIndex < 0 || xIndex > this.board.length) {
-												isMatch = false;
-												break;
-											}
-
-											crossVal.push(this.board[xIndex][curCross.y]);
-											crossVal.push(this.board[xIndex][curCross.y + 1]);
-											crossVal.push(this.board[xIndex][curCross.y - 1]);
-										} else {
-											const yIndex = curCross.y + m;
-
-											if (
-												yIndex < 0 ||
-												yIndex > this.board[curCross.x].length
-											) {
-												isMatch = false;
-												break;
-											}
-
-											crossVal.push(this.board[curCross.x][yIndex]);
-											crossVal.push(this.board[curCross.x + 1][yIndex]);
-											crossVal.push(this.board[curCross.x - 1][yIndex]);
-										}
-
-										if (m > -1 && m < lenM - 1) {
-											if (crossVal[0] !== curWord.char[m]) {
-												if (crossVal[0] !== null) {
-													isMatch = false;
-													break;
-												} else if (crossVal[1] !== null) {
-													isMatch = false;
-													break;
-												} else if (crossVal[2] !== null) {
-													isMatch = false;
-													break;
-												}
-											}
-										} else if (crossVal[0] !== null) {
-											isMatch = false;
-											break;
-										}
-									}
-								}
-
-								if (isMatch) {
-									curWord.successfulMatches.push(curCross);
-								}
-							}
-						}
+				if (intersection !== -1) {
+					const placement = this.getPotentialPlacement(wordToPlace, activeX, activeY, intersection, activeWord.dir === 0 ? 1 : 0);
+					if (placement && (bestPlacement === null || placement.intersection > bestPlacement.intersection)) {
+						bestPlacement = placement;
 					}
-				}
-
-				curMatchDiff = curWord.totalMatches - curWord.effectiveMatches;
-				word = curWord.string;
-				if (
-					curMatchDiff < minMatchDiff &&
-					curWord.successfulMatches.length > 0
-				) {
-					minMatchDiff = curMatchDiff;
-					curIndex = i;
-				} else if (curMatchDiff <= 0) {
-					return false;
 				}
 			}
 		}
 
-		if (curIndex === -1) {
+		if (!bestPlacement) {
 			return false;
 		}
 
-		const spliced = this.wordBank.splice(curIndex, 1);
-		this.wordsActive.push(spliced[0]);
+		wordToPlace.x = bestPlacement.x;
+		wordToPlace.y = bestPlacement.y;
+		wordToPlace.dir = bestPlacement.direction;
+		this.wordsActive.push(wordToPlace);
+		this.startPos.push({
+			x: bestPlacement.x,
+			y: bestPlacement.y,
+			direction: bestPlacement.direction === 0 ? 'across' : 'down',
+			word: wordToPlace.string
+		});
 
-		const pushIndex = this.wordsActive.length - 1;
-		const rand = Math.random();
-		const matchArr = this.wordsActive[pushIndex].successfulMatches;
-		const matchIndex = Math.floor(rand * matchArr.length);
-		const matchData = matchArr[matchIndex];
-
-		this.wordsActive[pushIndex].x = matchData.x;
-		this.wordsActive[pushIndex].y = matchData.y;
-		this.wordsActive[pushIndex].dir = matchData.dir;
-
-		if (word.length) {
-			this.startPos.push({ x: matchData.x, y: matchData.y, word }); // Setting startPos
-		}
-
-		for (i = 0, len = this.wordsActive[pushIndex].char.length; i < len; i++) {
-			let xIndex = matchData.x;
-			let yIndex = matchData.y;
-
-			if (matchData.dir === 0) {
-				xIndex += i;
-				this.board[xIndex][yIndex] = this.wordsActive[pushIndex].char[i];
-			} else {
-				yIndex += i;
-				this.board[xIndex][yIndex] = this.wordsActive[pushIndex].char[i];
-			}
-
-			this.bounds.update(xIndex, yIndex);
+		for (let i = 0; i < wordToPlace.char.length; i++) {
+			const x = bestPlacement.x + (bestPlacement.direction === 0 ? i : 0);
+			const y = bestPlacement.y + (bestPlacement.direction === 1 ? i : 0);
+			this.board[x][y] = wordToPlace.char[i];
+			this.bounds.update(x, y);
 		}
 
 		return true;
+	}
+
+	private getPotentialPlacement(word: WordObj, intersectX: number, intersectY: number, intersectIndex: number, direction: 0 | 1): { x: number, y: number, direction: 0 | 1, intersection: number } | null {
+		const startX = intersectX - (direction === 0 ? 0 : intersectIndex);
+		const startY = intersectY - (direction === 1 ? 0 : intersectIndex);
+		let intersection = 0;
+
+		if (startX < 0 || startY < 0 || startX + (direction === 0 ? word.char.length : 0) > 31 || startY + (direction === 1 ? word.char.length : 0) > 31) {
+			return null;
+		}
+
+		for (let i = 0; i < word.char.length; i++) {
+			const x = startX + (direction === 0 ? i : 0);
+			const y = startY + (direction === 1 ? i : 0);
+
+			if (this.board[x][y] !== null && this.board[x][y] !== word.char[i]) {
+				return null; // Collision
+			}
+
+			if (this.board[x][y] === word.char[i]) {
+				intersection++;
+			}
+
+			// Check for neighboring letters
+			const neighbors = [
+				{ dx: 0, dy: -1 }, { dx: 0, dy: 1 }, // Above and below
+				{ dx: -1, dy: 0 }, { dx: 1, dy: 0 }, // Left and right
+			];
+			for (const neighbor of neighbors) {
+				const nx = x + neighbor.dx;
+				const ny = y + neighbor.dy;
+				if (this.board[nx]?.[ny] !== undefined && this.board[nx]?.[ny] !== null) {
+					if (i === intersectIndex && !(nx === intersectX && ny === intersectY)) {
+						return null;
+						// biome-ignore lint/style/noUselessElse: <explanation>
+					} else if (i !== intersectIndex && (nx !== intersectX && ny !== intersectY)) {
+						return null;
+					}
+				}
+			}
+		}
+
+		return { x: startX, y: startY, direction, intersection };
 	}
 }
 
@@ -293,7 +247,7 @@ class WordObj {
 	successfulMatches: { x: number; y: number; dir: number }[];
 	x: number;
 	y: number;
-	dir: number;
+	dir: 0 | 1;
 
 	constructor(stringValue: string) {
 		this.string = stringValue;
