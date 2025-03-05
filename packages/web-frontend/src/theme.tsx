@@ -34,22 +34,22 @@ export const theme = createTheme({
 	typography: {
 		fontFamily: ROBOTO_FONT,
 		h1: {
-			fontSize: '2rem', 
+			fontSize: "2rem",
 		},
 		h2: {
-			fontSize: '1.5rem',
+			fontSize: "1.5rem",
 		},
 		h3: {
-			fontSize: '1.25rem',
+			fontSize: "1.25rem",
 		},
 		h4: {
-			fontSize: '1rem', 
+			fontSize: "1rem",
 		},
 		h5: {
-			fontSize: '0.875rem', 
+			fontSize: "0.875rem",
 		},
 		h6: {
-			fontSize: '0.75rem',
+			fontSize: "0.75rem",
 		},
 	},
 	components: {

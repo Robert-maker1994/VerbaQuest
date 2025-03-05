@@ -1,6 +1,7 @@
 import {
 	Column,
 	Entity,
+	Index,
 	JoinColumn,
 	ManyToMany,
 	ManyToOne,
@@ -11,10 +12,19 @@ import { Languages } from "./language";
 
 @Entity()
 export class Topic {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn({ comment: "The unique identifier for this topic." })
 	topic_id: number;
 
-	@Column({ type: "citext", unique: true })
+	@Column({
+		type: "citext",
+		unique: true,
+		comment: "The name of the topic.",
+		transformer: {
+			to: (value: string) => value.charAt(0).toUpperCase() + value.slice(1),
+			from: (value: string) => value,
+		},
+	})
+	@Index("idx_topic_name", ["topic_name"], { unique: true })
 	topic_name: string;
 
 	@ManyToOne(

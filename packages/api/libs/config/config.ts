@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 class ConfigError extends Error {
 	constructor(message) {
 		super(`Config Error please check your environment variables ${message}`);

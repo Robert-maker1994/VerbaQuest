@@ -1,11 +1,13 @@
 services:
   verbaquest-db:
-    image: postgres:15
+    image: postgres:17
     restart: always
     environment:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
       - POSTGRES_DB=mydb
+      - PG_LOG_DESTINATION=stderr
+      - PG_LOG_STATEMENT=all
     ports:
       - "5433:5432"
     networks:

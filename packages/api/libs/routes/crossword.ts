@@ -3,7 +3,6 @@ import { authMiddleware } from "../auth/authMiddleware";
 import {
 	createNewCrossword,
 	deleteUserCrossword,
-	getCrossword,
 	getCrosswordDetails,
 	getRandomCrossword,
 	updateUserCrossword,
@@ -13,8 +12,8 @@ const crosswordRouter = express.Router();
 // TODO handle getCrossword only getting ispublic
 crosswordRouter.get("/", getCrosswordDetails);
 crosswordRouter.get("/today", getRandomCrossword);
-crosswordRouter.get("/:id", getCrossword);
-crosswordRouter.get("/search", getCrossword);
+// crosswordRouter.get("/:id", getCrossword);
+// crosswordRouter.get("/search", getCrossword);
 crosswordRouter.post("/", authMiddleware, createNewCrossword);
 crosswordRouter.put("/", authMiddleware, updateUserCrossword);
 crosswordRouter.delete("/", authMiddleware, deleteUserCrossword);

@@ -1,7 +1,7 @@
-import axios from "axios";
-import App from "./App";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import Crossword from "./components/crossword";
 import { theme } from "./theme";
 
 export const api = axios.create({
@@ -12,10 +12,12 @@ export const api = axios.create({
 });
 
 function Renderer() {
-	return <ThemeProvider theme={theme}>
-		<CssBaseline />
-		<App />
-	</ThemeProvider>;
+	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<Crossword />
+		</ThemeProvider>
+	);
 }
 
 export default Renderer;

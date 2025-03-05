@@ -1,14 +1,14 @@
-import type { MigrationInterface, QueryRunner } from "typeorm";
+import fs from "node:fs";
 import path from "node:path";
 import csv from "csv-parser";
-import fs from "node:fs";
+import type { MigrationInterface, QueryRunner } from "typeorm";
 import {
+	Crossword,
+	CrosswordWord,
 	LanguageCode,
 	Languages,
 	Topic,
 	Words,
-	Crossword,
-	CrosswordWord,
 } from "../libs/entity";
 
 interface CSVRow {
@@ -91,10 +91,9 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 			for (let i = 1; i <= 12; i++) {
 				const wordText = getWordFromRow(row, i);
 				const definition = getDefinitionFromRow(row, i);
-                if (!definition || definition.trim().length === 0) {
-                   break;
-                   
-                }
+				if (!definition || definition.trim().length === 0) {
+					break;
+				}
 				if (wordText && definition) {
 					let word = await queryRunner.manager.findOne(Words, {
 						where: {

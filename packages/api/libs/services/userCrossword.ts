@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../datasource";
-import { UserCrossword } from "../entity/users";
+import { UserCrossword } from "../entity/userCrosswords";
 
 export const createUserCrossword = async (data: Partial<UserCrossword>) => {
 	const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);

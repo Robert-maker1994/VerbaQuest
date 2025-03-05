@@ -2,7 +2,7 @@ interface StartPos {
 	x: number;
 	y: number;
 	word: string;
-	direction: 'across' | 'down';
+	direction: "across" | "down";
 }
 
 class CrosswordGenerator {
@@ -35,7 +35,6 @@ class CrosswordGenerator {
 				return this.boardToArrays();
 			}
 		}
-
 	}
 
 	private boardToArrays(): string[][] {
@@ -74,10 +73,9 @@ class CrosswordGenerator {
 		}
 
 		for (let i = 0; i < this.wordBank.length; i++) {
-			console.log(i)
+			console.log(i);
 			if (!this.addWordToBoard(this.wordBank[i])) {
-				if(this.board.length < 3)
-				return false;
+				if (this.board.length < 3) return false;
 			}
 		}
 		return true;
@@ -95,12 +93,12 @@ class CrosswordGenerator {
 			firstWord.dir = dir;
 
 			this.wordsActive.push(firstWord);
-			this.startPos.push({ x, y, direction: 'across', word: firstWord.string });
+			this.startPos.push({ x, y, direction: "across", word: firstWord.string });
 
 			for (let i = 0; i < firstWord.char.length; i++) {
 				const currentX = x + i;
 				this.board[currentX][y] = firstWord.char[i];
-				this.bounds.update(currentX, y)
+				this.bounds.update(currentX, y);
 			}
 		}
 	}
@@ -123,7 +121,12 @@ class CrosswordGenerator {
 		}
 	}
 	private addWordToBoard(wordToPlace: WordObj): boolean {
-		let bestPlacement: { x: number, y: number, direction: 0 | 1, intersection: number } | null = null;
+		let bestPlacement: {
+			x: number;
+			y: number;
+			direction: 0 | 1;
+			intersection: number;
+		} | null = null;
 
 		for (const activeWord of this.wordsActive) {
 			for (let i = 0; i < activeWord.char.length; i++) {
@@ -131,11 +134,23 @@ class CrosswordGenerator {
 				const activeX = activeWord.x + (activeWord.dir === 0 ? i : 0);
 				const activeY = activeWord.y + (activeWord.dir === 1 ? i : 0);
 
-				const intersection = wordToPlace.char.findIndex(char => char === activeChar);
+				const intersection = wordToPlace.char.findIndex(
+					(char) => char === activeChar,
+				);
 
 				if (intersection !== -1) {
-					const placement = this.getPotentialPlacement(wordToPlace, activeX, activeY, intersection, activeWord.dir === 0 ? 1 : 0);
-					if (placement && (bestPlacement === null || placement.intersection > bestPlacement.intersection)) {
+					const placement = this.getPotentialPlacement(
+						wordToPlace,
+						activeX,
+						activeY,
+						intersection,
+						activeWord.dir === 0 ? 1 : 0,
+					);
+					if (
+						placement &&
+						(bestPlacement === null ||
+							placement.intersection > bestPlacement.intersection)
+					) {
 						bestPlacement = placement;
 					}
 				}
@@ -153,8 +168,8 @@ class CrosswordGenerator {
 		this.startPos.push({
 			x: bestPlacement.x,
 			y: bestPlacement.y,
-			direction: bestPlacement.direction === 0 ? 'across' : 'down',
-			word: wordToPlace.string
+			direction: bestPlacement.direction === 0 ? "across" : "down",
+			word: wordToPlace.string,
 		});
 
 		for (let i = 0; i < wordToPlace.char.length; i++) {
@@ -167,12 +182,23 @@ class CrosswordGenerator {
 		return true;
 	}
 
-	private getPotentialPlacement(word: WordObj, intersectX: number, intersectY: number, intersectIndex: number, direction: 0 | 1): { x: number, y: number, direction: 0 | 1, intersection: number } | null {
+	private getPotentialPlacement(
+		word: WordObj,
+		intersectX: number,
+		intersectY: number,
+		intersectIndex: number,
+		direction: 0 | 1,
+	): { x: number; y: number; direction: 0 | 1; intersection: number } | null {
 		const startX = intersectX - (direction === 0 ? 0 : intersectIndex);
 		const startY = intersectY - (direction === 1 ? 0 : intersectIndex);
 		let intersection = 0;
 
-		if (startX < 0 || startY < 0 || startX + (direction === 0 ? word.char.length : 0) > 31 || startY + (direction === 1 ? word.char.length : 0) > 31) {
+		if (
+			startX < 0 ||
+			startY < 0 ||
+			startX + (direction === 0 ? word.char.length : 0) > 31 ||
+			startY + (direction === 1 ? word.char.length : 0) > 31
+		) {
 			return null;
 		}
 
@@ -190,17 +216,29 @@ class CrosswordGenerator {
 
 			// Check for neighboring letters
 			const neighbors = [
-				{ dx: 0, dy: -1 }, { dx: 0, dy: 1 }, // Above and below
-				{ dx: -1, dy: 0 }, { dx: 1, dy: 0 }, // Left and right
+				{ dx: 0, dy: -1 },
+				{ dx: 0, dy: 1 }, // Above and below
+				{ dx: -1, dy: 0 },
+				{ dx: 1, dy: 0 }, // Left and right
 			];
 			for (const neighbor of neighbors) {
 				const nx = x + neighbor.dx;
 				const ny = y + neighbor.dy;
-				if (this.board[nx]?.[ny] !== undefined && this.board[nx]?.[ny] !== null) {
-					if (i === intersectIndex && !(nx === intersectX && ny === intersectY)) {
+				if (
+					this.board[nx]?.[ny] !== undefined &&
+					this.board[nx]?.[ny] !== null
+				) {
+					if (
+						i === intersectIndex &&
+						!(nx === intersectX && ny === intersectY)
+					) {
 						return null;
 						// biome-ignore lint/style/noUselessElse: <explanation>
-					} else if (i !== intersectIndex && (nx !== intersectX && ny !== intersectY)) {
+					} else if (
+						i !== intersectIndex &&
+						nx !== intersectX &&
+						ny !== intersectY
+					) {
 						return null;
 					}
 				}

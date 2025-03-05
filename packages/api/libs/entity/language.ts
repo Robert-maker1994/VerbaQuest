@@ -5,26 +5,37 @@ import { Words } from "./word";
 
 export enum LanguageCode {
 	English = "EN",
-	FRENCH = "FR",
 	SPANISH = "ES",
+	FRENCH = "FR",
 }
 
 export enum LanguageName {
 	English = "english",
-	FRENCH = "france",
 	SPANISH = "spanish",
+	FRENCH = "french",
 }
 
 @Entity()
 export class Languages {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn({
+		comment: "The unique identifier for this language.",
+	})
 	language_id: number;
 
-	@Column({ type: "enum", enum: LanguageCode, nullable: false })
-	language_code: string;
+	@Column({
+		type: "enum",
+		enum: LanguageCode,
+		comment: "The short code for the language (e.g., 'EN', 'ES', 'FR').",
+	})
+	language_code: LanguageCode;
 
-	@Column({ type: "enum", enum: LanguageName, nullable: false })
-	language_name: string;
+	@Column({
+		type: "enum",
+		enum: LanguageName,
+		comment:
+			"The full name of the language (e.g., 'english', 'spanish', 'french').",
+	})
+	language_name: LanguageName;
 
 	@OneToMany(
 		() => Words,
