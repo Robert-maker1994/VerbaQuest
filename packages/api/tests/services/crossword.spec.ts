@@ -13,7 +13,7 @@ import { CustomError } from "../../libs/errors/customError";
 import {
 	createCrossword,
 	crosswordService,
-} from "../../libs/services/crossword";
+} from "../../libs/services/crosswordService";
 
 const mocks = vi.hoisted(() => {
 	return {

@@ -13,7 +13,9 @@ import { Words } from "./word";
 @Entity()
 @Unique(["crossword", "words"])
 export class CrosswordWord {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn({
+		comment: "The unique identifier for this CrosswordWord record.",
+	})
 	crossword_word_id: number;
 
 	@ManyToOne(
@@ -34,6 +36,9 @@ export class CrosswordWord {
 	@Index("idx_crossword_words_word_id")
 	words: Words;
 
-	@Column({ type: "text" })
+	@Column({
+		type: "text",
+		comment: "The clue for this word in the associated crossword.",
+	})
 	clue: string;
 }

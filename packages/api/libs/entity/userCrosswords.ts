@@ -3,71 +3,68 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
-	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { Crosswords } from "./crossword";
+import { Crossword } from "./crossword";
+import { User } from "./users";
 
 @Entity()
-export class Users {
-	@PrimaryGeneratedColumn()
-	user_id: number;
-
-	@Column({ type: "varchar", length: 255, unique: true, nullable: true })
-	username: string;
-
-	@Column({ type: "varchar", length: 255, nullable: true })
-	password_hash: string;
-
-	@Column({ type: "varchar", length: 255, unique: true })
-	email: string;
-
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-	created_at: Date;
-
-	@Column({ type: "varchar", length: 255, unique: true, nullable: true })
-	google_id: string;
-
-	@OneToMany(
-		() => UserCrosswords,
-		(userCrossword) => userCrossword.user,
-	)
-	userCrosswords: UserCrosswords[];
-}
-
-@Entity()
-export class UserCrosswords {
-	@PrimaryGeneratedColumn()
+export class UserCrossword {
+	@PrimaryGeneratedColumn({
+		comment: "The unique identifier for this UserCrossword record.",
+	})
 	user_crossword_id: number;
 
-	@Column({ type: "int", nullable: false })
+	@Column({
+		type: "int",
+		nullable: false,
+		comment:
+			"Foreign key to the Users table, representing the user who completed the crossword.",
+	})
 	user_id: number;
 
-	@Column({ type: "int", nullable: false })
+	@Column({
+		type: "int",
+		nullable: false,
+		comment:
+			"Foreign key to the Crossword table, representing the completed crossword.",
+	})
 	crossword_id: number;
 
-	@Column({ type: "text", nullable: true })
+	@Column({
+		type: "text",
+		nullable: true,
+		comment: "The saved state of the crossword grid for the user",
+	})
 	grid_state: string;
 
-	@Column({ type: "boolean", default: false })
+	@Column({
+		type: "boolean",
+		default: false,
+		comment: "Indicates if the user has completed this crossword.",
+	})
 	completed: boolean;
 
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+	@Column({
+		type: "timestamp",
+		default: () => "CURRENT_TIMESTAMP",
+		comment: "The last time this crossword was attempted by the user.",
+	})
 	last_attempted: Date;
 
 	@ManyToOne(
-		() => Users,
+		() => User,
 		(user) => user.userCrosswords,
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({ name: "user_id" })
-	user: Users;
+	user: User;
 
 	@ManyToOne(
-		() => Crosswords,
+		() => Crossword,
 		(crossword) => crossword.userCrosswords,
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({ name: "crossword_id" })
-	crossword: Crosswords;
+	crossword: Crossword;
 }
