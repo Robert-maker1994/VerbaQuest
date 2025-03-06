@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import type { WordData } from "../interfaces";
+import type { WordData } from "../../../interfaces";
 
 interface ClueListProps {
 	metadata: WordData[];

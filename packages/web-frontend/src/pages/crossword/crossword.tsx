@@ -1,9 +1,10 @@
 import { Box, CircularProgress, Grid2, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ClueList } from ".";
-import type { WordData } from "../interfaces";
-import CrosswordGrid from "./crosswordGrid";
+import type { WordData } from "../../interfaces";
+import { ClueList } from "./components";
+import CrosswordGrid from "./components/crosswordGrid";
+import React from "react";
 
 interface CrosswordResponse {
 	crossword: string[][];
@@ -11,12 +12,11 @@ interface CrosswordResponse {
 	metadata: WordData[];
 }
 
-function Crossword() {
-	const [crosswordData, setCrosswordData] = useState<CrosswordResponse | null>(
-		null,
-	);
+const Crossword = React.memo(function Crossword() {
+	const [crosswordData, setCrosswordData] = useState<CrosswordResponse>();
+
 	useEffect(() => {
-		if (!crosswordData) {
+		if (!crosswordData?.title) {
 			axios
 				.get<CrosswordResponse>("http://localhost:5001/crossword/today")
 				.then((response) => {
@@ -26,31 +26,24 @@ function Crossword() {
 					console.error("Error fetching crossword data:", error);
 				});
 		}
-	}, [crosswordData]);
+	});
 
 	if (!crosswordData) {
 		return (
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					height: "100vh",
-				}}
-			>
+			<Box>
 				<CircularProgress />
 			</Box>
 		);
 	}
 
 	return (
-		<Grid2 container spacing={2}>
-			<Grid2 size={12}>
-				<Typography variant="h4" align="center" gutterBottom>
+		<Grid2 container spacing={2} justifyContent={"center"}>
+			<Grid2 size={12} >
+				<Typography color="primary" variant="h4" align="center">
 					{crosswordData.title}
 				</Typography>
 			</Grid2>
-			<Grid2 size={6}>
+			<Grid2 size={8}>
 				<CrosswordGrid
 					crosswordGrid={crosswordData.crossword}
 					metadata={crosswordData.metadata}
@@ -61,6 +54,7 @@ function Crossword() {
 			</Grid2>
 		</Grid2>
 	);
-}
+})
 
 export default Crossword;
+

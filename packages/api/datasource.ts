@@ -37,7 +37,6 @@ export const AppDataSource = new DataSource({
 		Words,
 	],
 	subscribers: [],
-<<<<<<< HEAD
 	migrations: [
 		CreateDatabase1741102530726,
 		DefaultUser1741102694977,
@@ -45,8 +44,5 @@ export const AppDataSource = new DataSource({
 		A2SpanishCrosswords1741103308928,
 		UpdateComments1741174026478,
 	],
-=======
-	migrations: [CreateDatabase1741102530726, DefaultUser1741102694977, LanguagesTs1741102694988, A2SpanishCrosswords1741103308928],
->>>>>>> master
 	migrationsTableName: "verba_migrations",
 });

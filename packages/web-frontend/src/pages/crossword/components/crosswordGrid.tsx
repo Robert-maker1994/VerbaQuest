@@ -1,6 +1,6 @@
 import { Box, Grid2, Input } from "@mui/material";
 import { useRef, useState } from "react";
-import type { WordData } from "../interfaces";
+import type { WordData } from "../../../interfaces";
 
 interface CrosswordProps {
 	crosswordGrid: string[][];
@@ -37,16 +37,15 @@ const CrosswordGrid: React.FC<CrosswordProps> = ({
 		correctValue: string,
 	) => {
 		const key = `${rowIndex}-${colIndex}`;
-		const newValue = value.slice(0, 1); // Limit to one character
-		setCellValues((prevValues) => ({ ...prevValues, [key]: newValue }));
+		setCellValues((prevValues) => ({ ...prevValues, [key]: value }));
 		const isCorrect =
-			newValue.toLocaleLowerCase() === correctValue.toLocaleLowerCase();
+		value.toLocaleLowerCase() === correctValue.toLocaleLowerCase();
 		setCorrectCells((prevCorrect) => ({
 			...prevCorrect,
 			[key]: isCorrect,
 		}));
 
-		if (isCorrect && newValue) {
+		if (isCorrect && value) {
 			const currentWord = metadata.find((word) => {
 				if (word.direction === "horizontal") {
 					return (
@@ -62,12 +61,12 @@ const CrosswordGrid: React.FC<CrosswordProps> = ({
 				);
 			});
 
-			// biome-ignore lint/style/noNonNullAssertion: <explanation>
 			const nextCell = getNextCell(
 				rowIndex,
 				colIndex,
 				crosswordGrid,
 				cellValues,
+				// biome-ignore lint/style/noNonNullAssertion: <explanation>
 				currentWord!,
 			);
 			if (nextCell) {
@@ -107,7 +106,7 @@ const CrosswordGrid: React.FC<CrosswordProps> = ({
 	return (
 		<Grid2 container spacing={1}>
 			{crosswordGrid.map((row: string[], rowIndex: number) => (
-				<Grid2 container key={rowIndex}>
+				<Grid2 container key={rowIndex} wrap="nowrap">
 					{row.map((cell: string, colIndex: number) => {
 						const key = `${rowIndex}-${colIndex}`;
 						if (cell === "#") {
@@ -193,7 +192,7 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
 					fontSize: "10px",
 				}}
 			>
-				{displayNumber}
+				{displayNumber} 
 			</Box>
 
 			<Input
@@ -229,7 +228,7 @@ function getNextCell(
 	let nextRow = row;
 	let nextCol = col;
 
-	const nextCellIsValid = (row: number, col: number): boolean => {
+	const nextCellIsValid = (row: number): boolean => {
 		return (
 			nextCol >= 0 &&
 			nextCol < crosswordGrid[row].length &&
@@ -246,7 +245,7 @@ function getNextCell(
 			nextRow++;
 		}
 
-		if (!nextCellIsValid(nextRow, nextCol)) return null;
+		if (!nextCellIsValid(nextRow)) return null;
 
 		const nextKey = `${nextRow}-${nextCol}`;
 		const nextCellValue = cellValues[nextKey];
