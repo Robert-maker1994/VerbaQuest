@@ -1,15 +1,9 @@
 // src/context/auth/authContext.ts
 import type React from "react";
-import {
-	type ReactNode,
-	createContext,
-	useEffect,
-	useState,
-} from "react";
-import type { LoginData, QuestUser } from "./interfaces";
-import { checkAuth, login, logout, register } from "./authProvider";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
+import { checkAuth, login, logout, register } from "./authProvider";
+import type { LoginData, QuestUser } from "./interfaces";
 
 interface AuthContextType {
 	isLoggedIn: boolean;

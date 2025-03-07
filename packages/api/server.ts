@@ -7,7 +7,6 @@ import { errorHandler } from "./errorHandle";
 import config from "./libs/config";
 import initializeRoutes from "./libs/routes/router";
 
-
 AppDataSource.initialize()
 	.then(() => {
 		const app = express();

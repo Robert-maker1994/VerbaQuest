@@ -1,2 +1,2 @@
-export * from "./useAuth"
-export * from "./interfaces"
+export * from "./useAuth";
+export * from "./interfaces";

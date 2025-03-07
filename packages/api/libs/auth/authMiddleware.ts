@@ -1,16 +1,15 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "../../datasource";
+import config from "../config";
 import { User } from "../entity";
 import { UnauthorizedError, UserError } from "../errors";
 import type { AuthRequest } from "../types/questRequest";
 import admin from "./admin";
-import config from "../config";
 
 export enum AuthMode {
 	FIREBASE = "FIREBASE",
 	LOCAL = "LOCAL",
 }
-
 
 export async function authMiddleware(
 	req: AuthRequest,
@@ -23,7 +22,6 @@ export async function authMiddleware(
 			throw new UnauthorizedError("Not token provided", 401);
 		}
 		if (config.authMode === AuthMode.FIREBASE) {
-
 			const decodedToken = await admin.auth().verifyIdToken(token);
 
 			if (!decodedToken.email) {
@@ -44,7 +42,7 @@ export async function authMiddleware(
 			};
 		}
 
-	if (config.authMode === AuthMode.LOCAL) {
+		if (config.authMode === AuthMode.LOCAL) {
 			if (config.authDefaultToken !== token) {
 				throw new UnauthorizedError("DEFAULT_TOKEN_NOT_VALID", 401);
 			}
@@ -61,9 +59,7 @@ export async function authMiddleware(
 				email: userRepo.email,
 				userId: userRepo.user_id,
 			};
-
 		}
-
 
 		next();
 	} catch (error) {

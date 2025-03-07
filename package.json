@@ -1,9 +1,6 @@
 {
 	"name": "verba-quest",
-	"workspaces": [
-		"packages/api",
-		"packages/web-frontend"
-	],
+	"workspaces": ["packages/api", "packages/web-frontend"],
 	"scripts": {
 		"lint": "biome  check --write",
 		"start:frontend": "npm run dev --workspace=packages/web-frontend",

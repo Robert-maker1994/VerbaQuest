@@ -44,7 +44,7 @@ export const AppDataSource = new DataSource({
 		LanguagesTs1741102694988,
 		A2SpanishCrosswords1741103308928,
 		UpdateComments1741174026478,
-		DefaultUser1741364178006
+		DefaultUser1741364178006,
 	],
 	migrationsTableName: "verba_migrations",
 });
