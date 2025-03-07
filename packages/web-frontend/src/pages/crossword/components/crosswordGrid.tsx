@@ -39,7 +39,7 @@ const CrosswordGrid: React.FC<CrosswordProps> = ({
 		const key = `${rowIndex}-${colIndex}`;
 		setCellValues((prevValues) => ({ ...prevValues, [key]: value }));
 		const isCorrect =
-		value.toLocaleLowerCase() === correctValue.toLocaleLowerCase();
+			value.toLocaleLowerCase() === correctValue.toLocaleLowerCase();
 		setCorrectCells((prevCorrect) => ({
 			...prevCorrect,
 			[key]: isCorrect,
@@ -192,7 +192,7 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
 					fontSize: "10px",
 				}}
 			>
-				{displayNumber} 
+				{displayNumber}
 			</Box>
 
 			<Input

@@ -1,9 +1,10 @@
 import admin from "firebase-admin";
-import { loadConfig } from "../config/config";
+import config from "../config";
+import { AuthMode } from "./authMiddleware";
 
-const { projectId, privateKey, clientEmail } = loadConfig();
+const { projectId, privateKey, clientEmail, authMode } = config;
 
-if (!admin.apps.length) {
+if (!admin.apps.length && authMode === "FIREBASE") {
 	admin.initializeApp({
 		credential: admin.credential.cert({
 			projectId,

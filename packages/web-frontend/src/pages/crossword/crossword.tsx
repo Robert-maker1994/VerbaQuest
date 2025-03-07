@@ -1,10 +1,10 @@
 import { Box, CircularProgress, Grid2, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import React from "react";
 import type { WordData } from "../../interfaces";
 import { ClueList } from "./components";
 import CrosswordGrid from "./components/crosswordGrid";
-import React from "react";
 
 interface CrosswordResponse {
 	crossword: string[][];
@@ -38,7 +38,7 @@ const Crossword = React.memo(function Crossword() {
 
 	return (
 		<Grid2 container spacing={2} justifyContent={"center"}>
-			<Grid2 size={12} >
+			<Grid2 size={12}>
 				<Typography color="primary" variant="h4" align="center">
 					{crosswordData.title}
 				</Typography>
@@ -54,7 +54,6 @@ const Crossword = React.memo(function Crossword() {
 			</Grid2>
 		</Grid2>
 	);
-})
+});
 
 export default Crossword;
-

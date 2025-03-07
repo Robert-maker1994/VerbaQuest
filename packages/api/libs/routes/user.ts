@@ -10,7 +10,7 @@ import {
 const userRouter = express.Router();
 
 userRouter.post("/", authMiddleware, createUserController);
-userRouter.get("/:id", authMiddleware, getUserController);
+userRouter.get("/", authMiddleware, getUserController);
 userRouter.put("/:id", authMiddleware, updateUserController);
 userRouter.delete("/:id", authMiddleware, deleteUserController);
 

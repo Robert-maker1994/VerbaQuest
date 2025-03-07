@@ -4,10 +4,9 @@ import express from "express";
 import methodOverride from "method-override";
 import { AppDataSource } from "./datasource";
 import { errorHandler } from "./errorHandle";
-import { loadConfig } from "./libs/config/config";
+import config from "./libs/config";
 import initializeRoutes from "./libs/routes/router";
 
-const config = loadConfig();
 
 AppDataSource.initialize()
 	.then(() => {
