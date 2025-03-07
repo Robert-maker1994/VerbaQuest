@@ -30,6 +30,8 @@ services:
     build:
       context: ./packages/web-frontend
       dockerfile: Dockerfile
+    env_file:
+      - ./packages/web-frontend/docker.env
     depends_on:
       - verbaquest-db
     ports:

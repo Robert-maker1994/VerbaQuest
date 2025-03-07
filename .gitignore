@@ -8,3 +8,4 @@ packages\*\docker.env
 /packages/api/verba-quest.json
 secrets/*
 packages/api/docker.env
+packages/web-frontend/docker.env

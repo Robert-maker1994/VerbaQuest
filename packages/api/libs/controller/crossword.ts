@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-import CrosswordGenerator from "../../utils/crossword-generator";
 import { generateCrossword } from "../../utils/generateCrossword";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
@@ -12,6 +11,7 @@ interface WordData {
 	start_col: number;
 	direction: "horizontal" | "vertical";
 }
+
 interface CrosswordResponse {
 	crossword: string[][];
 	title: string;

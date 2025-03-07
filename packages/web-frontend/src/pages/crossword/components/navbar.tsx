@@ -1,97 +1,135 @@
-import { styled, alpha, InputBase, AppBar, Toolbar, Typography, Tabs, Tab, IconButton } from "@mui/material";
-import { useState } from "react";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import {
+	AppBar,
+	IconButton,
+	Menu,
+	MenuItem,
+	Switch,
+	Tab,
+	Tabs,
+	Toolbar,
+	Typography,
+} from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-
-const Search = styled("div")(({ theme }) => ({
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    width: "80%",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
-    },
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("sm")]: {
-            width: "12ch",
-            "&:focus": {
-                width: "20ch",
-            },
-        },
-    },
-}));
+import { useAuth } from "../../../context/auth";
+import { useTheme } from "../../../context/theme/useTheme";
 
 export default function Navbar() {
-    const nav = useNavigate()
-    const [value, setValue] = useState(1); // Start with "Dashboard" selected.
+	const nav = useNavigate();
+	const { logout } = useAuth();
+	const [value, setValue] = useState(1); // Start with "Dashboard" selected.
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // State for the menu
+	const { isDarkMode, toggleDarkMode } = useTheme(); // Get isDarkMode and toggleDarkMode
 
-    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+	const open = Boolean(anchorEl); // Check if the menu is open
 
-    const handleClick = (string: string) => {
-        nav(`/${string}`)
-    }
+	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget); // Set the anchor element to the clicked element
+	};
 
+	const handleClose = () => {
+		setAnchorEl(null); // Close the menu
+	};
 
-    return (
-        <AppBar position="static" color="default" elevation={1} sx={{ borderRadius: 2, width: "80%", justifySelf: "center", marginBottom: "10px" }}>
-            <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 0, fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
-                    Verbaquest
-                </Typography>
+	const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+		setValue(newValue);
+	};
 
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="inherit"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    aria-label="navigation tabs"
-                    sx={{ flexGrow: 1, ml: 3 }} // Add margin to left for spacing
-                >
+	const handleClick = (string: string) => {
+		nav(`/${string}`);
+	};
 
-                    <Tab disableRipple label="Dashboard" onClick={() => handleClick("dashboard")} />
+	const handleLogout = async () => {
+		await logout();
+		nav("/login");
+	};
 
-                    <Tab disableRipple label="Crossword" onClick={() => handleClick("crossword")} />
-                    <Tab disableRipple label="Verb Conjugation" onClick={() => handleClick("verbconjugation")} />
-                    <Tab disableRipple label="Contact" onClick={() => handleClick("contact")} />
-                </Tabs>
+	return (
+		<AppBar
+			position="static"
+			color="default"
+			elevation={1}
+			sx={{
+				borderRadius: 2,
+				width: "80%",
+				justifySelf: "center",
+				marginBottom: "10px",
+			}}
+		>
+			<Toolbar>
+				<Typography
+					variant="h6"
+					component="div"
+					sx={{
+						flexGrow: 0,
+						fontWeight: "bold",
+						display: "flex",
+						alignItems: "center",
+					}}
+				>
+					Verbaquest
+				</Typography>
 
-                <Search>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ "aria-label": "search" }}
-                    />
-                </Search>
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					indicatorColor="primary"
+					textColor="inherit"
+					variant="scrollable"
+					scrollButtons="auto"
+					aria-label="navigation tabs"
+					sx={{ flexGrow: 1, ml: 3 }}
+				>
+					<Tab
+						disableRipple
+						label="Dashboard"
+						onClick={() => handleClick("dashboard")}
+					/>
+					<Tab
+						disableRipple
+						label="Crossword"
+						onClick={() => handleClick("crossword")}
+					/>
+					<Tab
+						disableRipple
+						label="Verb Conjugation"
+						onClick={() => handleClick("verbconjugation")}
+					/>
+					<Tab
+						disableRipple
+						label="Contact"
+						onClick={() => handleClick("contact")}
+					/>
+				</Tabs>
 
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-
-
-
-            </Toolbar>
-        </AppBar>
-
-    );
+				<IconButton
+					size="large"
+					aria-label="account of current user"
+					aria-controls="menu-appbar"
+					aria-haspopup="true"
+					onClick={handleMenu} // Open the menu on click
+					color="inherit"
+				>
+					<AccountCircle />
+				</IconButton>
+				<Menu
+					id="menu-appbar"
+					anchorEl={anchorEl} // Set the anchor element
+					keepMounted
+					open={open} // Control the menu open state
+					onClose={handleClose} // Close the menu
+				>
+					<MenuItem onClick={handleClose}>User Settings</MenuItem>
+					<MenuItem onClick={handleLogout}>Logout</MenuItem>
+					<Switch
+						title="Light/Dark Mode"
+						color="primary"
+						checked={isDarkMode}
+						onChange={toggleDarkMode}
+					/>
+				</Menu>
+			</Toolbar>
+		</AppBar>
+	);
 }
