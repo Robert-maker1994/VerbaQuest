@@ -1,5 +1,6 @@
 export interface LoginData {
-	username: string;
+	email: string;
+	username?: string;
 	password: string;
 }
 export interface AuthProvider {

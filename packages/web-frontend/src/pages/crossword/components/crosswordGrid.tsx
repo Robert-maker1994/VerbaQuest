@@ -268,4 +268,5 @@ function getNextCell(
 	return { row: nextRow, col: nextCol };
 }
 
+
 export default CrosswordGrid;

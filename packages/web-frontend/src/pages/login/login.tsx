@@ -2,8 +2,8 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "./context/auth";
-import type { LoginData } from "./context/auth/interfaces";
+import { useAuth } from "../../context/auth";
+import type { LoginData } from "../../context/auth/interfaces";
 
 const Login = () => {
 	const { login, error, isLoggedIn } = useAuth();
@@ -11,6 +11,7 @@ const Login = () => {
 	const [data, setData] = useState<LoginData>({
 		username: "",
 		password: "",
+		email: "",
 	});
 	const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setData({ ...data, [event.target.name]: event.target.value });
@@ -25,15 +26,7 @@ const Login = () => {
 		nav("/");
 	}
 	return (
-		<Container component="main" maxWidth="xs">
-			<Box
-				sx={{
-					marginTop: 8,
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-				}}
-			>
+		<Container component={"main"} sx={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} maxWidth="xs">
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
@@ -42,11 +35,11 @@ const Login = () => {
 						margin="normal"
 						required
 						fullWidth
-						id="username"
-						label="Username"
-						name="username"
+						id="email"
+						label="Email"
+						name="email"
 						error={!!error}
-						autoComplete="username"
+						autoComplete="email"
 						autoFocus
 						onChange={handleInputChange}
 					/>
@@ -81,7 +74,6 @@ const Login = () => {
 						</Link>
 					</Box>
 				</Box>
-			</Box>
 		</Container>
 	);
 };

@@ -14,7 +14,7 @@ class FirebaseAuthProvider implements AuthProvider {
 		try {
 			const userCredential = await signInWithEmailAndPassword(
 				firebaseAuth,
-				data.username,
+				data.email,
 				data.password,
 			);
 			const token = await userCredential.user.getIdToken();
@@ -41,7 +41,7 @@ class FirebaseAuthProvider implements AuthProvider {
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
 				firebaseAuth,
-				data.username,
+				data.email,
 				data.password,
 			);
 			const token = await userCredential.user.getIdToken();
