@@ -33,6 +33,7 @@ services:
     env_file:
       - ./packages/web-frontend/docker.env
     depends_on:
+      - backend
       - verbaquest-db
     ports:
       - "8080:8080"

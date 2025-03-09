@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router";
 import { useAuth } from "./context/auth";
 import Navbar from "./pages/crossword/components/navbar";
 import Login from "./pages/login/login";
+import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
 const Contact = lazy(() => import("./pages/contact/contact"));
@@ -52,11 +53,13 @@ export const App = () => {
 				<>
 					<Navbar />
 					<Container maxWidth="lg">
-						<Routes>
-							{routes.map((r) => {
-								return <Route key={r.path} path={r.path} element={r.element} />;
-							})}
-						</Routes>
+						<CrosswordProvider>
+							<Routes>
+								{routes.map((r) => {
+									return <Route key={r.path} path={r.path} element={r.element} />;
+								})}
+							</Routes>
+						</CrosswordProvider>
 					</Container>
 				</>
 			) : (
