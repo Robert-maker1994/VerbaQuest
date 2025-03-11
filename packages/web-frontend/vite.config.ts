@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
 			"process.env": process.env,
 		},
 		plugins: [react()],
+		test: {
+			environment: 'jsdom',
+		  },
 		preview: {
 			port: 8080,
 			strictPort: true,

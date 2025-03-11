@@ -1,57 +1,24 @@
+import { memo } from "react"
 import { Box, Input } from "@mui/material";
-import { CellState } from "../hooks/useCrosswordGrid";
-import { memo } from "react";
 
 interface CrosswordCellProps {
     value: string;
-    cellState: CellState; // Use CellState enum
     displayNumbers: number[] | null;
-    onInputChange: (value: string) => void;
     inputRef: React.Ref<HTMLInputElement>;
-    isCompleted: boolean;
+    backgroundColour: string;
     isSelected: boolean;
     onCellClick: () => void;
+    onKeyCapture: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
     value,
-    cellState, // Receive the cellState enum
     displayNumbers,
-    onInputChange,
+    onKeyCapture,
     inputRef,
-    isCompleted,
-    isSelected,
+    backgroundColour,
     onCellClick,
 }) => {
-    let backgroundColor: string | undefined = "";
-    console.log("cellState is ", cellState, isSelected, value)
-
-    if (isSelected) {
-        console.log(isSelected, value)
-        switch (cellState) {
-            case CellState.Correct:
-                backgroundColor = "lightgreen";
-                break;
-            case CellState.Incorrect:
-                backgroundColor = "red";
-                break;
-            default:
-                backgroundColor = "lightyellow";
-        }
-    } else if (isCompleted) {
-        backgroundColor = "lightgray";
-    } else {
-        switch (cellState) {
-            case CellState.Correct:
-                backgroundColor = "lightgreen";
-                break;
-            case CellState.Incorrect:
-                backgroundColor = "red";
-                break;
-            default:
-                backgroundColor = "linear-gradient(to bottom, #80deea, #4dd0e1)"; 
-        }
-    }
 
     return (
         <Box
@@ -64,7 +31,7 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
                 fontSize: "1.2em",
                 boxSizing: "border-box",
                 borderRadius: "5px",
-                background: backgroundColor,
+                background: backgroundColour,
                 position: "relative",
                 width: "40px",
                 height: "40px",
@@ -74,7 +41,7 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
         >
             {displayNumbers?.map((num, index) => (
                 <Box
-                    key={index}
+                    key={`${num}-${num * 1}`}
                     sx={{
                         position: "absolute",
                         top: index === 0 ? "0px" : "10px",
@@ -89,7 +56,12 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
             <Input
                 type="text"
                 value={value}
-                onChange={(e) => onInputChange(e.target.value.slice(0, 1))}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                    if (e.key) {
+                        onKeyCapture(e)
+
+                    }
+                }}
                 inputProps={{
                     maxLength: 1,
                     style: {
