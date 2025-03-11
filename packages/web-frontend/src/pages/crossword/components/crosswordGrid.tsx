@@ -171,7 +171,10 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 									isCompleted: true,
 								}
 							}
-							return word;
+							return {
+								...word,
+								isCompleted: false,
+							};
 						})}
 						onClueClick={handleClueClick}
 						selectedWord={selectedWord}

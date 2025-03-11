@@ -46,9 +46,12 @@ const Clue = ({
         </Box>
     );
 };
+interface WordDataClue extends WordData {
+    isCompleted: boolean;
+}
 
 interface ClueListProps {
-    metadata: WordData[];
+    metadata: WordDataClue[];
     onClueClick: (word: WordData) => void;
     selectedWord: WordData | null;
 }
