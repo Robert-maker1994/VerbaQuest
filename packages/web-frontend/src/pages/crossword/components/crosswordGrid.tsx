@@ -27,6 +27,9 @@ const pickCellColor = (cellState: CellState, isSelected: boolean | null) => {
 		case CellState.Incorrect:
 			backgroundColor = "red";
 			break;
+		case CellState.Partial:
+			backgroundColor = "yellow";
+			break;
 		default:
 			backgroundColor = isSelected ? "lightyellow" : "linear-gradient(to bottom, #80deea, #4dd0e1)";
 	}

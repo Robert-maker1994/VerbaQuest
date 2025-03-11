@@ -8,7 +8,8 @@ export interface CellData {
 export enum CellState {
     Correct = 0,
     Incorrect = 1,
-    Empty = 2
+    Empty = 2,
+    Partial = 3,
 }
 interface UseCrosswordGridProps {
     crosswordGrid: string[][];
@@ -19,11 +20,11 @@ interface UseCrosswordGridProps {
 interface UseCrosswordGridReturn {
     cellData: Map<string, CellData>;
     selectedWord: WordData | null;
+    inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
+    clueListRef: React.RefObject<HTMLDivElement | null>;
     getCellNumbers: (row: number, col: number) => number[] | null;
     handleClueClick: (word: WordData) => void;
     handleCellClick: (row: number, col: number) => void;
-    inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
-    clueListRef: React.RefObject<HTMLDivElement | null>;
     handleKeyDown: (row: number, col: number, event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
@@ -49,7 +50,6 @@ export const useCrosswordGrid = ({
         },
         [metadata],
     );
-
     useEffect(() => {
         if (selectedWord && clueListRef.current) {
             const selectedClueElement = clueListRef.current.querySelector(
@@ -100,7 +100,7 @@ export const useCrosswordGrid = ({
         [metadata],
     );
 
-    
+
     const handleClueClick = (word: WordData) => {
         setSelectedWord(word);
         handleInputFocus(word.start_row, word.start_col)
@@ -212,14 +212,21 @@ export const useCrosswordGrid = ({
                 return;
             default:
                 if (/^[a-zA-Z]$/.test(event.key)) {
-                    const value = event.key.toLowerCase();
+                    const value = event.key.toLocaleLowerCase();
 
                     setCellData(prevCellData => {
                         const newCellData = new Map(prevCellData);
-                        const newCellState =
-                            value === correctValue
-                                ? CellState.Correct
-                                : CellState.Incorrect;
+                        let newCellState = CellState.Incorrect;
+
+                        // This catches Ñ 
+                        if (value.localeCompare(correctValue, "en", { sensitivity: "base" }) === 0) {
+                            newCellState = CellState.Partial
+                        }
+
+                        if (value === correctValue) {
+                            newCellState = CellState.Correct
+                        }
+
                         newCellData.set(key, { value, state: newCellState });
                         return newCellData;
                     });
