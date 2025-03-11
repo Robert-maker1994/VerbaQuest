@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [react()],
 		test: {
-			environment: 'jsdom',
-		  },
+			environment: "jsdom",
+		},
 		preview: {
 			port: 8080,
 			strictPort: true,

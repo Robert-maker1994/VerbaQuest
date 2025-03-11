@@ -3,10 +3,9 @@ import React from "react";
 import CrosswordGrid from "./components/crosswordGrid";
 import { useCrossword } from "./crosswordContext";
 
-
 const Crossword = React.memo(function Crossword() {
 	const { crosswordData } = useCrossword();
-	
+
 	if (!crosswordData) {
 		return (
 			<Box>

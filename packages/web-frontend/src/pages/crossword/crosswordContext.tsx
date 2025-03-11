@@ -1,5 +1,5 @@
-import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { WordData } from "../../interfaces";
 
 interface CrosswordResponse {
@@ -22,7 +22,9 @@ interface CrosswordContextProps {
 	refreshCrossword: () => Promise<void>;
 }
 
-const CrosswordContext = createContext<CrosswordContextProps | undefined>(undefined);
+const CrosswordContext = createContext<CrosswordContextProps | undefined>(
+	undefined,
+);
 
 export const useCrossword = () => {
 	const context = useContext(CrosswordContext);
@@ -55,7 +57,7 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 				isComplete: false,
 				metadata: response.data.metadata.map((v) => ({
 					...v,
-					isCompleted: false
+					isCompleted: false,
 				})),
 				id: response.data.id,
 			});

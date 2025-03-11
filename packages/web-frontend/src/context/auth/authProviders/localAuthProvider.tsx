@@ -23,11 +23,15 @@ class DefaultUserAuthProvider implements AuthProvider {
 	}
 
 	async register(data: LoginData) {
-		const newUser = await api.post<QuestUser>("/user", {...data}, {
-			headers: {
-				Authorization: `Bearer ${DEFAULT_TOKEN}`,
+		const newUser = await api.post<QuestUser>(
+			"/user",
+			{ ...data },
+			{
+				headers: {
+					Authorization: `Bearer ${DEFAULT_TOKEN}`,
+				},
 			},
-		});
+		);
 		return { success: true, message: "Created new user!", newUser };
 	}
 

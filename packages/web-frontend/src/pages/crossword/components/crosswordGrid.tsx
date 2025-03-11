@@ -1,22 +1,38 @@
 import { Box, Grid2 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import type { WordData } from "../../../interfaces";
-import { type CellData, CellState, useCrosswordGrid } from "../hooks/useCrosswordGrid";
-import ClueList from "./clueList";
-import CrosswordCell from "./crosswordCell";
-import CongratulationDialog from "./congratulationDialog";
 import { useCrossword } from "../crosswordContext";
+import {
+	type CellData,
+	CellState,
+	useCrosswordGrid,
+} from "../hooks/useCrosswordGrid";
+import ClueList from "./clueList";
+import CongratulationDialog from "./congratulationDialog";
+import CrosswordCell from "./crosswordCell";
 
 interface CrosswordProps {
 	crosswordGrid: string[][];
 	metadata: WordData[];
 }
 
-const isCellInWord = (cellRow: number, cellCol: number, word: WordData): boolean => {
+const isCellInWord = (
+	cellRow: number,
+	cellCol: number,
+	word: WordData,
+): boolean => {
 	if (word.direction === "horizontal") {
-		return cellRow === word.start_row && cellCol >= word.start_col && cellCol < word.start_col + word.word.length;
+		return (
+			cellRow === word.start_row &&
+			cellCol >= word.start_col &&
+			cellCol < word.start_col + word.word.length
+		);
 	}
-	return cellCol === word.start_col && cellRow >= word.start_row && cellRow < word.start_row + word.word.length;
+	return (
+		cellCol === word.start_col &&
+		cellRow >= word.start_row &&
+		cellRow < word.start_row + word.word.length
+	);
 };
 
 const pickCellColor = (cellState: CellState, isSelected: boolean | null) => {
@@ -33,11 +49,13 @@ const pickCellColor = (cellState: CellState, isSelected: boolean | null) => {
 			backgroundColor = "yellow";
 			break;
 		default:
-			backgroundColor = isSelected ? "lightyellow" : "linear-gradient(to bottom, #80deea, #4dd0e1)";
+			backgroundColor = isSelected
+				? "lightyellow"
+				: "linear-gradient(to bottom, #80deea, #4dd0e1)";
 	}
 
 	return backgroundColor;
-}
+};
 
 const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 	crosswordGrid,
@@ -61,7 +79,6 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		if (Object.keys(inputRefs.current).length > 0) {
 			inputRefs.current["0-0"]?.focus();
 		}
-
 	}, [inputRefs.current]);
 
 	return (
@@ -69,7 +86,13 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 			<Grid2 size={8}>
 				<Grid2 container spacing={0}>
 					{crosswordGrid.map((row, rowIndex) => (
-						<Grid2 container key={`${rowIndex}-${rowIndex * 2}`} size={12} wrap="nowrap" spacing={0}>
+						<Grid2
+							container
+							key={`${rowIndex}-${rowIndex * 2}`}
+							size={12}
+							wrap="nowrap"
+							spacing={0}
+						>
 							{row.map((cell, colIndex) => {
 								const key = `${rowIndex}-${colIndex}`;
 								if (cell === "#") {
@@ -108,18 +131,22 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 								const wordForCell = () => {
 									if (wordsForCell.length === 0) return null; // No word
 
-									if (wordsForCell.length === 1)
-										return wordsForCell[0]; // Only one word
+									if (wordsForCell.length === 1) return wordsForCell[0]; // Only one word
 
 									// Check if selected word is in wordsForCell
-									if (wordsForCell?.some(w => w.word_id === selectedWord?.word_id)) {
+									if (
+										wordsForCell?.some(
+											(w) => w.word_id === selectedWord?.word_id,
+										)
+									) {
 										return selectedWord; // use selected word if it is present.
 									}
 
 									// prefer horizontal
-									return wordsForCell.find(
-										(w) => w.direction === "horizontal",
-									) || wordsForCell[0];
+									return (
+										wordsForCell.find((w) => w.direction === "horizontal") ||
+										wordsForCell[0]
+									);
 								};
 								//get the current word for the cell
 								const currentWordForCell: WordData | null = wordForCell();
@@ -138,14 +165,15 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 										<CrosswordCell
 											value={cellValue}
 											displayNumbers={getCellNumbers(rowIndex, colIndex)}
-											onKeyCapture={
-												(value) => {
-													if (value.key) {
-														handleKeyDown(rowIndex, colIndex, value)
-													}
+											onKeyCapture={(value) => {
+												if (value.key) {
+													handleKeyDown(rowIndex, colIndex, value);
 												}
-											}
-											backgroundColour={pickCellColor(cellInfo ? cellInfo.state : CellState.Empty, !!isCellSelected)}
+											}}
+											backgroundColour={pickCellColor(
+												cellInfo ? cellInfo.state : CellState.Empty,
+												!!isCellSelected,
+											)}
 											inputRef={(ref) => {
 												if (ref) {
 													inputRefs.current[key] = ref;
@@ -169,7 +197,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 								return {
 									...word,
 									isCompleted: true,
-								}
+								};
 							}
 							return {
 								...word,
@@ -182,7 +210,9 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 				</Box>
 			</Grid2>
 			<CongratulationDialog
-				open={completedWords.length > 0 && completedWords.length === metadata.length}
+				open={
+					completedWords.length > 0 && completedWords.length === metadata.length
+				}
 				onClose={() => {
 					setCongratulation(false);
 					refreshCrossword();
@@ -193,6 +223,5 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 };
 
 const CrosswordGrid = memo(CrosswordGridComponent);
-
 
 export default CrosswordGrid;

@@ -1,348 +1,373 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import {
+	type RefObject,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import type { WordData } from "../../../interfaces";
 
 export interface CellData {
-    value: string;
-    state: CellState;
+	value: string;
+	state: CellState;
 }
 export enum CellState {
-    Correct = 0,
-    Incorrect = 1,
-    Empty = 2,
-    Partial = 3,
+	Correct = 0,
+	Incorrect = 1,
+	Empty = 2,
+	Partial = 3,
 }
 interface UseCrosswordGridProps {
-    crosswordGrid: string[][];
-    metadata: WordData[];
+	crosswordGrid: string[][];
+	metadata: WordData[];
 }
 
 interface UseCrosswordGridReturn {
-    cellData: Map<string, CellData>;
-    selectedWord: WordData | null;
-    completedWords: string[];
-    inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
-    clueListRef: React.RefObject<HTMLDivElement | null>;
-    getCellNumbers: (row: number, col: number) => number[] | null;
-    handleClueClick: (word: WordData) => void;
-    handleCellClick: (row: number, col: number) => void;
-    handleKeyDown: (row: number, col: number, event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	cellData: Map<string, CellData>;
+	selectedWord: WordData | null;
+	completedWords: string[];
+	inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
+	clueListRef: React.RefObject<HTMLDivElement | null>;
+	getCellNumbers: (row: number, col: number) => number[] | null;
+	handleClueClick: (word: WordData) => void;
+	handleCellClick: (row: number, col: number) => void;
+	handleKeyDown: (
+		row: number,
+		col: number,
+		event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => void;
 }
 
 export const useCrosswordGrid = ({
-    crosswordGrid,
-    metadata,
+	crosswordGrid,
+	metadata,
 }: UseCrosswordGridProps): UseCrosswordGridReturn => {
+	const [cellData, setCellData] = useState<Map<string, CellData>>(new Map());
+	const [completedWords, setCompletedWords] = useState<string[]>([]);
 
-    const [cellData, setCellData] = useState<Map<string, CellData>>(new Map());
-    const [completedWords, setCompletedWords] = useState<string[]>([]);
-    
-    const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
-    const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> = useRef({});
-    const clueListRef = useRef<HTMLDivElement>(null);
-    
-    useEffect(() => {
-        const completed = metadata.filter((word) => {
-            for (let i = 0; i < word.word.length; i++) {
-                const row = word.start_row + (word.direction === "vertical" ? i : 0);
-                const col = word.start_col + (word.direction === "horizontal" ? i : 0);
-                const key = `${row}-${col}`;
-                const cell = cellData.get(key);
-                if (!cell || cell.state !== CellState.Correct) {
-                    return false;
-                }
-            }
-            return true;
-        }).map((word) => word.word_id);
-        setCompletedWords(completed);
-        
-    }, [cellData, metadata]);
+	const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
+	const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> =
+		useRef({});
+	const clueListRef = useRef<HTMLDivElement>(null);
 
-    const getCellNumbers = useCallback(
-        (row: number, col: number): number[] | null => {
-            const words = metadata?.filter((item) => {
-                return (
-                    item.start_row === row && item.start_col === col
-                );
-            });
-            if (words?.length === 0) return null;
+	useEffect(() => {
+		const completed = metadata
+			.filter((word) => {
+				for (let i = 0; i < word.word.length; i++) {
+					const row = word.start_row + (word.direction === "vertical" ? i : 0);
+					const col =
+						word.start_col + (word.direction === "horizontal" ? i : 0);
+					const key = `${row}-${col}`;
+					const cell = cellData.get(key);
+					if (!cell || cell.state !== CellState.Correct) {
+						return false;
+					}
+				}
+				return true;
+			})
+			.map((word) => word.word_id);
+		setCompletedWords(completed);
+	}, [cellData, metadata]);
 
-            return words?.map((word) => metadata.findIndex((w) => w.word_id === word.word_id) + 1);
-        },
-        [metadata],
-    );
+	const getCellNumbers = useCallback(
+		(row: number, col: number): number[] | null => {
+			const words = metadata?.filter((item) => {
+				return item.start_row === row && item.start_col === col;
+			});
+			if (words?.length === 0) return null;
 
+			return words?.map(
+				(word) => metadata.findIndex((w) => w.word_id === word.word_id) + 1,
+			);
+		},
+		[metadata],
+	);
 
-    useEffect(() => {
+	useEffect(() => {
+		if (selectedWord && clueListRef.current) {
+			const selectedClueElement = clueListRef.current.querySelector(
+				`[data-word-key="${selectedWord.word_id}"]`,
+			);
+			if (selectedClueElement) {
+				selectedClueElement.scrollIntoView({
+					behavior: "smooth",
+					block: "nearest",
+				});
+			}
+		}
+	}, [selectedWord]);
 
-        if (selectedWord && clueListRef.current) {
-            const selectedClueElement = clueListRef.current.querySelector(
-                `[data-word-key="${selectedWord.word_id}"]`,
-            );
-            if (selectedClueElement) {
-                selectedClueElement.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                });
-            }
-        }
-    }, [selectedWord]);
+	const findNextWord = useCallback(
+		(currentWord: WordData): WordData | undefined => {
+			const sortedWords = [...metadata].sort((a, b) => {
+				if (a.start_row !== b.start_row) {
+					return a.start_row - b.start_row;
+				}
+				return a.start_col - b.start_col;
+			});
 
-    const findNextWord = useCallback(
-        (currentWord: WordData): WordData | undefined => {
-            const sortedWords = [...metadata].sort((a, b) => {
-                if (a.start_row !== b.start_row) {
-                    return a.start_row - b.start_row;
-                }
-                return a.start_col - b.start_col;
-            });
+			const currentIndex = sortedWords.findIndex(
+				(w) => w.word_id === currentWord.word_id,
+			);
+			if (currentIndex === -1 || currentIndex === sortedWords.length - 1) {
+				return undefined; // Current word not found or is the last word
+			}
+			return sortedWords[currentIndex + 1];
+		},
+		[metadata],
+	);
 
-            const currentIndex = sortedWords.findIndex(w => w.word_id === currentWord.word_id);
-            if (currentIndex === -1 || currentIndex === sortedWords.length - 1) {
-                return undefined; // Current word not found or is the last word
-            }
-            return sortedWords[currentIndex + 1];
-        },
-        [metadata],
-    );
+	const findPreviousWord = useCallback(
+		(currentWord: WordData): WordData | undefined => {
+			const sortedWords = [...metadata].sort((a, b) => {
+				if (a.start_row !== b.start_row) {
+					return a.start_row - b.start_row;
+				}
+				return a.start_col - b.start_col;
+			});
 
-    const findPreviousWord = useCallback(
-        (currentWord: WordData): WordData | undefined => {
-            const sortedWords = [...metadata].sort((a, b) => {
-                if (a.start_row !== b.start_row) {
-                    return a.start_row - b.start_row;
-                }
-                return a.start_col - b.start_col;
-            });
+			const currentIndex = sortedWords.findIndex(
+				(w) => w.word_id === currentWord.word_id,
+			);
+			if (currentIndex === -1 || currentIndex === 0) {
+				return undefined; // Current word not found or is the first word
+			}
+			return sortedWords[currentIndex - 1];
+		},
+		[metadata],
+	);
 
-            const currentIndex = sortedWords.findIndex(w => w.word_id === currentWord.word_id);
-            if (currentIndex === -1 || currentIndex === 0) {
-                return undefined; // Current word not found or is the first word
-            }
-            return sortedWords[currentIndex - 1];
-        },
-        [metadata],
-    );
+	// const isWordCompleted = useCallback((word: WordData): boolean => {
+	//     for (let i = 0; i < word.word.length; i++) {
+	//         const row = word.start_row + (word.direction === "vertical" ? i : 0);
+	//         const col = word.start_col + (word.direction === "horizontal" ? i : 0);
+	//         const key = `${row}-${col}`;
+	//         const cell = cellData.get(key);
+	//         if (!cell || cell.state !== CellState.Correct) {
+	//             return false;
+	//         }
+	//     }
+	//     return true;
+	// }, [cellData]);
 
-    // const isWordCompleted = useCallback((word: WordData): boolean => {
-    //     for (let i = 0; i < word.word.length; i++) {
-    //         const row = word.start_row + (word.direction === "vertical" ? i : 0);
-    //         const col = word.start_col + (word.direction === "horizontal" ? i : 0);
-    //         const key = `${row}-${col}`;
-    //         const cell = cellData.get(key);
-    //         if (!cell || cell.state !== CellState.Correct) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }, [cellData]);
+	// const getCompletedWords = useCallback((): WordData[] => {
+	//     const words = metadata.filter(isWordCompleted).map((word) => ({
+	//         ...word,
+	//         isCompleted: true
+	//     }));
+	//     setMetadata(prevMetadata => {
+	//         const newMetadata = [...prevMetadata];
 
-    // const getCompletedWords = useCallback((): WordData[] => {
-    //     const words = metadata.filter(isWordCompleted).map((word) => ({
-    //         ...word,
-    //         isCompleted: true
-    //     }));
-    //     setMetadata(prevMetadata => {
-    //         const newMetadata = [...prevMetadata];
+	//         words.forEach(word => {
+	//             const index = newMetadata.findIndex(w => w.word_id === word.word_id);
+	//             if (index !== -1) {
+	//                 newMetadata[index] = word;
+	//             }
+	//         });
 
+	//         return newMetadata;
+	//     });
 
+	// }, [metadata, isWordCompleted]);
 
-    //         words.forEach(word => {
-    //             const index = newMetadata.findIndex(w => w.word_id === word.word_id);
-    //             if (index !== -1) {
-    //                 newMetadata[index] = word;
-    //             }
-    //         });
+	const handleClueClick = (word: WordData) => {
+		setSelectedWord(word);
+		handleInputFocus(word.start_row, word.start_col);
+	};
 
-    //         return newMetadata;
-    //     });
+	const handleCellClick = (row: number, col: number) => {
+		const word = metadata.find((w) => {
+			if (w.direction === "horizontal") {
+				return (
+					row === w.start_row &&
+					col >= w.start_col &&
+					col < w.start_col + w.word.length
+				);
+			}
 
-    // }, [metadata, isWordCompleted]);
+			return (
+				col === w.start_col &&
+				row >= w.start_row &&
+				row < w.start_row + w.word.length
+			);
+		});
+		if (word) {
+			setSelectedWord(word);
+		}
+	};
 
-    const handleClueClick = (word: WordData) => {
-        setSelectedWord(word);
-        handleInputFocus(word.start_row, word.start_col)
-    };
+	const handleKeyDown = (
+		row: number,
+		col: number,
+		event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		const key = `${row}-${col}`;
+		if (!event?.key) {
+			return;
+		}
 
-    const handleCellClick = (row: number, col: number) => {
-        const word = metadata.find((w) => {
-            if (w.direction === "horizontal") {
-                return (row === w.start_row && col >= w.start_col && col < w.start_col + w.word.length);
-            }
+		if (!selectedWord) return;
+		const correctValue = crosswordGrid[row][col];
+		const currentCellData = cellData.get(key);
 
-            return (col === w.start_col && row >= w.start_row && row < w.start_row + w.word.length);
+		let nextRow = row;
+		let nextCol = col;
+		switch (event.key) {
+			case "ArrowUp":
+				event.preventDefault();
+				nextRow--;
+				if (nextRow < 0) {
+					return; // Prevent moving above the grid
+				}
+				handleCellClick(nextRow, nextCol);
+				break;
+			case "ArrowDown":
+				event.preventDefault();
+				nextRow++;
+				if (nextRow >= crosswordGrid.length) {
+					return; // Prevent moving below the grid
+				}
+				handleCellClick(nextRow, nextCol);
 
-        });
-        if (word) {
-            setSelectedWord(word);
-        }
-    };
+				break;
+			case "ArrowLeft":
+				event.preventDefault();
+				nextCol--;
+				if (nextCol < 0) {
+					return; // Prevent moving to the left of the grid
+				}
+				handleCellClick(nextRow, nextCol);
 
-    const handleKeyDown = (row: number, col: number, event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const key = `${row}-${col}`;
-        if (!event?.key) {
-            return
-        }
+				break;
+			case "ArrowRight":
+				event.preventDefault();
+				nextCol++;
+				if (nextCol >= crosswordGrid[0].length) {
+					return; // Prevent moving to the right of the grid
+				}
+				handleCellClick(nextRow, nextCol);
 
-        if (!selectedWord) return;
-        const correctValue = crosswordGrid[row][col];
-        const currentCellData = cellData.get(key);
+				break;
+			case "Backspace":
+				event.preventDefault();
+				if (currentCellData?.value !== "") {
+					setCellData((prevCellData) => {
+						const newCellData = new Map(prevCellData);
 
-        let nextRow = row;
-        let nextCol = col;
-        switch (event.key) {
-            case "ArrowUp":
-                event.preventDefault();
-                nextRow--;
-                if (nextRow < 0) {
-                    return; // Prevent moving above the grid
-                }
-                handleCellClick(nextRow, nextCol)
-                break;
-            case "ArrowDown":
-                event.preventDefault();
-                nextRow++;
-                if (nextRow >= crosswordGrid.length) {
-                    return; // Prevent moving below the grid
-                }
-                handleCellClick(nextRow, nextCol)
+						newCellData.set(key, { value: "", state: CellState.Empty });
+						return newCellData;
+					});
+				} else {
+					if (selectedWord.direction === "horizontal") {
+						nextCol--;
 
-                break;
-            case "ArrowLeft":
-                event.preventDefault();
-                nextCol--;
-                if (nextCol < 0) {
-                    return; // Prevent moving to the left of the grid
-                }
-                handleCellClick(nextRow, nextCol)
+						if (nextCol < selectedWord.start_col) {
+							const nextWord = findPreviousWord(selectedWord);
+							if (nextWord) {
+								nextRow = nextWord.start_row;
+								nextCol = nextWord.start_col + nextWord.word.length - 1;
+							} else {
+								return;
+							}
+						}
+					} else {
+						nextRow--;
+						if (nextRow < selectedWord.start_row) {
+							const nextWord = findPreviousWord(selectedWord);
+							if (nextWord) {
+								nextRow = nextWord.start_row + nextWord.word.length - 1;
+								nextCol = nextWord.start_col;
+							} else {
+								return;
+							}
+						}
+					}
+					handleInputFocus(nextRow, nextCol);
+				}
+				return;
+			default:
+				if (/^[a-zA-Z]$/.test(event.key)) {
+					const value = event.key.toLocaleLowerCase();
 
-                break;
-            case "ArrowRight":
-                event.preventDefault();
-                nextCol++;
-                if (nextCol >= crosswordGrid[0].length) {
-                    return; // Prevent moving to the right of the grid
-                }
-                handleCellClick(nextRow, nextCol)
+					setCellData((prevCellData) => {
+						const newCellData = new Map(prevCellData);
+						let newCellState = CellState.Incorrect;
 
-                break;
-            case "Backspace":
-                event.preventDefault();
-                if (currentCellData?.value !== "") {
-                    setCellData(prevCellData => {
-                        const newCellData = new Map(prevCellData);
+						// This catches Ñ
+						if (
+							value.localeCompare(correctValue, "en", {
+								sensitivity: "base",
+							}) === 0
+						) {
+							newCellState = CellState.Partial;
+						}
 
-                        newCellData.set(key, { value: "", state: CellState.Empty });
-                        return newCellData;
-                    });
-                } else {
-                    if (selectedWord.direction === "horizontal") {
-                        nextCol--;
+						if (value === correctValue) {
+							newCellState = CellState.Correct;
+						}
 
-                        if (nextCol < selectedWord.start_col) {
-                            const nextWord = findPreviousWord(selectedWord);
-                            if (nextWord) {
-                                nextRow = nextWord.start_row;
-                                nextCol = nextWord.start_col + nextWord.word.length - 1;
+						newCellData.set(key, { value, state: newCellState });
+						return newCellData;
+					});
 
-                            }
-                            else {
-                                return;
-                            }
-                        }
-                    }
-                    else {
-                        nextRow--;
-                        if (nextRow < selectedWord.start_row) {
-                            const nextWord = findPreviousWord(selectedWord);
-                            if (nextWord) {
-                                nextRow = nextWord.start_row + nextWord.word.length - 1;
-                                nextCol = nextWord.start_col;
-                            } else {
-                                return;
-                            }
-                        }
-                    }
-                    handleInputFocus(nextRow, nextCol)
+					if (value === correctValue) {
+						if (selectedWord.direction === "horizontal") {
+							nextCol++;
+							if (
+								nextCol >=
+								selectedWord.start_col + selectedWord.word.length
+							) {
+								const nextWord = findNextWord(selectedWord);
 
-                }
-                return;
-            default:
-                if (/^[a-zA-Z]$/.test(event.key)) {
-                    const value = event.key.toLocaleLowerCase();
+								if (nextWord) {
+									nextRow = nextWord.start_row;
+									nextCol = nextWord.start_col;
+								} else {
+									return;
+								}
+							}
+						} else {
+							nextRow++;
+							if (
+								nextRow >=
+								selectedWord.start_row + selectedWord.word.length
+							) {
+								const nextWord = findNextWord(selectedWord);
+								if (nextWord) {
+									nextRow = nextWord.start_row;
+									nextCol = nextWord.start_col;
+								} else {
+									return;
+								}
+							}
+						}
+					}
+					handleInputFocus(nextRow, nextCol);
+				}
+				return;
+		}
+		handleInputFocus(nextRow, nextCol);
+	};
 
-                    setCellData(prevCellData => {
-                        const newCellData = new Map(prevCellData);
-                        let newCellState = CellState.Incorrect;
+	function handleInputFocus(nextRow: number, nextCol: number) {
+		const nextKey = `${nextRow}-${nextCol}`;
 
-                        // This catches Ñ 
-                        if (value.localeCompare(correctValue, "en", { sensitivity: "base" }) === 0) {
-                            newCellState = CellState.Partial
-                        }
+		const nextInput = inputRefs.current[nextKey];
 
-                        if (value === correctValue) {
-                            newCellState = CellState.Correct
-                        }
+		if (nextInput && crosswordGrid[nextRow][nextCol] !== "#") {
+			nextInput.focus();
+		}
+	}
 
-                        newCellData.set(key, { value, state: newCellState });
-                        return newCellData;
-                    });
-
-                    if (value === correctValue) {
-                        if (selectedWord.direction === "horizontal") {
-                            nextCol++;
-                            if (nextCol >= selectedWord.start_col + selectedWord.word.length) {
-                                const nextWord = findNextWord(selectedWord);
-
-                                if (nextWord) {
-                                    nextRow = nextWord.start_row;
-                                    nextCol = nextWord.start_col;
-                                } else {
-                                    return;
-                                }
-                            }
-                        } else {
-                            nextRow++;
-                            if (nextRow >= selectedWord.start_row + selectedWord.word.length) {
-                                const nextWord = findNextWord(selectedWord);
-                                if (nextWord) {
-                                    nextRow = nextWord.start_row;
-                                    nextCol = nextWord.start_col;
-                                } else {
-                                    return;
-                                }
-                            }
-
-                        }
-                    }
-                    handleInputFocus(nextRow, nextCol)
-
-                }
-                return;
-        }
-        handleInputFocus(nextRow, nextCol)
-    };
-
-    function handleInputFocus(nextRow: number, nextCol: number) {
-        const nextKey = `${nextRow}-${nextCol}`;
-
-        const nextInput = inputRefs.current[nextKey];
-
-        if (nextInput && crosswordGrid[nextRow][nextCol] !== "#") {
-            nextInput.focus();
-        }
-
-    }
-
-    return {
-        cellData,
-        completedWords,
-        inputRefs,
-        clueListRef,
-        selectedWord,
-        getCellNumbers,
-        handleClueClick,
-        handleCellClick,
-        handleKeyDown,
-    };
+	return {
+		cellData,
+		completedWords,
+		inputRefs,
+		clueListRef,
+		selectedWord,
+		getCellNumbers,
+		handleClueClick,
+		handleCellClick,
+		handleKeyDown,
+	};
 };
-

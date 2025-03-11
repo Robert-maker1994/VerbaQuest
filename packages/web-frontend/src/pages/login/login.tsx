@@ -26,54 +26,64 @@ const Login = () => {
 		nav("/");
 	}
 	return (
-		<Container component={"main"} sx={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} maxWidth="xs">
-				<Typography component="h1" variant="h5">
+		<Container
+			component={"main"}
+			sx={{
+				height: "100vh",
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+			maxWidth="xs"
+		>
+			<Typography component="h1" variant="h5">
+				Login
+			</Typography>
+			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+				<TextField
+					margin="normal"
+					required
+					fullWidth
+					id="email"
+					label="Email"
+					name="email"
+					error={!!error}
+					autoComplete="email"
+					autoFocus
+					onChange={handleInputChange}
+				/>
+				<TextField
+					margin="normal"
+					required
+					fullWidth
+					name="password"
+					label="Password"
+					type="password"
+					error={!!error}
+					id="password"
+					autoComplete="current-password"
+					onChange={handleInputChange}
+				/>
+				{error && (
+					<Typography justifySelf={"center"} color="error">
+						{error}
+					</Typography>
+				)}
+				<Button
+					type="submit"
+					fullWidth
+					variant="contained"
+					sx={{ mt: 3, mb: 2 }}
+				>
 					Login
-				</Typography>
-				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						label="Email"
-						name="email"
-						error={!!error}
-						autoComplete="email"
-						autoFocus
-						onChange={handleInputChange}
-					/>
-					<TextField
-						margin="normal"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						error={!!error}
-						id="password"
-						autoComplete="current-password"
-						onChange={handleInputChange}
-					/>
-					{error && (
-						<Typography justifySelf={"center"} color="error">
-							{error}
-						</Typography>
-					)}
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						sx={{ mt: 3, mb: 2 }}
-					>
-						Login
-					</Button>
-					<Box sx={{ justifyContent: "center", alignItems: "center" }}>
-						<Link style={{ justifyItems: "center" }} to={"/register"}>
-							Don't have an account? Register
-						</Link>
-					</Box>
+				</Button>
+				<Box sx={{ justifyContent: "center", alignItems: "center" }}>
+					<Link style={{ justifyItems: "center" }} to={"/register"}>
+						Don't have an account? Register
+					</Link>
 				</Box>
+			</Box>
 		</Container>
 	);
 };
