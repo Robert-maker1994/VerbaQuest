@@ -1,9 +1,10 @@
 import { Box, Input } from "@mui/material";
-
+import { CellState } from "../hooks/useCrosswordGrid";
+import { memo } from "react";
 
 interface CrosswordCellProps {
     value: string;
-    isCorrect: boolean;
+    cellState: CellState; // Use CellState enum
     displayNumbers: number[] | null;
     onInputChange: (value: string) => void;
     inputRef: React.Ref<HTMLInputElement>;
@@ -12,9 +13,9 @@ interface CrosswordCellProps {
     onCellClick: () => void;
 }
 
-const CrosswordCell: React.FC<CrosswordCellProps> = ({
+const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
     value,
-    isCorrect,
+    cellState, // Receive the cellState enum
     displayNumbers,
     onInputChange,
     inputRef,
@@ -22,13 +23,35 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
     isSelected,
     onCellClick,
 }) => {
-    const backgroundColor = isSelected
-        ? "lightyellow"
-        : isCompleted
-            ? "lightgray"
-            : isCorrect
-                ? "lightgreen"
-                : "linear-gradient(to bottom, #80deea, #4dd0e1)";
+    let backgroundColor: string | undefined = "";
+    console.log("cellState is ", cellState, isSelected, value)
+
+    if (isSelected) {
+        console.log(isSelected, value)
+        switch (cellState) {
+            case CellState.Correct:
+                backgroundColor = "lightgreen";
+                break;
+            case CellState.Incorrect:
+                backgroundColor = "red";
+                break;
+            default:
+                backgroundColor = "lightyellow";
+        }
+    } else if (isCompleted) {
+        backgroundColor = "lightgray";
+    } else {
+        switch (cellState) {
+            case CellState.Correct:
+                backgroundColor = "lightgreen";
+                break;
+            case CellState.Incorrect:
+                backgroundColor = "red";
+                break;
+            default:
+                backgroundColor = "linear-gradient(to bottom, #80deea, #4dd0e1)"; 
+        }
+    }
 
     return (
         <Box
@@ -49,12 +72,12 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
                 transition: "background-color 0.3s ease",
             }}
         >
-            {displayNumbers?.map((num, index) => ( // Display multiple numbers
+            {displayNumbers?.map((num, index) => (
                 <Box
                     key={index}
                     sx={{
                         position: "absolute",
-                        top: index === 0 ? "0px" : "10px",  // Position subsequent numbers lower
+                        top: index === 0 ? "0px" : "10px",
                         left: "0px",
                         fontSize: "10px",
                     }}
@@ -94,5 +117,7 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
         </Box>
     );
 };
+
+const CrosswordCell = memo(CrosswordCellContainer);
 
 export default CrosswordCell;

@@ -6,13 +6,18 @@ interface CrosswordResponse {
 	crossword: string[][];
 	title: string;
 	metadata: WordData[];
-    id:number;
+	id: number;
 }
-
+const defaultCrossword: CrosswordResponse = {
+	crossword: [[]],
+	title: "Loading Crossword...",
+	metadata: [],
+	id: 0,
+};
 interface CrosswordContextProps {
-	crosswordData: CrosswordResponse | undefined;
-	setCrosswordData: (data: CrosswordResponse | undefined) => void;
-	refreshCrossword:() => Promise<void>;
+	crosswordData: CrosswordResponse;
+	setCrosswordData: (data: CrosswordResponse) => void;
+	refreshCrossword: () => Promise<void>;
 }
 
 const CrosswordContext = createContext<CrosswordContextProps | undefined>(undefined);
@@ -28,22 +33,24 @@ export const useCrossword = () => {
 interface CrosswordProviderProps {
 	children: React.ReactNode;
 }
-
+// TODO handle the error state in a Error context
 export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 	children,
 }) => {
 	const [crosswordData, setCrosswordData] =
-		useState<CrosswordResponse | undefined>(undefined);
+		useState<CrosswordResponse>(defaultCrossword);
+	// const [isError, setIsError] = useState<boolean>(false);
+
 	const refreshCrossword = async () => {
-        try {
-            const response = await axios.get<CrosswordResponse>(
-                "http://localhost:5001/crossword/today",
-            );
-            setCrosswordData(response.data);
-        } catch (error) {
-            console.error("Error fetching crossword data:", error);
-            setCrosswordData(undefined); // reset the data to undefined in case of error
-        }
+		try {
+			const response = await axios.get<CrosswordResponse>(
+				"http://localhost:5001/crossword/today",
+			);
+			setCrosswordData(response.data);
+		} catch (error) {
+			console.error("Error fetching crossword data:", error);
+			setCrosswordData(defaultCrossword); // reset the data to undefined in case of error
+		}
 	};
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
