@@ -6,23 +6,22 @@ const Clue = ({
     word,
     index,
     onClueClick,
-    isSelected
+    background
 }: {
     word: WordData;
     index: number;
     onClueClick: (word: WordData) => void;
-    isSelected: boolean;
+    background: string;
 }) => {
     const [revealedWords, setRevealedWords] = useState<string[]>([]); // New state
     const handleRevealWord = (word: WordData) => {
         setRevealedWords([...revealedWords, word.word]);
-
     };
     return (
         <Box
             sx={{
                 cursor: "pointer",
-                background: isSelected ? "lightyellow" : "inherit",
+                background:background,
                 padding: "5px",
                 borderRadius: "5px",
                 marginBottom: "5px",
@@ -54,11 +53,20 @@ interface ClueListProps {
     selectedWord: WordData | null;
 }
 
-// ClueList component moved inside
 const ClueList: React.FC<ClueListProps> = ({ metadata, onClueClick, selectedWord }) => {
     const horizontal = metadata.filter((item) => item.direction === "horizontal");
     const vertical = metadata.filter((item) => item.direction === "vertical");
 
+    const pickBackgroundColour = (isComplete: boolean, isSelected: boolean) => {
+        if (isComplete) {
+            return "lightgreen"
+        }
+        if (isSelected) {
+            return "lightyellow"
+        }
+        return "inherit"
+
+    }
     return (
         <Box>
             <Typography>Horizontal</Typography>
@@ -67,12 +75,12 @@ const ClueList: React.FC<ClueListProps> = ({ metadata, onClueClick, selectedWord
                     <Clue
                         key={`${word.start_row}-${word.start_col}`}
                         word={word}
-                        index={metadata.findIndex(item => item.word === word.word)}
+                        index={metadata.findIndex(item => item.word_id === word.word_id)}
                         onClueClick={onClueClick}
-                        isSelected={
+                        background={pickBackgroundColour(word.isCompleted,
                             selectedWord?.start_row === word.start_row &&
                             selectedWord.start_col === word.start_col
-                        }
+                )}
                     />
                 ))}
             </Box>
@@ -85,10 +93,12 @@ const ClueList: React.FC<ClueListProps> = ({ metadata, onClueClick, selectedWord
                         word={word}
                         index={metadata.findIndex(item => item.word === word.word)}
                         onClueClick={onClueClick}
-                        isSelected={
+                        background={pickBackgroundColour(word.isCompleted,
                             selectedWord?.start_row === word.start_row &&
-                            selectedWord.start_col === word.start_col
+                            selectedWord.start_col === word.start_col)
                         }
+                        
+
                     />
                 ))}
             </Box>

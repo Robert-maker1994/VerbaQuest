@@ -16,10 +16,10 @@ interface UseCrosswordGridProps {
     metadata: WordData[];
 }
 
-
 interface UseCrosswordGridReturn {
     cellData: Map<string, CellData>;
     selectedWord: WordData | null;
+    completedWords: string[];
     inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
     clueListRef: React.RefObject<HTMLDivElement | null>;
     getCellNumbers: (row: number, col: number) => number[] | null;
@@ -32,25 +32,48 @@ export const useCrosswordGrid = ({
     crosswordGrid,
     metadata,
 }: UseCrosswordGridProps): UseCrosswordGridReturn => {
+
     const [cellData, setCellData] = useState<Map<string, CellData>>(new Map());
+    const [completedWords, setCompletedWords] = useState<string[]>([]);
+    
     const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
     const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> = useRef({});
     const clueListRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        const completed = metadata.filter((word) => {
+            for (let i = 0; i < word.word.length; i++) {
+                const row = word.start_row + (word.direction === "vertical" ? i : 0);
+                const col = word.start_col + (word.direction === "horizontal" ? i : 0);
+                const key = `${row}-${col}`;
+                const cell = cellData.get(key);
+                if (!cell || cell.state !== CellState.Correct) {
+                    return false;
+                }
+            }
+            return true;
+        }).map((word) => word.word_id);
+        setCompletedWords(completed);
+        
+    }, [cellData, metadata]);
 
     const getCellNumbers = useCallback(
         (row: number, col: number): number[] | null => {
-            const words = metadata.filter((item) => {
+            const words = metadata?.filter((item) => {
                 return (
                     item.start_row === row && item.start_col === col
                 );
             });
-            if (words.length === 0) return null;
+            if (words?.length === 0) return null;
 
-            return words.map((word) => metadata.findIndex((w) => w.word_id === word.word_id) + 1);
+            return words?.map((word) => metadata.findIndex((w) => w.word_id === word.word_id) + 1);
         },
         [metadata],
     );
+
+
     useEffect(() => {
+
         if (selectedWord && clueListRef.current) {
             const selectedClueElement = clueListRef.current.querySelector(
                 `[data-word-key="${selectedWord.word_id}"]`,
@@ -100,6 +123,40 @@ export const useCrosswordGrid = ({
         [metadata],
     );
 
+    // const isWordCompleted = useCallback((word: WordData): boolean => {
+    //     for (let i = 0; i < word.word.length; i++) {
+    //         const row = word.start_row + (word.direction === "vertical" ? i : 0);
+    //         const col = word.start_col + (word.direction === "horizontal" ? i : 0);
+    //         const key = `${row}-${col}`;
+    //         const cell = cellData.get(key);
+    //         if (!cell || cell.state !== CellState.Correct) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }, [cellData]);
+
+    // const getCompletedWords = useCallback((): WordData[] => {
+    //     const words = metadata.filter(isWordCompleted).map((word) => ({
+    //         ...word,
+    //         isCompleted: true
+    //     }));
+    //     setMetadata(prevMetadata => {
+    //         const newMetadata = [...prevMetadata];
+
+
+
+    //         words.forEach(word => {
+    //             const index = newMetadata.findIndex(w => w.word_id === word.word_id);
+    //             if (index !== -1) {
+    //                 newMetadata[index] = word;
+    //             }
+    //         });
+
+    //         return newMetadata;
+    //     });
+
+    // }, [metadata, isWordCompleted]);
 
     const handleClueClick = (word: WordData) => {
         setSelectedWord(word);
@@ -119,7 +176,6 @@ export const useCrosswordGrid = ({
             setSelectedWord(word);
         }
     };
-
 
     const handleKeyDown = (row: number, col: number, event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const key = `${row}-${col}`;
@@ -230,6 +286,7 @@ export const useCrosswordGrid = ({
                         newCellData.set(key, { value, state: newCellState });
                         return newCellData;
                     });
+
                     if (value === correctValue) {
                         if (selectedWord.direction === "horizontal") {
                             nextCol++;
@@ -256,8 +313,8 @@ export const useCrosswordGrid = ({
                             }
 
                         }
-                        handleInputFocus(nextRow, nextCol)
                     }
+                    handleInputFocus(nextRow, nextCol)
 
                 }
                 return;
@@ -278,6 +335,7 @@ export const useCrosswordGrid = ({
 
     return {
         cellData,
+        completedWords,
         inputRefs,
         clueListRef,
         selectedWord,
@@ -287,3 +345,4 @@ export const useCrosswordGrid = ({
         handleKeyDown,
     };
 };
+

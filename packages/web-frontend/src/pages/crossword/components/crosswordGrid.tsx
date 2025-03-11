@@ -1,9 +1,11 @@
 import { Box, Grid2 } from "@mui/material";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import type { WordData } from "../../../interfaces";
 import { type CellData, CellState, useCrosswordGrid } from "../hooks/useCrosswordGrid";
 import ClueList from "./clueList";
 import CrosswordCell from "./crosswordCell";
+import CongratulationDialog from "./congratulationDialog";
+import { useCrossword } from "../crosswordContext";
 
 interface CrosswordProps {
 	crosswordGrid: string[][];
@@ -43,6 +45,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 }) => {
 	const {
 		cellData,
+		completedWords,
 		inputRefs,
 		clueListRef,
 		selectedWord,
@@ -51,13 +54,15 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		handleCellClick,
 		handleKeyDown,
 	} = useCrosswordGrid({ crosswordGrid, metadata });
+	const [_completed, setCongratulation] = useState(false);
+	const { refreshCrossword } = useCrossword();
 
 	useEffect(() => {
 		if (Object.keys(inputRefs.current).length > 0) {
 			inputRefs.current["0-0"]?.focus();
 		}
-	}, [inputRefs.current]);
 
+	}, [inputRefs.current]);
 
 	return (
 		<Grid2 container spacing={1}>
@@ -159,16 +164,32 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 			<Grid2 size={4}>
 				<Box ref={clueListRef} sx={{ maxHeight: "600px", overflowY: "auto" }}>
 					<ClueList
-						metadata={metadata}
+						metadata={metadata.map((word) => {
+							if (completedWords.find((v) => v === word.word_id)) {
+								return {
+									...word,
+									isCompleted: true,
+								}
+							}
+							return word;
+						})}
 						onClueClick={handleClueClick}
 						selectedWord={selectedWord}
 					/>
 				</Box>
 			</Grid2>
+			<CongratulationDialog
+				open={completedWords.length > 0 && completedWords.length === metadata.length}
+				onClose={() => {
+					setCongratulation(false);
+					refreshCrossword();
+				}}
+			/>
 		</Grid2>
 	);
 };
 
 const CrosswordGrid = memo(CrosswordGridComponent);
+
 
 export default CrosswordGrid;

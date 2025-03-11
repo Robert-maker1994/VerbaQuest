@@ -5,11 +5,13 @@ import type { WordData } from "../../interfaces";
 interface CrosswordResponse {
 	crossword: string[][];
 	title: string;
+	isComplete: boolean;
 	metadata: WordData[];
 	id: number;
 }
 const defaultCrossword: CrosswordResponse = {
 	crossword: [[]],
+	isComplete: false,
 	title: "Loading Crossword...",
 	metadata: [],
 	id: 0,
@@ -46,7 +48,17 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 			const response = await axios.get<CrosswordResponse>(
 				"http://localhost:5001/crossword/today",
 			);
-			setCrosswordData(response.data);
+
+			setCrosswordData({
+				crossword: response.data.crossword,
+				title: response.data.title,
+				isComplete: false,
+				metadata: response.data.metadata.map((v) => ({
+					...v,
+					isCompleted: false
+				})),
+				id: response.data.id,
+			});
 		} catch (error) {
 			console.error("Error fetching crossword data:", error);
 			setCrosswordData(defaultCrossword); // reset the data to undefined in case of error

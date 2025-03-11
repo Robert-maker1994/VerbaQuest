@@ -1,6 +1,5 @@
 type Direction = "horizontal" | "vertical";
 
-
 export interface WordData {
 	word_id: string;
 	word: string;
