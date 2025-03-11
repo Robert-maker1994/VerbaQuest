@@ -14,7 +14,6 @@ const Crossword = React.memo(function Crossword() {
 			</Box>
 		);
 	}
-
 	return (
 		<Grid2 container spacing={2} justifyContent={"center"}>
 			<Grid2 size={12}>

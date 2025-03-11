@@ -16,6 +16,7 @@ interface CrosswordResponse {
 	crossword: string[][];
 	title: string;
 	metadata: WordData[];
+	id: number;
 }
 
 async function getCrosswordDetails(
@@ -48,13 +49,15 @@ async function getRandomCrossword(
 
 		const response: CrosswordResponse = {
 			title: randomCrossword?.title,
+			id: randomCrossword.crossword_id,
 			metadata: metadata.words_data.map((data) => {
 				const definition = randomCrossword.crosswordWords.find(
 					(word) => word.words.word_text === data.word,
-				)?.words.definition;
+				)?.words;
 				return {
 					...data,
-					definition,
+					word_id: definition.word_id,
+					definition: definition.definition,
 				};
 			}),
 			crossword,

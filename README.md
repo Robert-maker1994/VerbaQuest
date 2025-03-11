@@ -2,7 +2,6 @@
 
 VerbaQuest is a web application designed to provide an engaging and interactive crossword puzzle experience. Users can solve randomly generated crosswords, interact with clues, and track their progress. The application offers features like real-time feedback on correct answers, word completion tracking, and progress saving. VerbaQuest is suitable for crossword enthusiasts of all levels, from beginners to experts.
 
-
 ## Getting Started with Docker Compose
 
 These instructions will guide you through setting up and running VerbaQuest using Docker Compose.
@@ -44,4 +43,5 @@ docker-compose down
 ```
 
 This will stop and remove the containers.
+
 

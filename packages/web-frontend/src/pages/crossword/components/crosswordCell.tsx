@@ -1,34 +1,24 @@
+import { memo } from "react"
 import { Box, Input } from "@mui/material";
-
 
 interface CrosswordCellProps {
     value: string;
-    isCorrect: boolean;
     displayNumbers: number[] | null;
-    onInputChange: (value: string) => void;
     inputRef: React.Ref<HTMLInputElement>;
-    isCompleted: boolean;
+    backgroundColour: string;
     isSelected: boolean;
     onCellClick: () => void;
+    onKeyCapture: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-const CrosswordCell: React.FC<CrosswordCellProps> = ({
+const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
     value,
-    isCorrect,
     displayNumbers,
-    onInputChange,
+    onKeyCapture,
     inputRef,
-    isCompleted,
-    isSelected,
+    backgroundColour,
     onCellClick,
 }) => {
-    const backgroundColor = isSelected
-        ? "lightyellow"
-        : isCompleted
-            ? "lightgray"
-            : isCorrect
-                ? "lightgreen"
-                : "linear-gradient(to bottom, #80deea, #4dd0e1)";
 
     return (
         <Box
@@ -41,7 +31,7 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
                 fontSize: "1.2em",
                 boxSizing: "border-box",
                 borderRadius: "5px",
-                background: backgroundColor,
+                background: backgroundColour,
                 position: "relative",
                 width: "40px",
                 height: "40px",
@@ -49,12 +39,12 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
                 transition: "background-color 0.3s ease",
             }}
         >
-            {displayNumbers?.map((num, index) => ( // Display multiple numbers
+            {displayNumbers?.map((num, index) => (
                 <Box
-                    key={index}
+                    key={`${num}-${num * 1}`}
                     sx={{
                         position: "absolute",
-                        top: index === 0 ? "0px" : "10px",  // Position subsequent numbers lower
+                        top: index === 0 ? "0px" : "10px",
                         left: "0px",
                         fontSize: "10px",
                     }}
@@ -66,7 +56,12 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
             <Input
                 type="text"
                 value={value}
-                onChange={(e) => onInputChange(e.target.value.slice(0, 1))}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                    if (e.key) {
+                        onKeyCapture(e)
+
+                    }
+                }}
                 inputProps={{
                     maxLength: 1,
                     style: {
@@ -94,5 +89,7 @@ const CrosswordCell: React.FC<CrosswordCellProps> = ({
         </Box>
     );
 };
+
+const CrosswordCell = memo(CrosswordCellContainer);
 
 export default CrosswordCell;
