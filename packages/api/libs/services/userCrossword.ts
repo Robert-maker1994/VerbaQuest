@@ -1,15 +1,43 @@
 import { AppDataSource } from "../../datasource";
 import { UserCrossword } from "../entity/userCrosswords";
+import { CustomError } from "../errors/customError";
 
-export const createUserCrossword = async (data: Partial<UserCrossword>) => {
+interface createUserCrosswordBody {
+	crossword_id: number;
+	completed: boolean;
+	grid_state: string;
+}
+
+
+export const createUserCrossword = async (data: createUserCrosswordBody, user_id: number) => {
 	const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-	const userCrossword = userCrosswordRepo.create(data);
-	return await userCrosswordRepo.save(userCrossword);
+
+		const userCrossword = userCrosswordRepo.create({
+			completed: data.completed,
+			grid_state: data.grid_state,
+			crossword: {
+				crossword_id: data.crossword_id,
+			},
+			user: {
+				user_id,
+			},
+
+		});
+		if(!userCrossword) {
+			throw new CustomError("Error creating UserCrossword", 404)
+		}
+		
+		return await userCrosswordRepo.save(userCrossword);
+
 };
 
 export const getUserCrossword = async (id: number) => {
-	const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-	return await userCrosswordRepo.findOneBy({ user_crossword_id: id });
+		const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+		if(!userCrosswordRepo) {
+			throw new CustomError("helloo", 404)
+		}
+		return await userCrosswordRepo.findOneBy({ user_crossword_id: id });
+
 };
 
 export const updateUserCrossword = async (

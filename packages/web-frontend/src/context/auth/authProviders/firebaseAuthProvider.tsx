@@ -18,7 +18,7 @@ class FirebaseAuthProvider implements AuthProvider {
 				data.password,
 			);
 			const token = await userCredential.user.getIdToken();
-
+			localStorage.setItem("token", token);
 			const userDetails = await api.get<QuestUser>("/user", {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -93,6 +93,8 @@ class FirebaseAuthProvider implements AuthProvider {
 					unsubscribe();
 					if (user) {
 						const token = await user.getIdToken();
+						localStorage.setItem("token", token);
+
 						try {
 							const userDetails = await api.get<QuestUser>("/user", {
 								headers: {

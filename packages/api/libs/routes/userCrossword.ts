@@ -8,8 +8,8 @@ import {
 
 const userCrosswordRouter = express.Router();
 
+userCrosswordRouter.get("/", getUserCrosswordController);
 userCrosswordRouter.post("/", createUserCrosswordController);
-userCrosswordRouter.get("/:id", getUserCrosswordController);
 userCrosswordRouter.put("/:id", updateUserCrosswordController);
 userCrosswordRouter.delete("/:id", deleteUserCrosswordController);
 

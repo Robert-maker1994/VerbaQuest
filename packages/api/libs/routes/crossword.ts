@@ -4,12 +4,14 @@ import {
 	createNewCrossword,
 	deleteUserCrossword,
 	getCrosswordDetails,
+	getCrosswordById,
 	getRandomCrossword,
 	updateUserCrossword,
 } from "../controller/crossword";
 
 const crosswordRouter = express.Router();
-crosswordRouter.get("/", getCrosswordDetails);
+crosswordRouter.get("/details", getCrosswordDetails);
+crosswordRouter.get("/:id", getCrosswordById);
 crosswordRouter.get("/today", getRandomCrossword);
 crosswordRouter.post("/", authMiddleware, createNewCrossword);
 crosswordRouter.put("/", authMiddleware, updateUserCrossword);

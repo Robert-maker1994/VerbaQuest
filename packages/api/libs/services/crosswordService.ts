@@ -35,7 +35,17 @@ const crosswordService = {
 		const client = AppDataSource;
 		const crosswordQuery = await client
 			.createQueryBuilder(Crossword, "c")
-			.select(["c.title", "c.crossword_id"])
+			.leftJoinAndSelect("c.topics", "t")
+			.leftJoinAndSelect("t.language", "l")
+			.select([
+				"c.title",
+				"c.crossword_id",
+				"c.is_Public",
+				"c.difficulty",
+				"t.topic_name",
+				"t.topic_id",
+				"l.language_code"
+			])
 			.where("c.is_Public = :isPublic", { isPublic: true })
 			.getMany();
 
@@ -44,6 +54,31 @@ const crosswordService = {
 		}
 
 		return crosswordQuery;
+	},
+
+	async getCrosswordById(id: number) {
+		const client = AppDataSource;
+		const cross = await client
+			.createQueryBuilder(Crossword, "c")
+			.leftJoinAndSelect("c.crosswordWords", "cw")
+			.leftJoinAndSelect("cw.words", "w")
+			.leftJoinAndSelect("c.topics", "t")
+			.where("c.crossword_id = :id", { id })
+			.select([
+				"c.title",
+				"w.word_text",
+				"cw.clue",
+				"w.definition",
+				"t.topic_name",
+				"c.crossword_id",
+				"w.word_id",
+				"t.topic_id",
+			])
+			.getOne();
+			if(!cross) {
+				throw new CrosswordError("Crossword not found", 404);
+			}
+		return cross;
 	},
 
 	async getRandomPublicCrossword() {

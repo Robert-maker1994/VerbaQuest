@@ -7,13 +7,15 @@ import {
 } from "../services/userCrossword";
 import type { AuthRequest } from "../types/questRequest";
 
+
 export const createUserCrosswordController = async (
 	req: AuthRequest,
 	res: Response,
 	next: NextFunction,
 ) => {
 	try {
-		const userCrossword = await createUserCrossword(req.body);
+		console.log(req.body)
+		const userCrossword = await createUserCrossword(req.body, req.user.userId);
 		res.status(201).json(userCrossword);
 	} catch (err) {
 		next(err);
@@ -26,7 +28,7 @@ export const getUserCrosswordController = async (
 	next: NextFunction,
 ) => {
 	try {
-		const userCrossword = await getUserCrossword(Number(req.params.id));
+		const userCrossword = await getUserCrossword(req.user.userId);
 		res.status(200).json(userCrossword);
 	} catch (err) {
 		next(err);

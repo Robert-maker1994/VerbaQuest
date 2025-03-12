@@ -18,18 +18,18 @@ import { useTheme } from "../../../context/theme/useTheme";
 export default function Navbar() {
 	const nav = useNavigate();
 	const { logout } = useAuth();
-	const [value, setValue] = useState(1); // Start with "Dashboard" selected.
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // State for the menu
-	const { isDarkMode, toggleDarkMode } = useTheme(); // Get isDarkMode and toggleDarkMode
+	const [value, setValue] = useState(0); 
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
+	const { isDarkMode, toggleDarkMode } = useTheme();
 
-	const open = Boolean(anchorEl); // Check if the menu is open
+	const open = Boolean(anchorEl); 
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget); // Set the anchor element to the clicked element
+		setAnchorEl(event.currentTarget); 
 	};
 
 	const handleClose = () => {
-		setAnchorEl(null); // Close the menu
+		setAnchorEl(null);
 	};
 
 	const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -108,17 +108,17 @@ export default function Navbar() {
 					aria-label="account of current user"
 					aria-controls="menu-appbar"
 					aria-haspopup="true"
-					onClick={handleMenu} // Open the menu on click
+					onClick={handleMenu} 
 					color="inherit"
 				>
 					<AccountCircle />
 				</IconButton>
 				<Menu
 					id="menu-appbar"
-					anchorEl={anchorEl} // Set the anchor element
+					anchorEl={anchorEl} 
 					keepMounted
-					open={open} // Control the menu open state
-					onClose={handleClose} // Close the menu
+					open={open} 
+					onClose={handleClose}
 				>
 					<MenuItem onClick={handleClose}>User Settings</MenuItem>
 					<MenuItem onClick={handleLogout}>Logout</MenuItem>

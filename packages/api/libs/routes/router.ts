@@ -11,7 +11,7 @@ export default function initializeRoutes(app: core.Express) {
 	app.use("/crossword", crosswordRouter);
 	app.use("/health", healthRouter);
 	app.use("/user", authMiddleware, userRouter);
-	app.use("/userCrossword", authMiddleware, userCrosswordRouter);
+	app.use("/usercrossword", authMiddleware, userCrosswordRouter);
 	app.use("/topic", topicRouter);
 	app.use("/word", wordRouter);
 }

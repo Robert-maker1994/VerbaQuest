@@ -1,7 +1,6 @@
 import { Box, Grid2 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import type { WordData } from "../../../interfaces";
-import { useCrossword } from "../crosswordContext";
 import {
 	type CellData,
 	CellState,
@@ -73,7 +72,6 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		handleKeyDown,
 	} = useCrosswordGrid({ crosswordGrid, metadata });
 	const [_completed, setCongratulation] = useState(false);
-	const { refreshCrossword } = useCrossword();
 
 	useEffect(() => {
 		if (Object.keys(inputRefs.current).length > 0) {
@@ -215,7 +213,6 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 				}
 				onClose={() => {
 					setCongratulation(false);
-					refreshCrossword();
 				}}
 			/>
 		</Grid2>

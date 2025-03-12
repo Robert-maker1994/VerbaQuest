@@ -60,7 +60,6 @@ export async function authMiddleware(
 				userId: userRepo.user_id,
 			};
 		}
-
 		next();
 	} catch (error) {
 		next(error);

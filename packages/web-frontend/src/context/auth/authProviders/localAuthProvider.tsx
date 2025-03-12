@@ -2,6 +2,7 @@ import { api } from "../../api/api";
 import type { AuthProvider, LoginData, QuestUser } from "../interfaces";
 
 const DEFAULT_TOKEN = import.meta.env.VITE_DEFAULT_TOKEN;
+localStorage.setItem("token", DEFAULT_TOKEN);
 
 class DefaultUserAuthProvider implements AuthProvider {
 	async login(_data: LoginData) {

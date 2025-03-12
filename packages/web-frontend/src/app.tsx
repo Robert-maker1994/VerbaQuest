@@ -8,6 +8,7 @@ import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
+const CrosswordPage = lazy(() => import("./pages/crossword/crosswordPage"));
 const Contact = lazy(() => import("./pages/contact/contact"));
 const Dashboard = lazy(() => import("./pages/dashboard/dashboard"));
 const VerbConjugation = lazy(
@@ -18,12 +19,15 @@ const Register = lazy(() => import("./pages/login/register"));
 const routes = [
 	{
 		path: "/",
-		element: <Crossword />,
+		element:<Dashboard />,
 	},
-
+	{
+        path: "/crossword/:crosswordId", // New route with :crosswordId parameter
+        element: <Crossword />,
+    },
 	{
 		path: "/crossword",
-		element: <Crossword />,
+		element: <CrosswordPage />,
 	},
 	{
 		path: "/contact",

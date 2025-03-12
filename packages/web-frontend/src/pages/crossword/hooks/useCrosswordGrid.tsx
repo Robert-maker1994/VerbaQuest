@@ -137,39 +137,6 @@ export const useCrosswordGrid = ({
 		[metadata],
 	);
 
-	// const isWordCompleted = useCallback((word: WordData): boolean => {
-	//     for (let i = 0; i < word.word.length; i++) {
-	//         const row = word.start_row + (word.direction === "vertical" ? i : 0);
-	//         const col = word.start_col + (word.direction === "horizontal" ? i : 0);
-	//         const key = `${row}-${col}`;
-	//         const cell = cellData.get(key);
-	//         if (!cell || cell.state !== CellState.Correct) {
-	//             return false;
-	//         }
-	//     }
-	//     return true;
-	// }, [cellData]);
-
-	// const getCompletedWords = useCallback((): WordData[] => {
-	//     const words = metadata.filter(isWordCompleted).map((word) => ({
-	//         ...word,
-	//         isCompleted: true
-	//     }));
-	//     setMetadata(prevMetadata => {
-	//         const newMetadata = [...prevMetadata];
-
-	//         words.forEach(word => {
-	//             const index = newMetadata.findIndex(w => w.word_id === word.word_id);
-	//             if (index !== -1) {
-	//                 newMetadata[index] = word;
-	//             }
-	//         });
-
-	//         return newMetadata;
-	//     });
-
-	// }, [metadata, isWordCompleted]);
-
 	const handleClueClick = (word: WordData) => {
 		setSelectedWord(word);
 		handleInputFocus(word.start_row, word.start_col);
@@ -287,22 +254,20 @@ export const useCrosswordGrid = ({
 				return;
 			default:
 				if (/^[a-zA-Z]$/.test(event.key)) {
-					const value = event.key.toLocaleLowerCase();
+					const value = event.key;
 
 					setCellData((prevCellData) => {
 						const newCellData = new Map(prevCellData);
 						let newCellState = CellState.Incorrect;
 
 						// This catches Ñ
-						if (
-							value.localeCompare(correctValue, "en", {
-								sensitivity: "base",
-							}) === 0
+						if (value.localeCompare(correctValue, "en", {
+							sensitivity: "base" }) === 0
 						) {
 							newCellState = CellState.Partial;
 						}
 
-						if (value === correctValue) {
+						if (value.toLowerCase() === correctValue.toLowerCase()) {
 							newCellState = CellState.Correct;
 						}
 

@@ -68,53 +68,42 @@ async function getRandomCrossword(
 	}
 }
 
-// const getCrossword = async (
-// 	req: Request,
-// 	res: Response,
-// 	next: NextFunction,
-// ) => {
-// 	req.query;
-// 	try {
+const getCrosswordById = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
 
-// 		const cw = await crosswordService.getRandomPublicCrossword();
+		const randomCrossword = await crosswordService.getCrosswordById(Number.parseInt(req.params.id));
 
-// 		if (!cw.length) {
-// 			throw new CrosswordError("Crossword not found", 200);
-// 		}
+		if (!randomCrossword) {
+			throw new CrosswordError("No crosswords found", 404);
+		}
 
-// 		const response: CrosswordResponse[] = [];
+		const words = randomCrossword.crosswordWords.map((v) => v.words.word_text);
+		const [crossword, metadata] = generateCrossword(words);
 
-// 		for (const crosswordData of cw) {
-// 			const words = crosswordData.crosswordWords.map((v) => v.words.word_text);
-// 			const generator = new CrosswordGenerator();
-// 			const metadata = [];
-
-// 			const crossword = generator.generateCrossword(words);
-
-// 			for (let i = 0; i < generator.startPos.length; i++) {
-// 				const element = generator.startPos[i];
-// 				for (const md of crosswordData.crosswordWords) {
-// 					if (md.words.word_text === element.word) {
-// 						metadata.push({
-// 							startPos: { x: element.x, y: element.y },
-// 							word: md.words.word_text,
-// 							clue: md.clue,
-// 						});
-// 					}
-// 				}
-// 			}
-// 			response.push({
-// 				metadata,
-// 				crossword,
-// 				title: crosswordData?.title,
-// 			});
-// 		}
-
-// 		res.send(response);
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// };
+		const response: CrosswordResponse = {
+			title: randomCrossword?.title,
+			id: randomCrossword.crossword_id,
+			metadata: metadata.words_data.map((data) => {
+				const definition = randomCrossword.crosswordWords.find(
+					(word) => word.words.word_text === data.word,
+				)?.words;
+				return {
+					...data,
+					word_id: definition.word_id,
+					definition: definition.definition,
+				};
+			}),
+			crossword,
+		};
+		res.send(response);
+	} catch (err) {
+		next(err);
+	}
+};
 
 async function createNewCrossword(
 	req: AuthRequest,
@@ -177,6 +166,7 @@ async function updateUserCrossword(
 export {
 	createNewCrossword,
 	deleteUserCrossword,
+	getCrosswordById,
 	getCrosswordDetails,
 	getRandomCrossword,
 	updateUserCrossword,
