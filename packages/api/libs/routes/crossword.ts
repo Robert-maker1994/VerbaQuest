@@ -3,8 +3,8 @@ import { authMiddleware } from "../auth/authMiddleware";
 import {
 	createNewCrossword,
 	deleteUserCrossword,
-	getCrosswordDetails,
 	getCrosswordById,
+	getCrosswordDetails,
 	getRandomCrossword,
 	updateUserCrossword,
 } from "../controller/crossword";

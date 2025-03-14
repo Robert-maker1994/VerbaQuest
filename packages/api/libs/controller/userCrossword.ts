@@ -7,14 +7,13 @@ import {
 } from "../services/userCrossword";
 import type { AuthRequest } from "../types/questRequest";
 
-
 export const createUserCrosswordController = async (
 	req: AuthRequest,
 	res: Response,
 	next: NextFunction,
 ) => {
 	try {
-		console.log(req.body)
+		console.log(req.body);
 		const userCrossword = await createUserCrossword(req.body, req.user.userId);
 		res.status(201).json(userCrossword);
 	} catch (err) {

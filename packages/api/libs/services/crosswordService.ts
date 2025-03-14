@@ -44,7 +44,7 @@ const crosswordService = {
 				"c.difficulty",
 				"t.topic_name",
 				"t.topic_id",
-				"l.language_code"
+				"l.language_code",
 			])
 			.where("c.is_Public = :isPublic", { isPublic: true })
 			.getMany();
@@ -75,9 +75,9 @@ const crosswordService = {
 				"t.topic_id",
 			])
 			.getOne();
-			if(!cross) {
-				throw new CrosswordError("Crossword not found", 404);
-			}
+		if (!cross) {
+			throw new CrosswordError("Crossword not found", 404);
+		}
 		return cross;
 	},
 

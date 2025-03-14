@@ -74,8 +74,9 @@ const getCrosswordById = async (
 	next: NextFunction,
 ) => {
 	try {
-
-		const randomCrossword = await crosswordService.getCrosswordById(Number.parseInt(req.params.id));
+		const randomCrossword = await crosswordService.getCrosswordById(
+			Number.parseInt(req.params.id),
+		);
 
 		if (!randomCrossword) {
 			throw new CrosswordError("No crosswords found", 404);
