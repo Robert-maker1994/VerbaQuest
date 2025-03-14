@@ -7,14 +7,15 @@ import {
 	Topic,
 	Words,
 } from "./libs/entity";
-import { UserCrossword } from "./libs/entity/userCrosswords";
-import { User } from "./libs/entity/users";
+import { User } from "./libs/entity/user/users";
+import { UserCrossword } from "./libs/entity/user/userCrosswords";
 import { CreateDatabase1741102530726 } from "./migrations/1741102530726-createdatabase";
 import { DefaultUser1741102694977 } from "./migrations/1741102694977-defaultUser";
 import { LanguagesTs1741102694988 } from "./migrations/1741102694988-languages";
 import { A2SpanishCrosswords1741103308928 } from "./migrations/1741103308928-A2Spanish";
 import { UpdateComments1741174026478 } from "./migrations/1741174026478-update-comments";
 import { DefaultUser1741364178006 } from "./migrations/1741364178006-default-user";
+import { HandleUserLanguages1741976975116 } from "./migrations/1741976975116-handle-user-languages";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -45,6 +46,7 @@ export const AppDataSource = new DataSource({
 		A2SpanishCrosswords1741103308928,
 		UpdateComments1741174026478,
 		DefaultUser1741364178006,
+		HandleUserLanguages1741976975116
 	],
 	migrationsTableName: "verba_migrations",
 });

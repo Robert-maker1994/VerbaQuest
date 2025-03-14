@@ -5,6 +5,7 @@ import { User } from "../entity";
 import { UnauthorizedError, UserError } from "../errors";
 import type { AuthRequest } from "../types/questRequest";
 import admin from "./admin";
+import userService from "../services/user";
 
 export enum AuthMode {
 	FIREBASE = "FIREBASE",
@@ -28,13 +29,7 @@ export async function authMiddleware(
 				throw new UserError("USER_NOT_FOUND", 500);
 			}
 
-			const userRepo = await AppDataSource.getRepository(User).findOneBy({
-				email: decodedToken.email,
-			});
-
-			if (!userRepo) {
-				throw new UserError("USER_NOT_FOUND", 500);
-			}
+			const userRepo = await userService.getUserByEmail(decodedToken.email);
 
 			req.user = {
 				email: userRepo.email,
@@ -47,14 +42,8 @@ export async function authMiddleware(
 				throw new UnauthorizedError("DEFAULT_TOKEN_NOT_VALID", 401);
 			}
 
-			const userRepo = await AppDataSource.getRepository(User).findOneBy({
-				email: config.authDefaultEmail,
-			});
-
-			if (!userRepo) {
-				throw new UserError("USER_NOT_FOUND", 500);
-			}
-
+			const userRepo = await userService.getUserByEmail(config.authDefaultEmail);
+			
 			req.user = {
 				email: userRepo.email,
 				userId: userRepo.user_id,

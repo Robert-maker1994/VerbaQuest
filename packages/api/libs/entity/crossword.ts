@@ -11,7 +11,7 @@ import {
 import { CrosswordWord } from "./crosswordWord";
 import { Languages } from "./language";
 import { Topic } from "./topic";
-import { UserCrossword } from "./userCrosswords";
+import { UserCrossword } from "./user/userCrosswords";
 
 @Entity()
 export class Crossword {

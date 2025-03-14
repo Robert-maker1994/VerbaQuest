@@ -237,7 +237,7 @@ describe("crosswordService", () => {
 				topic: "Objects",
 				words: ["Sofa", "Bed", "Microwave", "Desk", "Television"],
 				userId: 1,
-				language: LanguageName.English,
+				language: LanguageName.ENGLISH,
 			});
 
 			await expect(res).toBeInstanceOf(Crossword);

@@ -3,5 +3,5 @@ export * from "./crosswordWord";
 export * from "./language";
 export * from "./topic";
 export * from "./word";
-export * from "./userCrosswords";
-export * from "./users";
+export * from "./user/userCrosswords";
+export * from "./user/users";
