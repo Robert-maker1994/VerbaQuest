@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../datasource";
-import { UserCrossword } from "../entity/userCrosswords";
+import { UserCrossword } from "../entity";
 import { CustomError } from "../errors/customError";
 
 interface createUserCrosswordBody {

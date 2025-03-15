@@ -1,6 +1,19 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	Entity,
+	OneToMany,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 
+import { LanguageCode } from "../language";
 import { UserCrossword } from "./userCrosswords";
+
+
+export enum Difficulty {
+	EASY = "easy",
+	MEDIUM = "medium",
+	HARD = "hard",
+}
 
 @Entity()
 export class User {
@@ -48,9 +61,34 @@ export class User {
 	})
 	google_id: string;
 
+	@Column({
+		type: "enum",
+		enum: LanguageCode,
+		default: LanguageCode.SPANISH,
+		comment: "The users preferred learning language",
+	})
+	preferred_learning_language: LanguageCode;
+
+	@Column({
+		type: "enum",
+		enum: LanguageCode,
+		default: LanguageCode.ENGLISH,
+		comment: "The users APP language",
+	})
+	app_language: LanguageCode;
+
+	@Column({
+		type: "enum",
+		enum: Difficulty,
+		default: Difficulty.EASY,
+		comment: "The users preferred difficulty for the crosswords",
+	})
+	preferred_difficulty: Difficulty;
+
 	@OneToMany(
 		() => UserCrossword,
 		(userCrossword) => userCrossword.user,
+		{ cascade: true, onDelete: "CASCADE" },
 	)
 	userCrosswords: UserCrossword[];
 }

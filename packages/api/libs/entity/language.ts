@@ -4,13 +4,13 @@ import { Topic } from "./topic";
 import { Words } from "./word";
 
 export enum LanguageCode {
-	English = "EN",
+	ENGLISH = "EN",
 	SPANISH = "ES",
 	FRENCH = "FR",
 }
 
 export enum LanguageName {
-	English = "english",
+	ENGLISH = "english",
 	SPANISH = "spanish",
 	FRENCH = "french",
 }

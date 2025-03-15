@@ -20,9 +20,9 @@ export const AuthContext = createContext<AuthContextType>({
 	user: null,
 	error: null,
 	isLoading: true,
-	login: () => {},
-	register: () => {},
-	logout: () => {},
+	login: () => { },
+	register: () => { },
+	logout: () => { },
 });
 
 interface AuthProviderProps {
@@ -35,6 +35,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const nav = useNavigate();
+
 	const handleLogin = async (data: LoginData) => {
 		const response = await login(data);
 		if (response.success && response.user) {
@@ -67,6 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			const response = await checkAuth();
 			if (response.success && response.user) {
 				setIsLoggedIn(true);
+				console.log(response.user)
 				setUser(response.user);
 			}
 			setIsLoading(false);

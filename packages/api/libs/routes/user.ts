@@ -1,17 +1,41 @@
-import express from "express";
-import { authMiddleware } from "../auth/authMiddleware";
-import {
-	createUserController,
-	deleteUserController,
-	getUserController,
-	updateUserController,
-} from "../controller/user";
+import { type Request, type Response, Router } from "express";
+import userService from "../services/user";
+import { UserError } from "../errors";
+import type { AuthRequest } from "../types/questRequest";
 
-const userRouter = express.Router();
+const userRouter = Router();
 
-userRouter.post("/", authMiddleware, createUserController);
-userRouter.get("/", authMiddleware, getUserController);
-userRouter.put("/:id", authMiddleware, updateUserController);
-userRouter.delete("/:id", authMiddleware, deleteUserController);
+userRouter.get("/", async (req: AuthRequest, res: Response) => {
+	const user = await userService.getUserById(req.user.userId);
+	if (!user) {
+		throw new UserError("User not found", 404);
+	}
+	res.json(user);
+});
+
+
+userRouter.post("/", async (req: AuthRequest, res: Response) => {
+	const user = await userService.createUser(req.body)
+	if (!user) {
+		throw new UserError("Error creating a user", 500);
+	}
+	res.json(user);
+});
+
+userRouter.patch("/:id/settings", async (req: AuthRequest, res: Response) => {
+
+	const user = await userService.updateUserSettings(req.user.userId, req.body)
+	if (!user) {
+		throw new UserError("Error creating a user", 500);
+	}
+	res.json(user);
+});
+
+
+
+
+
+
+
 
 export default userRouter;

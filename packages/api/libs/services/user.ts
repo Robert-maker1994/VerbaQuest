@@ -1,24 +1,52 @@
 import { AppDataSource } from "../../datasource";
-import { User } from "../entity/users";
+import type { LanguageCode } from "../entity";
+import { type Difficulty, User } from "../entity/user/users";
+import { UserError } from "../errors";
 
-export const createUser = async (data: Partial<User>) => {
-	const userRepo = AppDataSource.getRepository(User);
-	const user = userRepo.create(data);
-	return await userRepo.save(user);
-};
+const userService = {
+	async createUser(data: Partial<User>) {
+		const userRepo = AppDataSource.getRepository(User);
+		const user = userRepo.create(data);
+		return await userRepo.save(user);
+	},
+	async getUserById(user_id: number) {
+		const user = AppDataSource.getRepository(User).findOne({
+			where: { user_id },
+			select: ["user_id", "username",
+				"email",
+				"preferred_learning_language", "app_language", "preferred_difficulty"]
 
-export const getUser = async (id: number) => {
-	const userRepo = AppDataSource.getRepository(User);
-	return await userRepo.findOneBy({ user_id: id });
-};
+		});
+		if (!user) {
+			throw new UserError("USER_NOT_FOUND", 500);
+		}
+		return user
+	},
+	async getUserByEmail(email: string) {
+		console.log({ email })
 
-export const updateUser = async (id: number, data: Partial<User>) => {
-	const userRepo = AppDataSource.getRepository(User);
-	await userRepo.update(id, data);
-	return await userRepo.findOneBy({ user_id: id });
-};
+		const user = await AppDataSource.getRepository(User).findOneBy({ email });
+		if (!user) {
+			throw new UserError("USER_NOT_FOUND", 500);
+		}
+		return user;
+	},
+	async updateUserSettings(user_id: number, data: Partial<{
+		preferred_learning_language: LanguageCode;
+		app_language: LanguageCode;
+		preferred_difficulty: Difficulty;
+	}>) {
+		const userRepo = AppDataSource.getRepository(User);
+		const user = await this.getUserById(user_id);
 
-export const deleteUser = async (id: number) => {
-	const userRepo = AppDataSource.getRepository(User);
-	return await userRepo.delete(id);
-};
+		const update = await userRepo.update(user.user_id, data);
+
+		if (!update) {
+			throw new UserError("Updated settings failed", 500);
+		}
+		return update;
+	}
+
+}
+
+export default userService;

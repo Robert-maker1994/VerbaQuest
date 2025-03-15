@@ -7,8 +7,8 @@ export class LanguagesTs1741102694988 implements MigrationInterface {
 
 		const languages = [
 			{
-				language_code: LanguageCode.English,
-				language_name: LanguageName.English,
+				language_code: LanguageCode.ENGLISH,
+				language_name: LanguageName.ENGLISH,
 			},
 			{
 				language_code: LanguageCode.SPANISH,

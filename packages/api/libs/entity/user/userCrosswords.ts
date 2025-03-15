@@ -5,7 +5,7 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { Crossword } from "./crossword";
+import { Crossword } from "../crossword";
 import { User } from "./users";
 
 @Entity()
