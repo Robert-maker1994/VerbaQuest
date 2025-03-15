@@ -10,16 +10,20 @@ const userService = {
 		return await userRepo.save(user);
 	},
 	async getUserById(user_id: number) {
-		const user = AppDataSource.getRepository(User).findOneBy({ user_id });
+		const user = AppDataSource.getRepository(User).findOne({
+			where: { user_id },
+			select: ["user_id", "username",
+				"email",
+				"preferred_learning_language", "app_language", "preferred_difficulty"]
+
+		});
 		if (!user) {
 			throw new UserError("USER_NOT_FOUND", 500);
 		}
-		return {
-			
-		};
+		return user
 	},
 	async getUserByEmail(email: string) {
-		console.log({email})
+		console.log({ email })
 
 		const user = await AppDataSource.getRepository(User).findOneBy({ email });
 		if (!user) {

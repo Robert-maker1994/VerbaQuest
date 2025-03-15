@@ -3,6 +3,17 @@ export interface LoginData {
 	username?: string;
 	password: string;
 }
+export enum LanguageCode {
+    ENGLISH = "EN",
+    SPANISH = "ES",
+    FRENCH = "FR",
+}
+
+export enum Difficulty {
+    EASY = "easy",
+    MEDIUM = "medium",
+    HARD = "hard",
+}
 export interface AuthProvider {
 	login: (
 		data: LoginData,
@@ -23,6 +34,8 @@ export interface QuestUser {
 	email: string;
 	user_id: number;
 	token: string;
+	preferred_difficulty: Difficulty;
+	preferred_learning_language: LanguageCode;
 }
 
 export enum AuthActionType {

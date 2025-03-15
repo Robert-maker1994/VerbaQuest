@@ -1,11 +1,11 @@
 import { Container } from "@mui/material";
-import { lazy } from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router";
-
 import { useAuth } from "./context/auth";
-import Navbar from "./pages/crossword/components/navbar";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
+import Navbar from "./pages/navbar";
+import Settings from "./pages/settings/settings";
 
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
 const CrosswordPage = lazy(() => import("./pages/crossword/crosswordPage"));
@@ -15,7 +15,6 @@ const VerbConjugation = lazy(
 	() => import("./pages/verbconjugation/verbconjugation"),
 );
 const Register = lazy(() => import("./pages/login/register"));
-
 const routes = [
 	{
 		path: "/",
@@ -42,19 +41,34 @@ const routes = [
 		element: <VerbConjugation />,
 	},
 	{
+		path: "/settings",
+		element: <Settings />,
+	},
+	{
 		path: "/register",
 		element: <Register />,
 	},
 ];
-export const App = () => {
+function App() {
+	return (
+		<div className="App">
+			<AppContent />
+		</div>
+	);
+}
+
+function AppContent() {
 	const { isLoggedIn, isLoading } = useAuth();
 
-	if (isLoading) return <></>;
+	if(isLoading) {
+		return <p>Loading...</p>
+	}
 
 	return (
-		<>
+		<React.Suspense fallback={<p>Loading...</p>}>
 			{isLoggedIn ? (
 				<>
+
 					<Navbar />
 					<Container maxWidth="lg">
 						<CrosswordProvider>
@@ -68,9 +82,9 @@ export const App = () => {
 						</CrosswordProvider>
 					</Container>
 				</>
-			) : (
-				<Login />
-			)}
-		</>
+			) : <Login /> }
+		</React.Suspense>
 	);
-};
+}
+
+export default App;

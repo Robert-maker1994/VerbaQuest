@@ -14,13 +14,23 @@ userRouter.get("/", async (req: AuthRequest, res: Response) => {
 });
 
 
-userRouter.post("/", async (req: Request, res: Response) => {
+userRouter.post("/", async (req: AuthRequest, res: Response) => {
 	const user = await userService.createUser(req.body)
 	if (!user) {
 		throw new UserError("Error creating a user", 500);
 	}
 	res.json(user);
 });
+
+userRouter.patch("/:id/settings", async (req: AuthRequest, res: Response) => {
+
+	const user = await userService.updateUserSettings(req.user.userId, req.body)
+	if (!user) {
+		throw new UserError("Error creating a user", 500);
+	}
+	res.json(user);
+});
+
 
 
 

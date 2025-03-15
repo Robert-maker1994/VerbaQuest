@@ -1,6 +1,6 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter } from "react-router";
-import { App } from "./app";
+import App from "./app";
 import { AuthProvider } from "./context/auth/authContext";
 import { ThemeProvider } from "./context/theme/themeContext";
 
