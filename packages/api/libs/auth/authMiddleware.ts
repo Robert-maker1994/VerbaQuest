@@ -1,7 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
-import { AppDataSource } from "../../datasource";
+import type { NextFunction, Response } from "express";
 import config from "../config";
-import { User } from "../entity";
 import { UnauthorizedError, UserError } from "../errors";
 import type { AuthRequest } from "../types/questRequest";
 import admin from "./admin";

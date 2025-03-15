@@ -9,3 +9,4 @@ packages\*\docker.env
 secrets/*
 packages/api/docker.env
 packages/web-frontend/docker.env
+packages/**/dist

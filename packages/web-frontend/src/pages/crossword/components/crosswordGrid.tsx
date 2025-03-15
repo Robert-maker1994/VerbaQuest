@@ -1,6 +1,5 @@
 import { Box, Grid2 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
-import type { WordData } from "../../../interfaces";
 import {
 	type CellData,
 	CellState,
@@ -9,6 +8,7 @@ import {
 import ClueList from "./clueList";
 import CongratulationDialog from "./congratulationDialog";
 import CrosswordCell from "./crosswordCell";
+import type { WordData } from "@verbaquest/shared";
 
 interface CrosswordProps {
 	crosswordGrid: string[][];

@@ -1,16 +1,9 @@
+import type { CrosswordResponse } from "@verbaquest/shared";
 import { createContext, useContext, useState } from "react";
-import type { WordData } from "../../interfaces";
 
-interface CrosswordResponse {
-	crossword: string[][];
-	title: string;
-	isComplete: boolean;
-	metadata: WordData[];
-	id: number;
-}
+
 const defaultCrossword: CrosswordResponse = {
 	crossword: [[]],
-	isComplete: false,
 	title: "Loading Crossword...",
 	metadata: [],
 	id: 0,

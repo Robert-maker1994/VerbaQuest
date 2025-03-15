@@ -1,12 +1,7 @@
+import type { createUserCrosswordBody } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
 import { UserCrossword } from "../entity";
 import { CustomError } from "../errors/customError";
-
-interface createUserCrosswordBody {
-	crossword_id: number;
-	completed: boolean;
-	grid_state: string;
-}
 
 export const createUserCrossword = async (
 	data: createUserCrosswordBody,

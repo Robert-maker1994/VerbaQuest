@@ -11,12 +11,12 @@ import {
     TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import type { CrosswordDetails } from "@verbaquest/shared";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import api, {
-    type CrosswordDetails,
-} from "../../context/api/api";
+import api from "../../context/api/api";
+
 
 const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,

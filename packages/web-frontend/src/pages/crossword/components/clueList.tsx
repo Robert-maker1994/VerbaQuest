@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
+import type { WordData } from "@verbaquest/shared";
 import { useState } from "react";
-import type { WordData } from "../../../interfaces";
 
 const Clue = ({
 	word,

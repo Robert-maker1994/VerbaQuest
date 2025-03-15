@@ -5,15 +5,8 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { LanguageCode } from "../language";
 import { UserCrossword } from "./userCrosswords";
-
-
-export enum Difficulty {
-	EASY = "easy",
-	MEDIUM = "medium",
-	HARD = "hard",
-}
+import { Difficulty, LanguageCode } from "@verbaquest/shared";
 
 @Entity()
 export class User {

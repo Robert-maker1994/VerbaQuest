@@ -7,8 +7,12 @@
 		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"paths": {
+			"@verbaquest/shared": ["../packages/shared/dist"]
+		  }
 	},
+	"exclude": ["node_modules"],
 	"ts-node": {
 		"files": true,
 		"transpileOnly": true,

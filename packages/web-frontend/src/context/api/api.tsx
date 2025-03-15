@@ -1,36 +1,9 @@
 import axios from "axios";
-import type { WordData } from "../../interfaces";
-import type { Difficulty, LanguageCode } from "../settingsContext";
-
+import type { LanguageCode, Difficulty } from "../auth";
+import type { CrosswordDetails, CrosswordResponse, Topic } from "@verbaquest/shared"
 export const api = axios.create({
     baseURL: "http://localhost:5001/",
 });
-
-export interface Topic {
-    topic_name: string;
-    topic_id: number;
-    language: {
-        language_code: string;
-    }
-}
-
-export interface CrosswordDetails {
-    title: string;
-    crossword_id: number;
-    is_Public: boolean;
-    difficulty: number;
-    topics: Topic[];
-
-}
-
-export interface CrosswordResponse {
-    crossword: string[][];
-    title: string;
-    isComplete: boolean;
-    metadata: WordData[];
-    id: number;
-}
-
 
 const backendEndpoints = {
 

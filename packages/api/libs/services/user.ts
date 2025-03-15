@@ -1,6 +1,6 @@
+import type { Difficulty, LanguageCode } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
-import type { LanguageCode } from "../entity";
-import { type Difficulty, User } from "../entity/user/users";
+import {  User } from "../entity/user/users";
 import { UserError } from "../errors";
 
 const userService = {

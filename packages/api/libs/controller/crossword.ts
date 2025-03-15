@@ -3,21 +3,7 @@ import { generateCrossword } from "../../utils/generateCrossword";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
-
-interface WordData {
-	word: string;
-	definition: string;
-	start_row: number;
-	start_col: number;
-	direction: "horizontal" | "vertical";
-}
-
-interface CrosswordResponse {
-	crossword: string[][];
-	title: string;
-	metadata: WordData[];
-	id: number;
-}
+import type { CrosswordResponse } from "@verbaquest/shared";
 
 async function getCrosswordDetails(
 	req: Request,

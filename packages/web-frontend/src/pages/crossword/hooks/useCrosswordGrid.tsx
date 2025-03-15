@@ -5,7 +5,7 @@ import {
 	useRef,
 	useState,
 } from "react";
-import type { WordData } from "../../../interfaces";
+import type { WordData } from "@verbaquest/shared"
 
 export interface CellData {
 	value: string;
@@ -25,7 +25,7 @@ interface UseCrosswordGridProps {
 interface UseCrosswordGridReturn {
 	cellData: Map<string, CellData>;
 	selectedWord: WordData | null;
-	completedWords: string[];
+	completedWords: number[];
 	inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
 	clueListRef: React.RefObject<HTMLDivElement | null>;
 	getCellNumbers: (row: number, col: number) => number[] | null;
@@ -43,7 +43,7 @@ export const useCrosswordGrid = ({
 	metadata,
 }: UseCrosswordGridProps): UseCrosswordGridReturn => {
 	const [cellData, setCellData] = useState<Map<string, CellData>>(new Map());
-	const [completedWords, setCompletedWords] = useState<string[]>([]);
+	const [completedWords, setCompletedWords] = useState<number[]>([]);
 
 	const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
 	const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> =

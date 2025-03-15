@@ -11,7 +11,6 @@ import {
 	CircularProgress,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import { useAuth } from "../../context/auth/useAuth";
 import backendEndpoints from "../../context/api/api";
 import { LanguageCode, Difficulty} from "../../context/auth";

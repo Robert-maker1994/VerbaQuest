@@ -1,5 +1,10 @@
 {
 	"files": [],
+	"compilerOptions": {
+		"paths": {
+			"@verbaquest/shared": ["../packages/shared/dist"]
+		  }
+	},
 	"references": [
 		{ "path": "./tsconfig.app.json" },
 		{ "path": "./tsconfig.node.json" }

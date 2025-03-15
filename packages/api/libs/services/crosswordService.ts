@@ -1,8 +1,8 @@
+import type { CreateCrosswordBody, UpdateCrosswordBody } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
 import {
 	Crossword,
 	CrosswordWord,
-	type LanguageName,
 	type Languages,
 	Topic,
 	UserCrossword,
@@ -10,25 +10,7 @@ import {
 } from "../entity";
 import { CrosswordError, TopicError } from "../errors";
 import { getLanguage } from "./language";
-
 type crosswordServiceParams = { id?: string; name?: string };
-interface UpdateCrosswordBody {
-	title?: string;
-	topic?: string;
-	topic_id?: number;
-	words?: string[];
-	grid_state: string;
-	id: string;
-	completed?: boolean;
-}
-
-interface CreateCrosswordBody {
-	title: string;
-	topic: string;
-	words: string[];
-	language: LanguageName;
-	userId: number;
-}
 
 const crosswordService = {
 	async getCrosswordDetails() {

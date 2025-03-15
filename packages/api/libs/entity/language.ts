@@ -2,18 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crossword } from "./crossword";
 import { Topic } from "./topic";
 import { Words } from "./word";
-
-export enum LanguageCode {
-	ENGLISH = "EN",
-	SPANISH = "ES",
-	FRENCH = "FR",
-}
-
-export enum LanguageName {
-	ENGLISH = "english",
-	SPANISH = "spanish",
-	FRENCH = "french",
-}
+import { LanguageCode, LanguageName } from "@verbaquest/shared";
 
 @Entity()
 export class Languages {

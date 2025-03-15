@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
 import config from "../config";
-import { AuthMode } from "./authMiddleware";
 
 const { projectId, privateKey, clientEmail, authMode } = config;
 
