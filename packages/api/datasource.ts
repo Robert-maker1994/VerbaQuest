@@ -7,15 +7,11 @@ import {
 	Topic,
 	Words,
 } from "./libs/entity";
-import { User } from "./libs/entity/user/users";
 import { UserCrossword } from "./libs/entity/user/userCrosswords";
-import { CreateDatabase1741102530726 } from "./migrations/1741102530726-createdatabase";
-import { DefaultUser1741102694977 } from "./migrations/1741102694977-defaultUser";
-import { LanguagesTs1741102694988 } from "./migrations/1741102694988-languages";
-import { A2SpanishCrosswords1741103308928 } from "./migrations/1741103308928-A2Spanish";
-import { UpdateComments1741174026478 } from "./migrations/1741174026478-update-comments";
-import { DefaultUser1741364178006 } from "./migrations/1741364178006-default-user";
-import { HandleUserLanguages1741976975116 } from "./migrations/1741976975116-handle-user-languages";
+import { User } from "./libs/entity/user/users";
+import { CreateDatabase1742069418114 } from "./migrations/1742069418114-create-database";
+import { Initial1742069418116 } from "./migrations/1742069418116-inital";
+import { Spanish1742069452145 } from "./migrations/1742069452145-spanish";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -40,13 +36,9 @@ export const AppDataSource = new DataSource({
 	],
 	subscribers: [],
 	migrations: [
-		CreateDatabase1741102530726,
-		DefaultUser1741102694977,
-		LanguagesTs1741102694988,
-		A2SpanishCrosswords1741103308928,
-		UpdateComments1741174026478,
-		DefaultUser1741364178006,
-		HandleUserLanguages1741976975116
+		CreateDatabase1742069418114,
+		Initial1742069418116,
+		Spanish1742069452145,
 	],
 	migrationsTableName: "verba_migrations",
 });

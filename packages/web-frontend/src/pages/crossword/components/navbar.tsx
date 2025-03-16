@@ -18,14 +18,14 @@ import { useTheme } from "../../../context/theme/useTheme";
 export default function Navbar() {
 	const nav = useNavigate();
 	const { logout } = useAuth();
-	const [value, setValue] = useState(0); 
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
+	const [value, setValue] = useState(0);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { isDarkMode, toggleDarkMode } = useTheme();
 
-	const open = Boolean(anchorEl); 
+	const open = Boolean(anchorEl);
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget); 
+		setAnchorEl(event.currentTarget);
 	};
 
 	const handleClose = () => {
@@ -108,16 +108,16 @@ export default function Navbar() {
 					aria-label="account of current user"
 					aria-controls="menu-appbar"
 					aria-haspopup="true"
-					onClick={handleMenu} 
+					onClick={handleMenu}
 					color="inherit"
 				>
 					<AccountCircle />
 				</IconButton>
 				<Menu
 					id="menu-appbar"
-					anchorEl={anchorEl} 
+					anchorEl={anchorEl}
 					keepMounted
-					open={open} 
+					open={open}
 					onClose={handleClose}
 				>
 					<MenuItem onClick={handleClose}>User Settings</MenuItem>

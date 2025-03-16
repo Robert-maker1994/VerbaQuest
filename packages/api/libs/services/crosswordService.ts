@@ -1,4 +1,7 @@
-import type { CreateCrosswordBody, UpdateCrosswordBody } from "@verbaquest/shared";
+import type {
+	CreateCrosswordBody,
+	UpdateCrosswordBody,
+} from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
 import {
 	Crossword,
@@ -29,6 +32,7 @@ const crosswordService = {
 				"l.language_code",
 			])
 			.where("c.is_Public = :isPublic", { isPublic: true })
+			.limit(20)
 			.getMany();
 
 		if (!crosswordQuery.length) {
@@ -122,15 +126,13 @@ const crosswordService = {
 				title,
 				is_Public: false,
 				language: languageEntity,
-				difficulty: 1,
+				difficulty: "a1",
 				topics: [topicEntity],
 			});
 			const savedCrossword = await crosswordRepo.save(crosswordEntity);
 
 			const userCrosswordEntity = userCrosswordRepo.create({
-				user: {
-					user_id: userId,
-				},
+				user: { user_id: userId },
 				crossword: savedCrossword,
 				grid_state: "",
 				completed: false,

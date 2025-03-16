@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
+import { LanguageCode } from "@verbaquest/shared";
 import csv from "csv-parser";
 import type { MigrationInterface, QueryRunner } from "typeorm";
 import {
 	Crossword,
 	CrosswordWord,
-	LanguageCode,
 	Languages,
 	Topic,
 	Words,
@@ -14,10 +14,11 @@ import {
 interface CSVRow {
 	title: string;
 	topics: string;
+	difficulty: string;
 	[key: string]: string;
 }
 
-export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
+export class Spanish1742069452145 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		const csvFilePath = path.join(__dirname, "../seeder/a2-spanish.csv");
 		const targetLanguageCode: LanguageCode = LanguageCode.SPANISH;
@@ -60,7 +61,7 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 
 		// 2. Process Data from CSV
 		for (const row of csvData) {
-			const { title, topics } = row;
+			const { title, topics, difficulty } = row;
 			if (!title || !topics) continue;
 
 			// 2.1 Handle Topics
@@ -76,13 +77,13 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 				}
 				crosswordTopics.push(topicsMap.get(topicKey));
 			}
-
+			console.log({ difficulty });
 			// 2.3 Handle Crosswords
 			const crossword = new Crossword();
 			crossword.title = title;
 			crossword.language = targetLanguage;
 			crossword.is_Public = true;
-			crossword.difficulty = 1;
+			crossword.difficulty = difficulty;
 			crossword.topics = crosswordTopics;
 
 			crosswords.push(crossword);
@@ -95,35 +96,48 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 					break;
 				}
 				if (wordText && definition) {
-					let word = await queryRunner.manager.findOne(Words, {
-						where: {
-							word_text: wordText,
-							language: targetLanguage,
-						},
-					});
-					if (!word) {
-						const wordEntity = new Words();
-						wordEntity.word_text = wordText;
-						wordEntity.language = targetLanguage;
-						wordEntity.definition = definition;
-						word = await queryRunner.manager.save(wordEntity);
+					const wordKey = `${targetLanguage.language_code}-${wordText}`; // Composite key
+
+					if (!wordsMap.has(wordKey)) {
+						// Check if the word already exists in the database
+						let word = await queryRunner.manager.findOne(Words, {
+							where: {
+								word_text: wordText,
+								language: targetLanguage,
+							},
+						});
+
+						if (!word) {
+							// Create a new word entity
+							const wordEntity = new Words();
+							wordEntity.word_text = wordText;
+							wordEntity.language = targetLanguage;
+							wordEntity.definition = definition;
+							wordsMap.set(wordKey, wordEntity);
+							word = await queryRunner.manager.save(wordEntity);
+						}
+						wordsMap.set(wordKey, word);
 					}
-					wordsMap.set(wordText, word);
 				}
 			}
 		}
 		// 3. Insert Data in Batches (Transaction)
 		await queryRunner.startTransaction();
 		try {
-			// 3.1 Insert Topics
 			const savedTopics = await queryRunner.manager.save(
 				Array.from(topicsMap.values()),
 			);
+			// 3.1 Insert Topics
 
-			// 3.2 Insert Words
-			const savedWords = await queryRunner.manager.save(
-				Array.from(wordsMap.values()),
-			);
+			try {
+				// 3.2 Insert Words
+				const savedWords = await queryRunner.manager.save(
+					Array.from(wordsMap.values()),
+				);
+			} catch (error) {
+				console.error("Error inserting topics:", error);
+				throw error;
+			}
 
 			// 3.3 Insert Crosswords
 			const savedCrosswords = await queryRunner.manager.save(crosswords);
@@ -140,12 +154,8 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 					const wordText = getWordFromRow(row, i);
 					const definition = getDefinitionFromRow(row, i);
 					if (wordText && definition) {
-						const word = await queryRunner.manager.findOne(Words, {
-							where: {
-								word_text: wordText,
-								language: targetLanguage,
-							},
-						});
+						const wordKey = `${targetLanguage.language_code}-${wordText}`; // Composite key
+						const word = wordsMap.get(wordKey); // Get the word from the map
 
 						if (word) {
 							crosswordWords.push(
@@ -159,9 +169,12 @@ export class A2SpanishCrosswords1741103308928 implements MigrationInterface {
 					}
 				}
 			}
-
-			await queryRunner.manager.save(CrosswordWord, crosswordWords);
-
+			try {
+				await queryRunner.manager.save(CrosswordWord, crosswordWords);
+			} catch (error) {
+				console.error("Error inserting crossword words:", error);
+				throw error;
+			}
 			await queryRunner.commitTransaction();
 		} catch (error) {
 			await queryRunner.rollbackTransaction();

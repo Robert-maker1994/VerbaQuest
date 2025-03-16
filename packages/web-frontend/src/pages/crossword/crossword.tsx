@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, Grid2, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Grid2,
+	Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import api from "../../context/api/api";
@@ -14,7 +20,9 @@ const Crossword = React.memo(function Crossword() {
 		const fetchData = async () => {
 			try {
 				if (crosswordId) {
-					const data = await api.getSpecificCrossword(Number.parseInt(crosswordId));
+					const data = await api.getSpecificCrossword(
+						Number.parseInt(crosswordId),
+					);
 					setCrosswordData(data);
 				}
 			} catch (err) {
@@ -35,21 +43,34 @@ const Crossword = React.memo(function Crossword() {
 		const created = await api.createCrosswordForLoginUser(
 			crosswordData.id,
 			crosswordData.crossword,
-			crosswordData.isComplete,
 		);
 		return !!created;
 	}
 	return (
 		<Grid2 container spacing={2} justifyContent={"center"}>
-			<Grid2 size={12} sx={{ display: "flex", justifyContent: "space-between" }}>
-				<Button size="small" onClick={() => {
-					nav("/crossword")
-				}} variant="contained" disableElevation color="primary">
+			<Grid2
+				size={12}
+				sx={{ display: "flex", justifyContent: "space-between" }}
+			>
+				<Button
+					size="small"
+					onClick={() => {
+						nav("/crossword");
+					}}
+					variant="contained"
+					disableElevation
+					color="primary"
+				>
 					Navigate to Crossword
 				</Button>
-				<Button onClick={() => {
-					createUserProgress()
-				}} variant="contained" disableElevation color="primary">
+				<Button
+					onClick={() => {
+						createUserProgress();
+					}}
+					variant="contained"
+					disableElevation
+					color="primary"
+				>
 					Save Progress
 				</Button>
 			</Grid2>
@@ -64,7 +85,7 @@ const Crossword = React.memo(function Crossword() {
 					metadata={crosswordData.metadata}
 				/>
 			</Grid2>
-		</Grid2 >
+		</Grid2>
 	);
 });
 

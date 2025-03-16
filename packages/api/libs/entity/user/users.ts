@@ -1,12 +1,7 @@
-import {
-	Column,
-	Entity,
-	OneToMany,
-	PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { UserCrossword } from "./userCrosswords";
 import { Difficulty, LanguageCode } from "@verbaquest/shared";
+import { UserCrossword } from "./userCrosswords";
 
 @Entity()
 export class User {

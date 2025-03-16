@@ -1,19 +1,19 @@
 import {
+	Alert,
 	Box,
 	Button,
+	CircularProgress,
 	FormControl,
 	InputLabel,
 	MenuItem,
 	Select,
 	type SelectChangeEvent,
 	Typography,
-	Alert,
-	CircularProgress,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useAuth } from "../../context/auth/useAuth";
+import { Difficulty, LanguageCode } from "@verbaquest/shared";
+import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
-import { LanguageCode, Difficulty} from "../../context/auth";
+import { useAuth } from "../../context/auth/useAuth";
 
 interface SettingsFormData {
 	preferred_learning_language: LanguageCode;
@@ -24,11 +24,11 @@ const SettingsPage = () => {
 	const { user } = useAuth();
 	const [formData, setFormData] = useState<SettingsFormData>({
 		preferred_learning_language: LanguageCode.ENGLISH, // Default value
-		preferred_difficulty: Difficulty.EASY, // Default value
+		preferred_difficulty: Difficulty.A1, // Default value
 	});
 	const [initialFormData, setInitialFormData] = useState<SettingsFormData>({
 		preferred_learning_language: LanguageCode.ENGLISH, // Default value
-		preferred_difficulty: Difficulty.EASY, // Default value
+		preferred_difficulty: Difficulty.A1, // Default value
 	});
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);

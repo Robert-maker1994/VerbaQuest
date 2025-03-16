@@ -1,9 +1,9 @@
-import type { LanguageName } from "./user";
+import type { LanguageName } from "./language";
 
 type Direction = "horizontal" | "vertical";
 
 export interface WordData {
-	word_id: string;
+	word_id: number;
 	word: string;
 	start_row: number;
 	start_col: number;
@@ -35,35 +35,42 @@ export interface CreateCrosswordBody {
 	language: LanguageName;
 	userId: number;
 }
- 
+
 export interface createUserCrosswordBody {
 	crossword_id: number;
 	completed: boolean;
 	grid_state: string;
-} 
-
+}
 
 export interface Topic {
-    topic_name: string;
-    topic_id: number;
-    language: {
-        language_code: string;
-    }
+	topic_name: string;
+	topic_id: number;
+	language: {
+		language_code: string;
+	};
+}
+
+export enum Difficulty {
+	A1 = "a1",
+	A2 = "a2",
+	B1 = "b1",
+	B2 = "b2",
+	C1 = "c1",
+	C2 = "c2",
 }
 
 export interface CrosswordDetails {
-    title: string;
-    crossword_id: number;
-    is_Public: boolean;
-    difficulty: number;
-    topics: Topic[];
-
+	title: string;
+	crossword_id: number;
+	is_Public: boolean;
+	difficulty: Difficulty;
+	topics: Topic[];
 }
 
 export interface CrosswordResponse {
-    crossword: string[][];
-    title: string;
-    isComplete: boolean;
-    metadata: WordData[];
-    id: number;
+	crossword: string[][];
+	title: string;
+	isComplete: boolean;
+	metadata: WordData[];
+	id: number;
 }

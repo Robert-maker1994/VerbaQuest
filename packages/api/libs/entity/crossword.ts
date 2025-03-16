@@ -1,3 +1,4 @@
+import { Difficulty } from "@verbaquest/shared";
 import {
 	Column,
 	Entity,
@@ -42,8 +43,12 @@ export class Crossword {
 	})
 	date_created: Date;
 
-	@Column({ comment: "The difficulty level of the crossword." })
-	difficulty: number;
+	@Column({
+		type: "enum",
+		enum: Difficulty,
+		comment: "The level of difficulty of the crossword puzzle.",
+	})
+	difficulty: string;
 
 	@Column({
 		type: "boolean",

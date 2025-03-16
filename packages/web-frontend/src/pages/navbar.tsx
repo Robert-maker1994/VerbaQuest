@@ -46,7 +46,7 @@ export default function Navbar() {
 	};
 
 	const handleUserSettings = () => {
-		handleClose()
+		handleClose();
 		nav("/settings");
 	};
 

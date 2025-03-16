@@ -1,9 +1,9 @@
+import type { CrosswordResponse } from "@verbaquest/shared";
 import type { NextFunction, Request, Response } from "express";
 import { generateCrossword } from "../../utils/generateCrossword";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
-import type { CrosswordResponse } from "@verbaquest/shared";
 
 async function getCrosswordDetails(
 	req: Request,

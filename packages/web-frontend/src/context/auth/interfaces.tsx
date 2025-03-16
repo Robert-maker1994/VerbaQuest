@@ -1,19 +1,11 @@
+import type { Difficulty, LanguageCode } from "@verbaquest/shared";
+
 export interface LoginData {
 	email: string;
 	username?: string;
 	password: string;
 }
-export enum LanguageCode {
-    ENGLISH = "EN",
-    SPANISH = "ES",
-    FRENCH = "FR",
-}
 
-export enum Difficulty {
-    EASY = "easy",
-    MEDIUM = "medium",
-    HARD = "hard",
-}
 export interface AuthProvider {
 	login: (
 		data: LoginData,

@@ -42,7 +42,6 @@ export class Words {
 
 	@Column({
 		type: "citext",
-		unique: true,
 		comment: "The definition of the word.",
 	})
 	definition: string;

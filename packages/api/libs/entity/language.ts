@@ -1,8 +1,8 @@
+import { LanguageCode, LanguageName } from "@verbaquest/shared";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crossword } from "./crossword";
 import { Topic } from "./topic";
 import { Words } from "./word";
-import { LanguageCode, LanguageName } from "@verbaquest/shared";
 
 @Entity()
 export class Languages {

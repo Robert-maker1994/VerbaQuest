@@ -1,9 +1,3 @@
-export enum Difficulty {
-	EASY = "easy",
-	MEDIUM = "medium",
-	HARD = "hard",
-}
-
 export enum LanguageCode {
 	ENGLISH = "EN",
 	SPANISH = "ES",

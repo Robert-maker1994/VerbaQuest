@@ -1,3 +1,4 @@
+import type { WordData } from "@verbaquest/shared";
 import {
 	type RefObject,
 	useCallback,
@@ -5,7 +6,6 @@ import {
 	useRef,
 	useState,
 } from "react";
-import type { WordData } from "@verbaquest/shared"
 
 export interface CellData {
 	value: string;
@@ -59,7 +59,13 @@ export const useCrosswordGrid = ({
 						word.start_col + (word.direction === "horizontal" ? i : 0);
 					const key = `${row}-${col}`;
 					const cell = cellData.get(key);
-					if (!cell || cell.state !== CellState.Correct) {
+					if (!cell) {
+						return false;
+					}
+					if (
+						cell.state === CellState.Empty ||
+						cell.state === CellState.Incorrect
+					) {
 						return false;
 					}
 				}
@@ -83,63 +89,35 @@ export const useCrosswordGrid = ({
 		[metadata],
 	);
 
-	useEffect(() => {
-		if (selectedWord && clueListRef.current) {
-			const selectedClueElement = clueListRef.current.querySelector(
-				`[data-word-key="${selectedWord.word_id}"]`,
-			);
-			if (selectedClueElement) {
-				selectedClueElement.scrollIntoView({
-					behavior: "smooth",
-					block: "nearest",
-				});
-			}
-		}
-	}, [selectedWord]);
-
-	const findNextWord = useCallback(
-		(currentWord: WordData): WordData | undefined => {
-			const sortedWords = [...metadata].sort((a, b) => {
-				if (a.start_row !== b.start_row) {
-					return a.start_row - b.start_row;
-				}
-				return a.start_col - b.start_col;
-			});
-
-			const currentIndex = sortedWords.findIndex(
+	const findAdjacentWord = useCallback(
+		(
+			currentWord: WordData,
+			direction: "next" | "previous",
+		): WordData | undefined => {
+			const currentIndex = metadata.findIndex(
 				(w) => w.word_id === currentWord.word_id,
 			);
-			if (currentIndex === -1 || currentIndex === sortedWords.length - 1) {
-				return undefined; // Current word not found or is the last word
-			}
-			return sortedWords[currentIndex + 1];
-		},
-		[metadata],
-	);
 
-	const findPreviousWord = useCallback(
-		(currentWord: WordData): WordData | undefined => {
-			const sortedWords = [...metadata].sort((a, b) => {
-				if (a.start_row !== b.start_row) {
-					return a.start_row - b.start_row;
-				}
-				return a.start_col - b.start_col;
-			});
-
-			const currentIndex = sortedWords.findIndex(
-				(w) => w.word_id === currentWord.word_id,
-			);
-			if (currentIndex === -1 || currentIndex === 0) {
-				return undefined; // Current word not found or is the first word
+			if (currentIndex === -1) {
+				return undefined;
 			}
-			return sortedWords[currentIndex - 1];
+
+			const nextIndex =
+				direction === "next" ? currentIndex + 1 : currentIndex - 1;
+
+			if (nextIndex < 0 || nextIndex >= metadata.length) {
+				return undefined;
+			}
+
+			setSelectedWord(metadata[nextIndex]);
+			return metadata[nextIndex];
 		},
 		[metadata],
 	);
 
 	const handleClueClick = (word: WordData) => {
-		setSelectedWord(word);
 		handleInputFocus(word.start_row, word.start_col);
+		setSelectedWord(word);
 	};
 
 	const handleCellClick = (row: number, col: number) => {
@@ -168,6 +146,7 @@ export const useCrosswordGrid = ({
 		col: number,
 		event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
+		event.preventDefault();
 		const key = `${row}-${col}`;
 		if (!event?.key) {
 			return;
@@ -181,7 +160,6 @@ export const useCrosswordGrid = ({
 		let nextCol = col;
 		switch (event.key) {
 			case "ArrowUp":
-				event.preventDefault();
 				nextRow--;
 				if (nextRow < 0) {
 					return; // Prevent moving above the grid
@@ -189,7 +167,6 @@ export const useCrosswordGrid = ({
 				handleCellClick(nextRow, nextCol);
 				break;
 			case "ArrowDown":
-				event.preventDefault();
 				nextRow++;
 				if (nextRow >= crosswordGrid.length) {
 					return; // Prevent moving below the grid
@@ -198,7 +175,6 @@ export const useCrosswordGrid = ({
 
 				break;
 			case "ArrowLeft":
-				event.preventDefault();
 				nextCol--;
 				if (nextCol < 0) {
 					return; // Prevent moving to the left of the grid
@@ -207,7 +183,6 @@ export const useCrosswordGrid = ({
 
 				break;
 			case "ArrowRight":
-				event.preventDefault();
 				nextCol++;
 				if (nextCol >= crosswordGrid[0].length) {
 					return; // Prevent moving to the right of the grid
@@ -216,7 +191,6 @@ export const useCrosswordGrid = ({
 
 				break;
 			case "Backspace":
-				event.preventDefault();
 				if (currentCellData?.value !== "") {
 					setCellData((prevCellData) => {
 						const newCellData = new Map(prevCellData);
@@ -229,7 +203,7 @@ export const useCrosswordGrid = ({
 						nextCol--;
 
 						if (nextCol < selectedWord.start_col) {
-							const nextWord = findPreviousWord(selectedWord);
+							const nextWord = findAdjacentWord(selectedWord, "previous");
 							if (nextWord) {
 								nextRow = nextWord.start_row;
 								nextCol = nextWord.start_col + nextWord.word.length - 1;
@@ -240,7 +214,7 @@ export const useCrosswordGrid = ({
 					} else {
 						nextRow--;
 						if (nextRow < selectedWord.start_row) {
-							const nextWord = findPreviousWord(selectedWord);
+							const nextWord = findAdjacentWord(selectedWord, "previous");
 							if (nextWord) {
 								nextRow = nextWord.start_row + nextWord.word.length - 1;
 								nextCol = nextWord.start_col;
@@ -261,8 +235,10 @@ export const useCrosswordGrid = ({
 						let newCellState = CellState.Incorrect;
 
 						// This catches Ñ
-						if (value.localeCompare(correctValue, "en", {
-							sensitivity: "base" }) === 0
+						if (
+							value.localeCompare(correctValue, "en", {
+								sensitivity: "base",
+							}) === 0
 						) {
 							newCellState = CellState.Partial;
 						}
@@ -275,16 +251,21 @@ export const useCrosswordGrid = ({
 						return newCellData;
 					});
 
-					if (value === correctValue) {
+					if (
+						value.localeCompare(correctValue, "en", {
+							sensitivity: "base",
+						}) === 0
+					) {
 						if (selectedWord.direction === "horizontal") {
 							nextCol++;
 							if (
 								nextCol >=
 								selectedWord.start_col + selectedWord.word.length
 							) {
-								const nextWord = findNextWord(selectedWord);
+								const nextWord = findAdjacentWord(selectedWord, "next");
 
 								if (nextWord) {
+									setSelectedWord(nextWord);
 									nextRow = nextWord.start_row;
 									nextCol = nextWord.start_col;
 								} else {
@@ -297,8 +278,10 @@ export const useCrosswordGrid = ({
 								nextRow >=
 								selectedWord.start_row + selectedWord.word.length
 							) {
-								const nextWord = findNextWord(selectedWord);
+								const nextWord = findAdjacentWord(selectedWord, "next");
+
 								if (nextWord) {
+									setSelectedWord(nextWord);
 									nextRow = nextWord.start_row;
 									nextCol = nextWord.start_col;
 								} else {
@@ -311,14 +294,13 @@ export const useCrosswordGrid = ({
 				}
 				return;
 		}
+
 		handleInputFocus(nextRow, nextCol);
 	};
 
 	function handleInputFocus(nextRow: number, nextCol: number) {
 		const nextKey = `${nextRow}-${nextCol}`;
-
 		const nextInput = inputRefs.current[nextKey];
-
 		if (nextInput && crosswordGrid[nextRow][nextCol] !== "#") {
 			nextInput.focus();
 		}

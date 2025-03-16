@@ -18,12 +18,12 @@ const Register = lazy(() => import("./pages/login/register"));
 const routes = [
 	{
 		path: "/",
-		element:<Dashboard />,
+		element: <Dashboard />,
 	},
 	{
-        path: "/crossword/:crosswordId", // New route with :crosswordId parameter
-        element: <Crossword />,
-    },
+		path: "/crossword/:crosswordId", // New route with :crosswordId parameter
+		element: <Crossword />,
+	},
 	{
 		path: "/crossword",
 		element: <CrosswordPage />,
@@ -60,15 +60,14 @@ function App() {
 function AppContent() {
 	const { isLoggedIn, isLoading } = useAuth();
 
-	if(isLoading) {
-		return <p>Loading...</p>
+	if (isLoading) {
+		return <p>Loading...</p>;
 	}
 
 	return (
 		<React.Suspense fallback={<p>Loading...</p>}>
 			{isLoggedIn ? (
 				<>
-
 					<Navbar />
 					<Container maxWidth="lg">
 						<CrosswordProvider>
@@ -82,7 +81,9 @@ function AppContent() {
 						</CrosswordProvider>
 					</Container>
 				</>
-			) : <Login /> }
+			) : (
+				<Login />
+			)}
 		</React.Suspense>
 	);
 }

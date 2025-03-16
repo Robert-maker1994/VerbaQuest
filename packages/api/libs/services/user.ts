@@ -1,6 +1,6 @@
 import type { Difficulty, LanguageCode } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
-import {  User } from "../entity/user/users";
+import { User } from "../entity/user/users";
 import { UserError } from "../errors";
 
 const userService = {
@@ -12,18 +12,22 @@ const userService = {
 	async getUserById(user_id: number) {
 		const user = AppDataSource.getRepository(User).findOne({
 			where: { user_id },
-			select: ["user_id", "username",
+			select: [
+				"user_id",
+				"username",
 				"email",
-				"preferred_learning_language", "app_language", "preferred_difficulty"]
-
+				"preferred_learning_language",
+				"app_language",
+				"preferred_difficulty",
+			],
 		});
 		if (!user) {
 			throw new UserError("USER_NOT_FOUND", 500);
 		}
-		return user
+		return user;
 	},
 	async getUserByEmail(email: string) {
-		console.log({ email })
+		console.log({ email });
 
 		const user = await AppDataSource.getRepository(User).findOneBy({ email });
 		if (!user) {
@@ -31,11 +35,14 @@ const userService = {
 		}
 		return user;
 	},
-	async updateUserSettings(user_id: number, data: Partial<{
-		preferred_learning_language: LanguageCode;
-		app_language: LanguageCode;
-		preferred_difficulty: Difficulty;
-	}>) {
+	async updateUserSettings(
+		user_id: number,
+		data: Partial<{
+			preferred_learning_language: LanguageCode;
+			app_language: LanguageCode;
+			preferred_difficulty: Difficulty;
+		}>,
+	) {
 		const userRepo = AppDataSource.getRepository(User);
 		const user = await this.getUserById(user_id);
 
@@ -45,8 +52,7 @@ const userService = {
 			throw new UserError("Updated settings failed", 500);
 		}
 		return update;
-	}
-
-}
+	},
+};
 
 export default userService;

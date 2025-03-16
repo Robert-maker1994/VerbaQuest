@@ -1,11 +1,11 @@
 import type { CrosswordResponse } from "@verbaquest/shared";
 import { createContext, useContext, useState } from "react";
 
-
 const defaultCrossword: CrosswordResponse = {
 	crossword: [[]],
 	title: "Loading Crossword...",
 	metadata: [],
+	isComplete: false,
 	id: 0,
 };
 interface CrosswordContextProps {
@@ -35,7 +35,6 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 	const [crosswordData, setCrosswordData] =
 		useState<CrosswordResponse>(defaultCrossword);
 	// const [isError, setIsError] = useState<boolean>(false);
-
 
 	const value = { crosswordData, setCrosswordData };
 	return (

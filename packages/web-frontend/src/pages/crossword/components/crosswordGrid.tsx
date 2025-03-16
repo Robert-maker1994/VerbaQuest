@@ -1,5 +1,6 @@
 import { Box, Grid2 } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import type { WordData } from "@verbaquest/shared";
+import { memo } from "react";
 import {
 	type CellData,
 	CellState,
@@ -8,7 +9,6 @@ import {
 import ClueList from "./clueList";
 import CongratulationDialog from "./congratulationDialog";
 import CrosswordCell from "./crosswordCell";
-import type { WordData } from "@verbaquest/shared";
 
 interface CrosswordProps {
 	crosswordGrid: string[][];
@@ -71,13 +71,6 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		handleCellClick,
 		handleKeyDown,
 	} = useCrosswordGrid({ crosswordGrid, metadata });
-	const [_completed, setCongratulation] = useState(false);
-
-	useEffect(() => {
-		if (Object.keys(inputRefs.current).length > 0) {
-			inputRefs.current["0-0"]?.focus();
-		}
-	}, [inputRefs.current]);
 
 	return (
 		<Grid2 container spacing={1}>
@@ -131,31 +124,26 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 
 									if (wordsForCell.length === 1) return wordsForCell[0]; // Only one word
 
-									// Check if selected word is in wordsForCell
 									if (
 										wordsForCell?.some(
 											(w) => w.word_id === selectedWord?.word_id,
 										)
 									) {
-										return selectedWord; // use selected word if it is present.
+										return selectedWord;
 									}
 
-									// prefer horizontal
 									return (
 										wordsForCell.find((w) => w.direction === "horizontal") ||
 										wordsForCell[0]
 									);
 								};
-								//get the current word for the cell
 								const currentWordForCell: WordData | null = wordForCell();
 
 								const isCellSelected =
 									selectedWord?.word_id &&
 									selectedWord?.word_id === currentWordForCell?.word_id &&
 									isCellInWord(rowIndex, colIndex, selectedWord);
-								//get the cell data
 								const cellInfo: CellData | undefined = cellData.get(key);
-								//if there is no cell data set it to empty
 								const cellValue: string = cellInfo ? cellInfo.value : "";
 
 								return (
@@ -211,9 +199,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 				open={
 					completedWords.length > 0 && completedWords.length === metadata.length
 				}
-				onClose={() => {
-					setCongratulation(false);
-				}}
+				onClose={() => {}}
 			/>
 		</Grid2>
 	);

@@ -20,9 +20,9 @@ export const AuthContext = createContext<AuthContextType>({
 	user: null,
 	error: null,
 	isLoading: true,
-	login: () => { },
-	register: () => { },
-	logout: () => { },
+	login: () => {},
+	register: () => {},
+	logout: () => {},
 });
 
 interface AuthProviderProps {
@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			const response = await checkAuth();
 			if (response.success && response.user) {
 				setIsLoggedIn(true);
-				console.log(response.user)
+				console.log(response.user);
 				setUser(response.user);
 			}
 			setIsLoading(false);

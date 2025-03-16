@@ -1,2 +1,2 @@
-export * from "./user"
-export * from "./crossword"
+export * from "./crossword";
+export * from "./language";

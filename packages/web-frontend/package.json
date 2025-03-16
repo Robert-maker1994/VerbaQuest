@@ -1,5 +1,5 @@
 {
-	"name": "VerbaquestWebClient",
+	"name": "@verbaquest/frontend-web-app",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -16,13 +16,15 @@
 		"@mui/icons-material": "^6.4.7",
 		"@mui/material": "^6.4.6",
 		"@testing-library/react": "^16.2.0",
+		"@verbaquest/shared": "*",
 		"axios": "^1.8.1",
 		"dotenv": "^16.4.7",
 		"firebase": "^11.4.0",
 		"jsdom": "^26.0.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"react-router": "^7.2.0"
+		"react-router": "^7.2.0",
+		"shared": "file:../shared"
 	},
 	"devDependencies": {
 		"@types/react": "^19.0.10",
