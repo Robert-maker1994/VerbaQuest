@@ -10,23 +10,12 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import type { CrosswordDetails } from "@verbaquest/shared";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../../context/api/api";
 
-const StyledButton = styled(Button)(({ theme }) => ({
-	backgroundColor: theme.palette.primary.main,
-	color: "#fff",
-	padding: theme.spacing(1, 3),
-	"&:hover": {
-		backgroundColor: theme.palette.primary.dark,
-	},
-}));
-
-// Helper function (outside the component)
 const crosswordMatchesSearchTerm = (
 	crossword: CrosswordDetails,
 	searchLowerCase: string,
@@ -125,16 +114,17 @@ const CrosswordPage: React.FC = () => {
 							}
 							sx={{ marginBottom: 2 }}
 						/>
-						<StyledButton onClick={handleCrosswordOfTheDay}>
+						<Button variant="contained" onClick={handleCrosswordOfTheDay}>
 							View crossword of the day
-						</StyledButton>
-						<StyledButton
+						</Button>
+						<Button
+							variant="contained"
 							onClick={() => {
 								console.log("hello");
 							}}
 						>
 							Create you're own crossword
-						</StyledButton>
+						</Button>
 					</Box>
 					<Grid2 container spacing={2} justifyContent={"center"}>
 						{filteredCrosswords.map((crossword) => (

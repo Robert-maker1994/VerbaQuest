@@ -6,49 +6,61 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { type CellData, CellState } from "../interface";
+import type {
+	UseCrosswordGridProps,
+	UseCrosswordGridReturn,
+} from "../interface";
 
-export interface CellData {
-	value: string;
-	state: CellState;
-}
-export enum CellState {
-	Correct = 0,
-	Incorrect = 1,
-	Empty = 2,
-	Partial = 3,
-}
-interface UseCrosswordGridProps {
-	crosswordGrid: string[][];
-	metadata: WordData[];
-}
+const isCellInWord = (
+	cellRow: number,
+	cellCol: number,
+	word: WordData,
+): boolean =>
+	word.direction === "horizontal"
+		? cellRow === word.start_row &&
+			cellCol >= word.start_col &&
+			cellCol < word.start_col + word.word.length
+		: cellCol === word.start_col &&
+			cellRow >= word.start_row &&
+			cellRow < word.start_row + word.word.length;
 
-interface UseCrosswordGridReturn {
-	cellData: Map<string, CellData>;
-	selectedWord: WordData | null;
-	completedWords: number[];
-	inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }>;
-	clueListRef: React.RefObject<HTMLDivElement | null>;
-	getCellNumbers: (row: number, col: number) => number[] | null;
-	handleClueClick: (word: WordData) => void;
-	handleCellClick: (row: number, col: number) => void;
-	handleKeyDown: (
-		row: number,
-		col: number,
-		event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => void;
-}
-
+/**
+ * A custom React hook to manage the state and logic of a crossword puzzle.
+ *
+ * @param {UseCrosswordGridProps} props - The input properties for the hook.
+ * @param {string[][]} props.crosswordGrid - A 2D array representing the crossword grid. '#' represents blocked cells.
+ * @param {WordData[]} props.metadata - An array of WordData objects, each containing information about a word in the puzzle.
+ * @returns {UseCrosswordGridReturn} An object containing the state and functions to interact with the crossword.
+ */
 export const useCrosswordGrid = ({
 	crosswordGrid,
 	metadata,
 }: UseCrosswordGridProps): UseCrosswordGridReturn => {
 	const [cellData, setCellData] = useState<Map<string, CellData>>(new Map());
 	const [completedWords, setCompletedWords] = useState<number[]>([]);
-
 	const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
 	const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> =
 		useRef({});
 	const clueListRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (crosswordGrid) {
+			const newCellData = new Map<string, CellData>();
+			for (let row = 0; row < crosswordGrid.length; row++) {
+				for (let col = 0; col < crosswordGrid[row].length; col++) {
+					const key = `${row}-${col}`;
+					if (crosswordGrid[row][col] !== "#") {
+						const wordId = metadata
+							.filter((word) => isCellInWord(row, col, word))
+							.map((word) => word.word_id);
+						newCellData.set(key, { value: "", state: CellState.Empty, wordId });
+					}
+				}
+			}
+			setCellData(newCellData);
+		}
+	}, [crosswordGrid, metadata]);
 
 	useEffect(() => {
 		const completed = metadata
@@ -74,20 +86,6 @@ export const useCrosswordGrid = ({
 			.map((word) => word.word_id);
 		setCompletedWords(completed);
 	}, [cellData, metadata]);
-
-	const getCellNumbers = useCallback(
-		(row: number, col: number): number[] | null => {
-			const words = metadata?.filter((item) => {
-				return item.start_row === row && item.start_col === col;
-			});
-			if (words?.length === 0) return null;
-
-			return words?.map(
-				(word) => metadata.findIndex((w) => w.word_id === word.word_id) + 1,
-			);
-		},
-		[metadata],
-	);
 
 	const findAdjacentWord = useCallback(
 		(
@@ -115,12 +113,7 @@ export const useCrosswordGrid = ({
 		[metadata],
 	);
 
-	const handleClueClick = (word: WordData) => {
-		handleInputFocus(word.start_row, word.start_col);
-		setSelectedWord(word);
-	};
-
-	const handleCellClick = (row: number, col: number) => {
+	const onCellSelect = (row: number, col: number) => {
 		const word = metadata.find((w) => {
 			if (w.direction === "horizontal") {
 				return (
@@ -141,7 +134,7 @@ export const useCrosswordGrid = ({
 		}
 	};
 
-	const handleKeyDown = (
+	const manageCellNavigation = (
 		row: number,
 		col: number,
 		event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -153,9 +146,13 @@ export const useCrosswordGrid = ({
 		}
 
 		if (!selectedWord) return;
+
 		const correctValue = crosswordGrid[row][col];
 		const currentCellData = cellData.get(key);
 
+		if (!currentCellData) {
+			throw new Error("cell has no data");
+		}
 		let nextRow = row;
 		let nextCol = col;
 		switch (event.key) {
@@ -164,14 +161,14 @@ export const useCrosswordGrid = ({
 				if (nextRow < 0) {
 					return; // Prevent moving above the grid
 				}
-				handleCellClick(nextRow, nextCol);
+				onCellSelect(nextRow, nextCol);
 				break;
 			case "ArrowDown":
 				nextRow++;
 				if (nextRow >= crosswordGrid.length) {
 					return; // Prevent moving below the grid
 				}
-				handleCellClick(nextRow, nextCol);
+				onCellSelect(nextRow, nextCol);
 
 				break;
 			case "ArrowLeft":
@@ -179,7 +176,7 @@ export const useCrosswordGrid = ({
 				if (nextCol < 0) {
 					return; // Prevent moving to the left of the grid
 				}
-				handleCellClick(nextRow, nextCol);
+				onCellSelect(nextRow, nextCol);
 
 				break;
 			case "ArrowRight":
@@ -187,7 +184,7 @@ export const useCrosswordGrid = ({
 				if (nextCol >= crosswordGrid[0].length) {
 					return; // Prevent moving to the right of the grid
 				}
-				handleCellClick(nextRow, nextCol);
+				onCellSelect(nextRow, nextCol);
 
 				break;
 			case "Backspace":
@@ -195,7 +192,12 @@ export const useCrosswordGrid = ({
 					setCellData((prevCellData) => {
 						const newCellData = new Map(prevCellData);
 
-						newCellData.set(key, { value: "", state: CellState.Empty });
+						newCellData.set(key, {
+							// biome-ignore lint/style/noNonNullAssertion: <explanation>
+							...newCellData.get(key)!,
+							value: "",
+							state: CellState.Empty,
+						});
 						return newCellData;
 					});
 				} else {
@@ -247,7 +249,11 @@ export const useCrosswordGrid = ({
 							newCellState = CellState.Correct;
 						}
 
-						newCellData.set(key, { value, state: newCellState });
+						newCellData.set(key, {
+							...currentCellData,
+							value,
+							state: newCellState,
+						});
 						return newCellData;
 					});
 
@@ -312,9 +318,7 @@ export const useCrosswordGrid = ({
 		inputRefs,
 		clueListRef,
 		selectedWord,
-		getCellNumbers,
-		handleClueClick,
-		handleCellClick,
-		handleKeyDown,
+		onCellSelect,
+		manageCellNavigation,
 	};
 };

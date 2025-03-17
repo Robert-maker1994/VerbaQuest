@@ -10,7 +10,7 @@ const Clue = ({
 }: {
 	word: WordData;
 	index: number;
-	onClueClick: (word: WordData) => void;
+	onClueClick: (row: number, col: number) => void;
 	background: string;
 }) => {
 	const [revealedWords, setRevealedWords] = useState<string[]>([]); // New state
@@ -30,7 +30,10 @@ const Clue = ({
 			}}
 			data-word-key={`${word.start_row}-${word.start_col}`}
 		>
-			<Box onClick={() => onClueClick(word)} sx={{ flexGrow: 1 }}>
+			<Box
+				onClick={() => onClueClick(word.start_row, word.start_col)}
+				sx={{ flexGrow: 1 }}
+			>
 				{" "}
 				{/* Make the main clue area take up space */}
 				<Typography>{`${index + 1}. ${word.definition}`}</Typography>
@@ -54,7 +57,7 @@ interface WordDataClue extends WordData {
 
 interface ClueListProps {
 	metadata: WordDataClue[];
-	onClueClick: (word: WordData) => void;
+	onClueClick: (row: number, col: number) => void;
 	selectedWord: WordData | null;
 }
 
