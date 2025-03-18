@@ -27,7 +27,6 @@ const userService = {
 		return user;
 	},
 	async getUserByEmail(email: string) {
-		console.log({ email });
 
 		const user = await AppDataSource.getRepository(User).findOneBy({ email });
 		if (!user) {

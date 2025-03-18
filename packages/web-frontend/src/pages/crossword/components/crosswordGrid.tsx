@@ -1,19 +1,39 @@
 import { Box, Grid2 } from "@mui/material";
 import type { WordData } from "@verbaquest/shared";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useCrosswordGrid } from "../hooks/useCrosswordGrid";
 import ClueList from "./clueList";
-import CongratulationDialog from "./congratulationDialog";
 import CrosswordCell from "./crosswordCell";
 
+/**
+ * Interface for the props of the CrosswordGrid component.
+ */
 interface CrosswordProps {
+	/**
+	 * The 2D array representing the crossword grid.
+	 */
 	crosswordGrid: string[][];
+	/**
+	 * Metadata about the words in the crossword, including their definitions,
+	 * starting positions, and directions.
+	 */
 	metadata: WordData[];
+	/**
+	 * Callback function to be executed when the crossword is completed.
+	 */
+	handleCompletion: () => void;
 }
 
+/**
+ * Renders the crossword grid and clue list. Visual component for the rendering of the crossword puzzle 
+ *
+ * @param {CrosswordProps} props - The component's properties.
+ * @returns {JSX.Element} The rendered crossword grid and clue list.
+ */
 const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 	crosswordGrid,
 	metadata,
+	handleCompletion
 }) => {
 	const {
 		cellData,
@@ -24,6 +44,15 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		onCellSelect,
 		manageCellNavigation,
 	} = useCrosswordGrid({ crosswordGrid, metadata });
+	
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+		useEffect(() => {
+		if (completedWords.length > 0 && completedWords.length === metadata.length) {
+			handleCompletion()
+		}
+
+	}, [completedWords])
+
 
 	return (
 		<Grid2 container spacing={1}>
@@ -37,7 +66,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 							wrap="nowrap"
 							spacing={0}
 						>
-							{row.map((cell, colIndex) => {
+							{row.map((_cell, colIndex) => {
 								const key = `${rowIndex}-${colIndex}`;
 								const matchedWord = metadata.filter((word) => {
 									return (
@@ -45,22 +74,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 									);
 								});
 								const cellState = cellData.get(key);
-								if (cell === "#") {
-									return (
-										<Grid2 key={key} id={key}>
-											<Box
-												sx={{
-													border: "1px solid #ddd",
-													boxSizing: "border-box",
-													background:
-														"linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
-													width: "40px",
-													height: "40px",
-												}}
-											/>
-										</Grid2>
-									);
-								}
+								if (!cellState) return <></>;
 								return (
 									<Grid2 key={key} id={key}>
 										<CrosswordCell
@@ -68,8 +82,8 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 											selected={
 												cellState
 													? cellState?.wordId.includes(
-															selectedWord?.word_id || 0,
-														) || false
+														selectedWord?.word_id || 0,
+													) || false
 													: false
 											}
 											onKeyCapture={(value) => {
@@ -114,12 +128,6 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 					/>
 				</Box>
 			</Grid2>
-			<CongratulationDialog
-				open={
-					completedWords.length > 0 && completedWords.length === metadata.length
-				}
-				onClose={() => {}}
-			/>
 		</Grid2>
 	);
 };

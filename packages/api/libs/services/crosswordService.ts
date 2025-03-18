@@ -1,6 +1,7 @@
-import type {
-	CreateCrosswordBody,
-	UpdateCrosswordBody,
+import {
+	Difficulty,
+	type CreateCrosswordBody,
+	type UpdateCrosswordBody,
 } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
 import {
@@ -40,6 +41,45 @@ const crosswordService = {
 		}
 
 		return crosswordQuery;
+	},
+	async getCrosswordDetailsBySearchTerm(searchTerm) {
+		const client = AppDataSource;
+		const crosswordQuery = await client
+			.createQueryBuilder(Crossword, "c")
+			.leftJoinAndSelect("c.topics", "t")
+			.leftJoinAndSelect("t.language", "l")
+			.select([
+				"c.title",
+				"c.crossword_id",
+				"c.is_Public",
+				"c.difficulty",
+				"t.topic_name",
+				"t.topic_id",
+				"l.language_code",
+			])
+			.where("c.is_Public = :isPublic", { isPublic: true });
+
+
+		if (searchTerm) {
+			crosswordQuery.andWhere(
+				`c.title LIKE :searchTerm
+						OR t.topic_name LIKE :searchTerm
+					`,
+				{ searchTerm: `%${searchTerm}%` 	},
+			);
+		
+		
+		}
+		const crosswords = await crosswordQuery.limit(50)
+			.getMany();
+
+			console.log(crosswords)
+
+		if (!crosswords) {
+			throw new CrosswordError("Crosswords service has no entries", 404);
+		}
+
+		return crosswords;
 	},
 
 	async getCrosswordById(id: number) {

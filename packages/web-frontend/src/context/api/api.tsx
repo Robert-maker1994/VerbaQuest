@@ -8,11 +8,24 @@ import type {
 import axios from "axios";
 export const api = axios.create({
 	baseURL: "http://localhost:5001/",
+	headers: {
+		"Content-Type": "application/json",
+	},
 });
 
 const backendEndpoints = {
 	async getCrosswordDetails(): Promise<CrosswordDetails[]> {
 		const response = await api.get<CrosswordDetails[]>("crossword/details");
+		return response.data;
+	},
+
+	async searchCrosswords(search: string): Promise<CrosswordDetails[]> {
+		const response = await api.get<CrosswordDetails[]>("crossword/details", {
+			params: {
+				search
+			}
+		});
+		console.log(response)
 		return response.data;
 	},
 
@@ -85,19 +98,64 @@ const backendEndpoints = {
 		}>,
 	) {
 		const token = localStorage.getItem("token");
-		console.log(token);
 		if (!token) {
 			throw new Error("No token found");
 		}
 
 		const res = await api.patch(`user/${userId}/settings`, data, {
 			headers: {
-				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
 			},
 		});
 		return res.data;
 	},
+
+	async getUserCrosswords() {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			throw new Error("No token found");
+		}
+		const { data } = await api.get("/usercrossword", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return data;
+	},
+
+
+
+	async saveUserProgress(crosswordId: number, timeTaken: number) {
+		try {
+			const token = localStorage.getItem("token");
+			
+			if (!token) {
+				throw new Error("No token found");
+			}
+
+			const response = await api.post(
+				"/usercrossword",
+				{
+					crosswordId,
+					timeTaken,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					}
+				});
+
+			if (!response.status) {
+				throw new Error(`Failed to save user progress: ${response.statusText}`);
+			}
+
+			return true;
+		} catch (error) {
+			console.error("Error saving user progress:", error);
+			throw error;
+		}
+	}
 };
 
 export default backendEndpoints;

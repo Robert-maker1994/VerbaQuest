@@ -19,11 +19,11 @@ const isCellInWord = (
 ): boolean =>
 	word.direction === "horizontal"
 		? cellRow === word.start_row &&
-			cellCol >= word.start_col &&
-			cellCol < word.start_col + word.word.length
+		cellCol >= word.start_col &&
+		cellCol < word.start_col + word.word.length
 		: cellCol === word.start_col &&
-			cellRow >= word.start_row &&
-			cellRow < word.start_row + word.word.length;
+		cellRow >= word.start_row &&
+		cellRow < word.start_row + word.word.length;
 
 /**
  * A custom React hook to manage the state and logic of a crossword puzzle.
@@ -55,6 +55,8 @@ export const useCrosswordGrid = ({
 							.filter((word) => isCellInWord(row, col, word))
 							.map((word) => word.word_id);
 						newCellData.set(key, { value: "", state: CellState.Empty, wordId });
+					} else {
+						newCellData.set(key, { value: "#", state: CellState.OutOfBounds, wordId: [-1] });
 					}
 				}
 			}

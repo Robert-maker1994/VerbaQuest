@@ -8,9 +8,9 @@ import { type CellData, CellState } from "../interface";
  */
 interface CrosswordCellProps {
 	/**
-	 * The CellData object for this cell, or undefined if the cell is not part of the grid.
+	 * The CellData object for this cell
 	 */
-	cellData: CellData | undefined;
+	cellData: CellData;
 	/**
 	 * Boolean indicating whether the cell is currently selected.
 	 */
@@ -49,7 +49,20 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
 	inputRef,
 	onCellClick,
 }) => {
-	if (!cellData) return <></>;
+	if (cellData.state === CellState.OutOfBounds) {
+		return (
+			<Box
+				sx={{
+					border: "1px solid #ddd",
+					boxSizing: "border-box",
+					background:
+						"linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
+					width: "40px",
+					height: "40px",
+				}}
+			/>
+		)
+	}
 	return (
 		<Box
 			onClick={onCellClick}

@@ -11,6 +11,7 @@ import {
 
 const crosswordRouter = express.Router();
 crosswordRouter.get("/details", getCrosswordDetails);
+crosswordRouter.get("/details/:search", getCrosswordDetails);
 crosswordRouter.get("/:id", getCrosswordById);
 crosswordRouter.get("/today", getRandomCrossword);
 crosswordRouter.post("/", authMiddleware, createNewCrossword);

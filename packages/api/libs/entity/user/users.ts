@@ -68,7 +68,7 @@ export class User {
 	@Column({
 		type: "enum",
 		enum: Difficulty,
-		default: Difficulty.EASY,
+		default: Difficulty.A1,
 		comment: "The users preferred difficulty for the crosswords",
 	})
 	preferred_difficulty: Difficulty;

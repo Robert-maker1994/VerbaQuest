@@ -77,7 +77,6 @@ export class Spanish1742069452145 implements MigrationInterface {
 				}
 				crosswordTopics.push(topicsMap.get(topicKey));
 			}
-			console.log({ difficulty });
 			// 2.3 Handle Crosswords
 			const crossword = new Crossword();
 			crossword.title = title;

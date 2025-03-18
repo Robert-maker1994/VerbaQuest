@@ -1,5 +1,6 @@
+import type { LanguageCode, LanguageName } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
-import { type LanguageCode, type LanguageName, Languages } from "../entity";
+import { Languages } from "../entity";
 import { LanguageError } from "../errors";
 
 type LanguageParams = {

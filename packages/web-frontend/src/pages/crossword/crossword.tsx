@@ -5,46 +5,72 @@ import {
 	Grid2,
 	Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
-import api from "../../context/api/api";
 import CrosswordGrid from "./components/crosswordGrid";
 import { useCrossword } from "./crosswordContext";
+import CongratulationDialog from "./components/congratulationDialog";
 
 const Crossword = React.memo(function Crossword() {
 	const { crosswordId } = useParams();
-	const { crosswordData, setCrosswordData } = useCrossword();
+	const { crosswordData, getCrossword, saveUserProgress } = useCrossword();
+	const [open, setOpen] = React.useState(false);
 	const nav = useNavigate();
 
+	// Timer state and logic
+	const [seconds, setSeconds] = useState(0);
+	const timerId = useRef<NodeJS.Timeout | null>(null);
+
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (crosswordId) {
-					const data = await api.getSpecificCrossword(
-						Number.parseInt(crosswordId),
-					);
-					setCrosswordData(data);
-				}
-			} catch (err) {
-				console.error(err);
+		if (crosswordData.id) {
+			// Start the timer when crosswordData is loaded
+			timerId.current = setInterval(() => {
+				setSeconds((prevSeconds) => prevSeconds + 1);
+			}, 1000);
+		}
+		return () => {
+			if (timerId.current) {
+				clearInterval(timerId.current);
 			}
 		};
+	}, [crosswordData.id]);
 
-		fetchData();
-	}, [crosswordId, setCrosswordData]);
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (crosswordId) {
+			getCrossword(crosswordId);
+		}
+	}, [crosswordId]);
+
+	async function handleCompletion() {
+		try {
+			if (timerId.current) {
+				clearInterval(timerId.current);
+			}
+			await saveUserProgress(crosswordData.id, seconds); // Call saveUserProgress here
+
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setOpen(!open);
+		}
+	}
+
+	// Format the time for display
+	const formatTime = (timeInSeconds: number) => {
+		const minutes = Math.floor(timeInSeconds / 60);
+		const remainingSeconds = timeInSeconds % 60;
+		return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+			.toString()
+			.padStart(2, "0")}`;
+	};
+
 	if (!crosswordData) {
 		return (
 			<Box>
 				<CircularProgress />
 			</Box>
 		);
-	}
-	async function createUserProgress() {
-		const created = await api.createCrosswordForLoginUser(
-			crosswordData.id,
-			crosswordData.crossword,
-		);
-		return !!created;
 	}
 	return (
 		<Grid2 container spacing={2} justifyContent={"center"}>
@@ -63,16 +89,7 @@ const Crossword = React.memo(function Crossword() {
 				>
 					Navigate to Crossword
 				</Button>
-				<Button
-					onClick={() => {
-						createUserProgress();
-					}}
-					variant="contained"
-					disableElevation
-					color="primary"
-				>
-					Save Progress
-				</Button>
+				<Typography variant="h6">Time: {formatTime(seconds)}</Typography>
 			</Grid2>
 			<Grid2 size={12}>
 				<Typography color="primary" variant="h4" align="center">
@@ -83,8 +100,16 @@ const Crossword = React.memo(function Crossword() {
 				<CrosswordGrid
 					crosswordGrid={crosswordData.crossword}
 					metadata={crosswordData.metadata}
+					handleCompletion={handleCompletion}
 				/>
 			</Grid2>
+			<CongratulationDialog
+				open={open}
+				onClose={() => {
+					setOpen(!open);
+					handleCompletion()
+				}}
+			/>
 		</Grid2>
 	);
 });

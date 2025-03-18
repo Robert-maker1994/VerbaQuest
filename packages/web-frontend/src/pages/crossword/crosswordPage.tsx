@@ -15,25 +15,15 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../../context/api/api";
+import backendEndpoints from "../../context/api/api";
 
-const crosswordMatchesSearchTerm = (
-	crossword: CrosswordDetails,
+const crosswordMatchesSearchTerm = async (
 	searchLowerCase: string,
-): boolean => {
-	if (searchLowerCase === "") return true;
+) => {
+	if (searchLowerCase === "") return [];
 
-	const titleLowerCase = crossword.title.toLowerCase();
-	const difficultyLowerCase = crossword.difficulty.toLowerCase();
+	return await backendEndpoints.searchCrosswords(searchLowerCase);
 
-	const topicMatch = crossword.topics.some((topic) =>
-		topic.topic_name.toLowerCase().includes(searchLowerCase),
-	);
-
-	return (
-		titleLowerCase.includes(searchLowerCase) ||
-		topicMatch ||
-		difficultyLowerCase.includes(searchLowerCase)
-	);
 };
 
 const CrosswordPage: React.FC = () => {
@@ -64,28 +54,19 @@ const CrosswordPage: React.FC = () => {
 		fetchData();
 	}, []);
 
-	const handleCrosswordOfTheDay = useCallback(async () => {
-		try {
-			setLoading(true);
-			setError(null);
-			const data = await api.getCrosswordOfTheDay();
-			nav(`/crossword/${data.id}`);
-		} catch (err) {
-			if (err instanceof Error) {
-				setError(err.message);
-			} else {
-				setError("An unexpected error occurred");
+	const handleChange = useCallback(async (string: string) => {
+		const searchLowerCase = string.toLowerCase();
+		setTimeout(async () => {
+			const matches = await crosswordMatchesSearchTerm(searchLowerCase);
+			if (matches.length) {
+				setCrosswordData(matches)
 			}
-		} finally {
-			setLoading(false);
-		}
-	}, [nav]);
 
-	const filteredCrosswords = useMemo(() => {
-		return crosswordData.filter((crossword) =>
-			crosswordMatchesSearchTerm(crossword, searchTerm.toLowerCase()),
-		);
-	}, [crosswordData, searchTerm]);
+		}, 1);
+
+
+	}, [])
+
 
 	return (
 		<Box sx={{ p: 2 }}>
@@ -109,25 +90,16 @@ const CrosswordPage: React.FC = () => {
 							label="Search by Title or Topic"
 							variant="outlined"
 							value={searchTerm}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setSearchTerm(e.target.value)
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+								handleChange(e.target.value)
+								setSearchTerm(e.target.value);
+							}
 							}
 							sx={{ marginBottom: 2 }}
 						/>
-						<Button variant="contained" onClick={handleCrosswordOfTheDay}>
-							View crossword of the day
-						</Button>
-						<Button
-							variant="contained"
-							onClick={() => {
-								console.log("hello");
-							}}
-						>
-							Create you're own crossword
-						</Button>
 					</Box>
 					<Grid2 container spacing={2} justifyContent={"center"}>
-						{filteredCrosswords.map((crossword) => (
+						{crosswordData.map((crossword) => (
 							<Grid2 size={5} key={crossword.crossword_id}>
 								<Card>
 									<CardContent>

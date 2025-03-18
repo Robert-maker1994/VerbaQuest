@@ -1,5 +1,6 @@
 import type { CrosswordResponse } from "@verbaquest/shared";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
+import api from "../../context/api/api";
 
 const defaultCrossword: CrosswordResponse = {
 	crossword: [[]],
@@ -10,7 +11,8 @@ const defaultCrossword: CrosswordResponse = {
 };
 interface CrosswordContextProps {
 	crosswordData: CrosswordResponse;
-	setCrosswordData: (data: CrosswordResponse) => void;
+	getCrossword: (crosswordId: string) => Promise<void>;
+	saveUserProgress: (crosswordId: number, timeTaken: number) => Promise<void>;
 }
 
 const CrosswordContext = createContext<CrosswordContextProps | undefined>(
@@ -34,9 +36,35 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 }) => {
 	const [crosswordData, setCrosswordData] =
 		useState<CrosswordResponse>(defaultCrossword);
-	// const [isError, setIsError] = useState<boolean>(false);
 
-	const value = { crosswordData, setCrosswordData };
+	const getCrossword = useCallback(async (crosswordId: string) => {
+		try {
+			if (crosswordId) {
+				const data = await api.getSpecificCrossword(
+					Number.parseInt(crosswordId),
+				);
+				setCrosswordData(data);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}, []);
+
+	const saveUserProgress = useCallback(
+		async (crosswordId: number, timeTaken: number) => {
+			try {
+				await api.saveUserProgress(crosswordId, timeTaken);
+				console.log("User progress saved successfully!");
+			} catch (err) {
+				console.error("Error saving user progress:", err);
+			}
+		},
+		[],
+	);
+
+
+
+	const value = { crosswordData, getCrossword, saveUserProgress };
 	return (
 		<CrosswordContext.Provider value={value}>
 			{children}

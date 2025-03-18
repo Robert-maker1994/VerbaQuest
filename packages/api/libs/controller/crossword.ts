@@ -11,8 +11,21 @@ async function getCrosswordDetails(
 	next: NextFunction,
 ) {
 	try {
-		const crosswordDetails = await crosswordService.getCrosswordDetails();
-		res.send(crosswordDetails);
+		if (!req.query?.search) {
+			const crosswordDetails = await crosswordService.getCrosswordDetails();
+			res.send(crosswordDetails);
+
+		}
+		else {
+			if (req.query.search) {
+
+				const crosswordDetails = await crosswordService.getCrosswordDetailsBySearchTerm(req?.query?.search!);
+				res.send(crosswordDetails);
+			}
+
+		}
+
+
 	} catch (err) {
 		next(err);
 	}
@@ -35,6 +48,7 @@ async function getRandomCrossword(
 
 		const response: CrosswordResponse = {
 			title: randomCrossword?.title,
+			isComplete: false,
 			id: randomCrossword.crossword_id,
 			metadata: metadata.words_data.map((data) => {
 				const definition = randomCrossword.crosswordWords.find(
@@ -74,6 +88,7 @@ const getCrosswordById = async (
 		const response: CrosswordResponse = {
 			title: randomCrossword?.title,
 			id: randomCrossword.crossword_id,
+			isComplete: false,
 			metadata: metadata.words_data.map((data) => {
 				const definition = randomCrossword.crosswordWords.find(
 					(word) => word.words.word_text === data.word,

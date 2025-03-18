@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type React from "react";
+import { useNavigate } from "react-router";
 
 interface CongratulationDialogProps {
 	open: boolean;
@@ -59,6 +60,7 @@ const CongratulationDialog: React.FC<CongratulationDialogProps> = ({
 	open,
 	onClose,
 }) => {
+	const nav = useNavigate()
 	return (
 		<StyledDialog open={open} onClose={onClose}>
 			<DialogTitle>
@@ -91,6 +93,13 @@ const CongratulationDialog: React.FC<CongratulationDialogProps> = ({
 				</Typography>
 			</DialogContent>
 			<DialogActions>
+				<Button onClick={(e) => {
+					e.preventDefault()
+					nav("crosswords")
+					onClose()
+				}} variant="contained">
+					Do more Crosswords
+				</Button>
 				<Button onClick={onClose} variant="contained">
 					Close
 				</Button>

@@ -39,6 +39,13 @@ export class UserCrossword {
 	grid_state: string;
 
 	@Column({
+		type: "int",
+		nullable: true,
+		comment: "Completion timer in seconds",
+	})
+	completion_timer: number;
+
+	@Column({
 		type: "boolean",
 		default: false,
 		comment: "Indicates if the user has completed this crossword.",

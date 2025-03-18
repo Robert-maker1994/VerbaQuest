@@ -17,6 +17,7 @@ export async function authMiddleware(
 ) {
 	try {
 		const token = req.headers.authorization?.split("Bearer ")[1];
+
 		if (!token) {
 			throw new UnauthorizedError("Not token provided", 401);
 		}
@@ -28,18 +29,17 @@ export async function authMiddleware(
 			}
 
 			const userRepo = await userService.getUserByEmail(decodedToken.email);
-
 			req.user = {
 				email: userRepo.email,
 				userId: userRepo.user_id,
 			};
 		}
-
+		
 		if (config.authMode === AuthMode.LOCAL) {
 			if (config.authDefaultToken !== token) {
 				throw new UnauthorizedError("DEFAULT_TOKEN_NOT_VALID", 401);
 			}
-
+			
 			const userRepo = await userService.getUserByEmail(
 				config.authDefaultEmail,
 			);

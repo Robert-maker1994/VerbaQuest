@@ -27,6 +27,7 @@ export enum CellState {
 	Incorrect = 1,
 	Empty = 2,
 	Partial = 3,
+	OutOfBounds = 4,
 }
 
 /**
@@ -70,7 +71,7 @@ export interface UseCrosswordGridReturn {
 	 */
 	onCellSelect: (row: number, col: number) => void;
 	/**
-	 * Function to handle keyboard input in a cell.  Manages navigation and updates cell state.
+	 * Function to handle keyboard input or click in a cell.  Manages navigation and updates cell state.
 	 * @param {number} row - The row index of the cell.
 	 * @param {number} col - The column index of the cell.
 	 * @param {React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>} event - The keyboard event.

@@ -18,7 +18,7 @@ import { useTheme } from "../context/theme/useTheme";
 export default function Navbar() {
 	const nav = useNavigate();
 	const { logout } = useAuth();
-	const [value, setValue] = useState(0);
+	const [value, setValue] = useState<number | undefined>(undefined);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { isDarkMode, toggleDarkMode } = useTheme();
 

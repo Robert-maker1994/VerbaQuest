@@ -10,7 +10,7 @@ import {
 	type SelectChangeEvent,
 	Typography,
 } from "@mui/material";
-import { Difficulty, LanguageCode } from "@verbaquest/shared";
+import { LanguageCode } from "@verbaquest/shared";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";

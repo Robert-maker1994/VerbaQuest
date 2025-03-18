@@ -5,8 +5,8 @@ import { useAuth } from "./context/auth";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
-import Settings from "./pages/settings/settings";
 
+const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
 const CrosswordPage = lazy(() => import("./pages/crossword/crosswordPage"));
 const Contact = lazy(() => import("./pages/contact/contact"));
