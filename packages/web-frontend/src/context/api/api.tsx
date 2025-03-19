@@ -1,9 +1,9 @@
 import type {
-	CrosswordDetails,
-	CrosswordResponse,
 	Difficulty,
+	CrosswordDetailsResponse,
 	LanguageCode,
-	Topic,
+	CrosswordResponse,
+	CreateCrosswordBody,
 } from "@verbaquest/shared";
 import axios from "axios";
 export const api = axios.create({
@@ -14,35 +14,26 @@ export const api = axios.create({
 });
 
 const backendEndpoints = {
-	async getCrosswordDetails(): Promise<CrosswordDetails[]> {
-		const response = await api.get<CrosswordDetails[]>("crossword/details");
-		return response.data;
-	},
+	async getCrosswordDetails(search?: string): Promise<CrosswordDetailsResponse[]> {
+		const token = localStorage.getItem("token");
 
-	async searchCrosswords(search: string): Promise<CrosswordDetails[]> {
-		const response = await api.get<CrosswordDetails[]>("crossword/details", {
-			params: {
-				search
-			}
+		const params = search ? { search } : {};
+		const response = await api.get<CrosswordDetailsResponse[]>("crossword/details", {
+			params,
+			headers: {
+				"Content-Type": "application/json",
+
+				Authorization: `Bearer ${token}`,
+
+			},
 		});
-		console.log(response)
 		return response.data;
 	},
 
-	async getRandomCrossword(): Promise<CrosswordResponse> {
-		const response = await api.get<CrosswordResponse>("crossword/random");
-		return response.data;
-	},
-	async getCrosswordOfTheDay(): Promise<CrosswordResponse> {
-		const response = await api.get<CrosswordResponse>("crossword/today");
-		return response.data;
-	},
-	async getTopics(): Promise<Topic[]> {
-		const response = await api.get<Topic[]>("/topics");
-		return response.data;
-	},
 
-	async getSpecificCrossword(crosswordId: number): Promise<CrosswordResponse> {
+
+
+	async getSpecificCrossword(crosswordId: number) {
 		const response = await api.get<CrosswordResponse>(
 			`crossword/${crosswordId}`,
 		);
@@ -52,11 +43,11 @@ const backendEndpoints = {
 	async createCrosswordForLoginUser(
 		crossword_id: number,
 		grid_state: string[][],
-	): Promise<CrosswordResponse> {
+	) {
 		try {
 			const token = localStorage.getItem("token");
 
-			const response = await api.post<CrosswordResponse>(
+			const response = await api.post<CreateCrosswordBody>(
 				"usercrossword",
 				{
 					crossword_id,
@@ -128,7 +119,7 @@ const backendEndpoints = {
 	async saveUserProgress(crosswordId: number, timeTaken: number) {
 		try {
 			const token = localStorage.getItem("token");
-			
+
 			if (!token) {
 				throw new Error("No token found");
 			}

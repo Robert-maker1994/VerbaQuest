@@ -14,18 +14,13 @@ import {
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
-import type { CrosswordDetails } from "@verbaquest/shared";
 import { useNavigate } from "react-router";
+import type { GetUserCrosswords } from "@verbaquest/shared";
 
-interface UserCrosswordData {
-	completion_timer: number;
-	completed: boolean;
-	crossword: CrosswordDetails;
-}
 
 export default function Dashboard() {
 	const [userCrosswords, setUserCrosswords] = useState<
-		UserCrosswordData[] | null
+	GetUserCrosswords[] | null
 	>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -100,7 +95,7 @@ export default function Dashboard() {
 				{userCrosswords && userCrosswords.length > 0 ? (
 					<List>
 						{userCrosswords.map((item, index) => (
-							<Box key={item.crossword.crossword_id}>
+							<Box key={`${item.crossword.crossword_id}-${index}`}>
 								<ListItem alignItems="flex-start">
 									<ListItemIcon>
 										<CheckCircleOutline color="success" />

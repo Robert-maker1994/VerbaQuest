@@ -59,13 +59,40 @@ export enum Difficulty {
 	C2 = "c2",
 }
 
-export interface CrosswordDetails {
+export interface GetUserCrosswords {
+	completed: boolean,
+	completion_timer: number,
+	last_attempted: Date,
+	crossword: {
+		crossword_id: number,
+		title: string,
+		difficulty: string,
+		topics: {
+			topic_id: number,
+			topic_name: string,
+		}[]
+	}
+}
+
+export interface CrosswordDetailsResponse {
 	title: string;
 	crossword_id: number;
 	is_Public: boolean;
 	difficulty: Difficulty;
-	topics: Topic[];
+	topics: {
+		topic_name: string;
+		topic_id: number;
+		language: {
+			language_code: string;
+		};
+	}[];
+	userCrosswords: {
+		completed: boolean;
+		completion_timer: number;
+		user_crossword_id: number;
+	}[];
 }
+
 
 export interface CrosswordResponse {
 	crossword: string[][];
@@ -74,3 +101,8 @@ export interface CrosswordResponse {
 	metadata: WordData[];
 	id: number;
 }
+
+/**
+ * @typedef {Object} UserCrosswordResponse
+ * @property {Array<UserCrossword>} userCrosswords - An array of user crossword data.
+ */

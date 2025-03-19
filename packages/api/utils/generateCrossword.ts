@@ -5,11 +5,11 @@ interface WordData {
 	direction: "horizontal" | "vertical";
 }
 
-interface CrosswordMetadata {
+export interface CrosswordMetadata {
 	words_data: WordData[];
 }
 
-type CrosswordGrid = string[][];
+export type CrosswordGrid = string[][];
 
 function shuffleArray<T>(array: T[]): T[] {
 	const shuffledArray = [...array];

@@ -1,7 +1,6 @@
-import {
-	Difficulty,
-	type CreateCrosswordBody,
-	type UpdateCrosswordBody,
+import type {
+	CreateCrosswordBody,
+	UpdateCrosswordBody,
 } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
 import {
@@ -17,12 +16,17 @@ import { getLanguage } from "./language";
 type crosswordServiceParams = { id?: string; name?: string };
 
 const crosswordService = {
-	async getCrosswordDetails() {
+
+	async getCrosswordDetails(user_id: number, searchTerm?: string) {
 		const client = AppDataSource;
 		const crosswordQuery = await client
 			.createQueryBuilder(Crossword, "c")
 			.leftJoinAndSelect("c.topics", "t")
 			.leftJoinAndSelect("t.language", "l")
+			.leftJoinAndSelect("c.userCrosswords", "uc",
+				"uc.user_id = :user_id",
+				{ user_id }
+			)
 			.select([
 				"c.title",
 				"c.crossword_id",
@@ -31,33 +35,14 @@ const crosswordService = {
 				"t.topic_name",
 				"t.topic_id",
 				"l.language_code",
+				"uc.completed",
+				"uc.completion_timer",
+				"uc.user_crossword_id"
 			])
-			.where("c.is_Public = :isPublic", { isPublic: true })
-			.limit(20)
-			.getMany();
 
-		if (!crosswordQuery.length) {
-			throw new CrosswordError("Crosswords service has no entries", 404);
+		if (!user_id) {
+			crosswordQuery.where("c.is_Public = :isPublic", { isPublic: true })
 		}
-
-		return crosswordQuery;
-	},
-	async getCrosswordDetailsBySearchTerm(searchTerm) {
-		const client = AppDataSource;
-		const crosswordQuery = await client
-			.createQueryBuilder(Crossword, "c")
-			.leftJoinAndSelect("c.topics", "t")
-			.leftJoinAndSelect("t.language", "l")
-			.select([
-				"c.title",
-				"c.crossword_id",
-				"c.is_Public",
-				"c.difficulty",
-				"t.topic_name",
-				"t.topic_id",
-				"l.language_code",
-			])
-			.where("c.is_Public = :isPublic", { isPublic: true });
 
 
 		if (searchTerm) {
@@ -65,21 +50,18 @@ const crosswordService = {
 				`c.title LIKE :searchTerm
 						OR t.topic_name LIKE :searchTerm
 					`,
-				{ searchTerm: `%${searchTerm}%` 	},
+				{ searchTerm: `%${searchTerm}%` },
 			);
-		
-		
 		}
-		const crosswords = await crosswordQuery.limit(50)
+
+		const crosswordResults = await crosswordQuery.limit(20)
 			.getMany();
 
-			console.log(crosswords)
-
-		if (!crosswords) {
-			throw new CrosswordError("Crosswords service has no entries", 404);
+		if (!crosswordResults.length) {
+			return []
 		}
 
-		return crosswords;
+		return crosswordResults;
 	},
 
 	async getCrosswordById(id: number) {
@@ -101,34 +83,13 @@ const crosswordService = {
 				"t.topic_id",
 			])
 			.getOne();
+
 		if (!cross) {
 			throw new CrosswordError("Crossword not found", 404);
 		}
 		return cross;
 	},
 
-	async getRandomPublicCrossword() {
-		const client = AppDataSource;
-		const cross = await client
-			.createQueryBuilder(Crossword, "c")
-			.leftJoinAndSelect("c.crosswordWords", "cw")
-			.leftJoinAndSelect("cw.words", "w")
-			.leftJoinAndSelect("c.topics", "t")
-			.where("c.is_Public = :isPublic", { isPublic: true })
-			.select([
-				"c.title",
-				"w.word_text",
-				"cw.clue",
-				"w.definition",
-				"t.topic_name",
-				"c.crossword_id",
-				"w.word_id",
-				"t.topic_id",
-			])
-			.orderBy("RANDOM()")
-			.getOne();
-		return cross;
-	},
 
 	async createCrossword(body: CreateCrosswordBody) {
 		const client = AppDataSource;

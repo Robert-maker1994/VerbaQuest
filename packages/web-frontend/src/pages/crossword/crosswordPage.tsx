@@ -8,28 +8,30 @@ import {
 	CircularProgress,
 	Grid2,
 	TextField,
+	Tooltip,
 	Typography,
 } from "@mui/material";
-import type { CrosswordDetails } from "@verbaquest/shared";
+import type { CrosswordDetailsResponse } from "@verbaquest/shared";
 import type React from "react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../../context/api/api";
 import backendEndpoints from "../../context/api/api";
+import { CheckCircleOutline } from "@mui/icons-material";
 
 const crosswordMatchesSearchTerm = async (
 	searchLowerCase: string,
 ) => {
 	if (searchLowerCase === "") return [];
 
-	return await backendEndpoints.searchCrosswords(searchLowerCase);
+	return await backendEndpoints.getCrosswordDetails(searchLowerCase);
 
 };
 
 const CrosswordPage: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
-	const [crosswordData, setCrosswordData] = useState<CrosswordDetails[]>([]);
+	const [crosswordData, setCrosswordData] = useState<CrosswordDetailsResponse[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const nav = useNavigate();
 
@@ -61,10 +63,7 @@ const CrosswordPage: React.FC = () => {
 			if (matches.length) {
 				setCrosswordData(matches)
 			}
-
 		}, 1);
-
-
 	}, [])
 
 
@@ -105,7 +104,15 @@ const CrosswordPage: React.FC = () => {
 									<CardContent>
 										<Typography variant="h6" component="div">
 											{crossword.title}
+
 										</Typography>
+										{/* {
+											crossword.
+										} */}
+										<Tooltip title="Completed">
+
+										<CheckCircleOutline color="success" />
+										</Tooltip>
 
 										<Box
 											sx={{

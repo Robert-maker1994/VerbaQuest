@@ -1,72 +1,31 @@
-import type { CrosswordResponse } from "@verbaquest/shared";
+import type { GetCrosswordResponse } from "@verbaquest/shared";
 import type { NextFunction, Request, Response } from "express";
-import { generateCrossword } from "../../utils/generateCrossword";
+import { type CrosswordGrid, type CrosswordMetadata, generateCrossword } from "../../utils/generateCrossword";
+import type { Crossword } from "../entity";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
-async function getCrosswordDetails(
-	req: Request,
-	res: Response,
-	next: NextFunction,
-) {
-	try {
-		if (!req.query?.search) {
-			const crosswordDetails = await crosswordService.getCrosswordDetails();
-			res.send(crosswordDetails);
+function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, grid: CrosswordGrid): GetCrosswordResponse {
+	return {
 
-		}
-		else {
-			if (req.query.search) {
-
-				const crosswordDetails = await crosswordService.getCrosswordDetailsBySearchTerm(req?.query?.search!);
-				res.send(crosswordDetails);
-			}
-
-		}
-
-
-	} catch (err) {
-		next(err);
+		title: crossword?.title,
+		isCompleted: false,
+		id: crossword.crossword_id,
+		metadata: metadata.words_data.map((data) => {
+			const definition = crossword.crosswordWords.find(
+				(word) => word.words.word_text === data.word,
+			)?.words;
+			return {
+				...data,
+				word_id: definition.word_id,
+				definition: definition.definition,
+			};
+		}),
+		crossword: grid,
 	}
 }
 
-async function getRandomCrossword(
-	req: Request,
-	res: Response,
-	next: NextFunction,
-) {
-	try {
-		const randomCrossword = await crosswordService.getRandomPublicCrossword();
-
-		if (!randomCrossword) {
-			throw new CrosswordError("No crosswords found", 404);
-		}
-
-		const words = randomCrossword.crosswordWords.map((v) => v.words.word_text);
-		const [crossword, metadata] = generateCrossword(words);
-
-		const response: CrosswordResponse = {
-			title: randomCrossword?.title,
-			isComplete: false,
-			id: randomCrossword.crossword_id,
-			metadata: metadata.words_data.map((data) => {
-				const definition = randomCrossword.crosswordWords.find(
-					(word) => word.words.word_text === data.word,
-				)?.words;
-				return {
-					...data,
-					word_id: definition.word_id,
-					definition: definition.definition,
-				};
-			}),
-			crossword,
-		};
-		res.send(response);
-	} catch (err) {
-		next(err);
-	}
-}
 
 const getCrosswordById = async (
 	req: Request,
@@ -74,34 +33,18 @@ const getCrosswordById = async (
 	next: NextFunction,
 ) => {
 	try {
-		const randomCrossword = await crosswordService.getCrosswordById(
+		const crossword = await crosswordService.getCrosswordById(
 			Number.parseInt(req.params.id),
 		);
 
-		if (!randomCrossword) {
+		if (!crossword) {
 			throw new CrosswordError("No crosswords found", 404);
 		}
 
-		const words = randomCrossword.crosswordWords.map((v) => v.words.word_text);
-		const [crossword, metadata] = generateCrossword(words);
+		const words = crossword.crosswordWords.map((v) => v.words.word_text);
+		const [grid, metadata] = generateCrossword(words);
 
-		const response: CrosswordResponse = {
-			title: randomCrossword?.title,
-			id: randomCrossword.crossword_id,
-			isComplete: false,
-			metadata: metadata.words_data.map((data) => {
-				const definition = randomCrossword.crosswordWords.find(
-					(word) => word.words.word_text === data.word,
-				)?.words;
-				return {
-					...data,
-					word_id: definition.word_id,
-					definition: definition.definition,
-				};
-			}),
-			crossword,
-		};
-		res.send(response);
+		res.send(crosswordResponse(crossword, metadata, grid));
 	} catch (err) {
 		next(err);
 	}
@@ -169,7 +112,5 @@ export {
 	createNewCrossword,
 	deleteUserCrossword,
 	getCrosswordById,
-	getCrosswordDetails,
-	getRandomCrossword,
 	updateUserCrossword,
 };

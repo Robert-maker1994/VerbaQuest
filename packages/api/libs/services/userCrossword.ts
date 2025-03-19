@@ -6,22 +6,39 @@ export const userCrosswordService = {
 	async getUserCrosswords(user_id: number) {
 		try {
 			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-			const userCrossword = await userCrosswordRepo.find({
+			
+				const userCrossword = await userCrosswordRepo.find({
 				where: {
 					user: {
 						user_id,
 					},
-				},
+				}, 
+				cache: true,
 				relations: {
 					crossword: {
 						topics: true,
 					},
 				},
-				select: ["completed", "completion_timer", "crossword", "last_attempted"]
+				select: {
+					completed: true,
+					completion_timer: true,
+					last_attempted: true,
+					user_crossword_id: true,
+					crossword: {
+						crossword_id: true,
+						title: true,
+						difficulty: true,
+						topics: {
+							topic_id: true,
+							topic_name: true,
+						},
+					},
+				}
 			});
 
-			return userCrossword;
 
+
+			return userCrossword;
 		} catch (err) {
 			throw new CustomError("Error getting UserCrossword", 404);
 		}
