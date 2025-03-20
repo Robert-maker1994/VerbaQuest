@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AppDataSource } from "../../datasource";
 import { Topic } from "../../libs/entity";
-import { createTopic } from "../../libs/services";
 
 const mocks = vi.hoisted(() => {
 	return {
