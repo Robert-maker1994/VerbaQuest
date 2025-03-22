@@ -1,33 +1,32 @@
 import express from "express";
-import type { Response, NextFunction } from "express";
+import type { NextFunction, Response } from "express";
 
-import type { AuthRequest } from "../types/questRequest";
-import { userCrosswordService } from "../services";
-import { CustomError } from "../errors/customError";
 import type { UserCrossword } from "../entity";
+import { CustomError } from "../errors/customError";
+import { userCrosswordService } from "../services";
+import type { AuthRequest } from "../types/questRequest";
 
 const userCrosswordRouter = express.Router();
-
-export function groupBy<T, K extends keyof T>(
-	array: UserCrossword[]
-): Record<string | number | symbol, T[]> {
-	return array.reduce((acc, item) => {
-		const groupKey = item.crossword.crossword_id;
-		if (!acc[groupKey as string | number | symbol]) {
-			acc[groupKey as string | number | symbol] = [];
-		}
-		acc[groupKey as string | number | symbol].push(item);
-		return acc;
-	}, {} as Record<T[K] extends string | number | symbol ? T[K] : never, T[]>);
-}
-
 
 userCrosswordRouter.get("/", async (req: AuthRequest,
 	res: Response,
 	next: NextFunction) => {
 	try {
 		const userId = req.user.userId
-		const crosswords = await userCrosswordService.getUserCrosswords(userId)
+		const crosswords = await userCrosswordService.getAll(userId)
+		res.status(200).send(crosswords)
+	} catch (e) {
+		next(e)
+	}
+})
+
+userCrosswordRouter.get("/latest", async (req: AuthRequest,
+	res: Response,
+	next: NextFunction) => {
+	try {
+		const userId = req.user.userId
+		const crosswords = await userCrosswordService.getLatest(userId)
+		
 		res.status(200).send(crosswords)
 	} catch (e) {
 		next(e)
@@ -48,7 +47,7 @@ userCrosswordRouter.post("/", async (req: AuthRequest,
 			throw new CustomError("INVALID_PARAMS", 500)
 		}
 
-		const createdProgress = await userCrosswordService.createUserCrossword(crosswordId, timeTaken, userId)
+		const createdProgress = await userCrosswordService.createOrUpdate(crosswordId, timeTaken, userId)
 
 		res.status(201).json(createdProgress)
 	} catch (e) {

@@ -16,11 +16,11 @@ import backendEndpoints from "../../context/api/api";
 import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import type { GetUserCrosswords } from "@verbaquest/shared";
-
+import { format } from "date-fns";
 
 export default function Dashboard() {
 	const [userCrosswords, setUserCrosswords] = useState<
-	GetUserCrosswords[] | null
+		GetUserCrosswords[] | null
 	>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -44,12 +44,8 @@ export default function Dashboard() {
 		fetchUserCrosswords();
 	}, []);
 
-	const formatTime = (timeInSeconds: number) => {
-		const minutes = Math.floor(timeInSeconds / 60);
-		const remainingSeconds = timeInSeconds % 60;
-		return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-			.toString()
-			.padStart(2, "0")}`;
+	const formatDate = (date: Date) => {
+		return format(date, "dd/MM/yyyy HH:mm");
 	};
 
 	if (isLoading) {
@@ -89,7 +85,7 @@ export default function Dashboard() {
 					Dashboard
 				</Typography>
 				<Typography variant="body1" gutterBottom>
-					Here are the crosswords you've completed:
+					Here are the crosswords you have previously attempted:
 				</Typography>
 
 				{userCrosswords && userCrosswords.length > 0 ? (
@@ -111,8 +107,9 @@ export default function Dashboard() {
 													color="text.primary"
 												>
 													<AccessTime sx={{ marginRight: 0.5 }} />
-													{formatTime(item.completion_timer)}
+													{formatDate(item.last_attempted)}
 												</Typography>
+
 												<Box sx={{ display: "flex", flexWrap: "wrap" }}>
 													{item.crossword.topics.map((topic) => (
 														<Chip
@@ -126,10 +123,12 @@ export default function Dashboard() {
 											</>
 										}
 									/>
-									<ListItemButton onClick={(e) => {
-										e.preventDefault();
-										nav(`/crossword/${item.crossword.crossword_id}`);
-									}}>
+									<ListItemButton
+										onClick={(e) => {
+											e.preventDefault();
+											nav(`/crossword/${item.crossword.crossword_id}`);
+										}}
+									>
 										Try it again!
 									</ListItemButton>
 								</ListItem>
@@ -139,7 +138,7 @@ export default function Dashboard() {
 					</List>
 				) : (
 					<Typography variant="body1">
-						You haven't completed any crosswords yet.
+						You haven't attempted any crosswords yet.
 					</Typography>
 				)}
 			</Box>

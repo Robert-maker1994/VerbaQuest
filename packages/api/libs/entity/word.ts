@@ -22,9 +22,6 @@ export class Words {
 	)
 	@JoinColumn({ name: "language_id" })
 	@Index("idx_words_language_id")
-	/**
-	 * Foreign key to the Languages table. Represents the language of this word.
-	 */
 	language: Languages;
 
 	@Column({
@@ -48,6 +45,7 @@ export class Words {
 
 	@Column({
 		default: false,
+		type: "boolean",
 		comment: "Whether this word is valid for Wordle.",
 	})
 	wordle_valid: boolean;

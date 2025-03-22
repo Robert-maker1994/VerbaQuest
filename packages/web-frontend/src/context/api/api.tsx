@@ -106,7 +106,7 @@ const backendEndpoints = {
 		if (!token) {
 			throw new Error("No token found");
 		}
-		const { data } = await api.get("/usercrossword", {
+		const { data } = await api.get("/usercrossword/latest", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
