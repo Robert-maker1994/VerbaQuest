@@ -10,11 +10,23 @@ import {
 	type SelectChangeEvent,
 	Typography,
 } from "@mui/material";
-import { Difficulty, LanguageCode } from "@verbaquest/shared";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";
+enum LanguageCode {
+	ENGLISH = "EN",
+	SPANISH = "ES",
+	FRENCH = "FR"
+}
 
+ enum Difficulty {
+    A1 = "a1",
+    A2 = "a2",
+    B1 = "b1",
+    B2 = "b2",
+    C1 = "c1",
+    C2 = "c2"
+}
 interface SettingsFormData {
 	preferred_learning_language: LanguageCode;
 	preferred_difficulty: Difficulty;
