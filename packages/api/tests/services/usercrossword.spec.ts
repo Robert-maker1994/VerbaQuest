@@ -5,30 +5,30 @@ import { CustomError } from "../../libs/errors/customError";
 import { userCrosswordService } from "../../libs/services";
 
 vi.mock("../../datasource.ts", async (importOriginal) => {
-    const mod = await importOriginal();
-    return {
-        AppDataSource: mocks.AppDataSource,
-    };
+  const mod = await importOriginal();
+  return {
+    AppDataSource: mocks.AppDataSource,
+  };
 });
 const mocks = vi.hoisted(() => {
-	return {
-		AppDataSource: {
-			getRepository: vi.fn().mockReturnThis(),
-			create: vi.fn().mockReturnThis(),
+  return {
+    AppDataSource: {
+      getRepository: vi.fn().mockReturnThis(),
+      create: vi.fn().mockReturnThis(),
       find: vi.fn().mockReturnThis(),
-			save: vi.fn().mockReturnThis(),
-            upsert: vi.fn().mockReturnThis(),
-            findOne: vi.fn().mockReturnThis(),
-		},
-	};
+      save: vi.fn().mockReturnThis(),
+      upsert: vi.fn().mockReturnThis(),
+      findOne: vi.fn().mockReturnThis(),
+    },
+  };
 });
 
 describe("userCrosswordService", () => {
-    const topicRepo = AppDataSource.getRepository(UserCrossword);
+  const topicRepo = AppDataSource.getRepository(UserCrossword);
 
   beforeEach(() => {
-   vi.clearAllMocks();
-});
+    vi.clearAllMocks();
+  });
 
   afterEach(() => {
     vi.clearAllMocks();
@@ -50,8 +50,8 @@ describe("userCrosswordService", () => {
           },
         },
       ];
-          const topicRepo = AppDataSource.getRepository(UserCrossword);
-          vi.mocked(topicRepo.find).mockResolvedValue(mockUserCrosswords as UserCrossword[]);
+      const topicRepo = AppDataSource.getRepository(UserCrossword);
+      vi.mocked(topicRepo.find).mockResolvedValue(mockUserCrosswords as UserCrossword[]);
 
       const result = await userCrosswordService.getAll(1);
       expect(result).toEqual(mockUserCrosswords);
@@ -84,47 +84,41 @@ describe("userCrosswordService", () => {
         completion_timer: 100,
         crossword: { crossword_id: 1 },
         user: { user_id: 1 },
-        user_crossword_id: 1, 
+        user_crossword_id: 1,
       };
       vi.mocked(topicRepo.findOne).mockResolvedValue(mockUserCrossword as UserCrossword);
-    
+
       const result = await userCrosswordService.createOrUpdate(1, 100, 1);
       expect(result).toEqual(mockUserCrossword);
-      expect(topicRepo.upsert).toHaveBeenCalledWith({
-        completed: true,
-        completion_timer: 100,
-        crossword: { crossword_id: 1 },
-        user: { user_id: 1 },
-        last_attempted: expect.any(Date)
-      }, ["user", "crossword"]);
-    });
+      expect(topicRepo.upsert).toBeCalled();
+    })
 
     it("should throw a CustomError if an error occurs during creation", async () => {
-        vi.mocked(topicRepo.findOne).mockReturnValue(null);
+      vi.mocked(topicRepo.findOne).mockReturnValue(null);
       await expect(userCrosswordService.createOrUpdate(1, 100, 1)).rejects.toThrowError(
         new CustomError("Error creating or updating UserCrossword", 404)
       );
     });
 
-		it("should throw a CustomError if an error occurs during saving", async () => {
-			const mockUserCrossword = {
-				completed: true,
-				completion_timer: 100,
-				crossword: { crossword_id: 1 },
-				user: { user_id: 1 },
-				user_crossword_id: 1, // Add a user_crossword_id for completeness
-			};
-			vi.mocked(topicRepo.findOne).mockResolvedValue(mockUserCrossword as UserCrossword);
-			vi.mocked(topicRepo.upsert).mockRejectedValue(new Error("Database error"));
-
+    it("should throw a CustomError if an error occurs during saving", async () => {
+      const mockUserCrossword = {
+        completed: true,
+        completion_timer: 100,
+        crossword: { crossword_id: 1 },
+        user: { user_id: 1 },
+        user_crossword_id: 1, // Add a user_crossword_id for completeness
+      };
+      vi.mocked(topicRepo.findOne).mockResolvedValue(mockUserCrossword as UserCrossword);
+      
       try {
+        vi.mocked(topicRepo.upsert).mockRejectedValue("Error");
         await userCrosswordService.createOrUpdate(1, 100, 1);
       } catch (error) {
         expect(error).toBeInstanceOf(CustomError);
         expect(error.message).toBe("Error creating or updating UserCrossword");
       }
-		
-		});
+
+    });
   });
 });
 

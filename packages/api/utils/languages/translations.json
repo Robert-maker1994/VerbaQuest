@@ -1,0 +1,152 @@
+{
+    "dashboard": {
+        "EN": "Dashboard",
+        "ES": "Tablero",
+        "FR": "Tableau de bord"
+    },
+    "crossword": {
+        "EN": "Crossword",
+        "ES": "Crucigrama",
+        "FR": "Mots croisés"
+    },
+    "verb_conjugation": {
+        "EN": "Verb Conjugation",
+        "ES": "Conjugación de verbos",
+        "FR": "Conjugaison des verbes"
+    },
+    "contact": {
+        "EN": "Contact",
+        "ES": "Contacto",
+        "FR": "Contact"
+    },
+    "verbaquest": {
+        "EN": "Verbaquest",
+        "ES": "Verbaquest",
+        "FR": "Verbaquest"
+    },
+    "user settings": {
+        "EN": "User Settings",
+        "ES": "Configuración de usuario",
+        "FR": "Paramètres utilisateur"
+    },
+    "logout": {
+        "EN": "Logout",
+        "ES": "Cerrar sesión",
+        "FR": "Déconnexion"
+    },
+    "here_are_the crosswords_you_have_previously_attempted:": {
+        "EN": "Here are the crosswords you have previously attempted:",
+        "ES": "Aquí están los crucigramas que has intentado anteriormente:",
+        "FR": "Voici les mots croisés que vous avez déjà essayés :"
+    },
+    "not_attempted_crosswords": {
+        "EN": "You haven't attempted any crosswords yet.",
+        "ES": "Aún no has intentado ningún crucigrama.",
+        "FR": "Vous n'avez pas encore essayé de mots croisés."
+    },
+    "try_it_again": {
+        "EN": "Try again!",
+        "ES": "¡Inténtalo de nuevo!",
+        "FR": "Réessayez !"
+    },
+    "navigate_to_crossword": {
+        "EN": "Navigate to Crossword",
+        "ES": "Navegar a Crucigrama",
+        "FR": "Naviguer vers les mots croisés"
+    },
+    "time:": {
+        "EN": "Time:",
+        "ES": "Tiempo:",
+        "FR": "Temps:"
+    },
+    "play": {
+        "EN": "Play",
+        "ES": "Jugar",
+        "FR": "Jouer"
+    },
+    "status:": {
+        "EN": "Status:",
+        "ES": "Estado:",
+        "FR": "Statut:"
+    },
+    "topics:": {
+        "EN": "Topics:",
+        "ES": "Temas:",
+        "FR": "Sujets:"
+    },
+    "difficulty:": {
+        "EN": "Difficulty:",
+        "ES": "Dificultad:",
+        "FR": "Difficulté:"
+    },
+    "completed": {
+        "EN": "Completed",
+        "ES": "Completado",
+        "FR": "Terminé"
+    },
+    "not_attempted": {
+        "EN": "Not Attempted",
+        "ES": "No intentado",
+        "FR": "Non tenté"
+    },
+    "search_crosswords": {
+        "EN": "Search crosswords",
+        "ES": "Buscar crucigramas",
+        "FR": "Rechercher des mots croisés"
+    },
+    "crosswords": {
+        "EN": "Crosswords",
+        "ES": "Crucigramas",
+        "FR": "Mots croisés"
+    },
+    "congratulations": {
+        "EN": "Congratulations!",
+        "ES": "¡Felicitaciones!",
+        "FR": "Félicitations!"
+    },
+    "puzzle_completed!": {
+        "EN": "Puzzle Completed!",
+        "ES": "¡Rompecabezas completado!",
+        "FR": "Puzzle terminé!"
+    },
+    "completed_crossword": {
+        "EN": "You solved the crossword! Great job!",
+        "ES": "¡Resolviste el crucigrama! ¡Buen trabajo!",
+        "FR": "Vous avez résolu les mots croisés ! Excellent travail !"
+    },
+    "do_more_crosswords": {
+        "EN": "Do more Crosswords",
+        "ES": "Hacer más crucigramas",
+        "FR": "Faire plus de mots croisés"
+    },
+    "close": {
+        "EN": "Close",
+        "ES": "Cerrar",
+        "FR": "Fermer"
+    },
+    "language": {
+        "EN": "Preferred Learning Language",
+        "ES": "Idioma de aprendizaje preferido",
+        "FR": "Langue d'apprentissage préférée"
+    },
+    "app_language": {
+        "EN": "App Language",
+        "ES": "Idioma de la aplicación",
+        "FR": "Langue de l'application"
+    },
+    "difficulty": {
+        "EN": "Preferred Difficulty",
+        "ES": "Dificultad preferida",
+        "FR": "Difficulté préférée"
+    },
+    "saved_notification": {
+        "EN": "These changes have been saved.",
+        "ES": "Estos cambios han sido guardados.",
+        "FR": "Ces modifications ont été enregistrées."
+    },
+    "done": {
+        "EN": "Done",
+        "ES": "Hecho",
+        "FR": "Terminé"
+    }
+}

@@ -95,7 +95,7 @@ const CongratulationDialog: React.FC<CongratulationDialogProps> = ({
 			<DialogActions>
 				<Button onClick={(e) => {
 					e.preventDefault()
-					nav("crosswords")
+					nav("/crossword")
 					onClose()
 				}} variant="contained">
 					Do more Crosswords

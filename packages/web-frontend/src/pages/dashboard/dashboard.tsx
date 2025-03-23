@@ -9,23 +9,40 @@ import {
 	Chip,
 	Divider,
 	CircularProgress,
-	ListItemButton,
+	Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import type { GetUserCrosswords } from "@verbaquest/shared";
-import { format } from "date-fns";
+import { formatRelative } from "date-fns";
+import { es, enUS, fr } from 'date-fns/locale';
+import { useTranslation } from "../../context/translationProvider";
+import { useAuth } from "../../context/auth";
 
 export default function Dashboard() {
 	const [userCrosswords, setUserCrosswords] = useState<
 		GetUserCrosswords[] | null
 	>(null);
+	const { translate } = useTranslation()
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const nav = useNavigate();
+	const { user } = useAuth();
 
+	const getLocale = () => {
+		switch (user?.app_language) {
+			case "ES":
+				return es;
+			case "FR":
+				return fr;
+			default:
+				return enUS;
+		}
+	};
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const fetchUserCrosswords = async () => {
 			setIsLoading(true);
@@ -45,7 +62,9 @@ export default function Dashboard() {
 	}, []);
 
 	const formatDate = (date: Date) => {
-		return format(date, "dd/MM/yyyy HH:mm");
+		return formatRelative(date, new Date(), {
+			locale: getLocale(),
+		});
 	};
 
 	if (isLoading) {
@@ -68,7 +87,7 @@ export default function Dashboard() {
 			<Container maxWidth="md">
 				<Box sx={{ my: 4 }}>
 					<Typography variant="h4" component="h1" gutterBottom>
-						Dashboard
+						{translate("dashboard")}
 					</Typography>
 					<Typography color="error" variant="body1">
 						{error}
@@ -82,17 +101,17 @@ export default function Dashboard() {
 		<Container maxWidth="md">
 			<Box sx={{ my: 4 }}>
 				<Typography variant="h4" component="h1" gutterBottom>
-					Dashboard
+					{translate("dashboard")}
 				</Typography>
 				<Typography variant="body1" gutterBottom>
-					Here are the crosswords you have previously attempted:
+					{translate("here_are_the crosswords_you_have_previously_attempted:")}
 				</Typography>
 
 				{userCrosswords && userCrosswords.length > 0 ? (
 					<List>
 						{userCrosswords.map((item, index) => (
-							<Box key={`${item.crossword.crossword_id}-${index}`}>
-								<ListItem alignItems="flex-start">
+							<Box key={item.crossword.crossword_id}>
+								<ListItem alignItems="flex-start" disableGutters>
 									<ListItemIcon>
 										<CheckCircleOutline color="success" />
 									</ListItemIcon>
@@ -123,14 +142,17 @@ export default function Dashboard() {
 											</>
 										}
 									/>
-									<ListItemButton
+									<Button
+										variant="contained"
+										disableElevation
+										color="primary"
 										onClick={(e) => {
 											e.preventDefault();
 											nav(`/crossword/${item.crossword.crossword_id}`);
 										}}
 									>
-										Try it again!
-									</ListItemButton>
+										{translate("try_it_again")}
+									</Button>
 								</ListItem>
 								{index < userCrosswords.length - 1 && <Divider />}
 							</Box>
@@ -138,7 +160,7 @@ export default function Dashboard() {
 					</List>
 				) : (
 					<Typography variant="body1">
-						You haven't attempted any crosswords yet.
+						{translate("not_attempted_crosswords")}
 					</Typography>
 				)}
 			</Box>

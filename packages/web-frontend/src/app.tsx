@@ -5,15 +5,13 @@ import { useAuth } from "./context/auth";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
+import { TranslationProvider } from "./context/translationProvider";
 
 const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
 const CrosswordPage = lazy(() => import("./pages/crossword/crosswordPage"));
-const Contact = lazy(() => import("./pages/contact/contact"));
 const Dashboard = lazy(() => import("./pages/dashboard/dashboard"));
-const VerbConjugation = lazy(
-	() => import("./pages/verbconjugation/verbconjugation"),
-);
+
 const Register = lazy(() => import("./pages/login/register"));
 const routes = [
 	{
@@ -29,16 +27,8 @@ const routes = [
 		element: <CrosswordPage />,
 	},
 	{
-		path: "/contact",
-		element: <Contact />,
-	},
-	{
 		path: "/dashboard",
 		element: <Dashboard />,
-	},
-	{
-		path: "/verbconjugation",
-		element: <VerbConjugation />,
 	},
 	{
 		path: "/settings",
@@ -67,7 +57,7 @@ function AppContent() {
 	return (
 		<React.Suspense fallback={<p>Loading...</p>}>
 			{isLoggedIn ? (
-				<>
+				<TranslationProvider>
 					<Navbar />
 					<Container maxWidth="lg">
 						<CrosswordProvider>
@@ -80,7 +70,7 @@ function AppContent() {
 							</Routes>
 						</CrosswordProvider>
 					</Container>
-				</>
+				</TranslationProvider>
 			) : (
 				<Login />
 			)}

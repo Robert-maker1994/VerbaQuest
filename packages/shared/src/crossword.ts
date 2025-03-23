@@ -11,13 +11,6 @@ export interface WordData {
 	direction: Direction;
 }
 
-export interface CrosswordResponse {
-	crossword: string[][];
-	title: string;
-	metadata: WordData[];
-	id: number;
-}
-
 export interface UpdateCrosswordBody {
 	title?: string;
 	topic?: string;
@@ -101,8 +94,3 @@ export interface CrosswordResponse {
 	metadata: WordData[];
 	id: number;
 }
-
-/**
- * @typedef {Object} UserCrosswordResponse
- * @property {Array<UserCrossword>} userCrosswords - An array of user crossword data.
- */

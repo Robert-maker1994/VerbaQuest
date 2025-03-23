@@ -28,6 +28,7 @@ export interface QuestUser {
 	token: string;
 	preferred_difficulty: Difficulty;
 	preferred_learning_language: LanguageCode;
+	app_language: LanguageCode;
 }
 
 export enum AuthActionType {
@@ -84,7 +85,7 @@ interface registerSuccessAction {
 
 export interface AuthState {
 	isLoggedIn: boolean;
-	user: QuestUser | null; // Use QuestUser
+	user: QuestUser | null; 
 	error: string | null;
 	isLoading: boolean;
 }

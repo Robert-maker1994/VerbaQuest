@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/auth";
 import { useTheme } from "../context/theme/useTheme";
+import { useTranslation } from "../context/translationProvider";
 
 export default function Navbar() {
 	const nav = useNavigate();
@@ -21,7 +22,7 @@ export default function Navbar() {
 	const [value, setValue] = useState<number>(0);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { isDarkMode, toggleDarkMode } = useTheme();
-
+	const { translate } = useTranslation()
 	const open = Boolean(anchorEl);
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,7 +54,6 @@ export default function Navbar() {
 	return (
 		<AppBar
 			position="static"
-			color="default"
 			elevation={1}
 			sx={{
 				borderRadius: 2,
@@ -88,23 +88,13 @@ export default function Navbar() {
 				>
 					<Tab
 						disableRipple
-						label="Dashboard"
+						label={translate("dashboard")}
 						onClick={() => handleClick("dashboard")}
 					/>
 					<Tab
 						disableRipple
-						label="Crossword"
+						label={translate("crossword")}
 						onClick={() => handleClick("crossword")}
-					/>
-					<Tab
-						disableRipple
-						label="Verb Conjugation"
-						onClick={() => handleClick("verbconjugation")}
-					/>
-					<Tab
-						disableRipple
-						label="Contact"
-						onClick={() => handleClick("contact")}
 					/>
 				</Tabs>
 
@@ -125,8 +115,8 @@ export default function Navbar() {
 					open={open}
 					onClose={handleClose}
 				>
-					<MenuItem onClick={handleUserSettings}>User Settings</MenuItem>
-					<MenuItem onClick={handleLogout}>Logout</MenuItem>
+					<MenuItem onClick={handleUserSettings}>{translate("user settings")}</MenuItem>
+					<MenuItem onClick={handleLogout}>{translate("logout")}</MenuItem>
 					<Switch
 						title="Light/Dark Mode"
 						color="primary"

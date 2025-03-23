@@ -23,7 +23,7 @@ const Crossword = React.memo(function Crossword() {
 
 	useEffect(() => {
 		if (crosswordData.id) {
-			// Start the timer when crosswordData is loaded
+		
 			timerId.current = setInterval(() => {
 				setSeconds((prevSeconds) => prevSeconds + 1);
 			}, 1000);
@@ -46,6 +46,7 @@ const Crossword = React.memo(function Crossword() {
 		try {
 			if (timerId.current) {
 				clearInterval(timerId.current);
+				setSeconds(0);
 			}
 			await saveUserProgress(crosswordData.id, seconds); // Call saveUserProgress here
 
@@ -56,7 +57,6 @@ const Crossword = React.memo(function Crossword() {
 		}
 	}
 
-	// Format the time for display
 	const formatTime = (timeInSeconds: number) => {
 		const minutes = Math.floor(timeInSeconds / 60);
 		const remainingSeconds = timeInSeconds % 60;

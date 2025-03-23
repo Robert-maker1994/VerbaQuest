@@ -104,7 +104,7 @@ export const userCrosswordService = {
 				console.info("Error upserting UserCrossword", result);
 				throw new CustomError("Error upsetting UserCrossword", 404);
 			}
-			console.log("hellloooo")
+
 			const userCrossword = await userCrosswordRepo.findOne({
 				where: {
 					user: { user_id },

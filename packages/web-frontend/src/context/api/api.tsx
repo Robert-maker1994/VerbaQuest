@@ -146,6 +146,29 @@ const backendEndpoints = {
 			console.error("Error saving user progress:", error);
 			throw error;
 		}
+	},
+
+	async getPageTranslations() {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			throw new Error("No token found");
+		}
+
+		const response = await api.get(
+			"/translation",
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				}
+			});
+
+		if (!response.status) {
+			throw new Error(`Failed to save user progress: ${response.statusText}`);
+		}
+	
+		return response.data;
 	}
 };
 

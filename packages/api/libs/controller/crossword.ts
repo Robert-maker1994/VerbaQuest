@@ -1,4 +1,4 @@
-import type { GetCrosswordResponse } from "@verbaquest/shared";
+import type { CrosswordResponse, GetUserCrosswords } from "@verbaquest/shared";
 import type { NextFunction, Request, Response } from "express";
 import { type CrosswordGrid, type CrosswordMetadata, generateCrossword } from "../../utils/generateCrossword";
 import type { Crossword } from "../entity";
@@ -6,11 +6,11 @@ import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
-function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, grid: CrosswordGrid): GetCrosswordResponse {
+function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, grid: CrosswordGrid): CrosswordResponse {
 	return {
 
 		title: crossword?.title,
-		isCompleted: false,
+		isComplete: false,
 		id: crossword.crossword_id,
 		metadata: metadata.words_data.map((data) => {
 			const definition = crossword.crosswordWords.find(
@@ -28,7 +28,7 @@ function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, gr
 
 
 const getCrosswordById = async (
-	req: Request,
+	req: AuthRequest,
 	res: Response,
 	next: NextFunction,
 ) => {

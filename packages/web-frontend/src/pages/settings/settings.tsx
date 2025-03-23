@@ -13,48 +13,55 @@ import {
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";
+import { useTranslation } from "../../context/translationProvider";
 enum LanguageCode {
 	ENGLISH = "EN",
 	SPANISH = "ES",
 	FRENCH = "FR"
 }
 
- enum Difficulty {
-    A1 = "a1",
-    A2 = "a2",
-    B1 = "b1",
-    B2 = "b2",
-    C1 = "c1",
-    C2 = "c2"
+enum Difficulty {
+	A1 = "a1",
+	A2 = "a2",
+	B1 = "b1",
+	B2 = "b2",
+	C1 = "c1",
+	C2 = "c2"
 }
 interface SettingsFormData {
 	preferred_learning_language: LanguageCode;
 	preferred_difficulty: Difficulty;
+	app_language: LanguageCode;
 }
 
 const SettingsPage = () => {
 	const { user } = useAuth();
 	const [formData, setFormData] = useState<SettingsFormData>({
-		preferred_learning_language: LanguageCode.ENGLISH, // Default value
-		preferred_difficulty: Difficulty.A1, // Default value
+		preferred_learning_language: LanguageCode.ENGLISH,
+		preferred_difficulty: Difficulty.A1,
+		app_language: LanguageCode.ENGLISH,
 	});
 	const [initialFormData, setInitialFormData] = useState<SettingsFormData>({
-		preferred_learning_language: LanguageCode.ENGLISH, // Default value
-		preferred_difficulty: Difficulty.A1, // Default value
+		preferred_learning_language: LanguageCode.ENGLISH,
+		preferred_difficulty: Difficulty.A1,
+		app_language: LanguageCode.ENGLISH,
 	});
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 	const [isSaved, setIsSaved] = useState<boolean>(false);
+	const { refreshTranslations, translate } = useTranslation();
 
 	useEffect(() => {
 		if (user) {
 			setFormData({
 				preferred_learning_language: user.preferred_learning_language,
 				preferred_difficulty: user.preferred_difficulty,
+				app_language: user.app_language,
 			});
 			setInitialFormData({
 				preferred_learning_language: user.preferred_learning_language,
 				preferred_difficulty: user.preferred_difficulty,
+				app_language: user.app_language,
 			});
 		}
 	}, [user]);
@@ -84,6 +91,7 @@ const SettingsPage = () => {
 			if (updatedData) {
 				setIsSaved(true);
 				setInitialFormData(formData);
+				refreshTranslations(); 
 			} else {
 				setError("Failed to update user settings.");
 			}
@@ -100,8 +108,9 @@ const SettingsPage = () => {
 
 	const isFormChanged =
 		formData.preferred_learning_language !==
-			initialFormData.preferred_learning_language ||
-		formData.preferred_difficulty !== initialFormData.preferred_difficulty;
+		initialFormData.preferred_learning_language ||
+		formData.preferred_difficulty !== initialFormData.preferred_difficulty ||
+		formData.app_language !== initialFormData.app_language;
 
 	return (
 		<Box
@@ -117,17 +126,17 @@ const SettingsPage = () => {
 				mx: "auto",
 			}}
 		>
-			<Typography variant="h4">User Settings</Typography>
+			<Typography variant="h4">{translate("user settings")}</Typography>
 
 			<FormControl fullWidth>
 				<InputLabel id="learning-language-label">
-					Preferred Learning Language
+					{translate("language")}
 				</InputLabel>
 				<Select
 					labelId="learning-language-label"
 					id="learning-language-select"
 					value={formData.preferred_learning_language}
-					label="Preferred Learning Language"
+					label={translate("language")}
 					onChange={(event) =>
 						handleChange(event, "preferred_learning_language")
 					}
@@ -141,17 +150,35 @@ const SettingsPage = () => {
 			</FormControl>
 
 			<FormControl fullWidth>
-				<InputLabel id="difficulty-label">Preferred Difficulty</InputLabel>
+				<InputLabel id="difficulty-label">{translate("difficulty")}</InputLabel>
 				<Select
 					labelId="difficulty-label"
 					id="difficulty-select"
 					value={formData.preferred_difficulty}
-					label="Preferred Difficulty"
+					label={translate("difficulty")}
 					onChange={(event) => handleChange(event, "preferred_difficulty")}
 				>
 					{Object.values(Difficulty).map((difficulty) => (
 						<MenuItem key={difficulty} value={difficulty}>
 							{difficulty}
+						</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+
+
+			<FormControl fullWidth>
+				<InputLabel id="difficulty-label">{translate("app_language")}</InputLabel>
+				<Select
+					labelId="app-language-label"
+					id="app-language"
+					value={formData.app_language}
+					label={translate("app_language")}
+					onChange={(event) => handleChange(event, "app_language")}
+				>
+					{Object.values(LanguageCode).map((code) => (
+						<MenuItem key={code} value={code}>
+							{code}
 						</MenuItem>
 					))}
 				</Select>
@@ -164,7 +191,7 @@ const SettingsPage = () => {
 			)}
 			{isSaved && (
 				<Alert severity="success" sx={{ width: "100%" }}>
-					These changes have been saved.
+					{translate("saved_notification")}
 				</Alert>
 			)}
 
@@ -177,7 +204,7 @@ const SettingsPage = () => {
 				}}
 				disabled={isLoading || !isFormChanged}
 			>
-				{isLoading ? <CircularProgress size={24} /> : "Done"}
+				{isLoading ? <CircularProgress size={24} /> : translate("done")}
 			</Button>
 		</Box>
 	);
