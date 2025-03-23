@@ -22,7 +22,7 @@ export default function Navbar() {
 	const [value, setValue] = useState<number>(0);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { isDarkMode, toggleDarkMode } = useTheme();
-	const { translate } = useTranslation()
+	const { translate } = useTranslation();
 	const open = Boolean(anchorEl);
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -115,7 +115,9 @@ export default function Navbar() {
 					open={open}
 					onClose={handleClose}
 				>
-					<MenuItem onClick={handleUserSettings}>{translate("user settings")}</MenuItem>
+					<MenuItem onClick={handleUserSettings}>
+						{translate("user settings")}
+					</MenuItem>
 					<MenuItem onClick={handleLogout}>{translate("logout")}</MenuItem>
 					<Switch
 						title="Light/Dark Mode"

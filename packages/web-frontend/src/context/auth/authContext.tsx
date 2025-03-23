@@ -1,4 +1,3 @@
-// src/context/auth/authContext.ts
 import type React from "react";
 import { type ReactNode, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";

@@ -85,7 +85,7 @@ interface registerSuccessAction {
 
 export interface AuthState {
 	isLoggedIn: boolean;
-	user: QuestUser | null; 
+	user: QuestUser | null;
 	error: string | null;
 	isLoading: boolean;
 }

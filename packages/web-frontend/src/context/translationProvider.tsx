@@ -1,9 +1,14 @@
-// packages/web-frontend/src/context/translationProvider.tsx
-import type React from "react";
-import { createContext, useContext, useCallback, useEffect, useState } from "react";
-import { useAuth } from "./auth/useAuth";
-import backendEndpoints from "./api/api";
 import type { TranslationKey } from "@verbaquest/shared";
+import type React from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
+import backendEndpoints from "./api/api";
+import { useAuth } from "./auth/useAuth";
 interface TranslationContextType {
 	translate: (key: TranslationKey) => string;
 	refreshTranslations: () => void;
@@ -11,7 +16,7 @@ interface TranslationContextType {
 
 const TranslationContext = createContext<TranslationContextType>({
 	translate: (key: TranslationKey) => key,
-	refreshTranslations: () => { },
+	refreshTranslations: () => {},
 });
 
 interface TranslationProviderProps {
@@ -22,40 +27,40 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({
 	children,
 }) => {
 	const { user } = useAuth();
-	const [translations, setTranslations] = useState<Record<TranslationKey, string>>({
+	const [translations, setTranslations] = useState<
+		Record<TranslationKey, string>
+	>({
 		dashboard: "dashboard",
 		crossword: "crossword",
-		"verb_conjugation": "verb conjugation",
+		verb_conjugation: "verb conjugation",
 		contact: "contact",
 		verbaquest: "verbaquest",
 		"user settings": "user settings",
 		logout: "logout",
 		"here_are_the crosswords_you_have_previously_attempted:":
 			"here are the crosswords you have previously attempted:",
-		"not_attempted_crosswords":
-			"you haven't attempted any crosswords yet.",
-		"try_it_again": "try it again!",
-		"navigate_to_crossword": "navigate to Crossword",
+		not_attempted_crosswords: "you haven't attempted any crosswords yet.",
+		try_it_again: "try it again!",
+		navigate_to_crossword: "navigate to Crossword",
 		"time:": "time:",
 		play: "play",
 		"status:": "status:",
 		"topics:": "topics:",
 		"difficulty:": "difficulty:",
 		completed: "completed",
-		"not_attempted": "not attempted",
-		"search_crosswords": "search crosswords",
+		not_attempted: "not attempted",
+		search_crosswords: "search crosswords",
 		crosswords: "crosswords",
-		"congratulations": "congratulations!",
+		congratulations: "congratulations!",
 		"puzzle_completed!": "puzzle completed!",
-		"completed_crossword":
-			"You solved the crossword! Great job!",
-		"do_more_crosswords": "Do more Crosswords",
+		completed_crossword: "You solved the crossword! Great job!",
+		do_more_crosswords: "Do more Crosswords",
 		close: "Close",
-		"language": "preferred learning language",
-		"difficulty": "preferred difficulty",
-		"saved_notification": "These changes have been saved.",
+		language: "preferred learning language",
+		difficulty: "preferred difficulty",
+		saved_notification: "These changes have been saved.",
 		done: "Done",
-		"app_language": "EN"
+		app_language: "EN",
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -85,7 +90,7 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({
 	);
 
 	const refreshTranslations = useCallback(() => {
-		console.log("hello")
+		console.log("hello");
 	}, []);
 
 	const value: TranslationContextType = {

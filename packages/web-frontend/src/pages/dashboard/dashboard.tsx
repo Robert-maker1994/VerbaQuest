@@ -1,31 +1,31 @@
+import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
 import {
 	Box,
+	Button,
+	Chip,
+	CircularProgress,
 	Container,
-	Typography,
+	Divider,
 	List,
 	ListItem,
-	ListItemText,
 	ListItemIcon,
-	Chip,
-	Divider,
-	CircularProgress,
-	Button,
+	ListItemText,
+	Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import backendEndpoints from "../../context/api/api";
-import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
-import { useNavigate } from "react-router";
 import type { GetUserCrosswords } from "@verbaquest/shared";
 import { formatRelative } from "date-fns";
-import { es, enUS, fr } from 'date-fns/locale';
-import { useTranslation } from "../../context/translationProvider";
+import { enUS, es, fr } from "date-fns/locale";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth";
+import { useTranslation } from "../../context/translationProvider";
 
 export default function Dashboard() {
 	const [userCrosswords, setUserCrosswords] = useState<
 		GetUserCrosswords[] | null
 	>(null);
-	const { translate } = useTranslation()
+	const { translate } = useTranslation();
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const nav = useNavigate();

@@ -4,13 +4,13 @@ import {
 	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
-	Unique, // Import Unique
+	Unique,
 } from "typeorm";
 import { Crossword } from "../crossword";
 import { User } from "./users";
 
 @Entity()
-@Unique(["user_id", "crossword_id"]) // Add the unique constraint here
+@Unique(["user_id", "crossword_id"])
 export class UserCrossword {
 	@PrimaryGeneratedColumn({
 		comment: "The unique identifier for this UserCrossword record.",

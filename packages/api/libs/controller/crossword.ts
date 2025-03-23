@@ -1,14 +1,21 @@
 import type { CrosswordResponse, GetUserCrosswords } from "@verbaquest/shared";
 import type { NextFunction, Request, Response } from "express";
-import { type CrosswordGrid, type CrosswordMetadata, generateCrossword } from "../../utils/generateCrossword";
+import {
+	type CrosswordGrid,
+	type CrosswordMetadata,
+	generateCrossword,
+} from "../../utils/generateCrossword";
 import type { Crossword } from "../entity";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
-function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, grid: CrosswordGrid): CrosswordResponse {
+function crosswordResponse(
+	crossword: Crossword,
+	metadata: CrosswordMetadata,
+	grid: CrosswordGrid,
+): CrosswordResponse {
 	return {
-
 		title: crossword?.title,
 		isComplete: false,
 		id: crossword.crossword_id,
@@ -23,9 +30,8 @@ function crosswordResponse(crossword: Crossword, metadata: CrosswordMetadata, gr
 			};
 		}),
 		crossword: grid,
-	}
+	};
 }
-
 
 const getCrosswordById = async (
 	req: AuthRequest,

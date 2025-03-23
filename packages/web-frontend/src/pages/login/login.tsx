@@ -1,4 +1,3 @@
-// src/pages/auth/Login.tsx
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";

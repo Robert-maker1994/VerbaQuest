@@ -17,7 +17,7 @@ import { useTranslation } from "../../context/translationProvider";
 enum LanguageCode {
 	ENGLISH = "EN",
 	SPANISH = "ES",
-	FRENCH = "FR"
+	FRENCH = "FR",
 }
 
 enum Difficulty {
@@ -26,7 +26,7 @@ enum Difficulty {
 	B1 = "b1",
 	B2 = "b2",
 	C1 = "c1",
-	C2 = "c2"
+	C2 = "c2",
 }
 interface SettingsFormData {
 	preferred_learning_language: LanguageCode;
@@ -91,7 +91,7 @@ const SettingsPage = () => {
 			if (updatedData) {
 				setIsSaved(true);
 				setInitialFormData(formData);
-				refreshTranslations(); 
+				refreshTranslations();
 			} else {
 				setError("Failed to update user settings.");
 			}
@@ -108,7 +108,7 @@ const SettingsPage = () => {
 
 	const isFormChanged =
 		formData.preferred_learning_language !==
-		initialFormData.preferred_learning_language ||
+			initialFormData.preferred_learning_language ||
 		formData.preferred_difficulty !== initialFormData.preferred_difficulty ||
 		formData.app_language !== initialFormData.app_language;
 
@@ -166,9 +166,10 @@ const SettingsPage = () => {
 				</Select>
 			</FormControl>
 
-
 			<FormControl fullWidth>
-				<InputLabel id="difficulty-label">{translate("app_language")}</InputLabel>
+				<InputLabel id="difficulty-label">
+					{translate("app_language")}
+				</InputLabel>
 				<Select
 					labelId="app-language-label"
 					id="app-language"

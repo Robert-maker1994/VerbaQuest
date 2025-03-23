@@ -4,7 +4,7 @@
 		"paths": {
 			"@verbaquest/shared": ["../packages/shared/dist"]
 		},
-	"declaration": false
+		"declaration": false
 	},
 	"exclude": ["node_modules"],
 	"references": [

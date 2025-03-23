@@ -60,7 +60,7 @@ const CongratulationDialog: React.FC<CongratulationDialogProps> = ({
 	open,
 	onClose,
 }) => {
-	const nav = useNavigate()
+	const nav = useNavigate();
 	return (
 		<StyledDialog open={open} onClose={onClose}>
 			<DialogTitle>
@@ -93,11 +93,14 @@ const CongratulationDialog: React.FC<CongratulationDialogProps> = ({
 				</Typography>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={(e) => {
-					e.preventDefault()
-					nav("/crossword")
-					onClose()
-				}} variant="contained">
+				<Button
+					onClick={(e) => {
+						e.preventDefault();
+						nav("/crossword");
+						onClose();
+					}}
+					variant="contained"
+				>
 					Do more Crosswords
 				</Button>
 				<Button onClick={onClose} variant="contained">

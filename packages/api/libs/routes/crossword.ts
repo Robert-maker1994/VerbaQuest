@@ -10,20 +10,23 @@ import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
 const crosswordRouter = express.Router();
-crosswordRouter.get("/details", authMiddleware, async (
-	req: AuthRequest,
-	res: Response,
-	next: NextFunction,
-) => {
-	try {
-		const userId = req.user.userId;
-		const crosswordDetails = await crosswordService.getCrosswordDetails(userId, req?.query.search as string);
+crosswordRouter.get(
+	"/details",
+	authMiddleware,
+	async (req: AuthRequest, res: Response, next: NextFunction) => {
+		try {
+			const userId = req.user.userId;
+			const crosswordDetails = await crosswordService.getCrosswordDetails(
+				userId,
+				req?.query.search as string,
+			);
 
-		res.send(crosswordDetails);
-	} catch (err) {
-		next(err);
-	}
-});
+			res.send(crosswordDetails);
+		} catch (err) {
+			next(err);
+		}
+	},
+);
 
 crosswordRouter.get("/:id", authMiddleware, getCrosswordById);
 crosswordRouter.post("/", authMiddleware, createNewCrossword);

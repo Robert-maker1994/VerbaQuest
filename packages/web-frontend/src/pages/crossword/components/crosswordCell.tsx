@@ -55,13 +55,12 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
 				sx={{
 					border: "1px solid #ddd",
 					boxSizing: "border-box",
-					background:
-						"linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
+					background: "linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
 					width: "40px",
 					height: "40px",
 				}}
 			/>
-		)
+		);
 	}
 	return (
 		<Box

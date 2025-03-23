@@ -1,4 +1,8 @@
 import {
+	CheckCircleOutline,
+	RadioButtonUncheckedOutlined,
+} from "@mui/icons-material";
+import {
 	Box,
 	Button,
 	Card,
@@ -17,10 +21,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../../context/api/api";
 import backendEndpoints from "../../context/api/api";
-import {
-	CheckCircleOutline,
-	RadioButtonUncheckedOutlined,
-} from "@mui/icons-material";
 import { useTranslation } from "../../context/translationProvider";
 
 const crosswordMatchesSearchTerm = async (searchLowerCase: string) => {
@@ -32,7 +32,7 @@ const crosswordMatchesSearchTerm = async (searchLowerCase: string) => {
 const CrosswordPage: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
-	const {translate} = useTranslation();
+	const { translate } = useTranslation();
 	const [crosswordData, setCrosswordData] = useState<
 		CrosswordDetailsResponse[]
 	>([]);
@@ -110,9 +110,11 @@ const CrosswordPage: React.FC = () => {
 											<Typography variant="h6" component="div">
 												{crossword.title}
 											</Typography>
-											<Box sx={{ display: "flex", alignItems: "center", mt: 1, }}>
+											<Box
+												sx={{ display: "flex", alignItems: "center", mt: 1 }}
+											>
 												<Typography variant="body1">
-												{translate("status:")}
+													{translate("status:")}
 												</Typography>
 												<Box sx={{ ml: 1 }}>
 													{crossword.userCrosswords[0]?.completed ? (
@@ -126,9 +128,16 @@ const CrosswordPage: React.FC = () => {
 													)}
 												</Box>
 											</Box>
-											<Box sx={{ display: "flex", flexWrap: "wrap", mt: 1, alignItems: "center" }}>
+											<Box
+												sx={{
+													display: "flex",
+													flexWrap: "wrap",
+													mt: 1,
+													alignItems: "center",
+												}}
+											>
 												<Typography variant="body1" component="div">
-												{translate("topics:")}
+													{translate("topics:")}
 												</Typography>
 												{crossword.topics.map((topic) => (
 													<Chip
@@ -140,10 +149,16 @@ const CrosswordPage: React.FC = () => {
 													/>
 												))}
 											</Box>
-											<Box sx={{ display: "flex", flexWrap: "wrap", mt: 1, alignItems: "center" }}>
-
-												<Typography variant="body1" component="div" >
-												{translate("difficulty:")}
+											<Box
+												sx={{
+													display: "flex",
+													flexWrap: "wrap",
+													mt: 1,
+													alignItems: "center",
+												}}
+											>
+												<Typography variant="body1" component="div">
+													{translate("difficulty:")}
 												</Typography>
 												<Chip
 													color="primary"
@@ -156,9 +171,7 @@ const CrosswordPage: React.FC = () => {
 										<CardActions>
 											<Button
 												onClick={() => {
-													nav(
-														`/crossword/${crossword.crossword_id}`,
-													);
+													nav(`/crossword/${crossword.crossword_id}`);
 												}}
 												variant="contained"
 												disableElevation

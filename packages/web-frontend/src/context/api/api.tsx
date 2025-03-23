@@ -1,9 +1,9 @@
 import type {
-	Difficulty,
-	CrosswordDetailsResponse,
-	LanguageCode,
-	CrosswordResponse,
 	CreateCrosswordBody,
+	CrosswordDetailsResponse,
+	CrosswordResponse,
+	Difficulty,
+	LanguageCode,
 } from "@verbaquest/shared";
 import axios from "axios";
 export const api = axios.create({
@@ -14,24 +14,25 @@ export const api = axios.create({
 });
 
 const backendEndpoints = {
-	async getCrosswordDetails(search?: string): Promise<CrosswordDetailsResponse[]> {
+	async getCrosswordDetails(
+		search?: string,
+	): Promise<CrosswordDetailsResponse[]> {
 		const token = localStorage.getItem("token");
 
 		const params = search ? { search } : {};
-		const response = await api.get<CrosswordDetailsResponse[]>("crossword/details", {
-			params,
-			headers: {
-				"Content-Type": "application/json",
+		const response = await api.get<CrosswordDetailsResponse[]>(
+			"crossword/details",
+			{
+				params,
+				headers: {
+					"Content-Type": "application/json",
 
-				Authorization: `Bearer ${token}`,
-
+					Authorization: `Bearer ${token}`,
+				},
 			},
-		});
+		);
 		return response.data;
 	},
-
-
-
 
 	async getSpecificCrossword(crosswordId: number) {
 		const response = await api.get<CrosswordResponse>(
@@ -114,8 +115,6 @@ const backendEndpoints = {
 		return data;
 	},
 
-
-
 	async saveUserProgress(crosswordId: number, timeTaken: number) {
 		try {
 			const token = localStorage.getItem("token");
@@ -134,8 +133,9 @@ const backendEndpoints = {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${token}`,
-					}
-				});
+					},
+				},
+			);
 
 			if (!response.status) {
 				throw new Error(`Failed to save user progress: ${response.statusText}`);
@@ -155,21 +155,19 @@ const backendEndpoints = {
 			throw new Error("No token found");
 		}
 
-		const response = await api.get(
-			"/translation",
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				}
-			});
+		const response = await api.get("/translation", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		if (!response.status) {
 			throw new Error(`Failed to save user progress: ${response.statusText}`);
 		}
-	
+
 		return response.data;
-	}
+	},
 };
 
 export default backendEndpoints;

@@ -2,10 +2,10 @@ import { Container } from "@mui/material";
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router";
 import { useAuth } from "./context/auth";
+import { TranslationProvider } from "./context/translationProvider";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
-import { TranslationProvider } from "./context/translationProvider";
 
 const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
@@ -19,7 +19,7 @@ const routes = [
 		element: <Dashboard />,
 	},
 	{
-		path: "/crossword/:crosswordId", // New route with :crosswordId parameter
+		path: "/crossword/:crosswordId",
 		element: <Crossword />,
 	},
 	{

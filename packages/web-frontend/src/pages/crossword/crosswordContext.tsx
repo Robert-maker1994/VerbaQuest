@@ -62,8 +62,6 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 		[],
 	);
 
-
-
 	const value = { crosswordData, getCrossword, saveUserProgress };
 	return (
 		<CrosswordContext.Provider value={value}>

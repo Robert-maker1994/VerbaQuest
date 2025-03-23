@@ -1,10 +1,10 @@
 import type { NextFunction, Response } from "express";
 import config from "../config";
+import type { User } from "../entity";
 import { UnauthorizedError, UserError } from "../errors";
 import userService from "../services/user";
 import type { AuthRequest } from "../types/questRequest";
 import admin from "./admin";
-import type { User } from "../entity";
 
 export enum AuthMode {
 	FIREBASE = "FIREBASE",
@@ -29,28 +29,24 @@ export async function authMiddleware(
 				throw new UserError("USER_NOT_FOUND", 500);
 			}
 
-			 userRepo = await userService.getUserByEmail(decodedToken.email);
+			userRepo = await userService.getUserByEmail(decodedToken.email);
 		}
-		
+
 		if (config.authMode === AuthMode.LOCAL) {
 			if (config.authDefaultToken !== token) {
 				throw new UnauthorizedError("DEFAULT_TOKEN_NOT_VALID", 401);
 			}
-			
-			 userRepo = await userService.getUserByEmail(
-				config.authDefaultEmail,
-			);
-			
-	
+
+			userRepo = await userService.getUserByEmail(config.authDefaultEmail);
 		}
 		req.user = {
 			email: userRepo.email,
 			userId: userRepo.user_id,
 			preferred_language: userRepo.preferred_learning_language,
 			preferred_difficulty: userRepo.preferred_difficulty,
-			app_language: userRepo.app_language,	
+			app_language: userRepo.app_language,
 		};
-		
+
 		next();
 	} catch (error) {
 		next(error);

@@ -16,17 +16,15 @@ import { getLanguage } from "./language";
 type crosswordServiceParams = { id?: string; name?: string };
 
 const crosswordService = {
-
 	async getCrosswordDetails(user_id: number, searchTerm?: string) {
 		const client = AppDataSource;
 		const crosswordQuery = await client
 			.createQueryBuilder(Crossword, "c")
 			.leftJoinAndSelect("c.topics", "t")
 			.leftJoinAndSelect("t.language", "l")
-			.leftJoinAndSelect("c.userCrosswords", "uc",
-				"uc.user_id = :user_id",
-				{ user_id }
-			)
+			.leftJoinAndSelect("c.userCrosswords", "uc", "uc.user_id = :user_id", {
+				user_id,
+			})
 			.select([
 				"c.title",
 				"c.crossword_id",
@@ -37,13 +35,12 @@ const crosswordService = {
 				"l.language_code",
 				"uc.completed",
 				"uc.completion_timer",
-				"uc.user_crossword_id"
-			])
+				"uc.user_crossword_id",
+			]);
 
 		if (!user_id) {
-			crosswordQuery.where("c.is_Public = :isPublic", { isPublic: true })
+			crosswordQuery.where("c.is_Public = :isPublic", { isPublic: true });
 		}
-
 
 		if (searchTerm) {
 			crosswordQuery.andWhere(
@@ -54,11 +51,10 @@ const crosswordService = {
 			);
 		}
 
-		const crosswordResults = await crosswordQuery.limit(20)
-			.getMany();
+		const crosswordResults = await crosswordQuery.limit(20).getMany();
 
 		if (!crosswordResults.length) {
-			return []
+			return [];
 		}
 
 		return crosswordResults;
@@ -89,7 +85,6 @@ const crosswordService = {
 		}
 		return cross;
 	},
-
 
 	async createCrossword(body: CreateCrosswordBody) {
 		const client = AppDataSource;

@@ -1,4 +1,3 @@
-// packages/api/libs/services/translationService.ts
 import * as fs from "node:fs";
 import * as path from "node:path";
 import type { LanguageCode } from "@verbaquest/shared";
@@ -30,7 +29,6 @@ const translationService = {
 			throw new Error("Failed to load translations");
 		}
 	},
-
 };
 
 export default translationService;

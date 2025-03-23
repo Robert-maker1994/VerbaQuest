@@ -25,7 +25,7 @@ interface CrosswordProps {
 }
 
 /**
- * Renders the crossword grid and clue list. Visual component for the rendering of the crossword puzzle 
+ * Renders the crossword grid and clue list. Visual component for the rendering of the crossword puzzle
  *
  * @param {CrosswordProps} props - The component's properties.
  * @returns {JSX.Element} The rendered crossword grid and clue list.
@@ -33,7 +33,7 @@ interface CrosswordProps {
 const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 	crosswordGrid,
 	metadata,
-	handleCompletion
+	handleCompletion,
 }) => {
 	const {
 		cellData,
@@ -44,15 +44,16 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 		onCellSelect,
 		manageCellNavigation,
 	} = useCrosswordGrid({ crosswordGrid, metadata });
-	
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-		useEffect(() => {
-		if (completedWords.length > 0 && completedWords.length === metadata.length) {
-			handleCompletion()
+	useEffect(() => {
+		if (
+			completedWords.length > 0 &&
+			completedWords.length === metadata.length
+		) {
+			handleCompletion();
 		}
-
-	}, [completedWords])
-
+	}, [completedWords]);
 
 	return (
 		<Grid2 container spacing={1}>
@@ -82,8 +83,8 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 											selected={
 												cellState
 													? cellState?.wordId.includes(
-														selectedWord?.word_id || 0,
-													) || false
+															selectedWord?.word_id || 0,
+														) || false
 													: false
 											}
 											onKeyCapture={(value) => {

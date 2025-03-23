@@ -5,7 +5,7 @@ import {
 	CrosswordWord,
 	Languages,
 	Topic,
-	Words
+	Words,
 } from "./libs/entity";
 import { UserCrossword } from "./libs/entity/user/userCrosswords";
 import { User } from "./libs/entity/user/users";
@@ -40,7 +40,7 @@ export const AppDataSource = new DataSource({
 		CreateDatabase1742069418114,
 		Initial1742069418116,
 		Spanish1742069452145,
-		CreateDatabase1742683408179
+		CreateDatabase1742683408179,
 	],
 	migrationsTableName: "verba_migrations",
 });

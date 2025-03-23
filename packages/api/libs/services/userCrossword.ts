@@ -97,8 +97,7 @@ export const userCrosswordService = {
 					completion_timer: timer,
 					last_attempted: new Date(),
 				},
-				["user_id", "crossword_id"]
-
+				["user_id", "crossword_id"],
 			);
 			if (!result) {
 				console.info("Error upserting UserCrossword", result);
@@ -118,7 +117,7 @@ export const userCrosswordService = {
 
 			return userCrossword;
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 			throw new CustomError("Error creating or updating UserCrossword", 404);
 		}
 	},

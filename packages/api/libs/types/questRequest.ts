@@ -6,7 +6,7 @@ export type QuestUser = {
 	userId: number;
 	preferred_difficulty: Difficulty;
 	app_language: LanguageCode;
-	preferred_language: LanguageCode
+	preferred_language: LanguageCode;
 };
 
 export interface AuthRequest extends Request {

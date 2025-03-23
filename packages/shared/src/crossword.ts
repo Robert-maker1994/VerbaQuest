@@ -53,18 +53,18 @@ export enum Difficulty {
 }
 
 export interface GetUserCrosswords {
-	completed: boolean,
-	completion_timer: number,
-	last_attempted: Date,
+	completed: boolean;
+	completion_timer: number;
+	last_attempted: Date;
 	crossword: {
-		crossword_id: number,
-		title: string,
-		difficulty: string,
+		crossword_id: number;
+		title: string;
+		difficulty: string;
 		topics: {
-			topic_id: number,
-			topic_name: string,
-		}[]
-	}
+			topic_id: number;
+			topic_name: string;
+		}[];
+	};
 }
 
 export interface CrosswordDetailsResponse {
@@ -85,7 +85,6 @@ export interface CrosswordDetailsResponse {
 		user_crossword_id: number;
 	}[];
 }
-
 
 export interface CrosswordResponse {
 	crossword: string[][];

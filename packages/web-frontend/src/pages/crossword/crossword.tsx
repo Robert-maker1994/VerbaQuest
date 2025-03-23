@@ -7,9 +7,9 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
+import CongratulationDialog from "./components/congratulationDialog";
 import CrosswordGrid from "./components/crosswordGrid";
 import { useCrossword } from "./crosswordContext";
-import CongratulationDialog from "./components/congratulationDialog";
 
 const Crossword = React.memo(function Crossword() {
 	const { crosswordId } = useParams();
@@ -23,7 +23,6 @@ const Crossword = React.memo(function Crossword() {
 
 	useEffect(() => {
 		if (crosswordData.id) {
-		
 			timerId.current = setInterval(() => {
 				setSeconds((prevSeconds) => prevSeconds + 1);
 			}, 1000);
@@ -49,7 +48,6 @@ const Crossword = React.memo(function Crossword() {
 				setSeconds(0);
 			}
 			await saveUserProgress(crosswordData.id, seconds); // Call saveUserProgress here
-
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -107,7 +105,7 @@ const Crossword = React.memo(function Crossword() {
 				open={open}
 				onClose={() => {
 					setOpen(!open);
-					handleCompletion()
+					handleCompletion();
 				}}
 			/>
 		</Grid2>
