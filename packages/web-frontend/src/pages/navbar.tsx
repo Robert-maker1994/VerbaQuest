@@ -10,20 +10,39 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../context/auth";
 import { useTheme } from "../context/theme/useTheme";
 import { useTranslation } from "../context/translationProvider";
 
 export default function Navbar() {
 	const nav = useNavigate();
+	const location = useLocation();
 	const { logout } = useAuth();
 	const [value, setValue] = useState<number>(0);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { isDarkMode, toggleDarkMode } = useTheme();
 	const { translate } = useTranslation();
 	const open = Boolean(anchorEl);
+
+	useEffect(() => {
+		switch (location.pathname) {
+			case "/dashboard":
+				setValue(0);
+				break;
+			case "/crossword":
+				setValue(1);
+				break;
+			case "/settings":
+			setValue(2);
+			break;
+			default:
+				setValue(0);
+		}
+	}, [location.pathname]);
+	
+
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);

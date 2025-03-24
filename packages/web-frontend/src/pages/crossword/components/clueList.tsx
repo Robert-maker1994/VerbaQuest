@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import type { WordData } from "@verbaquest/shared";
 import { useState } from "react";
+import HoverBox from "../../../components/hoverBox";
 
 const Clue = ({
 	word,
@@ -79,8 +80,8 @@ const ClueList: React.FC<ClueListProps> = ({
 		return "inherit";
 	};
 	return (
-		<Box>
-			<Typography>Horizontal</Typography>
+		<HoverBox>
+			<Typography fontWeight={"bold"}>Horizontal</Typography>
 			<Box>
 				{horizontal.map((word) => (
 					<Clue
@@ -91,13 +92,12 @@ const ClueList: React.FC<ClueListProps> = ({
 						background={pickBackgroundColour(
 							word.isCompleted,
 							selectedWord?.start_row === word.start_row &&
-								selectedWord.start_col === word.start_col,
+							selectedWord.start_col === word.start_col,
 						)}
 					/>
 				))}
 			</Box>
-
-			<Typography>Vertical</Typography>
+			<Typography fontWeight={"bold"}>Vertical</Typography>
 			<Box>
 				{vertical.map((word) => (
 					<Clue
@@ -108,12 +108,12 @@ const ClueList: React.FC<ClueListProps> = ({
 						background={pickBackgroundColour(
 							word.isCompleted,
 							selectedWord?.start_row === word.start_row &&
-								selectedWord.start_col === word.start_col,
+							selectedWord.start_col === word.start_col,
 						)}
 					/>
 				))}
 			</Box>
-		</Box>
+		</HoverBox>
 	);
 };
 

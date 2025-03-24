@@ -4,6 +4,7 @@ import { memo, useEffect } from "react";
 import { useCrosswordGrid } from "../hooks/useCrosswordGrid";
 import ClueList from "./clueList";
 import CrosswordCell from "./crosswordCell";
+import HoverBox from "../../../components/hoverBox";
 
 /**
  * Interface for the props of the CrosswordGrid component.
@@ -21,7 +22,7 @@ interface CrosswordProps {
 	/**
 	 * Callback function to be executed when the crossword is completed.
 	 */
-	handleCompletion: () => void;
+	handleCompletion: (completed: boolean) => void;
 }
 
 /**
@@ -51,21 +52,21 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 			completedWords.length > 0 &&
 			completedWords.length === metadata.length
 		) {
-			handleCompletion();
+			handleCompletion(true);
 		}
 	}, [completedWords]);
 
 	return (
-		<Grid2 container spacing={1}>
-			<Grid2 size={8}>
-				<Grid2 container spacing={0}>
+		<Grid2 container spacing={3} justifyContent={"space-evenly"}>
+			<Grid2 size={7}>
+				<HoverBox>
 					{crosswordGrid.map((row, rowIndex) => (
 						<Grid2
 							container
+							justifyContent={"center"}
 							key={`${rowIndex}-${rowIndex * 2}`}
 							size={12}
 							wrap="nowrap"
-							spacing={0}
 						>
 							{row.map((_cell, colIndex) => {
 								const key = `${rowIndex}-${colIndex}`;
@@ -83,8 +84,8 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 											selected={
 												cellState
 													? cellState?.wordId.includes(
-															selectedWord?.word_id || 0,
-														) || false
+														selectedWord?.word_id || 0,
+													) || false
 													: false
 											}
 											onKeyCapture={(value) => {
@@ -107,7 +108,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 							})}
 						</Grid2>
 					))}
-				</Grid2>
+				</HoverBox>
 			</Grid2>
 			<Grid2 size={4}>
 				<Box ref={clueListRef} sx={{ maxHeight: "600px", overflowY: "auto" }}>

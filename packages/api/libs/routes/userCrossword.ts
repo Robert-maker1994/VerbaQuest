@@ -1,7 +1,5 @@
 import express from "express";
 import type { NextFunction, Response } from "express";
-
-import type { UserCrossword } from "../entity";
 import { CustomError } from "../errors/customError";
 import { userCrosswordService } from "../services";
 import type { AuthRequest } from "../types/questRequest";
@@ -40,10 +38,10 @@ userCrosswordRouter.post(
 	async (req: AuthRequest, res: Response, next: NextFunction) => {
 		try {
 			const userId = req.user.userId;
-			const { crosswordId, timeTaken } = req.body;
+			const { crosswordId, timeTaken, completed } = req.body;
 
-			if (Number.isNaN(crosswordId) || Number.isNaN(timeTaken)) {
-				console.log(crosswordId, timeTaken);
+			if (Number.isNaN(crosswordId) || Number.isNaN(timeTaken) || typeof completed !== "boolean") {
+				console.info("CrosswordID", crosswordId, "time taken", timeTaken);
 				throw new CustomError("INVALID_PARAMS", 500);
 			}
 
@@ -51,6 +49,7 @@ userCrosswordRouter.post(
 				crosswordId,
 				timeTaken,
 				userId,
+				completed
 			);
 
 			res.status(201).json(createdProgress);

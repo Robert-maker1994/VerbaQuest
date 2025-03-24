@@ -1,17 +1,21 @@
 {
+	"display": "Node 22",
+	"_version": "22.0.0",
 	"compilerOptions": {
-		"lib": ["es5", "es6"],
-		"target": "es6",
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"esModuleInterop": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"sourceMap": true,
-		"paths": {
-			"@verbaquest/shared": ["../packages/shared/dist"]
-		}
+	  "lib": ["es2023", "DOM"],
+	  "module": "nodenext",
+	  "target": "es2022",
+	  "moduleResolution": "nodenext",
+  	   "outDir": "./dist",
+	   "skipLibCheck": true,
+	  "esModuleInterop": true,
+	  "emitDecoratorMetadata": true,
+	  "experimentalDecorators": true,
+	  "paths": {
+		  "@verbaquest/shared": ["../packages/shared/dist"]
+	  }
 	},
+
 	"exclude": ["node_modules"],
 	"ts-node": {
 		"files": true,

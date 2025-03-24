@@ -1,4 +1,4 @@
-import { AccessTime, CheckCircleOutline } from "@mui/icons-material";
+import AccessTime  from "@mui/icons-material/AccessTime";
 import {
 	Box,
 	Button,
@@ -6,10 +6,9 @@ import {
 	CircularProgress,
 	Container,
 	Divider,
+	Grid2,
 	List,
 	ListItem,
-	ListItemIcon,
-	ListItemText,
 	Typography,
 } from "@mui/material";
 import type { GetUserCrosswords } from "@verbaquest/shared";
@@ -20,38 +19,74 @@ import { useNavigate } from "react-router";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth";
 import { useTranslation } from "../../context/translationProvider";
+import { CrosswordIcon } from "../crossword/components/crosswordIcon";
+import HoverBox from "../../components/hoverBox";
 
 export default function Dashboard() {
-	const [userCrosswords, setUserCrosswords] = useState<
-		GetUserCrosswords[] | null
-	>(null);
+	const { translate } = useTranslation();
+
+	return (
+		<Container maxWidth="md">
+			<Grid2 container spacing={2}>
+				<Grid2 size={12}>
+					<HoverBox margin={4}>
+						<Typography variant="h4" component="h1" gutterBottom>
+							{translate("dashboard")}
+						</Typography>
+					</HoverBox>
+				</Grid2>
+				<Grid2 size={6}>
+					<HoverBox>
+						<LatestCrosswords />
+					</HoverBox>
+				</Grid2>
+				<Grid2 size={6}>
+					<HoverBox>
+						<Typography variant="h4" component="h4" gutterBottom>
+							Wordle of the day
+						</Typography>
+					</HoverBox>
+				</Grid2>
+			</Grid2>
+		</Container>
+	);
+}
+
+
+function LatestCrosswords() {
+	const [userCrosswords, setUserCrosswords] = useState<GetUserCrosswords[] | null>(null);
 	const { translate } = useTranslation();
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const nav = useNavigate();
-	const { user } = useAuth();
+	const { user } = useAuth(); // Replace with your auth hook
 
 	const getLocale = () => {
 		switch (user?.app_language) {
-			case "ES":
+			case 'ES':
 				return es;
-			case "FR":
+			case 'FR':
 				return fr;
 			default:
 				return enUS;
 		}
 	};
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const formatDate = (date: Date) => {
+		return formatRelative(date, new Date(), {
+			locale: getLocale(),
+		});
+	};
+
 	useEffect(() => {
 		const fetchUserCrosswords = async () => {
 			setIsLoading(true);
 			setError(null);
 			try {
-				const data = await backendEndpoints.getUserCrosswords();
+				const data = await backendEndpoints.getUserCrosswords(); // Replace with your API call
 				setUserCrosswords(data);
 			} catch (err) {
-				setError("Failed to load user crosswords.");
+				setError('Failed to load user crosswords.');
 				console.error(err);
 			} finally {
 				setIsLoading(false);
@@ -61,20 +96,14 @@ export default function Dashboard() {
 		fetchUserCrosswords();
 	}, []);
 
-	const formatDate = (date: Date) => {
-		return formatRelative(date, new Date(), {
-			locale: getLocale(),
-		});
-	};
-
 	if (isLoading) {
 		return (
 			<Box
 				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					height: "100vh",
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '100vh',
 				}}
 			>
 				<CircularProgress />
@@ -87,7 +116,7 @@ export default function Dashboard() {
 			<Container maxWidth="md">
 				<Box sx={{ my: 4 }}>
 					<Typography variant="h4" component="h1" gutterBottom>
-						{translate("dashboard")}
+						{translate('dashboard')}
 					</Typography>
 					<Typography color="error" variant="body1">
 						{error}
@@ -98,72 +127,67 @@ export default function Dashboard() {
 	}
 
 	return (
-		<Container maxWidth="md">
-			<Box sx={{ my: 4 }}>
-				<Typography variant="h4" component="h1" gutterBottom>
-					{translate("dashboard")}
-				</Typography>
-				<Typography variant="body1" gutterBottom>
-					{translate("here_are_the crosswords_you_have_previously_attempted:")}
-				</Typography>
-
-				{userCrosswords && userCrosswords.length > 0 ? (
-					<List>
-						{userCrosswords.map((item, index) => (
-							<Box key={item.crossword.crossword_id}>
-								<ListItem alignItems="flex-start" disableGutters>
-									<ListItemIcon>
-										<CheckCircleOutline color="success" />
-									</ListItemIcon>
-									<ListItemText
-										primary={item.crossword.title}
-										secondary={
-											<>
-												<Typography
-													sx={{ display: "inline" }}
-													component="span"
-													variant="body2"
-													color="text.primary"
-												>
-													<AccessTime sx={{ marginRight: 0.5 }} />
-													{formatDate(item.last_attempted)}
-												</Typography>
-
-												<Box sx={{ display: "flex", flexWrap: "wrap" }}>
-													{item.crossword.topics.map((topic) => (
-														<Chip
-															key={topic.topic_id}
-															label={topic.topic_name}
-															size="small"
-															sx={{ mr: 1, mt: 1 }}
-														/>
-													))}
-												</Box>
-											</>
-										}
-									/>
-									<Button
-										variant="contained"
-										disableElevation
+		<Box sx={{ width: '100%', overflow: 'auto', bgcolor: 'primary' }}>
+			<Typography variant="body1" gutterBottom>
+				{translate('here_are_the crosswords_you_have_previously_attempted:')}
+			</Typography>
+			<Divider />
+			{userCrosswords && userCrosswords.length > 0 ? (
+				<List>
+					{userCrosswords.map((item) => (
+						<ListItem
+							key={item.crossword.crossword_id}
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'flex-start',
+								padding: '16px',
+								borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+							}}>
+							<Typography variant="h6" sx={{ marginBottom: '8px' }}>
+								{item.crossword.title}
+							</Typography>
+							<Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+								{item.crossword.topics.map((topic) => (
+									<Chip
 										color="primary"
-										onClick={(e) => {
-											e.preventDefault();
-											nav(`/crossword/${item.crossword.crossword_id}`);
-										}}
-									>
-										{translate("try_it_again")}
-									</Button>
-								</ListItem>
-								{index < userCrosswords.length - 1 && <Divider />}
+										variant="outlined"
+										key={topic.topic_id}
+										label={topic.topic_name}
+										size="small"
+										sx={{ marginRight: '8px' }}
+									/>
+								))}
 							</Box>
-						))}
-					</List>
-				) : (
-					<Typography variant="body1">
-						{translate("not_attempted_crosswords")}
-					</Typography>
-				)}
-			</Box>
-		</Container>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+								<Box sx={{ display: 'flex', alignItems: 'center' }}>
+									<AccessTime sx={{ marginRight: '4px' }} />
+									<Typography variant="caption">
+										{formatDate(item.last_attempted)}
+									</Typography>
+								</Box>
+								<CrosswordIcon isCompleted={item.completed} />
+							</Box>
+							<Box sx={{ marginTop: '16px', alignSelf: 'flex-end' }}>
+								<Button
+									variant="contained"
+									size="small"
+									onClick={(e) => {
+										e.preventDefault();
+										nav(`/crossword/${item.crossword.crossword_id}`);
+									}}
+								>
+									{translate('try_it_again')}
+								</Button>
+							</Box>
+						</ListItem>
+					))}
+				</List>
+			) : (
+				<Typography variant="body1" gutterBottom>
+					{translate('not_attempted_crosswords')}
+				</Typography>
+			)}
+		</Box>
 	);
 }

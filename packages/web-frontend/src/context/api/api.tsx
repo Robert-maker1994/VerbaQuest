@@ -35,8 +35,17 @@ const backendEndpoints = {
 	},
 
 	async getSpecificCrossword(crosswordId: number) {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			throw new Error("No token found");
+		}
+
 		const response = await api.get<CrosswordResponse>(
-			`crossword/${crosswordId}`,
+			`crossword/${crosswordId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			}
+		}
 		);
 		return response.data;
 	},
@@ -115,7 +124,7 @@ const backendEndpoints = {
 		return data;
 	},
 
-	async saveUserProgress(crosswordId: number, timeTaken: number) {
+	async saveUserProgress(crosswordId: number, timeTaken: number, completed: boolean) {
 		try {
 			const token = localStorage.getItem("token");
 
@@ -128,6 +137,7 @@ const backendEndpoints = {
 				{
 					crosswordId,
 					timeTaken,
+					completed,
 				},
 				{
 					headers: {

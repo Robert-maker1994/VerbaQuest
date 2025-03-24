@@ -33,7 +33,7 @@ const getContrastText = (color: string) => {
 const lightPalette = {
 	...createColorPalette("#00796B", "#FFC107"), // Deep Teal and Amber
 	background: {
-		default: "#FAFAFA",
+		default: "#f0f8ff",
 		paper: "#FFFFFF",
 	},
 	text: {

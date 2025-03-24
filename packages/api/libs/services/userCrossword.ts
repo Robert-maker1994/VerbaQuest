@@ -85,15 +85,15 @@ export const userCrosswordService = {
 		}
 	},
 
-	async createOrUpdate(crossword_id: number, timer: number, user_id: number) {
+	async createOrUpdate(crossword_id: number, timer: number, user_id: number, completed: boolean) {
 		try {
 			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-
+		
 			const result = await userCrosswordRepo.upsert(
 				{
 					user: { user_id },
 					crossword: { crossword_id },
-					completed: true,
+					completed,
 					completion_timer: timer,
 					last_attempted: new Date(),
 				},

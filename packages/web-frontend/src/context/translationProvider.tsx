@@ -75,7 +75,7 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({
 		};
 
 		fetchTranslations();
-	}, [user]);
+	}, []);
 
 	const translate = useCallback(
 		(key: string) => {

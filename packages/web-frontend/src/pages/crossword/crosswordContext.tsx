@@ -12,7 +12,7 @@ const defaultCrossword: CrosswordResponse = {
 interface CrosswordContextProps {
 	crosswordData: CrosswordResponse;
 	getCrossword: (crosswordId: string) => Promise<void>;
-	saveUserProgress: (crosswordId: number, timeTaken: number) => Promise<void>;
+	saveUserProgress: (crosswordId: number, timeTaken: number, completed: boolean) => Promise<void>;
 }
 
 const CrosswordContext = createContext<CrosswordContextProps | undefined>(
@@ -51,9 +51,9 @@ export const CrosswordProvider: React.FC<CrosswordProviderProps> = ({
 	}, []);
 
 	const saveUserProgress = useCallback(
-		async (crosswordId: number, timeTaken: number) => {
+		async (crosswordId: number, timeTaken: number, completed: boolean) => {
 			try {
-				await api.saveUserProgress(crosswordId, timeTaken);
+				await api.saveUserProgress(crosswordId, timeTaken, completed);
 				console.log("User progress saved successfully!");
 			} catch (err) {
 				console.error("Error saving user progress:", err);

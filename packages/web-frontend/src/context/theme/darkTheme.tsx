@@ -54,12 +54,6 @@ export const darkTheme = createTheme({
 				},
 			},
 		},
-		MuiPaper: {
-			styleOverrides: {
-				root: {
-					backgroundImage: "none",
-				},
-			},
-		},
+		
 	},
 });

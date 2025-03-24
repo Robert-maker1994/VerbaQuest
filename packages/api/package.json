@@ -5,14 +5,14 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "ts-node server.ts",
+		"build": "tsc",
 		"seeder": "ts-node ./seeder/seeder.ts",
-		"test": "vitest",
-		"migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/createDatabase -d ./datasource.ts",
-		"migration:create": "typeorm migration:create",
-		"migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts",
 		"lint": " biome  check",
-		"token": "ts-node genToken.ts",
-		"lint:fix": " biome  check --write"
+		"lint:fix": " biome  check --write",
+		"test": "vitest",
+		"migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/update-database -d ./datasource.ts",
+		"migration:create": "typeorm migration:create",
+		"migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
 	},
 	"keywords": ["language", "learning"],
 	"author": "Robert Lawson",

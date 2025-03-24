@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	CircularProgress,
+	Container,
 	Grid2,
 	Typography,
 } from "@mui/material";
@@ -17,7 +18,6 @@ const Crossword = React.memo(function Crossword() {
 	const [open, setOpen] = React.useState(false);
 	const nav = useNavigate();
 
-	// Timer state and logic
 	const [seconds, setSeconds] = useState(0);
 	const timerId = useRef<NodeJS.Timeout | null>(null);
 
@@ -41,13 +41,13 @@ const Crossword = React.memo(function Crossword() {
 		}
 	}, [crosswordId]);
 
-	async function handleCompletion() {
+	async function handleCompletion(completed: boolean) {
 		try {
 			if (timerId.current) {
 				clearInterval(timerId.current);
 				setSeconds(0);
 			}
-			await saveUserProgress(crosswordData.id, seconds); // Call saveUserProgress here
+			await saveUserProgress(crosswordData.id, seconds, completed);
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -71,44 +71,47 @@ const Crossword = React.memo(function Crossword() {
 		);
 	}
 	return (
-		<Grid2 container spacing={2} justifyContent={"center"}>
-			<Grid2
-				size={12}
-				sx={{ display: "flex", justifyContent: "space-between" }}
-			>
-				<Button
-					size="small"
-					onClick={() => {
-						nav("/crossword");
+		<Container maxWidth="lg">
+
+			<Grid2 container spacing={2} justifyContent={"center"}>
+				<Grid2
+					size={12}
+					sx={{ display: "flex", justifyContent: "space-between" }}>
+					<Button
+						size="small"
+						onClick={() => {
+							nav("/crossword");
+							handleCompletion(false);
+						}}
+						variant="contained"
+						disableElevation
+						color="primary"
+					>
+						Navigate to Crossword
+					</Button>
+					<Typography variant="h6">Time: {formatTime(seconds)}</Typography>
+				</Grid2>
+				<Grid2 size={12}>
+					<Typography color="primary" variant="h4" align="center">
+						{crosswordData.title}
+					</Typography>
+				</Grid2>
+				<Grid2 size={12}>
+					<CrosswordGrid
+						crosswordGrid={crosswordData.crossword}
+						metadata={crosswordData.metadata}
+						handleCompletion={handleCompletion}
+					/>
+				</Grid2>
+				<CongratulationDialog
+					open={open}
+					onClose={() => {
+						setOpen(!open);
+						handleCompletion(true);
 					}}
-					variant="contained"
-					disableElevation
-					color="primary"
-				>
-					Navigate to Crossword
-				</Button>
-				<Typography variant="h6">Time: {formatTime(seconds)}</Typography>
-			</Grid2>
-			<Grid2 size={12}>
-				<Typography color="primary" variant="h4" align="center">
-					{crosswordData.title}
-				</Typography>
-			</Grid2>
-			<Grid2 size={12}>
-				<CrosswordGrid
-					crosswordGrid={crosswordData.crossword}
-					metadata={crosswordData.metadata}
-					handleCompletion={handleCompletion}
 				/>
 			</Grid2>
-			<CongratulationDialog
-				open={open}
-				onClose={() => {
-					setOpen(!open);
-					handleCompletion();
-				}}
-			/>
-		</Grid2>
+		</Container>
 	);
 });
 
