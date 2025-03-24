@@ -1,5 +1,6 @@
 import type {
 	CreateCrosswordBody,
+	LanguageCode,
 	UpdateCrosswordBody,
 } from "@verbaquest/shared";
 import { AppDataSource } from "../../datasource";
@@ -16,9 +17,19 @@ import { getLanguage } from "./language";
 type crosswordServiceParams = { id?: string; name?: string };
 
 const crosswordService = {
-	async getCrosswordDetails(user_id: number, searchTerm?: string) {
+	async getCrosswordDetails(user_id: number, language_code: LanguageCode, searchTerm?: string, page = 1): Promise<[Crossword[], number]> {
+		const pageSize = 9;
+		const offset = (page - 1) * pageSize;
 		const client = AppDataSource;
-		const crosswordQuery = await client
+
+		if (Number.isNaN(offset) || Number.isNaN(user_id)) {
+			console.log({
+				offset, user_id
+			})
+			throw new CrosswordError("INVALID_PARAMS", 404);
+		}
+
+		const queryBuilder = await client
 			.createQueryBuilder(Crossword, "c")
 			.leftJoinAndSelect("c.topics", "t")
 			.leftJoinAndSelect("t.language", "l")
@@ -36,28 +47,31 @@ const crosswordService = {
 				"uc.completed",
 				"uc.completion_timer",
 				"uc.user_crossword_id",
-			]);
+			])
+			.where("l.language_code = :languageCode", { languageCode: language_code });
 
 		if (!user_id) {
-			crosswordQuery.where("c.is_Public = :isPublic", { isPublic: true });
+			queryBuilder.andWhere("c.is_Public = :isPublic", { isPublic: true });
 		}
 
 		if (searchTerm) {
-			crosswordQuery.andWhere(
-				`c.title LIKE :searchTerm
-						OR t.topic_name LIKE :searchTerm
-					`,
-				{ searchTerm: `%${searchTerm}%` },
+			queryBuilder.andWhere(
+				"c.title ILIKE :searchTerm OR t.topic_name ILIKE :searchTerm",
+				{ searchTerm: `%${searchTerm}%` }
 			);
 		}
 
-		const crosswordResults = await crosswordQuery.limit(20).getMany();
+		const [crosswordResults, count] = await queryBuilder
+			.orderBy("c.difficulty", "ASC")
+			.skip(offset)
+			.take(pageSize)
+			.getManyAndCount();
 
 		if (!crosswordResults.length) {
-			return [];
+			return [[], 0];
 		}
 
-		return crosswordResults;
+		return [crosswordResults, count];
 	},
 
 	async getCrosswordById(id: number) {

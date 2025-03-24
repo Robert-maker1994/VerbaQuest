@@ -9,19 +9,32 @@ import {
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
+
 const crosswordRouter = express.Router();
+
 crosswordRouter.get(
 	"/details",
 	authMiddleware,
 	async (req: AuthRequest, res: Response, next: NextFunction) => {
 		try {
-			const userId = req.user.userId;
-			const crosswordDetails = await crosswordService.getCrosswordDetails(
+			const { userId, preferred_language } = req.user;
+
+			const search = req?.query.search as string | undefined;
+			const page = req?.query.page as string | undefined;
+			const [crosswords, totalCount] = await crosswordService.getCrosswordDetails(
 				userId,
-				req?.query.search as string,
+				preferred_language,
+				search,
+				page ? Number.parseInt(page) : undefined
 			);
 
-			res.send(crosswordDetails);
+			res.json({
+				crosswords,
+				totalCount,
+				currentPage: page,
+				pageSize: 10,
+				totalPages: Math.ceil(totalCount / 10),
+			});
 		} catch (err) {
 			next(err);
 		}
