@@ -5,14 +5,10 @@ import {
 	CrosswordWord,
 	Languages,
 	Topic,
-	Words,
+	Words, UserWordProgress, User, UserCrossword
 } from "./libs/entity";
-import { UserCrossword } from "./libs/entity/user/userCrosswords";
-import { User } from "./libs/entity/user/users";
-import { CreateDatabase1742069418114 } from "./migrations/1742069418114-create-database";
 import { Initial1742069418116 } from "./migrations/1742069418116-inital";
 import { Spanish1742069452145 } from "./migrations/1742069452145-spanish";
-import { CreateDatabase1742683408179 } from "./migrations/1742683408179-createDatabase";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -34,13 +30,12 @@ export const AppDataSource = new DataSource({
 		User,
 		UserCrossword,
 		Words,
+		UserWordProgress
 	],
 	subscribers: [],
 	migrations: [
-		CreateDatabase1742069418114,
 		Initial1742069418116,
 		Spanish1742069452145,
-		CreateDatabase1742683408179,
 	],
 	migrationsTableName: "verba_migrations",
 });

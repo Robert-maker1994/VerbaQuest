@@ -112,6 +112,7 @@ export class Spanish1742069452145 implements MigrationInterface {
 							wordEntity.word_text = wordText;
 							wordEntity.language = targetLanguage;
 							wordEntity.definition = definition;
+							wordEntity.wordle_valid = wordText.length === 5;
 							wordsMap.set(wordKey, wordEntity);
 							word = await queryRunner.manager.save(wordEntity);
 						}

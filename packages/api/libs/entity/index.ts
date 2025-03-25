@@ -5,3 +5,4 @@ export * from "./topic";
 export * from "./word";
 export * from "./user/userCrosswords";
 export * from "./user/users";
+export * from "./user/UserWordProgress";
