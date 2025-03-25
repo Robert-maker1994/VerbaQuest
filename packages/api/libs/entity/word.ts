@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { CrosswordWord } from "./crosswordWord";
 import { Languages } from "./language";
+import { UserWordProgress } from "./user/UserWordProgress";
 
 @Entity()
 export class Words {
@@ -40,6 +41,12 @@ export class Words {
 	@Column({
 		type: "citext",
 		comment: "The definition of the word.",
+		transformer: {
+			to: (value: string) => {
+				return value.charAt(0).toUpperCase() + value.slice(1);
+			},
+			from: (value: string) => value,
+		},
 	})
 	definition: string;
 
@@ -54,8 +61,12 @@ export class Words {
 		() => CrosswordWord,
 		(crosswordWord) => crosswordWord.words,
 	)
-	/**
-	 * One-to-many relationship with CrosswordWord. One word can appear in multiple crosswords.
-	 */
 	crosswordWords: CrosswordWord[];
+
+	@OneToMany(
+		() => UserWordProgress,
+		(userWordProgress) => userWordProgress.word,
+		{ onDelete: "CASCADE" } 
+	)
+	userWordProgress: UserWordProgress[]
 }
