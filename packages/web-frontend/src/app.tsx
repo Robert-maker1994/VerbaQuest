@@ -6,13 +6,17 @@ import { TranslationProvider } from "./context/translationProvider";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
+import Footer from "./components/footer";
 
 const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
 const CrosswordPage = lazy(() => import("./pages/crossword/crosswordPage"));
 const Dashboard = lazy(() => import("./pages/dashboard/dashboard"));
-
+const PrivacyPolicy = lazy(() => import("./pages/privacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/termsOfService"));
 const Register = lazy(() => import("./pages/login/register"));
+const Loading = lazy(() => import("./pages/loadingPage"));
+
 const routes = [
 	{
 		path: "/",
@@ -38,6 +42,14 @@ const routes = [
 		path: "/register",
 		element: <Register />,
 	},
+	{
+		path: "/privacy",
+		element: <PrivacyPolicy />,
+	},
+	{
+		path: "/terms",
+		element: <TermsOfService />,
+	}
 ];
 function App() {
 	return (
@@ -51,15 +63,17 @@ function AppContent() {
 	const { isLoggedIn, isLoading } = useAuth();
 
 	if (isLoading) {
-		return <p>Loading...</p>;
+		return <Loading />;
 	}
 
 	return (
-		<React.Suspense fallback={<p>Loading...</p>}>
+		<React.Suspense fallback={<Loading />}>
 			{isLoggedIn ? (
 				<TranslationProvider>
-					<Navbar />
-					<Container maxWidth="lg">
+					<Container maxWidth="lg" sx={{
+						minHeight: "90vh"
+					}} >
+						<Navbar />
 						<CrosswordProvider>
 							<Routes>
 								{routes.map((r) => {
@@ -69,7 +83,9 @@ function AppContent() {
 								})}
 							</Routes>
 						</CrosswordProvider>
+
 					</Container>
+					<Footer />
 				</TranslationProvider>
 			) : (
 				<Login />

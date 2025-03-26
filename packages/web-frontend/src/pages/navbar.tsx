@@ -76,7 +76,6 @@ export default function Navbar() {
 			elevation={1}
 			sx={{
 				borderRadius: 2,
-				width: "80%",
 				justifySelf: "center",
 				marginBottom: "10px",
 			}}
@@ -85,12 +84,6 @@ export default function Navbar() {
 				<Typography
 					variant="h6"
 					component="div"
-					sx={{
-						flexGrow: 0,
-						fontWeight: "bold",
-						display: "flex",
-						alignItems: "center",
-					}}
 				>
 					Verbaquest
 				</Typography>
