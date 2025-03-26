@@ -1,6 +1,7 @@
 import { Box, Input } from "@mui/material";
 import { memo } from "react";
 import { type CellData, CellState } from "../interface";
+import { pickCellColor } from "../../../components";
 
 /**
  * Interface defining the props for the `CrosswordCell` component.
@@ -122,25 +123,3 @@ const CrosswordCellContainer: React.FC<CrosswordCellProps> = ({
 const CrosswordCell = memo(CrosswordCellContainer);
 
 export default CrosswordCell;
-
-const pickCellColor = (cellState: CellState, isSelected: boolean) => {
-	let backgroundColor: string | undefined = "";
-
-	switch (cellState) {
-		case CellState.Correct:
-			backgroundColor = "lightgreen";
-			break;
-		case CellState.Incorrect:
-			backgroundColor = "red";
-			break;
-		case CellState.Partial:
-			backgroundColor = "yellow";
-			break;
-		default:
-			backgroundColor = isSelected
-				? "lightyellow"
-				: "linear-gradient(to bottom, #80deea, #4dd0e1)";
-	}
-
-	return backgroundColor;
-};

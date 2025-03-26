@@ -67,7 +67,16 @@ export interface GetUserCrosswords {
 	};
 }
 
+
 export interface CrosswordDetailsResponse {
+	crosswords: CrosswordDetails;
+	totalCount: number;
+	currentPage: number,
+	pageSize: number,
+	totalPages: number
+}
+
+export interface CrosswordDetails {
 	title: string;
 	crossword_id: number;
 	is_Public: boolean;

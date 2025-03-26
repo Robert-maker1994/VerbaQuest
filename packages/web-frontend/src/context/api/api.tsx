@@ -1,6 +1,6 @@
 import type {
 	CreateCrosswordBody,
-	CrosswordDetailsResponse,
+	CrosswordDetails,
 	CrosswordResponse,
 	Difficulty,
 	LanguageCode,
@@ -15,12 +15,16 @@ export const api = axios.create({
 
 const backendEndpoints = {
 	async getCrosswordDetails(
+		page?: number,
 		search?: string,
-	): Promise<CrosswordDetailsResponse[]> {
+	): Promise<CrosswordDetails> {
 		const token = localStorage.getItem("token");
 
-		const params = search ? { search } : {};
-		const response = await api.get<CrosswordDetailsResponse[]>(
+		const params = {
+			page,
+			search,
+		};
+		const response = await api.get<CrosswordDetails>(
 			"crossword/details",
 			{
 				params,
@@ -176,6 +180,26 @@ const backendEndpoints = {
 			throw new Error(`Failed to save user progress: ${response.statusText}`);
 		}
 
+		return response.data;
+	},
+
+	async getWorldWord() {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			throw new Error("No token found");
+		}
+
+		const response = await api.get<string[]>("/wordle", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.status) {
+			throw new Error(`Failed to get word: ${response.statusText}`);
+		}
 		return response.data;
 	},
 };

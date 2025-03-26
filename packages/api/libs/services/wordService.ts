@@ -23,17 +23,14 @@ const wordService = {
 			})
 			.orderBy("RANDOM()")
 			.select([
-				"word.word_id",
 				"word.word_text",
-				"word.definition",
-				"language.language_code"
 			])
-			.getOne();
+			.getMany();
 
-		if (!word.word_id) {
+		if (!word.length) {
 			throw new WordServiceError("NOT_FOUND", 404)
 		}
-		return word;
+		return word.map(word => word.word_text.toUpperCase());
 	},
 	async createWord(data: Partial<Words>) {
 		const wordsRepo = AppDataSource.getRepository(Words);
