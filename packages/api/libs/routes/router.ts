@@ -15,3 +15,5 @@ export default function initializeRoutes(app: core.Express) {
 	app.use("/user", authMiddleware, userRouter);
 	app.use("/usercrossword", authMiddleware, userCrosswordRouter);
 }
+// export class CreateDatabase1742069418114 implements MigrationInterface {
+// 	name = "CreateDatabase1742069418114";
