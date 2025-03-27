@@ -25,6 +25,8 @@ export type TranslationKey =
 	| "do_more_crosswords"
 	| "close"
 	| "language"
+	| "latest_crosswords"
+	| "favorite_crosswords"
 	| "app_language"
 	| "difficulty"
 	| "saved_notification"
