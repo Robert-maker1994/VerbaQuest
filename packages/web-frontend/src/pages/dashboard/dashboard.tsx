@@ -7,7 +7,7 @@ import {
 import { useTranslation } from "../../context/translationProvider";
 import HoverBox from "../../components/hoverBox";
 import WordleContainer from "./components/wordleContanter";
-import LatestCrosswords from "./components/latestCrossword";
+import DashboardContent from "./components/dashboardCrossword";
 
 export default function Dashboard() {
 	const { translate } = useTranslation();
@@ -24,7 +24,7 @@ export default function Dashboard() {
 				</Grid2>
 				<Grid2 size={6}>
 					<HoverBox>
-						<LatestCrosswords />
+						<DashboardContent />
 					</HoverBox>
 				</Grid2>
 				<Grid2 size={6}>

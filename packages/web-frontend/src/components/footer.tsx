@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
                             Your journey to mastering new languages starts here.
                         </Typography>
                     </Grid2>
-                    <Grid2 size={12}>
+                    <Grid2 size={6}>
                         <Typography variant="h6" color="primary.contrastText" gutterBottom>
                             Explore
                         </Typography>
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
                             <FooterLink href="/wordle">Wordle</FooterLink>
                         </Box>
                     </Grid2>
-                    <Grid2 size={12} >
+                    <Grid2 size={6} >
                         <Typography color="primary.contrastText" variant="h6" gutterBottom>
                             Legal
                         </Typography>

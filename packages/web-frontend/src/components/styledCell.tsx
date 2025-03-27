@@ -3,11 +3,11 @@ import { pickCellColor } from ".";
 import type { CellState } from "../pages/crossword/interface";
 
 interface StyledCellProps {
-    cellState: CellState;
-    isActive: boolean;
+    state: CellState;
+    active: boolean;
 }
 
-export const StyledCell = styled(Box)<StyledCellProps>(({ cellState, isActive }) => ({
+export const StyledCell = styled(Box)<StyledCellProps>(({ state, active }) => ({
     border: "1px solid black",
     display: "flex",
     justifyContent: "center",
@@ -15,7 +15,7 @@ export const StyledCell = styled(Box)<StyledCellProps>(({ cellState, isActive })
     fontSize: "1.2em",
     boxSizing: "border-box",
     borderRadius: "5px",
-    background: pickCellColor(cellState, isActive),
+    background: pickCellColor(state, active),
     position: "relative",
     width: "40px",
     height: "40px",

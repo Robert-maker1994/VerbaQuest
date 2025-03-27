@@ -159,7 +159,6 @@ export const useWordle = () => {
     ) => {
         if (!targetWord || activeCell === null) return;
         const { row, col } = activeCell;
-
         if (event.key === "Enter") {
             handleGuessSubmit();
         } else if (event.key === "Backspace") {
@@ -167,8 +166,10 @@ export const useWordle = () => {
             setGuesses(guesses.map((g, i) => (i === row ? { ...g, word: updatedGuess } : g)));
             setActiveCell({ row, col: Math.max(0, col - 1) });
         } else if (/^[a-zA-Z]$/.test(event.key)) {
+  
             const updatedGuess = guesses[row].word.slice(0, col) + event.key.toUpperCase() + guesses[row].word.slice(col + 1);
             setGuesses(guesses.map((g, i) => (i === row ? { ...g, word: updatedGuess } : g)));
+            
             setActiveCell({ row, col: Math.min(gridSize - 1, col + 1) });
         }
     };

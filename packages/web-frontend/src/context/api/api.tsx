@@ -120,7 +120,7 @@ const backendEndpoints = {
 		if (!token) {
 			throw new Error("No token found");
 		}
-		const { data } = await api.get("/usercrossword/latest", {
+		const { data } = await api.get("/usercrossword/dashboard", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -202,6 +202,32 @@ const backendEndpoints = {
 		}
 		return response.data;
 	},
+
+	async update(crosswordId: number, favorite: boolean) {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			throw new Error("No token found");
+		}
+
+		const response = await api.post<string[]>("/usercrossword/update",
+			{
+				crosswordId,
+				favorite,
+			},
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				}
+			}
+		);
+
+		if (!response.status) {
+			throw new Error(`Failed to update user progress: ${response.statusText}`);
+		}
+		return response.data;
+	}
 };
 
 export default backendEndpoints;

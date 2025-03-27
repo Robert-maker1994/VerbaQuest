@@ -148,5 +148,15 @@
 		"EN": "Done",
 		"ES": "Hecho",
 		"FR": "Terminé"
+	},
+	"latest_crosswords": {
+		"EN": "Latest Crossword",
+		"ES": "Último crucigrama",
+		"FR": "Dernier crossword"
+	},
+	"favorite_crosswords": {
+		"EN": "Favorite Crossword",
+		"ES": "Crucigrama favorito",
+		"FR": "Crossword favori"
 	}
 }

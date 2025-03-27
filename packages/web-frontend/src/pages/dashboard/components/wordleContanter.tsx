@@ -1,7 +1,7 @@
 import { Box, Input } from "@mui/material";
 import { StyledCell } from "../../../components";
-import { useWordle } from "./useWordle";
 import GameMessage from "./gameMessage";
+import { useWordle } from "./useWordle";
 
 const WordleContainer: React.FC = () => {
   const {
@@ -16,19 +16,19 @@ const WordleContainer: React.FC = () => {
 
   return (
     <Box>
-      {Array.from({ length: guesses.length  }, (_, rowIndex) => (
+      {Array.from({ length: 5  }, (_, rowIndex) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <Box key={rowIndex} display="flex" justifyContent={"center"}>
-          {Array.from({ length: guesses.length }, (_, colIndex) => {
+          {Array.from({ length: 5 }, (_, colIndex) => {
             const active = activeCell?.row === rowIndex && activeCell.col === colIndex;
 
             return (
               <StyledCell
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 key={`${rowIndex}-${colIndex}`}
-                cellState={guesses[rowIndex]?.evaluation[colIndex]}
+                state={guesses[rowIndex]?.evaluation[colIndex]}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
-                isActive={active}>
+                active={active}>
                 {rowIndex <= currentRow && (
                   <Input
                     type="text"
