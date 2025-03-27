@@ -19,34 +19,42 @@ const Loading = lazy(() => import("./pages/loadingPage"));
 
 const routes = [
 	{
+		id: 1,
 		path: "/",
 		element: <Dashboard />,
 	},
 	{
+		id: 2,
 		path: "/crossword/:crosswordId",
 		element: <Crossword />,
 	},
 	{
+		id: 3,
 		path: "/crossword",
 		element: <CrosswordPage />,
 	},
 	{
+		id: 4,
 		path: "/dashboard",
 		element: <Dashboard />,
 	},
 	{
+		id: 5,
 		path: "/settings",
 		element: <Settings />,
 	},
 	{
+		id: 9,
 		path: "/register",
 		element: <Register />,
 	},
 	{
+		id: 6,
 		path: "/privacy",
 		element: <PrivacyPolicy />,
 	},
 	{
+		id: 7,
 		path: "/terms",
 		element: <TermsOfService />,
 	}
@@ -78,7 +86,7 @@ function AppContent() {
 							<Routes>
 								{routes.map((r) => {
 									return (
-										<Route key={r.path} path={r.path} element={r.element} />
+										<Route key={r.id} path={r.path} element={r.element} />
 									);
 								})}
 							</Routes>

@@ -45,6 +45,7 @@ const crosswordService = {
 				"t.topic_id",
 				"l.language_code",
 				"uc.completed",
+				"uc.is_favorite",
 				"uc.completion_timer",
 				"uc.user_crossword_id",
 			])

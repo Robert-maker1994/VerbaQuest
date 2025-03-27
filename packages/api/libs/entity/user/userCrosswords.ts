@@ -38,28 +38,42 @@ export class UserCrossword {
 		nullable: true,
 		comment: "The saved state of the crossword grid for the user",
 	})
-	grid_state: string;
+		grid_state: string;
 
 	@Column({
 		type: "int",
 		nullable: true,
 		comment: "Completion timer in seconds",
 	})
-	completion_timer: number;
+		completion_timer: number;
 
 	@Column({
 		type: "boolean",
 		default: false,
 		comment: "Indicates if the user has completed this crossword.",
 	})
-	completed: boolean;
+		completed: boolean;
 
 	@Column({
 		type: "timestamp",
 		default: () => "CURRENT_TIMESTAMP",
 		comment: "The last time this crossword was attempted by the user.",
 	})
-	last_attempted: Date;
+		last_attempted: Date;
+
+	@Column({
+		type: "boolean",
+		default: false,
+		comment: "Indicates if the user has marked this crossword as a favorite.",
+	})
+		is_favorite: boolean;
+
+	@Column({
+		type: "boolean",
+		default: false,
+		comment: "Indicates if the user has marked this crossword as a hidden or not.",
+	})
+		is_hidden: boolean;
 
 	@ManyToOne(
 		() => User,

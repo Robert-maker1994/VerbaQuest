@@ -19,6 +19,9 @@ const translationService = {
 
 			const filteredTranslations: Record<string, string> = {};
 			for (const key in allTranslations) {
+				if(allTranslations[key] === "favorite_crossword") {
+					console.log("hello")
+				}
 				if (allTranslations[key][appLanguage]) {
 					filteredTranslations[key] = allTranslations[key][appLanguage];
 				}
