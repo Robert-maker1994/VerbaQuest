@@ -92,7 +92,7 @@ const ClueList: React.FC<ClueListProps> = ({
 						background={pickBackgroundColour(
 							word.isCompleted,
 							selectedWord?.start_row === word.start_row &&
-							selectedWord.start_col === word.start_col,
+								selectedWord.start_col === word.start_col,
 						)}
 					/>
 				))}
@@ -108,7 +108,7 @@ const ClueList: React.FC<ClueListProps> = ({
 						background={pickBackgroundColour(
 							word.isCompleted,
 							selectedWord?.start_row === word.start_row &&
-							selectedWord.start_col === word.start_col,
+								selectedWord.start_col === word.start_col,
 						)}
 					/>
 				))}

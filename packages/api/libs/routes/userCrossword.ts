@@ -40,9 +40,9 @@ userCrosswordRouter.get(
 			const userId = req.user.userId;
 			const crosswords = await Promise.all([
 				await userCrosswordService.getLatest(userId),
-				await userCrosswordService.getFavorite(userId)
+				await userCrosswordService.getFavorite(userId),
 			]);
-			
+
 			res.status(200).send(crosswords);
 		} catch (e) {
 			next(e);
@@ -56,9 +56,13 @@ userCrosswordRouter.post(
 		try {
 			const userId = req.user.userId;
 			const { crosswordId, timeTaken, completed, favorite } = req.body;
-			console.log(favorite)
+			console.log(favorite);
 
-			if (Number.isNaN(crosswordId) || Number.isNaN(timeTaken) || typeof completed !== "boolean") {
+			if (
+				Number.isNaN(crosswordId) ||
+				Number.isNaN(timeTaken) ||
+				typeof completed !== "boolean"
+			) {
 				console.info("CrosswordID", crosswordId, "time taken", timeTaken);
 				throw new CustomError("INVALID_PARAMS", 500);
 			}
@@ -82,24 +86,33 @@ userCrosswordRouter.post(
 		try {
 			const userId = req.user.userId;
 			const { crosswordId, favorite } = req.body;
-			console.log({ favorite, crosswordId })
+			console.log({ favorite, crosswordId });
 
 			if (Number.isNaN(crosswordId) || typeof favorite !== "boolean") {
 				throw new CustomError("INVALID_PARAMS", 500);
 			}
 			const id = Number(crosswordId);
 
-			const record = await userCrosswordService.getByUserCrosswordId(userId, id);
-			console.log(record)
+			const record = await userCrosswordService.getByUserCrosswordId(
+				userId,
+				id,
+			);
+			console.log(record);
 			if (record) {
-				const updatedRecord = await userCrosswordService.update(userId, id, Boolean(favorite));
+				const updatedRecord = await userCrosswordService.update(
+					userId,
+					id,
+					Boolean(favorite),
+				);
 				res.status(200).json(updatedRecord);
-
 			} else {
-				const createdRecord = await userCrosswordService.create(userId, id, Boolean(favorite));
+				const createdRecord = await userCrosswordService.create(
+					userId,
+					id,
+					Boolean(favorite),
+				);
 				res.status(201).json(createdRecord);
 			}
-
 		} catch (e) {
 			next(e);
 		}

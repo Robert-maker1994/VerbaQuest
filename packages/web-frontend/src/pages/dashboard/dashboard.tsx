@@ -1,13 +1,9 @@
-import {
-	Container,
-	Grid2,
-	Typography,
-} from "@mui/material";
+import { Container, Grid2, Typography } from "@mui/material";
 
-import { useTranslation } from "../../context/translationProvider";
 import HoverBox from "../../components/hoverBox";
-import WordleContainer from "./components/wordleContanter";
+import { useTranslation } from "../../context/translationProvider";
 import DashboardContent from "./components/dashboardCrossword";
+import WordleContainer from "./components/wordleContanter";
 
 export default function Dashboard() {
 	const { translate } = useTranslation();
@@ -36,6 +32,6 @@ export default function Dashboard() {
 					</HoverBox>
 				</Grid2>
 			</Grid2>
-		</Container >
+		</Container>
 	);
 }

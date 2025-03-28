@@ -1,4 +1,4 @@
-import { LanguageCode } from "@verbaquest/shared";
+import { LanguageCode } from "@verbaquest/types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import translationService from "../../libs/services/translationService";
 

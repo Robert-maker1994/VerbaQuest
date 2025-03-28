@@ -2,7 +2,7 @@ import type {
 	CreateCrosswordBody,
 	LanguageCode,
 	UpdateCrosswordBody,
-} from "@verbaquest/shared";
+} from "@verbaquest/types";
 import { AppDataSource } from "../../datasource";
 import {
 	Crossword,
@@ -17,15 +17,21 @@ import { getLanguage } from "./language";
 type crosswordServiceParams = { id?: string; name?: string };
 
 const crosswordService = {
-	async getCrosswordDetails(user_id: number, language_code: LanguageCode, searchTerm?: string, page = 1): Promise<[Crossword[], number]> {
+	async getCrosswordDetails(
+		user_id: number,
+		language_code: LanguageCode,
+		searchTerm?: string,
+		page = 1,
+	): Promise<[Crossword[], number]> {
 		const pageSize = 9;
 		const offset = (page - 1) * pageSize;
 		const client = AppDataSource;
 
 		if (Number.isNaN(offset) || Number.isNaN(user_id)) {
 			console.log({
-				offset, user_id
-			})
+				offset,
+				user_id,
+			});
 			throw new CrosswordError("INVALID_PARAMS", 404);
 		}
 
@@ -49,7 +55,9 @@ const crosswordService = {
 				"uc.completion_timer",
 				"uc.user_crossword_id",
 			])
-			.where("l.language_code = :languageCode", { languageCode: language_code });
+			.where("l.language_code = :languageCode", {
+				languageCode: language_code,
+			});
 
 		if (!user_id) {
 			queryBuilder.andWhere("c.is_Public = :isPublic", { isPublic: true });
@@ -58,7 +66,7 @@ const crosswordService = {
 		if (searchTerm) {
 			queryBuilder.andWhere(
 				"c.title ILIKE :searchTerm OR t.topic_name ILIKE :searchTerm",
-				{ searchTerm: `%${searchTerm}%` }
+				{ searchTerm: `%${searchTerm}%` },
 			);
 		}
 

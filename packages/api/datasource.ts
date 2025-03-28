@@ -5,11 +5,14 @@ import {
 	CrosswordWord,
 	Languages,
 	Topic,
-	Words, UserWordProgress, User, UserCrossword
+	User,
+	UserCrossword,
+	UserWordProgress,
+	Words,
 } from "./libs/entity";
+import { UpdateDatabase1742069418100 } from "./migrations/1742069418100-update-database";
 import { Initial1742069418116 } from "./migrations/1742069418116-inital";
 import { Spanish1742069452145 } from "./migrations/1742069452145-spanish";
-import { UpdateDatabase1742069418100 } from "./migrations/1742069418100-update-database";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -31,7 +34,7 @@ export const AppDataSource = new DataSource({
 		User,
 		UserCrossword,
 		Words,
-		UserWordProgress
+		UserWordProgress,
 	],
 	subscribers: [],
 	migrations: [

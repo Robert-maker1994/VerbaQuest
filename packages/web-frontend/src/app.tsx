@@ -1,12 +1,12 @@
 import { Container } from "@mui/material";
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router";
+import Footer from "./components/footer";
 import { useAuth } from "./context/auth";
 import { TranslationProvider } from "./context/translationProvider";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
-import Footer from "./components/footer";
 
 const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
@@ -49,7 +49,7 @@ const routes = [
 	{
 		path: "/terms",
 		element: <TermsOfService />,
-	}
+	},
 ];
 function App() {
 	return (
@@ -70,9 +70,12 @@ function AppContent() {
 		<React.Suspense fallback={<Loading />}>
 			{isLoggedIn ? (
 				<TranslationProvider>
-					<Container maxWidth="lg" sx={{
-						minHeight: "90vh"
-					}} >
+					<Container
+						maxWidth="lg"
+						sx={{
+							minHeight: "90vh",
+						}}
+					>
 						<Navbar />
 						<CrosswordProvider>
 							<Routes>
@@ -83,7 +86,6 @@ function AppContent() {
 								})}
 							</Routes>
 						</CrosswordProvider>
-
 					</Container>
 					<Footer />
 				</TranslationProvider>

@@ -1,6 +1,6 @@
 {
-	"name": "@verbaquest/api",
-	"workspaces": ["packages/web-frontend", "packages/api", "packages/shared"],
+	"name": "@verbaquest",
+	"workspaces": ["packages/web-frontend", "packages/api", "packages/types"],
 	"scripts": {
 		"lint": "biome  check --write",
 		"start:frontend": "npm run dev --workspace=packages/web-frontend",

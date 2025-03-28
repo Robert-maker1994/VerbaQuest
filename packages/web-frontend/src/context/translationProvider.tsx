@@ -1,4 +1,4 @@
-import type { TranslationKey } from "@verbaquest/shared";
+import type { TranslationKey } from "@verbaquest/types";
 import type React from "react";
 import {
 	createContext,

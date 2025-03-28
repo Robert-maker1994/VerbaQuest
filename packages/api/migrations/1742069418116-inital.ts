@@ -1,4 +1,4 @@
-import { LanguageCode, LanguageName } from "@verbaquest/shared";
+import { LanguageCode, LanguageName } from "@verbaquest/types";
 import type { MigrationInterface, QueryRunner } from "typeorm";
 import config from "../libs/config";
 import { Languages, User } from "../libs/entity";

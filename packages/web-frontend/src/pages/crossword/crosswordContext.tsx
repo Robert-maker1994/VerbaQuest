@@ -12,7 +12,11 @@ const defaultCrossword: CrosswordResponse = {
 interface CrosswordContextProps {
 	crosswordData: CrosswordResponse;
 	getCrossword: (crosswordId: string) => Promise<void>;
-	saveUserProgress: (crosswordId: number, timeTaken: number, completed: boolean) => Promise<void>;
+	saveUserProgress: (
+		crosswordId: number,
+		timeTaken: number,
+		completed: boolean,
+	) => Promise<void>;
 }
 
 const CrosswordContext = createContext<CrosswordContextProps | undefined>(

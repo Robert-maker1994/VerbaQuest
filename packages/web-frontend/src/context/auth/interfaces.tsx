@@ -1,4 +1,4 @@
-import type { Difficulty, LanguageCode } from "@verbaquest/shared";
+import type { Difficulty, LanguageCode } from "@verbaquest/types";
 
 export interface LoginData {
 	email: string;

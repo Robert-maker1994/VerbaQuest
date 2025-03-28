@@ -66,7 +66,7 @@ export class Words {
 	@OneToMany(
 		() => UserWordProgress,
 		(userWordProgress) => userWordProgress.word,
-		{ onDelete: "CASCADE" } 
+		{ onDelete: "CASCADE" },
 	)
-	userWordProgress: UserWordProgress[]
+	userWordProgress: UserWordProgress[];
 }

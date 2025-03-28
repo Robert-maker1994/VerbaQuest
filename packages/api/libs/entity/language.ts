@@ -1,4 +1,4 @@
-import { LanguageCode, LanguageName } from "@verbaquest/shared";
+import { LanguageCode, LanguageName } from "@verbaquest/types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crossword } from "./crossword";
 import { Topic } from "./topic";

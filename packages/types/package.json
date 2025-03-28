@@ -1,12 +1,13 @@
 {
-	"name": "shared",
+	"name": "@verbaquest/types",
 	"version": "1.0.0",
 	"description": "Shared types and interfaces for VerbaQuest projects",
 	"main": "dist/index.js",
+	"types": "types/index.d.ts",
 	"files": ["dist"],
 	"scripts": {
 		"build": "tsc",
-		"clean": "rm -rf dist"
+		"clean": "tsc --clean"
 	},
 	"devDependencies": {
 		"typescript": "^5.3.3"

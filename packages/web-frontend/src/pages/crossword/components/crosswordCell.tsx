@@ -1,7 +1,7 @@
 import { Box, Input } from "@mui/material";
 import { memo } from "react";
-import { type CellData, CellState } from "../interface";
 import { pickCellColor } from "../../../components";
+import { type CellData, CellState } from "../interface";
 
 /**
  * Interface defining the props for the `CrosswordCell` component.

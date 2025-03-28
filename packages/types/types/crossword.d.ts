@@ -67,13 +67,12 @@ export interface GetUserCrosswords {
 	};
 }
 
-
 export interface CrosswordDetailsResponse {
 	crosswords: CrosswordDetails;
 	totalCount: number;
-	currentPage: number,
-	pageSize: number,
-	totalPages: number
+	currentPage: number;
+	pageSize: number;
+	totalPages: number;
 }
 
 export interface CrosswordDetails {

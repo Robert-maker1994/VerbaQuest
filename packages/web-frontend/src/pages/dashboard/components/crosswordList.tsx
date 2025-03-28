@@ -1,19 +1,12 @@
 import { AccessTime } from "@mui/icons-material";
-import {
-	Box,
-	Typography,
-	List,
-	ListItem,
-	Chip,
-	Button,
-} from "@mui/material";
-import { formatRelative } from "date-fns";
-import { es, fr, enGB } from "date-fns/locale";
-import { useNavigate } from "react-router";
-import { CrosswordIcon } from "../../crossword/components/crosswordIcon";
+import { Box, Button, Chip, List, ListItem, Typography } from "@mui/material";
 import type { GetUserCrosswords } from "@verbaquest/shared";
-import { useTranslation } from "../../../context/translationProvider";
+import { formatRelative } from "date-fns";
+import { enGB, es, fr } from "date-fns/locale";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../../context/auth";
+import { useTranslation } from "../../../context/translationProvider";
+import { CrosswordIcon } from "../../crossword/components/crosswordIcon";
 
 interface CrosswordListProps {
 	crosswords: GetUserCrosswords[];
@@ -41,8 +34,8 @@ const CrosswordList: React.FC<CrosswordListProps> = ({
 
 	const formatDate = (date: Date) => {
 		const relativeDate = formatRelative(date, new Date(), {
-			locale: getLocale()
-		})
+			locale: getLocale(),
+		});
 		return relativeDate.slice(0)[0].toLocaleUpperCase() + relativeDate.slice(1);
 	};
 
@@ -61,7 +54,9 @@ const CrosswordList: React.FC<CrosswordListProps> = ({
 					<Typography variant="h6" sx={{ marginBottom: "8px" }}>
 						{item.crossword.title}
 					</Typography>
-					<Box sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+					<Box
+						sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}
+					>
 						{item.crossword.topics.map((topic) => (
 							<Chip
 								color="primary"
@@ -105,11 +100,8 @@ const CrosswordList: React.FC<CrosswordListProps> = ({
 			))}
 		</List>
 	) : (
-		<Typography gutterBottom>
-			{emptyMessage}
-		</Typography>
-	)
-
+		<Typography gutterBottom>{emptyMessage}</Typography>
+	);
 };
 
 export default CrosswordList;

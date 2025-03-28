@@ -6,7 +6,7 @@ const HoverBox = styled(Box)(({ theme }) => ({
 	boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
 	borderRadius: "8px",
 	padding: "24px",
-	margin: "0 auto"
+	margin: "0 auto",
 }));
 
 export default HoverBox;

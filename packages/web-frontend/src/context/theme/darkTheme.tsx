@@ -54,6 +54,5 @@ export const darkTheme = createTheme({
 				},
 			},
 		},
-		
 	},
 });

@@ -2,18 +2,18 @@
 	"display": "Node 22",
 	"_version": "22.0.0",
 	"compilerOptions": {
-	  "lib": ["es2023", "DOM"],
-	  "module": "nodenext",
-	  "target": "es2022",
-	  "moduleResolution": "nodenext",
-  	   "outDir": "./dist",
-	   "skipLibCheck": true,
-	  "esModuleInterop": true,
-	  "emitDecoratorMetadata": true,
-	  "experimentalDecorators": true,
-	  "paths": {
-		  "@verbaquest/shared": ["../packages/shared/dist"]
-	  }
+		"lib": ["es2023", "DOM"],
+		"module": "nodenext",
+		"target": "es2022",
+		"moduleResolution": "nodenext",
+		"outDir": "./dist",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"paths": {
+			"@verbaquest/types": ["../packages/types/types"]
+		}
 	},
 
 	"exclude": ["node_modules"],

@@ -1,4 +1,4 @@
-import { Difficulty } from "@verbaquest/shared";
+import { Difficulty } from "@verbaquest/types";
 import {
 	Column,
 	Entity,

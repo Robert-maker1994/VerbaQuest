@@ -72,11 +72,11 @@ const Crossword = React.memo(function Crossword() {
 	}
 	return (
 		<Container maxWidth="lg">
-
 			<Grid2 container spacing={2} justifyContent={"center"}>
 				<Grid2
 					size={12}
-					sx={{ display: "flex", justifyContent: "space-between" }}>
+					sx={{ display: "flex", justifyContent: "space-between" }}
+				>
 					<Button
 						size="small"
 						onClick={() => {

@@ -4,7 +4,7 @@ import type {
 	CrosswordResponse,
 	Difficulty,
 	LanguageCode,
-} from "@verbaquest/shared";
+} from "@verbaquest/types";
 import axios from "axios";
 export const api = axios.create({
 	baseURL: "http://localhost:5001/",
@@ -24,17 +24,14 @@ const backendEndpoints = {
 			page,
 			search,
 		};
-		const response = await api.get<CrosswordDetails>(
-			"crossword/details",
-			{
-				params,
-				headers: {
-					"Content-Type": "application/json",
+		const response = await api.get<CrosswordDetails>("crossword/details", {
+			params,
+			headers: {
+				"Content-Type": "application/json",
 
-					Authorization: `Bearer ${token}`,
-				},
+				Authorization: `Bearer ${token}`,
 			},
-		);
+		});
 		return response.data;
 	},
 
@@ -45,11 +42,12 @@ const backendEndpoints = {
 		}
 
 		const response = await api.get<CrosswordResponse>(
-			`crossword/${crosswordId}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			}
-		}
+			`crossword/${crosswordId}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
 		);
 		return response.data;
 	},
@@ -128,7 +126,11 @@ const backendEndpoints = {
 		return data;
 	},
 
-	async saveUserProgress(crosswordId: number, timeTaken: number, completed: boolean) {
+	async saveUserProgress(
+		crosswordId: number,
+		timeTaken: number,
+		completed: boolean,
+	) {
 		try {
 			const token = localStorage.getItem("token");
 
@@ -210,7 +212,8 @@ const backendEndpoints = {
 			throw new Error("No token found");
 		}
 
-		const response = await api.post<string[]>("/usercrossword/update",
+		const response = await api.post<string[]>(
+			"/usercrossword/update",
 			{
 				crosswordId,
 				favorite,
@@ -219,15 +222,15 @@ const backendEndpoints = {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
-				}
-			}
+				},
+			},
 		);
 
 		if (!response.status) {
 			throw new Error(`Failed to update user progress: ${response.statusText}`);
 		}
 		return response.data;
-	}
+	},
 };
 
 export default backendEndpoints;

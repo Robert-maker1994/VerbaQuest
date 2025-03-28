@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { LanguageCode } from "@verbaquest/shared";
+import { LanguageCode } from "@verbaquest/types";
 import csv from "csv-parser";
 import type { MigrationInterface, QueryRunner } from "typeorm";
 import {

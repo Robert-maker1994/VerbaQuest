@@ -2,10 +2,9 @@ import { AppDataSource } from "../../datasource";
 import { Words } from "../entity";
 import { CustomError } from "../errors/customError";
 
-class WordServiceError extends CustomError { }
+class WordServiceError extends CustomError {}
 
 const wordService = {
-
 	async getWords() {
 		const wordsRepo = AppDataSource.getRepository(Words);
 		return await wordsRepo.find();
@@ -22,21 +21,19 @@ const wordService = {
 				languageCode: language,
 			})
 			.orderBy("RANDOM()")
-			.select([
-				"word.word_text",
-			])
+			.select(["word.word_text"])
 			.getMany();
 
 		if (!word.length) {
-			throw new WordServiceError("NOT_FOUND", 404)
+			throw new WordServiceError("NOT_FOUND", 404);
 		}
-		return word.map(word => word.word_text.toUpperCase());
+		return word.map((word) => word.word_text.toUpperCase());
 	},
 	async createWord(data: Partial<Words>) {
 		const wordsRepo = AppDataSource.getRepository(Words);
 		const word = wordsRepo.create(data);
 		return await wordsRepo.save(word);
-	}
-}
+	},
+};
 
 export default wordService;

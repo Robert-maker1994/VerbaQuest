@@ -9,7 +9,6 @@ import {
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
 
-
 const crosswordRouter = express.Router();
 
 crosswordRouter.get(
@@ -21,12 +20,13 @@ crosswordRouter.get(
 
 			const search = req?.query.search as string | undefined;
 			const page = req?.query.page as string | undefined;
-			const [crosswords, totalCount] = await crosswordService.getCrosswordDetails(
-				userId,
-				preferred_language,
-				search,
-				page ? Number.parseInt(page) : undefined
-			);
+			const [crosswords, totalCount] =
+				await crosswordService.getCrosswordDetails(
+					userId,
+					preferred_language,
+					search,
+					page ? Number.parseInt(page) : undefined,
+				);
 
 			res.json({
 				crosswords,

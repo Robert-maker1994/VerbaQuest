@@ -1,8 +1,8 @@
 import {
 	CheckCircleOutline,
+	RadioButtonUncheckedOutlined,
 	Star,
 	StarBorder,
-	RadioButtonUncheckedOutlined,
 } from "@mui/icons-material";
 import EditOutlined from "@mui/icons-material/EditOutlined";
 import {
@@ -24,17 +24,17 @@ import {
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import HoverBox from "../../components/hoverBox";
 import api from "../../context/api/api";
 import backendEndpoints from "../../context/api/api";
 import { useTranslation } from "../../context/translationProvider";
-import HoverBox from "../../components/hoverBox";
 
 export interface CrosswordDetailsResponse {
 	crosswords: CrosswordDetails[];
 	totalCount: number;
-	currentPage: number,
-	pageSize: number,
-	totalPages: number
+	currentPage: number;
+	pageSize: number;
+	totalPages: number;
 }
 
 export interface CrosswordDetails {
@@ -90,11 +90,7 @@ function FavoriteIcon({
 }) {
 	return (
 		<IconButton onClick={onToggleFavorite} size="small">
-			{isFavorite ? (
-				<Star color="warning" />
-			) : (
-				<StarBorder color="action" />
-			)}
+			{isFavorite ? <Star color="warning" /> : <StarBorder color="action" />}
 		</IconButton>
 	);
 }
@@ -103,9 +99,8 @@ const CrosswordPage = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const { translate } = useTranslation();
-	const [crosswordData, setCrosswordData] = useState<
-		CrosswordDetailsResponse
-	>();
+	const [crosswordData, setCrosswordData] =
+		useState<CrosswordDetailsResponse>();
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const nav = useNavigate();
 
@@ -142,7 +137,6 @@ const CrosswordPage = () => {
 
 	const handlePaginationChange = useCallback(async (page: number) => {
 		setTimeout(async () => {
-
 			const response = await api.getCrosswordDetails(page, undefined);
 
 			if (response) {
@@ -161,25 +155,27 @@ const CrosswordPage = () => {
 						...prevData,
 						crosswords: prevData.crosswords.map((crossword) => {
 							if (crossword.crossword_id === crosswordId) {
-								const handleNewFav = !crossword.userCrosswords.length
+								const handleNewFav = !crossword.userCrosswords.length;
 								if (handleNewFav) {
-									console.log('handleNewFav');
+									console.log("handleNewFav");
 
 									return {
 										...crossword,
-										userCrosswords: [{
-											user_crossword_id: Math.random(),
-											is_favorite: true,
-											completed: false,
-											completion_timer: 0
-										}]
-									}
+										userCrosswords: [
+											{
+												user_crossword_id: Math.random(),
+												is_favorite: true,
+												completed: false,
+												completion_timer: 0,
+											},
+										],
+									};
 								}
 								return {
 									...crossword,
 									userCrosswords: crossword.userCrosswords.map(
 										(userCrossword) => {
-											console.log("helloddd")
+											console.log("helloddd");
 											return {
 												...userCrossword,
 												is_favorite: !isFavorite,
@@ -204,14 +200,20 @@ const CrosswordPage = () => {
 				<Box sx={{ display: "flex", justifyContent: "center" }}>
 					<CircularProgress />
 				</Box>
-
 			) : error ? (
 				<Typography color="error">{error}</Typography>
 			) : (
 				<Box fontWeight={"bold"} mb={4}>
 					<Grid2 container spacing={2} justifyContent={"center"}>
 						<Grid2 size={12}>
-							<HoverBox m={5} maxWidth={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} flexDirection={"row"}>
+							<HoverBox
+								m={5}
+								maxWidth={"100%"}
+								display={"flex"}
+								alignItems={"center"}
+								justifyContent={"space-between"}
+								flexDirection={"row"}
+							>
 								<TextField
 									label={translate("search_crosswords")}
 									type="search"
@@ -224,33 +226,51 @@ const CrosswordPage = () => {
 									sx={{ marginBottom: 2 }}
 								/>
 								<Box alignItems={"center"}>
-									<Button onClick={() => {
-										const crossword = crosswordData?.crosswords[Math.floor(Math.random() * crosswordData.crosswords.length)];
-										if (crossword === undefined) return;
+									<Button
+										onClick={() => {
+											const crossword =
+												crosswordData?.crosswords[
+													Math.floor(
+														Math.random() * crosswordData.crosswords.length,
+													)
+												];
+											if (crossword === undefined) return;
 
-										nav(`/crossword/${crossword?.crossword_id}`);
-									}} variant="contained"
+											nav(`/crossword/${crossword?.crossword_id}`);
+										}}
+										variant="contained"
 										disableElevation
-										color="primary">Random Crossword</Button>
+										color="primary"
+									>
+										Random Crossword
+									</Button>
 								</Box>
-
 							</HoverBox>
 						</Grid2>
 						<Box alignItems={"center"} flex={"flex"}>
-							<Pagination onChange={(_: React.ChangeEvent<unknown>, page: number) => {
-								handlePaginationChange(page);
-							}}
-								count={crosswordData?.totalPages || 0} page={crosswordData?.currentPage || 0} />
+							<Pagination
+								onChange={(_: React.ChangeEvent<unknown>, page: number) => {
+									handlePaginationChange(page);
+								}}
+								count={crosswordData?.totalPages || 0}
+								page={crosswordData?.currentPage || 0}
+							/>
 						</Box>
 						<Grid2 size={12}>
 							<Grid2 container spacing={2} justifyContent={"center"}>
 								{crosswordData?.crosswords?.map((crossword) => {
 									if (crossword.crossword_id === 19) {
-
-										console.log("hello", crossword.userCrosswords[0]?.is_favorite)
+										console.log(
+											"hello",
+											crossword.userCrosswords[0]?.is_favorite,
+										);
 									}
 									return (
-										<Grid2 size={4} height={"100%"} key={crossword.crossword_id}>
+										<Grid2
+											size={4}
+											height={"100%"}
+											key={crossword.crossword_id}
+										>
 											<Card>
 												<CardContent>
 													<Box
@@ -277,14 +297,21 @@ const CrosswordPage = () => {
 													</Box>
 
 													<Box
-														sx={{ display: "flex", alignItems: "center", mt: 1 }}
+														sx={{
+															display: "flex",
+															alignItems: "center",
+															mt: 1,
+														}}
 													>
 														<Typography variant="body1">
 															{translate("status:")}
 														</Typography>
 
-														<CrosswordIcon isCompleted={crossword.userCrosswords[0]?.completed} />
-
+														<CrosswordIcon
+															isCompleted={
+																crossword.userCrosswords[0]?.completed
+															}
+														/>
 													</Box>
 													<Box
 														sx={{
@@ -347,10 +374,8 @@ const CrosswordPage = () => {
 						</Grid2>
 					</Grid2>
 				</Box>
-			)
-			}
-
-		</Container >
+			)}
+		</Container>
 	);
 };
 

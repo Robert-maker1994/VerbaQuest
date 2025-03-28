@@ -1,10 +1,11 @@
 {
 	"files": [],
 	"compilerOptions": {
+		"baseUrl": ".",
 		"paths": {
-			"@verbaquest/shared": ["../packages/shared/dist"]
+			"@verbaquest/types": ["../packages/types/types"]
 		},
-		"declaration": false
+		"declaration": true
 	},
 	"exclude": ["node_modules"],
 	"references": [

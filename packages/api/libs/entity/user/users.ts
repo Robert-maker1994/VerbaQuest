@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { Difficulty, LanguageCode } from "@verbaquest/shared";
-import { UserCrossword } from "./userCrosswords";
 import { UserWordProgress } from "./UserWordProgress";
+import { UserCrossword } from "./userCrosswords";
 
 @Entity()
 export class User {
@@ -84,7 +84,7 @@ export class User {
 	@OneToMany(
 		() => UserWordProgress,
 		(userWordProgress) => userWordProgress.user,
-		{ cascade: true, onDelete: "CASCADE" } // cascade ensures deleting a user deletes their progress
+		{ cascade: true, onDelete: "CASCADE" }, // cascade ensures deleting a user deletes their progress
 	)
 	userWordProgress: UserWordProgress[];
 }

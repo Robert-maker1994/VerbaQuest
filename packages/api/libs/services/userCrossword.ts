@@ -2,10 +2,9 @@ import { AppDataSource } from "../../datasource";
 import { UserCrossword } from "../entity";
 import { CustomError } from "../errors/customError";
 
-class UserCrosswordError extends CustomError { }
+class UserCrosswordError extends CustomError {}
 
 export const userCrosswordService = {
-
 	async getByUserCrosswordId(user_id: number, crossword_id: number) {
 		try {
 			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
@@ -18,7 +17,6 @@ export const userCrosswordService = {
 			return userCrossword;
 		} catch (err) {
 			throw new UserCrosswordError("Error finding UserCrossword", 404);
-
 		}
 	},
 
@@ -96,7 +94,7 @@ export const userCrosswordService = {
 							topic_name: true,
 						},
 					},
-				}
+				},
 			});
 
 			return userCrossword;
@@ -104,7 +102,6 @@ export const userCrosswordService = {
 			throw new UserCrosswordError("Error getting UserCrossword", 404);
 		}
 	},
-
 
 	async getAll(user_id: number) {
 		try {
@@ -145,7 +142,13 @@ export const userCrosswordService = {
 		}
 	},
 
-	async createOrUpdate(crossword_id: number, timer: number, user_id: number, completed: boolean, is_favorite: boolean) {
+	async createOrUpdate(
+		crossword_id: number,
+		timer: number,
+		user_id: number,
+		completed: boolean,
+		is_favorite: boolean,
+	) {
 		try {
 			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
@@ -173,13 +176,19 @@ export const userCrosswordService = {
 			});
 
 			if (!userCrossword) {
-				throw new UserCrosswordError("Error creating or updating UserCrossword", 404);
+				throw new UserCrosswordError(
+					"Error creating or updating UserCrossword",
+					404,
+				);
 			}
 
 			return userCrossword;
 		} catch (err) {
 			console.log(err);
-			throw new UserCrosswordError("Error creating or updating UserCrossword", 404);
+			throw new UserCrosswordError(
+				"Error creating or updating UserCrossword",
+				404,
+			);
 		}
 	},
 
@@ -192,19 +201,18 @@ export const userCrosswordService = {
 				})
 
 				.where("user_id = :user_id", { user_id })
-				.andWhere("crossword_id = :crossword_id", { crossword_id }).execute();
+				.andWhere("crossword_id = :crossword_id", { crossword_id })
+				.execute();
 
 			if (!qb) {
 				throw new UserCrosswordError("Error updating UserCrossword", 500);
 			}
 
 			return qb;
-
 		} catch (err) {
 			throw new UserCrosswordError("Error updating UserCrossword", 404);
 		}
 	},
-
 
 	async create(user_id: number, crossword_id: number, is_favorite: boolean) {
 		try {
@@ -218,7 +226,6 @@ export const userCrosswordService = {
 				})
 				.execute();
 
-
 			return qb;
 		} catch (err) {
 			throw new UserCrosswordError("Error updating UserCrossword", 404);
@@ -228,7 +235,8 @@ export const userCrosswordService = {
 	async delete(user_id: number, crossword_id: number) {
 		try {
 			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-			const userCrossword = await userCrosswordRepo.createQueryBuilder("uc")
+			const userCrossword = await userCrosswordRepo
+				.createQueryBuilder("uc")
 				.delete()
 				.from(UserCrossword)
 				.where("user_id = :user_id", { user_id })

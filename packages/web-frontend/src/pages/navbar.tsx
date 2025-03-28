@@ -35,14 +35,12 @@ export default function Navbar() {
 				setValue(1);
 				break;
 			case "/settings":
-			setValue(2);
-			break;
+				setValue(2);
+				break;
 			default:
 				setValue(0);
 		}
 	}, [location.pathname]);
-	
-
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -81,10 +79,7 @@ export default function Navbar() {
 			}}
 		>
 			<Toolbar>
-				<Typography
-					variant="h6"
-					component="div"
-				>
+				<Typography variant="h6" component="div">
 					Verbaquest
 				</Typography>
 

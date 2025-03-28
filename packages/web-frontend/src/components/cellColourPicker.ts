@@ -20,6 +20,5 @@ export const pickCellColor = (cellState: CellState, isSelected: boolean) => {
 				: "linear-gradient(to bottom, #80deea, #4dd0e1)";
 	}
 
-
 	return backgroundColor;
 };

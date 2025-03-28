@@ -1,5 +1,5 @@
-import type { CrosswordResponse, GetUserCrosswords } from "@verbaquest/shared";
-import type { NextFunction, Request, Response } from "express";
+import type { CrosswordResponse } from "@verbaquest/types";
+import type { NextFunction, Response } from "express";
 import {
 	type CrosswordGrid,
 	type CrosswordMetadata,

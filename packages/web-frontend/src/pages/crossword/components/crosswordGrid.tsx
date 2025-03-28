@@ -1,10 +1,10 @@
 import { Box, Grid2 } from "@mui/material";
-import type { WordData } from "@verbaquest/shared";
+import type { WordData } from "@verbaquest/types";
 import { memo, useEffect } from "react";
+import HoverBox from "../../../components/hoverBox";
 import { useCrosswordGrid } from "../hooks/useCrosswordGrid";
 import ClueList from "./clueList";
 import CrosswordCell from "./crosswordCell";
-import HoverBox from "../../../components/hoverBox";
 
 /**
  * Interface for the props of the CrosswordGrid component.
@@ -84,8 +84,8 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({
 											selected={
 												cellState
 													? cellState?.wordId.includes(
-														selectedWord?.word_id || 0,
-													) || false
+															selectedWord?.word_id || 0,
+														) || false
 													: false
 											}
 											onKeyCapture={(value) => {
