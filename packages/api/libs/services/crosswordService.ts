@@ -10,7 +10,7 @@ import {
 	type Languages,
 	Topic,
 	UserCrossword,
-	Words,
+	Word,
 } from "../entity";
 import { CrosswordError, TopicError } from "../errors";
 import { getLanguage } from "./language";
@@ -123,7 +123,7 @@ const crosswordService = {
 			const crosswordRepo = queryRunner.manager.getRepository(Crossword);
 			const userCrosswordRepo =
 				queryRunner.manager.getRepository(UserCrossword);
-			const wordsRepo = queryRunner.manager.getRepository(Words);
+			const wordsRepo = queryRunner.manager.getRepository(Word);
 			const crosswordWordsRepo =
 				queryRunner.manager.getRepository(CrosswordWord);
 
@@ -225,7 +225,7 @@ const crosswordService = {
 		try {
 			const crosswordRepo = queryRunner.manager.getRepository(Crossword);
 			const topicRepo = queryRunner.manager.getRepository(Topic);
-			const wordsRepo = queryRunner.manager.getRepository(Words);
+			const wordsRepo = queryRunner.manager.getRepository(Word);
 			const crosswordWordsRepo =
 				queryRunner.manager.getRepository(CrosswordWord);
 			const userCrosswordRepo =

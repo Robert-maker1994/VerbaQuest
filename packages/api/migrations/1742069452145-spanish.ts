@@ -8,7 +8,7 @@ import {
 	CrosswordWord,
 	Languages,
 	Topic,
-	Words,
+	Word,
 } from "../libs/entity";
 
 interface CSVRow {
@@ -33,7 +33,7 @@ export class Spanish1742069452145 implements MigrationInterface {
 
 		// Data Structures to Hold Unique Entities
 		const topicsMap: Map<string, Topic> = new Map();
-		const wordsMap: Map<string, Words> = new Map();
+		const wordsMap: Map<string, Word> = new Map();
 		const crosswords: Crossword[] = [];
 
 		// Fetch the target language entity or create it
@@ -99,7 +99,7 @@ export class Spanish1742069452145 implements MigrationInterface {
 
 					if (!wordsMap.has(wordKey)) {
 						// Check if the word already exists in the database
-						let word = await queryRunner.manager.findOne(Words, {
+						let word = await queryRunner.manager.findOne(Word, {
 							where: {
 								word_text: wordText,
 								language: targetLanguage,
@@ -108,7 +108,7 @@ export class Spanish1742069452145 implements MigrationInterface {
 
 						if (!word) {
 							// Create a new word entity
-							const wordEntity = new Words();
+							const wordEntity = new Word();
 							wordEntity.word_text = wordText;
 							wordEntity.language = targetLanguage;
 							wordEntity.definition = definition;

@@ -12,7 +12,7 @@ import { Languages } from "./language";
 import { UserWordProgress } from "./user/UserWordProgress";
 
 @Entity()
-export class Words {
+export class Word {
 	@PrimaryGeneratedColumn({ comment: "The unique identifier for this word." })
 	word_id: number;
 

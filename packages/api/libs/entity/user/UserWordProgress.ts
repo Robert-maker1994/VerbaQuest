@@ -5,7 +5,7 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { Words } from "../word"; // Path to your Words entity
+import { Word } from "../word"; // Path to your Words entity
 import { User } from "./users"; // Path to your User entity
 
 @Entity()
@@ -24,14 +24,14 @@ export class UserWordProgress {
 	user: User;
 
 	@ManyToOne(
-		() => Words,
+		() => Word,
 		(word) => word.userWordProgress,
 		{
 			onDelete: "CASCADE",
 		},
 	)
 	@JoinColumn({ name: "word_id" })
-	word: Words;
+	word: Word;
 
 	@Column({ type: "boolean", default: false })
 	is_favorite: boolean;

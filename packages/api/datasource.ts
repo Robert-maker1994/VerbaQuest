@@ -8,7 +8,7 @@ import {
 	User,
 	UserCrossword,
 	UserWordProgress,
-	Words,
+	Word,
 } from "./libs/entity";
 import { UpdateDatabase1742069418100 } from "./migrations/1742069418100-update-database";
 import { Initial1742069418116 } from "./migrations/1742069418116-inital";
@@ -33,7 +33,7 @@ export const AppDataSource = new DataSource({
 		Topic,
 		User,
 		UserCrossword,
-		Words,
+		Word,
 		UserWordProgress,
 	],
 	subscribers: [],

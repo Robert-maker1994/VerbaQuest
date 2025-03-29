@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AppDataSource } from "../../datasource";
-import { type Languages, Words } from "../../libs/entity";
+import { type Languages, Word } from "../../libs/entity";
 import { CustomError } from "../../libs/errors/customError";
 import { getWordleWord } from "../../libs/services";
 
@@ -37,7 +37,7 @@ describe("wordService", () => {
 
 	describe("getWordleword", () => {
 		it("should return one valid word successfully", async () => {
-			const wordleWord: Words = {
+			const wordleWord: Word = {
 				word_id: 1,
 				wordle_valid: true,
 				word_text: "hello",
@@ -49,7 +49,7 @@ describe("wordService", () => {
 				definition: "",
 				crosswordWords: [],
 			};
-			const wordRepo = AppDataSource.getRepository(Words);
+			const wordRepo = AppDataSource.getRepository(Word);
 			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
 				wordleWord,
 			);
@@ -60,10 +60,10 @@ describe("wordService", () => {
 
 		it("should throw an error message if a word is not found", async () => {
 			const wordleWord = {};
-			const wordRepo = AppDataSource.getRepository(Words);
+			const wordRepo = AppDataSource.getRepository(Word);
 
 			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
-				wordleWord as Words,
+				wordleWord as Word,
 			);
 
 			try {
