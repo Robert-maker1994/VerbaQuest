@@ -35,6 +35,7 @@
 // 		vi.clearAllMocks();
 // 	});
 
+<<<<<<< HEAD
 // 	describe("getWordleword", () => {
 // 		it("should return one valid word successfully", async () => {
 // 			const wordleWord: Word = {
@@ -55,11 +56,32 @@
 // 			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
 // 				wordleWord,
 // 			);
+=======
+	describe("getWordleword", () => {
+		it("should return one valid word successfully", async () => {
+			const wordleWord: Word = {
+				word_id: 1,
+				wordle_valid: true,
+				word_text: "hello",
+				language: {
+					language_id: 1,
+					language_name: "en",
+					language_code: "en",
+				} as Languages,
+				definition: "",
+				crosswordWords: [],
+			};
+			const wordRepo = AppDataSource.getRepository(Word);
+			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
+				wordleWord,
+			);
+>>>>>>> master
 
 // 			const result = await getWordleWord("en");
 // 			expect(result).toEqual(wordleWord);
 // 		});
 
+<<<<<<< HEAD
 // 		it("should throw an error message if a word is not found", async () => {
 // 			const wordleWord = {};
 // 			const wordRepo = AppDataSource.getRepository(Word);
@@ -67,6 +89,15 @@
 // 			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
 // 				wordleWord as Word,
 // 			);
+=======
+		it("should throw an error message if a word is not found", async () => {
+			const wordleWord = {};
+			const wordRepo = AppDataSource.getRepository(Word);
+
+			vi.mocked(wordRepo.createQueryBuilder().getOne).mockResolvedValue(
+				wordleWord as Word,
+			);
+>>>>>>> master
 
 // 			try {
 // 				const result = await getWordleWord("en");
