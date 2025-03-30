@@ -1,4 +1,4 @@
-import type { Difficulty, LanguageCode } from "@verbaquest/shared";
+import type { Difficulty, LanguageCode } from "@verbaquest/types";
 import { AppDataSource } from "../../datasource";
 import { User } from "../entity/user/users";
 import { UserError } from "../errors";

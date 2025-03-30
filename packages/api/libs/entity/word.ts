@@ -12,7 +12,7 @@ import { Languages } from "./language";
 import { UserWordProgress } from "./user/UserWordProgress";
 
 @Entity()
-export class Words {
+export class Word {
 	@PrimaryGeneratedColumn({ comment: "The unique identifier for this word." })
 	word_id: number;
 
@@ -26,7 +26,7 @@ export class Words {
 	language: Languages;
 
 	@Column({
-		unique: true,
+		unique: false,
 		type: "citext",
 		comment: "The text of the word.",
 		transformer: {
@@ -69,4 +69,13 @@ export class Words {
 		{ onDelete: "CASCADE" },
 	)
 	userWordProgress: UserWordProgress[];
+
+
+	@Column({
+		type: "varchar",
+		length: 50,
+		nullable: true,
+		comment: "The part of speech (e.g., noun, verb, adjective).",
+	})
+	partOfSpeech: string;
 }

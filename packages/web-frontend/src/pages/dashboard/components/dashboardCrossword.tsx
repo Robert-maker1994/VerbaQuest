@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import type { GetUserCrosswords } from "@verbaquest/shared";
+import type { GetUserCrosswords } from "@verbaquest/types";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../../context/api/api";
 import { useTranslation } from "../../../context/translationProvider";
@@ -51,13 +51,13 @@ const DashboardContent = () => {
 			<TabPanel value={value} index={0}>
 				<CrosswordList
 					crosswords={crosswordData[0]}
-					emptyMessage={translate("no_latest_crosswords")}
+					emptyMessage={translate("latest_crosswords")}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<CrosswordList
 					crosswords={crosswordData[1]}
-					emptyMessage={translate("no_favorite_crosswords")}
+					emptyMessage={translate("not_attempted_crosswords")}
 				/>
 			</TabPanel>
 		</Box>

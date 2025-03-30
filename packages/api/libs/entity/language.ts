@@ -2,7 +2,7 @@ import { LanguageCode, LanguageName } from "@verbaquest/types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Crossword } from "./crossword";
 import { Topic } from "./topic";
-import { Words } from "./word";
+import { Word } from "./word";
 
 @Entity()
 export class Languages {
@@ -27,10 +27,10 @@ export class Languages {
 	language_name: LanguageName;
 
 	@OneToMany(
-		() => Words,
+		() => Word,
 		(word) => word.language,
 	)
-	words: Words[];
+	words: Word[];
 
 	@OneToMany(
 		() => Crossword,

@@ -6,14 +6,14 @@
 /**
  * Represents language codes.
  * @enum {string}
- * @property {"EN"} ENGLISH - English language code.
- * @property {"ES"} SPANISH - Spanish language code.
- * @property {"FR"} FRENCH - French language code.
+ * @property {"en"} ENGLISH - English language code.
+ * @property {"es"} SPANISH - Spanish language code.
+ * @property {"fr"} FRENCH - French language code.
  */
 export enum LanguageCode {
-    ENGLISH = "EN",
-    SPANISH = "ES",
-    FRENCH = "FR",
+    ENGLISH = "en",
+    SPANISH = "es",
+    FRENCH = "fr",
 }
 
 /**
@@ -24,7 +24,7 @@ export enum LanguageCode {
  * @property {"french"} FRENCH - French language name.
  */
 export enum LanguageName {
-    ENGLISH = "english",
-    SPANISH = "spanish",
-    FRENCH = "french",
+    ENGLISH = "English",
+    SPANISH = "Spanish",
+    FRENCH = "French",
 }

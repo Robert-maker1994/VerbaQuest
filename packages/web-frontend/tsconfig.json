@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@verbaquest/types": ["../packages/types/types"]
+			"@verbaquest/types": ["./packages/types/dist/types/index.js"]
 		},
 		"declaration": true
 	},
