@@ -1,4 +1,4 @@
-import type { CrosswordResponse } from "@verbaquest/types";
+import type { CrosswordResponse, LanguageCode } from "@verbaquest/types";
 import type { NextFunction, Response } from "express";
 import {
 	type CrosswordGrid,
@@ -9,26 +9,51 @@ import type { Crossword } from "../entity";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
+import axios from "axios";
 
-function crosswordResponse(
+async function crosswordResponse(
 	crossword: Crossword,
 	metadata: CrosswordMetadata,
 	grid: CrosswordGrid,
-): CrosswordResponse {
+	targetLanguage: LanguageCode
+): Promise<CrosswordResponse> {
+	const data = metadata.words_data.map(async (data) => {
+		const matchedWord = crossword.crosswordWords.find(
+			(word) => word.words.word_text === data.word,
+		);
+
+		if (!matchedWord.words) {
+			console.info("No matched error generating metadata object")
+			throw new CrosswordError("Internal Error", 404)
+		}
+
+		const res = await axios.post<{ translatedText: string }>("http://localhost:5000/translate", {
+
+			q: matchedWord.words.word_text,
+			source: "auto",
+			target: targetLanguage,
+			format: "text",
+			alternatives: 1,
+			api_key: ""
+		},
+			{ headers: { "Content-Type": "application/json" } }
+		)
+		if (!res.data.translatedText) {
+			throw new CrosswordError("no translation founf", 404)
+		}
+		return {
+			...data,
+			word_id: matchedWord.words.word_id,
+			word: matchedWord.words.word_text,
+			clue: matchedWord.clue,
+			definition: res.data.translatedText,
+		};
+	});
 	return {
 		title: crossword?.title,
 		isComplete: false,
 		id: crossword.crossword_id,
-		metadata: metadata.words_data.map((data) => {
-			const definition = crossword.crosswordWords.find(
-				(word) => word.words.word_text === data.word,
-			)?.words;
-			return {
-				...data,
-				word_id: definition.word_id,
-				definition: definition.definition,
-			};
-		}),
+		metadata: await Promise.all(data),
 		crossword: grid,
 	};
 }
@@ -50,7 +75,7 @@ const getCrosswordById = async (
 		const words = crossword.crosswordWords.map((v) => v.words.word_text);
 		const [grid, metadata] = generateCrossword(words);
 
-		res.send(crosswordResponse(crossword, metadata, grid));
+		res.send(await crosswordResponse(crossword, metadata, grid, req.user.app_language));
 	} catch (err) {
 		next(err);
 	}

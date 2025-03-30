@@ -5,6 +5,8 @@ import { Languages, User } from "../libs/entity";
 
 export class Initial1742069418116 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
+		await queryRunner.query("CREATE EXTENSION IF NOT EXISTS unaccent");
+		await queryRunner.query("CREATE EXTENSION IF NOT EXISTS citext");
 		await queryRunner.manager.getRepository(User).save([
 			{
 				username: "verba",

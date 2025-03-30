@@ -6,9 +6,11 @@ import { AppDataSource } from "./datasource";
 import { errorHandler } from "./errorHandle";
 import config from "./libs/config";
 import initializeRoutes from "./libs/routes/router";
+import csv from "csv-parser";
 
 AppDataSource.initialize()
 	.then(() => {
+		
 		const app = express();
 		const port = config.port;
 		app.use(cors());
@@ -27,3 +29,5 @@ AppDataSource.initialize()
 	.catch((err) => {
 		throw Error(`Error at the core! ${err}`);
 	});
+
+

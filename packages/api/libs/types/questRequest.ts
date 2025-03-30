@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import type { Difficulty, LanguageCode } from "shared";
+import type { Difficulty, LanguageCode } from "@verbaquest/types";
 
 export type QuestUser = {
 	email: string;

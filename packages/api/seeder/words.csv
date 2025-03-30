@@ -1,0 +1,375 @@
+language_code,word,definition,part_of_speech
+en,father,"A male parent",noun
+es,padre,"Progenitor masculino",noun
+en,play,"Engage in games or recreation",verb
+es,jugar,"Participar en juegos o recreación",verb
+en,strong,"Having physical power",adjective
+es,fuerte,"Que tiene poder físico",adjective
+en,suddenly,"Quickly and unexpectedly",adverb
+es,de repente,"Rápida e inesperadamente",adverb
+en,student,"Person studying at a school",noun
+es,estudiante,"Persona que estudia en una escuela",noun
+en,learn,"Gain knowledge or skill",verb
+es,aprender,"Adquirir conocimiento o habilidad",verb
+en,weak,"Lacking physical strength",adjective
+es,débil,"Que carece de fuerza física",adjective
+en,probably,"Almost certainly",adverb
+es,probablemente,"Casi con certeza",adverb
+en,city,"Large town",noun
+es,ciudad,"Población grande",noun
+en,understand,"Perceive the meaning of",verb
+es,entender,"Percibir el significado de",verb
+en,clear,"Easy to perceive or understand",adjective
+es,claro,"Fácil de percibir o entender",adjective
+en,perhaps,"Possibly",adverb
+es,quizás,"Posiblemente",adverb
+en,music,"Vocal or instrumental sounds combined pleasingly",noun
+es,música,"Sonidos vocales o instrumentales combinados agradablemente",noun
+en,listen,"Pay attention to sound",verb
+es,escuchar,"Prestar atención al sonido",verb
+en,difficult,"Needing much effort or skill",adjective
+es,difícil,"Que necesita mucho esfuerzo o habilidad",adjective
+en,easily,"Without difficulty",adverb
+es,fácilmente,"Sin dificultad",adverb
+en,river,"Large natural stream of water",noun
+es,río,"Gran corriente natural de agua",noun
+en,walk,"Move at a regular pace by lifting and setting down each foot",verb
+es,caminar,"Moverse a paso regular levantando y posando cada pie",verb
+en,foreign,"Belonging to another country",adjective
+es,extranjero,"Perteneciente a otro país",adjective
+en,actually,"In fact or reality",adverb
+es,actualmente,"De hecho o en realidad",adverb
+en,air,"Invisible gaseous substance surrounding the earth",noun
+es,aire,"Sustancia gaseosa invisible que rodea la tierra",noun
+en,speak,"Say something",verb
+es,hablar,"Decir algo",verb
+en,hot,"Having a high degree of heat",adjective
+es,caliente,"Que tiene un alto grado de calor",adjective
+en,especially,"To a great extent; very much",adverb
+es,especialmente,"En gran medida; muchísimo",adverb
+en,door,"Hinged barrier used to close an opening",noun
+es,puerta,"Barrera con bisagras para cerrar una abertura",noun
+en,change,"Make or become different",verb
+es,cambiar,"Hacer o volverse diferente",verb
+es,simple,"Fácilmente entendido o hecho",adjective
+en,quickly,"Fast",adverb
+es,rápidamente,"Rápido",adverb
+en,story,"Account of imaginary or real people and events",noun
+es,historia,"Relato de personas y eventos imaginarios o reales",noun
+en,believe,"Accept something as true",verb
+es,creer,"Aceptar algo como verdadero",verb
+en,full,"Containing or holding as much as possible",adjective
+es,lleno,"Que contiene tanto como es posible",adjective
+en,forward,"Towards the front",adverb
+es,adelante,"Hacia el frente",adverb
+en,job,"Paid position of regular employment",noun
+es,trabajo,"Puesto remunerado de empleo regular",noun
+en,live,"Remain alive",verb
+es,vivir,"Permanecer vivo",verb
+en,special,"Better or greater than usual",adjective
+es,especial,"Mejor o mayor de lo usual",adjective
+en,directly,"Without changing direction or stopping",adverb
+es,directamente,"Sin cambiar de dirección o parar",adverb
+en,money,"Medium of exchange; currency",noun
+es,dinero,"Medio de intercambio; moneda",noun
+en,remember,"Have in or be able to bring to one's mind",verb
+es,recordar,"Tener en o poder traer a la mente",verb
+en,heavy,"Of great weight",adjective
+es,pesado,"De gran peso",adjective
+en,maybe,"Perhaps; possibly",adverb
+es,tal vez,"Quizás; posiblemente",adverb
+en,morning,"Period from sunrise to noon",noun
+es,mañana,"Período desde el amanecer hasta mediodía",noun
+en,watch,"Look at or observe attentively",verb
+es,mirar,"Observar atentamente",verb
+en,beautiful,"Pleasing the senses",adjective
+es,hermoso,"Que agrada a los sentidos",adjective
+en,completely,"Totally; utterly",adverb
+es,completamente,"Totalmente",adverb
+en,example,"Thing characteristic of its kind",noun
+es,ejemplo,"Cosa característica de su tipo",noun
+en,follow,"Go or come after",verb
+es,seguir,"Ir o venir después",verb
+en,dark,"With little or no light",adjective
+es,oscuro,"Con poca o ninguna luz",adjective
+en,often,"Frequently",adverb
+es,a menudo,"Frecuentemente",adverb
+en,company,"Commercial business",noun
+es,empresa,"Negocio comercial",noun
+en,stop,"Cease an activity or movement",verb
+es,parar,"Cesar una actividad o movimiento",verb
+en,dead,"No longer alive",adjective
+es,muerto,"Que ya no está vivo",adjective
+en,soon,"In or after a short time",adverb
+es,pronto,"En o después de poco tiempo",adverb
+en,paper,"Material manufactured in thin sheets from pulp",noun
+es,papel,"Material fabricado en hojas finas de pulpa",noun
+en,create,"Bring something into existence",verb
+es,crear,"Hacer que algo exista",verb
+en,whole,"Complete; entire",adjective
+es,entero,"Completo",adjective
+en,truly,"In a truthful way",adverb
+es,verdaderamente,"De manera veraz",adverb
+en,system,"Set of connected things or parts forming a complex whole",noun
+es,sistema,"Conjunto de cosas conectadas formando un todo complejo",noun
+en,allow,"Permit",verb
+es,permitir,"Dar permiso",verb
+en,sure,"Confident",adjective
+es,seguro,"Confiado",adjective
+en,abroad,"In or to a foreign country",adverb
+es,al extranjero,"En o a un país extranjero",adverb
+en,information,"Facts provided or learned",noun
+es,información,"Hechos proporcionados o aprendidos",noun
+en,add,"Join something to something else",verb
+es,añadir,"Unir algo a otra cosa",verb
+en,poor,"Lacking sufficient money",adjective
+es,pobre,"Que carece de suficiente dinero",adjective
+en,therefore,"For that reason",adverb
+es,por lo tanto,"Por esa razón",adverb
+en,body,"Physical structure of a person or animal",noun
+es,cuerpo,"Estructura física de persona o animal",noun
+en,spend,"Pay out money",verb
+es,gastar,"Pagar dinero",verb
+en,possible,"Able to be done or achieved",adjective
+es,posible,"Capaz de ser hecho o logrado",adjective
+en,around,"Located or situated on every side",adverb
+es,alrededor,"Situado en todos lados",adverb
+en,game,"Activity engaged in for amusement",noun
+es,juego,"Actividad realizada por diversión",noun
+en,grow,"Undergo natural development",verb
+es,crecer,"Experimentar desarrollo natural",verb
+en,financial,"Relating to finance",adjective
+es,financiero,"Relativo a las finanzas",adjective
+en,quite,"To the utmost or most absolute extent",adverb
+es,bastante,"En grado sumo o absoluto",adverb
+en,power,"Ability to do something or act in a particular way",noun
+es,poder,"Capacidad de hacer algo o actuar de cierta manera",noun
+en,open,"Allow access",verb
+es,abrir,"Permitir acceso",verb
+en,free,"Not under the control of another",adjective
+es,libre,"No bajo el control de otro",adjective
+en,sometimes,"Occasionally",adverb
+es,a veces,"Ocasionalmente",adverb
+en,result,"Consequence or outcome",noun
+es,resultado,"Consecuencia o desenlace",noun
+en,move,"Change position",verb
+es,mover,"Cambiar de posición",verb
+en,military,"Relating to soldiers or armed forces",adjective
+es,militar,"Relativo a soldados o fuerzas armadas",adjective
+en,really,"In actual fact",adverb
+es,realmente,"De hecho",adverb
+en,fact,"Thing known or proved to be true",noun
+es,hecho,"Cosa sabida o probada como cierta",noun
+en,like,"Find agreeable or satisfactory",verb
+es,gustar,"Encontrar agradable o satisfactorio",verb
+en,nice,"Pleasant; agreeable",adjective
+es,agradable,"Placentero; grato",adjective
+en,particularly,"To a higher degree than is usual",adverb
+es,particularmente,"En grado superior al usual",adverb
+es,idea,"Pensamiento o sugerencia",noun
+en,continue,"Persist in an activity or process",verb
+es,continuar,"Persistir en una actividad o proceso",verb
+en,general,"Affecting or concerning all or most parts",adjective
+es,general,"Que afecta a todas o la mayoría de las partes",adjective
+en,recently,"Not long ago",adverb
+es,recientemente,"Hace poco tiempo",adverb
+en,law,"System of rules recognized by a community",noun
+es,ley,"Sistema de reglas reconocidas por una comunidad",noun
+en,set,"Put, lay, or stand something in a specified place",verb
+es,colocar,"Poner, dejar o parar algo en un lugar específico",verb
+en,available,"Able to be used or obtained",adjective
+es,disponible,"Capaz de ser usado u obtenido",adjective
+en,further,"At, to, or by a greater distance",adverb
+es,más lejos,"A o por una mayor distancia",adverb
+en,area,"Region or part of a place",noun
+es,área,"Región o parte de un lugar",noun
+en,begin,"Start; perform the first part of an action",verb
+es,empezar,"Comenzar; realizar la primera parte de una acción",verb
+en,economic,"Relating to economics or the economy",adjective
+es,económico,"Relativo a la economía",adjective
+en,always,"On all occasions",adverb
+es,siempre,"En todas las ocasiones",adverb
+en,name,"Word by which a person or thing is known",noun
+es,nombre,"Palabra por la cual se conoce a persona o cosa",noun
+en,show,"Allow to be seen",verb
+es,mostrar,"Permitir ser visto",verb
+en,various,"Different from one another; of different kinds",adjective
+es,varios,"Diferentes unos de otros; de diferentes tipos",adjective
+en,already,"Before or by now or the time in question",adverb
+es,ya,"Antes de ahora o del momento en cuestión",adverb
+en,government,"Governing body of a nation, state, or community",noun
+es,gobierno,"Órgano rector de nación, estado o comunidad",noun
+en,serve,"Perform duties or services",verb
+es,servir,"Realizar deberes o servicios",verb
+en,happy,"Feeling or showing pleasure",adjective
+es,feliz,"Que siente o muestra placer",adjective
+en,instead,"As an alternative",adverb
+es,en cambio,"Como alternativa",adverb
+es,playa,"Ribera del mar o de un río grande",noun
+es,nadar,"Avanzar en el agua haciendo los movimientos necesarios",verb
+es,bonito,"Lindo, hermoso, agraciado",adjective
+es,arriba,"En lugar o parte superior",adverb
+es,bosque,"Sitio poblado de árboles y matas",noun
+es,pintar,"Representar algo en una superficie con líneas y colores",verb
+es,interesante,"Que interesa",adjective
+es,abajo,"En lugar o parte inferior",adverb
+es,edificio,"Construcción fija, hecha con materiales resistentes, para habitación humana o para otros usos",noun
+es,cocinar,"Preparar alimentos para ser consumidos",verb
+es,aburrido,"Que aburre o cansa",adjective
+es,dentro,"En la parte interior",adverb
+es,puente,"Construcción sobre un río o foso para poder pasarlo",noun
+es,limpiar,"Quitar la suciedad",verb
+es,famoso,"Que tiene fama y renombre",adjective
+es,fuera,"En la parte exterior",adverb
+es,calle,"Vía pública, habitualmente asfaltada o empedrada, entre edificios o solares",noun
+es,viajar,"Trasladarse de un lugar a otro, generalmente distante, por cualquier medio de locomoción",verb
+es,desconocido,"Que no es conocido",adjective
+es,cerca,"A corta distancia",adverb
+es,plaza,"Lugar ancho y espacioso dentro de un poblado",noun
+es,descansar,"Cesar en el trabajo para reparar fuerzas",verb
+es,posible,"Que puede ser o suceder",adjective
+es,lejos,"A gran distancia",adverb
+es,mercado,"Sitio público destinado para vender o comprar mercancías",noun
+es,soñar,"Representarse en la fantasía imágenes o sucesos mientras se duerme",verb
+es,imposible,"Que no puede ser o suceder",adjective
+es,antes,"Denota prioridad de tiempo",adverb
+es,tienda,"Establecimiento donde se venden al por menor determinados artículos",noun
+es,esperar,"Tener esperanza de conseguir lo que se desea",verb
+es,necesario,"Que hace falta indispensablemente para algo",adjective
+es,después,"Denota posterioridad de tiempo",adverb
+es,ventana,"Abertura en un muro o pared para proporcionar luz y ventilación",noun
+es,necesitar,"Tener necesidad de alguien o algo",verb
+es,útil,"Que puede servir o aprovecharse para algo",adjective
+es,hoy,"En el día presente",adverb
+es,teclado,"Conjunto de teclas de un instrumento musical o máquina",noun
+es,buscar,"Hacer algo para hallar a alguien o algo",verb
+es,inútil,"Que no es útil",adjective
+es,mañana,"En el día que seguirá inmediatamente al de hoy",adverb
+es,ratón,"Dispositivo informático manejable que sirve para dar instrucciones",noun
+es,encontrar,"Dar con alguien o algo que se busca",verb
+es,peligroso,"Que tiene riesgo o puede ocasionar daño",adjective
+es,ayer,"En el día que precedió inmediatamente al de hoy",adverb
+es,lápiz,"Utensilio para escribir o dibujar formado por una barra de grafito envuelta en madera",noun
+es,perder,"Dejar de tener algo que se poseía",verb
+es,seguro,"Libre y exento de riesgo",adjective
+es,anoche,"En la noche del día de ayer",adverb
+es,bolígrafo,"Instrumento para escribir que tiene en su interior un tubo de tinta",noun
+es,ganar,"Adquirir caudal o bienes",verb
+es,abierto,"No cerrado",adjective
+es,siempre,"En todo o en cualquier tiempo",adverb
+es,cuaderno,"Conjunto de hojas de papel, cosidas o encuadernadas juntas",noun
+es,ayudar,"Prestar cooperación",verb
+es,cerrado,"No abierto",adjective
+es,nunca,"En ningún tiempo",adverb
+es,ciencia,"Conjunto de conocimientos obtenidos mediante la observación y el razonamiento",noun
+es,responder,"Contestar a lo que se pregunta o propone",verb
+es,cansado,"Que siente cansancio",adjective
+es,jamás,"Nunca",adverb
+es,cultura,"Conjunto de modos de vida y costumbres de una época o grupo social",noun
+es,explicar,"Declarar o exponer cualquier materia, doctrina o texto difícil",verb
+es,despierto,"Que no duerme",adjective
+es,quizás,"Denota la posibilidad de que ocurra o sea cierto lo que se expresa",adverb
+es,salud,"Estado en que el ser orgánico ejerce normalmente todas sus funciones",noun
+es,prometer,"Obligarse a hacer, decir o dar algo",verb
+es,inteligente,"Dotado de capacidad de entender o comprender",adjective
+es,tal vez,"Quizá",adverb
+es,enfermedad,"Alteración más o menos grave de la salud",noun
+es,recordar,"Traer a la memoria algo",verb
+es,brillante,"Que brilla",adjective
+es,probablemente,"Con probabilidad",adverb
+es,alegría,"Sentimiento grato y vivo que suele manifestarse con signos exteriores",noun
+es,olvidar,"Dejar de tener en la memoria algo",verb
+es,oscuro,"Que carece de luz o claridad",adjective
+es,seguramente,"Con seguridad, sin duda",adverb
+es,tristeza,"Sentimiento de dolor anímico producido por un suceso desfavorable",noun
+es,amar,"Tener amor a alguien o algo",verb
+es,profundo,"Que tiene el fondo muy distante de la superficie",adjective
+es,rápidamente,"Con rapidez",adverb
+es,odio,"Antipatía y aversión hacia algo o hacia alguien",noun
+es,odiar,"Tener odio",verb
+es,silencioso,"Que calla o tiene hábito de callar",adjective
+es,lentamente,"Con lentitud",adverb
+es,miedo,"Angustia por un riesgo o daño real o imaginario",noun
+es,temer,"Tener miedo de algo o alguien",verb
+es,ruidoso,"Que causa mucho ruido",adjective
+es,cuidadosamente,"Con cuidado",adverb
+es,dolor,"Sensación molesta y aflictiva de una parte del cuerpo",noun
+es,doler,"Padecer dolor en una parte del cuerpo",verb
+es,importante,"Que tiene importancia",adjective
+es,felizmente,"Con felicidad",adverb
+es,placer,"Gusto, satisfacción o sensación agradable",noun
+es,gustar,"Agradar, parecer bien",verb
+es,amable,"Agradable, complaciente, afectuoso",adjective
+es,amablemente,"Con amabilidad",adverb
+es,éxito,"Resultado feliz de un negocio, actuación, etc.",noun
+es,lograr,"Conseguir o alcanzar lo que se intenta o desea",verb
+es,exitoso,"Que tiene éxito",adjective
+es,exitosamente,"Con éxito",adverb
+es,fracaso,"Malogro, resultado adverso de una empresa o negocio",noun
+es,fracasar,"Tener resultado adverso en un plan, negocio, etc.",verb
+es,difícil,"Que no se logra, ejecuta o entiende sin mucho trabajo",adjective
+es,difícilmente,"Con dificultad",adverb
+es,verdad,"Conformidad de las cosas con el concepto que de ellas forma la mente",noun
+es,mentir,"Decir o manifestar lo contrario de lo que se sabe, cree o piensa",verb
+es,verdadero,"Que contiene verdad",adjective
+es,verdaderamente,"Con verdad",adverb
+es,mentira,"Expresión o manifestación contraria a lo que se sabe, se cree o se piensa",noun
+es,creer,"Tener por cierto algo que no está comprobado",verb
+es,falso,"Engañoso, fingido",adjective
+es,falsamente,"Con falsedad",adverb
+es,luz,"Agente físico que permite que los objetos sean visibles",noun
+es,iluminar,"Alumbrar, dar luz",verb
+es,luminoso,"Que despide luz",adjective
+es,claramente,"Con claridad",adverb
+es,sombra,"Imagen oscura que proyecta un cuerpo opaco al interceptar los rayos de luz",noun
+es,oscurecer,"Reducir la cantidad de luz o claridad de algo",verb
+es,oscuro,"Que carece de luz",adjective
+es,oscuramente,"Sin claridad",adverb
+es,sonido,"Sensación producida en el oído por el movimiento vibratorio de los cuerpos",noun
+es,sonar,"Hacer o causar ruido",verb
+es,sonoro,"Que suena o puede sonar",adjective
+es,ruidosamente,"Con ruido",adverb
+es,silencio,"Ausencia total de sonido",noun
+es,callar,"No hablar",verb
+es,callado,"Que habla poco o no habla",adjective
+es,silenciosamente,"En silencio",adverb
+es,color,"Sensación producida por los rayos luminosos que impresionan los órganos visuales",noun
+es,colorear,"Dar color a algo",verb
+es,colorido,"Que tiene color o diversidad de colores",adjective
+es,vivamente,"Con viveza",adverb
+es,forma,"Configuración externa de algo",noun
+es,formar,"Dar forma a algo",verb
+es,formal,"Que tiene formalidad",adjective
+es,formalmente,"Con formalidad",adverb
+es,tamaño,"Volumen o dimensión de algo",noun
+es,medir,"Determinar la longitud, extensión, volumen o capacidad de algo",verb
+es,mediano,"De calidad o tamaño intermedio",adjective
+es,aproximadamente,"Con aproximación",adverb
+es,peso,"Fuerza con que la Tierra atrae a un cuerpo",noun
+es,pesar,"Determinar el peso de algo",verb
+es,ligero,"Que pesa poco",adjective
+es,ligeramente,"De manera ligera",adverb
+es,precio,"Valor pecuniario en que se estima algo",noun
+es,costar,"Tener un determinado precio algo",verb
+es,caro,"De precio elevado",adjective
+es,caramente,"A precio alto",adverb
+es,valor,"Grado de utilidad o aptitud de las cosas",noun
+es,valorar,"Señalar el precio de algo",verb
+es,valioso,"Que vale mucho o tiene mucho valor",adjective
+es,especialmente,"De manera especial",adverb
+es,calidad,"Propiedad o conjunto de propiedades inherentes a algo",noun
+es,mejorar,"Hacer que algo sea mejor",verb
+es,superior,"Que está más alto",adjective
+es,superiormente,"En lugar o puesto superior",adverb
+es,cantidad,"Porción de una magnitud",noun
+es,contar,"Numerar o computar cosas",verb
+es,numeroso,"Abundante, copioso",adjective
+es,abundantemente,"En abundancia",adverb
+es,principio,"Primer instante del ser de algo",noun
+es,comenzar,"Empezar",verb
+es,inicial,"Perteneciente o relativo al origen o principio de las cosas",adjective
+es,inicialmente,"Al principio",adverb
+es,fin,"Término, remate o consumación de algo",noun
+es,terminar,"Poner término a algo",verb
+es,final,"Que termina, cierra o completa algo",adjective
+es,finalmente,"Por último, en conclusión",adverb

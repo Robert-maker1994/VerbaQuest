@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import type { WordData } from "@verbaquest/shared";
+import type { WordData } from "@verbaquest/types";
 import { useState } from "react";
 import HoverBox from "../../../components/hoverBox";
 

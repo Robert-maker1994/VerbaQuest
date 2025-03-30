@@ -1,6 +1,6 @@
 import { AccessTime } from "@mui/icons-material";
 import { Box, Button, Chip, List, ListItem, Typography } from "@mui/material";
-import type { GetUserCrosswords } from "@verbaquest/shared";
+import type { GetUserCrosswords } from "@verbaquest/types";
 import { formatRelative } from "date-fns";
 import { enGB, es, fr } from "date-fns/locale";
 import { useNavigate } from "react-router";
@@ -23,9 +23,9 @@ const CrosswordList: React.FC<CrosswordListProps> = ({
 
 	const getLocale = () => {
 		switch (user?.app_language) {
-			case "ES":
+			case "es":
 				return es;
-			case "FR":
+			case "fr":
 				return fr;
 			default:
 				return enGB;

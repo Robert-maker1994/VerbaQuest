@@ -8,7 +8,7 @@ import {
 	Unique,
 } from "typeorm";
 import { Crossword } from "./crossword";
-import { Words } from "./word";
+import { Word } from "./word";
 
 @Entity()
 @Unique(["crossword", "words"])
@@ -28,13 +28,13 @@ export class CrosswordWord {
 	crossword: Crossword;
 
 	@ManyToOne(
-		() => Words,
+		() => Word,
 		(word) => word.crosswordWords,
 		{ onDelete: "CASCADE" },
 	)
 	@JoinColumn({ name: "word_id" })
 	@Index("idx_crossword_words_word_id")
-	words: Words;
+	words: Word;
 
 	@Column({
 		type: "text",

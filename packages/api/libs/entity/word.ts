@@ -26,7 +26,7 @@ export class Word {
 	language: Languages;
 
 	@Column({
-		unique: true,
+		unique: false,
 		type: "citext",
 		comment: "The text of the word.",
 		transformer: {
@@ -69,4 +69,13 @@ export class Word {
 		{ onDelete: "CASCADE" },
 	)
 	userWordProgress: UserWordProgress[];
+
+
+	@Column({
+		type: "varchar",
+		length: 50,
+		nullable: true,
+		comment: "The part of speech (e.g., noun, verb, adjective).",
+	})
+	partOfSpeech: string;
 }

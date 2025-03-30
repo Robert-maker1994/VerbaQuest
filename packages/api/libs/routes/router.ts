@@ -6,6 +6,7 @@ import translationRouter from "./translation";
 import userRouter from "./user";
 import userCrosswordRouter from "./userCrossword";
 import wordleRouter from "./wordleRoute";
+import verbRouter from "./verb";
 
 export default function initializeRoutes(app: core.Express) {
 	app.use("/crossword", crosswordRouter);
@@ -14,6 +15,7 @@ export default function initializeRoutes(app: core.Express) {
 	app.use("/translation", authMiddleware, translationRouter);
 	app.use("/user", authMiddleware, userRouter);
 	app.use("/usercrossword", authMiddleware, userCrosswordRouter);
+	app.use("/verb", authMiddleware, verbRouter);
 }
 // export class CreateDatabase1742069418114 implements MigrationInterface {
 // 	name = "CreateDatabase1742069418114";

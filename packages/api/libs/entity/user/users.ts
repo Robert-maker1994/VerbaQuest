@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { Difficulty, LanguageCode } from "@verbaquest/shared";
+import { Difficulty, LanguageCode } from "@verbaquest/types";
 import { UserWordProgress } from "./UserWordProgress";
 import { UserCrossword } from "./userCrosswords";
 
