@@ -31,6 +31,14 @@ export class Conjugation {
     })
     conjugation: string;
 
+    @Column({
+        type: "boolean",
+        default: false,
+        comment: "If the conjugation is irregular or not.",
+    })
+    is_irregular: boolean;
+
+
     @OneToMany(() => Sentence, (sentence) => sentence.conjugation)
     sentences: Sentence[];
 }

@@ -18,7 +18,8 @@ type Direction = "horizontal" | "vertical";
  * @property {string} word - The word itself.
  * @property {number} start_row - Row index (0-based) where the word starts.
  * @property {number} start_col - Column index (0-based) where the word starts.
- * @property {string} definition - The definition or clue for the word.
+ * @property {string} definition - The word translated in the app language
+ * @property {string} clue - The clue in the normal language 
  * @property {Direction} direction - The direction of the word ("horizontal" or "vertical").
  */
 export interface WordData {
@@ -26,6 +27,7 @@ export interface WordData {
     word: string;
     start_row: number;
     start_col: number;
+    clue: string;
     definition: string;
     direction: Direction;
 }

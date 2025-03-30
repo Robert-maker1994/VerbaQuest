@@ -24,7 +24,7 @@ export class Conjugations1743278126814 implements MigrationInterface {
                 const presenteSubjunctiveSpanish = await tenseRepository.findOne({ where: { tense: 'presente', mood: 'subjuntivo', language: spanish } });
                 const preteritoIndefinidoIndicativeSpanish = await tenseRepository.findOne({ where: { tense: 'pretérito indefinido', mood: 'indicativo', language: spanish } });
                 const presentSimpleIndicativeEnglish = await tenseRepository.findOne({ where: { tense: 'present simple', mood: 'indicative', language: english } });
-                console.log(preteritoIndefinidoIndicativeSpanish)
+                const pastSimpleIndicativeEnglish = await tenseRepository.findOne({ where: { tense: 'past simple', mood: 'indicative', language: english } });
 
                 const formYo = await formRepository.findOne({ where: { form: 'yo', language: spanish } });
                 const formTu = await formRepository.findOne({ where: { form: 'tú', language: spanish } });
@@ -46,7 +46,7 @@ export class Conjugations1743278126814 implements MigrationInterface {
                     throw new Error("There is no word");
                 }
 
-                if(!presenteIndicativeSpanish && !presenteSubjunctiveSpanish && !preteritoIndefinidoIndicativeSpanish && !presentSimpleIndicativeEnglish) {
+                if(!presenteIndicativeSpanish && !presenteSubjunctiveSpanish && !preteritoIndefinidoIndicativeSpanish && !presentSimpleIndicativeEnglish && !pastSimpleIndicativeEnglish) {
                     throw new Error("There is no tense");
                 }
 
@@ -58,36 +58,42 @@ export class Conjugations1743278126814 implements MigrationInterface {
                 const jugarVerb = await verbRepository.findOneBy({ word: jugarWord })
 
                                     await conjugationRepository.insert([
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formYo, conjugation: 'juego' },
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formTu, conjugation: 'juegas' },
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formElEllaUsted, conjugation: 'juega' },
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formNosotros, conjugation: 'jugamos' },
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formVosotros, conjugation: 'jugáis' },
-                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formEllosEllasUstedes, conjugation: 'juegan' },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formYo, conjugation: 'juego', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formTu, conjugation: 'juegas', is_irregular: false },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formElEllaUsted, conjugation: 'juega', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formNosotros, conjugation: 'jugamos', is_irregular: false },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formVosotros, conjugation: 'jugáis', is_irregular: false },
+                        { verb: jugarVerb, tense: presenteIndicativeSpanish, form: formEllosEllasUstedes, conjugation: 'juegan', is_irregular: true },
 
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formYo, conjugation: 'juegue' },
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formTu, conjugation: 'juegues' },
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formElEllaUsted, conjugation: 'juegue' },
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formNosotros, conjugation: 'juguemos' },
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formVosotros, conjugation: 'juguéis' },
-                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formEllosEllasUstedes, conjugation: 'jueguen' },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formYo, conjugation: 'juegue', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formTu, conjugation: 'juegues', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formElEllaUsted, conjugation: 'juegue', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formNosotros, conjugation: 'juguemos', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formVosotros, conjugation: 'juguéis', is_irregular: true },
+                        { verb: jugarVerb, tense: presenteSubjunctiveSpanish, form: formEllosEllasUstedes, conjugation: 'jueguen', is_irregular: true },
 
-                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formYo, conjugation: 'jugué' },
-                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formTu, conjugation: 'jugaste' },
-                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formElEllaUsted, conjugation: 'jugó' },
-                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formNosotros, conjugation: 'jugamos' },
-                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formVosotros, conjugation: 'jugasteis' },
-                        { verb: (await verbRepository.findOneBy({ word: jugarWord })), tense: preteritoIndefinidoIndicativeSpanish, form: formEllosEllasUstedes, conjugation: 'jugaron' },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formYo, conjugation: 'jugué', is_irregular: true },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formTu, conjugation: 'jugaste', is_irregular: false },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formElEllaUsted, conjugation: 'jugó', is_irregular: true },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formNosotros, conjugation: 'jugamos', is_irregular: false },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formVosotros, conjugation: 'jugasteis', is_irregular: false },
+                        { verb: jugarVerb, tense: preteritoIndefinidoIndicativeSpanish, form: formEllosEllasUstedes, conjugation: 'jugaron', is_irregular: true },
                     ]);
 
                     // English "listen" conjugations
                     await conjugationRepository.insert([
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formI, conjugation: 'listen' },
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formYouEn, conjugation: 'listen' },
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formHeSheIt, conjugation: 'listens' },
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formWeEn, conjugation: 'listen' },
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formYouPlural, conjugation: 'listen' },
-                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formTheyEn, conjugation: 'listen' },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formI, conjugation: 'listen', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formYouEn, conjugation: 'listen', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formHeSheIt, conjugation: 'listens', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formWeEn, conjugation: 'listen', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formYouPlural, conjugation: 'listen', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: presentSimpleIndicativeEnglish, form: formTheyEn, conjugation: 'listen', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formI, conjugation: 'listened', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formYouEn, conjugation: 'listened', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formHeSheIt, conjugation: 'listened', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formWeEn, conjugation: 'listened', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formYouPlural, conjugation: 'listened', is_irregular: false },
+                        { verb: (await verbRepository.findOneBy({ word: listenWord })), tense: pastSimpleIndicativeEnglish, form: formTheyEn, conjugation: 'listened', is_irregular: false },
                     ]);
 
                     console.log("Conjugations seeded successfully!");

@@ -51,6 +51,16 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_154d2a5e7d20fa7575b84620709" FOREIGN KEY ("form_id") REFERENCES "form"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "crossword_topics" ADD CONSTRAINT "FK_e952e18990faeaba01685175489" FOREIGN KEY ("crossword_id") REFERENCES "crossword"("crossword_id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "crossword_topics" ADD CONSTRAINT "FK_01811ea4736f476074fa3f83e9e" FOREIGN KEY ("topic_id") REFERENCES "topic"("topic_id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "verb" ADD "irregular" boolean NOT NULL DEFAULT false`);
+        await queryRunner.query(`COMMENT ON COLUMN "verb"."irregular" IS 'Weather the verb is irregular or not.'`);
+        await queryRunner.query(`ALTER TABLE "conjugation" ADD "is_irregular" boolean NOT NULL DEFAULT false`);
+        await queryRunner.query(`COMMENT ON COLUMN "conjugation"."is_irregular" IS 'If the conjugation is irregular or not.'`);
+        await queryRunner.query(`ALTER TABLE "form" RENAME COLUMN "id" TO "form_id"`);
+        await queryRunner.query(`ALTER TABLE "form" RENAME CONSTRAINT "PK_8f72b95aa2f8ba82cf95dc7579e" TO "PK_ed84d8e98178872eb4ce8a3ebe7"`);
+        await queryRunner.query(`ALTER SEQUENCE "form_id_seq" RENAME TO "form_form_id_seq"`);
+        await queryRunner.query(`ALTER TABLE "verb" RENAME COLUMN "id" TO "verb_id"`);
+        await queryRunner.query(`ALTER TABLE "verb" RENAME CONSTRAINT "PK_fc4f17a8417b310d02e8de6674c" TO "PK_3bbad0c86195db8a2b0090da5df"`);
+        await queryRunner.query(`ALTER SEQUENCE "verb_id_seq" RENAME TO "verb_verb_id_seq"`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -4,7 +4,7 @@ import { Languages } from "./language";
 @Entity()
 export class Form {
     @PrimaryGeneratedColumn({ comment: "The unique identifier for this form." })
-    id: number;
+    form_id: number;
 
     @ManyToOne(() => Languages, { onDelete: "CASCADE" })
     @JoinColumn({ name: "language_id" })
