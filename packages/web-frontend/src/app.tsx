@@ -16,6 +16,8 @@ const PrivacyPolicy = lazy(() => import("./pages/privacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/termsOfService"));
 const Register = lazy(() => import("./pages/login/register"));
 const Loading = lazy(() => import("./pages/loadingPage"));
+const VerbConjugationsPage = lazy(() => import("./pages/conjugation/conjugationPage"));
+
 
 const routes = [
 	{
@@ -50,6 +52,10 @@ const routes = [
 		path: "/terms",
 		element: <TermsOfService />,
 	},
+	{
+		path: "verbs",
+		element: <VerbConjugationsPage />,
+	}
 ];
 function App() {
 	return (

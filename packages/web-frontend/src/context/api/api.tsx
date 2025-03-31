@@ -3,6 +3,7 @@ import type {
 	CrosswordDetails,
 	CrosswordResponse,
 	Difficulty,
+	GetAllVerbResponse,
 	LanguageCode,
 } from "@verbaquest/types";
 import axios from "axios";
@@ -12,7 +13,23 @@ export const api = axios.create({
 		"Content-Type": "application/json",
 	},
 });
-
+interface Conjugation {
+	id: number;
+	conjugation: string;
+	is_irregular: boolean;
+	verb: {
+	  verb_id: number;
+	};
+	tense: {
+	  tense_id: number;
+	  tense: string;
+	  mood: string;
+	};
+	form: {
+	  form: string;
+	  form_id: number;
+	};
+  }
 const backendEndpoints = {
 	async getCrosswordDetails(
 		page?: number,
@@ -231,6 +248,43 @@ const backendEndpoints = {
 		}
 		return response.data;
 	},
+	async allVerbs() {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			throw new Error("No token found");
+		}
+		const response = await api.get<GetAllVerbResponse[]>('/verb', {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+
+			}
+		});
+		if (!response.status) {
+			throw new Error(`Failed to get verbs: ${response.statusText}`);
+		}
+		return response.data;
+	},
+	async getVerbConjugation(verbId: number) {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			throw new Error("No token found");
+		}
+		const response = await api.get<Conjugation[]>(`/verb/conjugation/${verbId}`, {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+
+			}
+		});
+		if (!response.status) {
+			throw new Error(`Failed to get verbs: ${response.statusText}`);
+		}
+		return response.data;
+
+	}
 };
 
 export default backendEndpoints;
