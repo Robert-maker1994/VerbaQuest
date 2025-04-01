@@ -24,6 +24,9 @@ import { Forms1743250510758 } from "./migrations/1743250510758-forms";
 import { Conjugations1743278126814 } from "./migrations/1743278126814-conjugations";
 import { Spanish1743278126817 } from "./migrations/1743278126817-spanish";
 import { Sentences1743320907018 } from "./migrations/1743320907018-sentences";
+import { ConjugationsTranslations1743488914989 } from "./migrations/1743488914989-conjugations-translations";
+import { ConjugationTranslation } from "./libs/entity/conjugationTranslation";
+
 
 const { host, user, password, database, pg_port } = config;
 
@@ -41,6 +44,7 @@ export const AppDataSource = new DataSource({
 		Crossword,
 		CrosswordWord,
 		Conjugation,
+		ConjugationTranslation,
 		Form,
 		Languages,
 		Topic,
@@ -62,7 +66,8 @@ export const AppDataSource = new DataSource({
 		Verb1743266154621,
 		Conjugations1743278126814,
 		Spanish1743278126817,
-		Sentences1743320907018
+		Sentences1743320907018,
+		ConjugationsTranslations1743488914989
 		
 	],
 	migrationsTableName: "verba_migrations",

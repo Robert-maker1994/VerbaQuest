@@ -22,13 +22,16 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "idx_crossword_words_word_id" ON "crossword_word" ("word_id") `);
         await queryRunner.query(`CREATE TYPE "public"."crossword_difficulty_enum" AS ENUM('a1', 'a2', 'b1', 'b2', 'c1', 'c2')`);
         await queryRunner.query(`CREATE TABLE "crossword" ("crossword_id" SERIAL NOT NULL, "title" citext NOT NULL, "date_created" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "difficulty" "public"."crossword_difficulty_enum" NOT NULL, "is_Public" boolean NOT NULL DEFAULT true, "language_id" integer, CONSTRAINT "UQ_b9d71fb3238045df24baf9691f9" UNIQUE ("title"), CONSTRAINT "PK_f0956c1108f3c1364ce8d744e8c" PRIMARY KEY ("crossword_id")); COMMENT ON COLUMN "crossword"."crossword_id" IS 'The unique identifier for this crossword.'; COMMENT ON COLUMN "crossword"."title" IS 'The title of the crossword puzzle.'; COMMENT ON COLUMN "crossword"."date_created" IS 'The date and time the crossword was created.'; COMMENT ON COLUMN "crossword"."difficulty" IS 'The level of difficulty of the crossword puzzle.'; COMMENT ON COLUMN "crossword"."is_Public" IS 'Indicates whether this crossword is publicly available.'; COMMENT ON COLUMN "crossword"."language_id" IS 'The unique identifier for this language.'`);
-        await queryRunner.query(`CREATE TABLE "form" ("id" SERIAL NOT NULL, "form" character varying(50) NOT NULL, "language_id" integer, CONSTRAINT "PK_8f72b95aa2f8ba82cf95dc7579e" PRIMARY KEY ("id")); COMMENT ON COLUMN "form"."id" IS 'The unique identifier for this form.'; COMMENT ON COLUMN "form"."form" IS 'The grammatical form (e.g., yo, tú, él/ella/usted).'; COMMENT ON COLUMN "form"."language_id" IS 'The unique identifier for this language.'`);
+        await queryRunner.query(`CREATE TABLE "form" ("form_id" SERIAL NOT NULL, "form" character varying(50) NOT NULL, "language_id" integer, CONSTRAINT "PK_ed84d8e98178872eb4ce8a3ebe7" PRIMARY KEY ("form_id")); COMMENT ON COLUMN "form"."form_id" IS 'The unique identifier for this form.'; COMMENT ON COLUMN "form"."form" IS 'The grammatical form (e.g., yo, tú, él/ella/usted).'; COMMENT ON COLUMN "form"."language_id" IS 'The unique identifier for this language.'`);
         await queryRunner.query(`CREATE TABLE "tense" ("tense_id" SERIAL NOT NULL, "tense" character varying(50) NOT NULL, "description" text, "mood" character varying(50), "language_id" integer, CONSTRAINT "PK_f5a3a990ad5fa1da4fcd21330a6" PRIMARY KEY ("tense_id")); COMMENT ON COLUMN "tense"."tense_id" IS 'The unique identifier for this tense.'; COMMENT ON COLUMN "tense"."tense" IS 'The name of the tense (e.g., present, past, future).'; COMMENT ON COLUMN "tense"."description" IS 'Description or path to Markdown file for the tense.'; COMMENT ON COLUMN "tense"."mood" IS 'The mood of the tense (e.g., indicative, subjunctive).'; COMMENT ON COLUMN "tense"."language_id" IS 'The unique identifier for this language.'`);
-        await queryRunner.query(`CREATE TABLE "verb" ("id" SERIAL NOT NULL, "word_id" integer, "language_id" integer, CONSTRAINT "PK_fc4f17a8417b310d02e8de6674c" PRIMARY KEY ("id")); COMMENT ON COLUMN "verb"."id" IS 'The unique identifier for this verb.'; COMMENT ON COLUMN "verb"."word_id" IS 'The unique identifier for this word.'; COMMENT ON COLUMN "verb"."language_id" IS 'The unique identifier for this language.'`);
+        await queryRunner.query(`CREATE TABLE "verb" ("verb_id" SERIAL NOT NULL, "irregular" boolean NOT NULL DEFAULT false, "word_id" integer, "language_id" integer, CONSTRAINT "PK_3bbad0c86195db8a2b0090da5df" PRIMARY KEY ("verb_id")); COMMENT ON COLUMN "verb"."verb_id" IS 'The unique identifier for this verb.'; COMMENT ON COLUMN "verb"."irregular" IS 'Weather the verb is irregular or not.'; COMMENT ON COLUMN "verb"."word_id" IS 'The unique identifier for this word.'; COMMENT ON COLUMN "verb"."language_id" IS 'The unique identifier for this language.'`);
         await queryRunner.query(`CREATE INDEX "idx_verbs_word_id" ON "verb" ("word_id") `);
         await queryRunner.query(`CREATE INDEX "idx_verbs_language_id" ON "verb" ("language_id") `);
-        await queryRunner.query(`CREATE TABLE "sentence" ("id" SERIAL NOT NULL, "sentence" text NOT NULL, "translation" text, "conjugation_id" integer, CONSTRAINT "PK_eed8b400064f053f70c004b83e7" PRIMARY KEY ("id")); COMMENT ON COLUMN "sentence"."id" IS 'The unique identifier for this sentence.'; COMMENT ON COLUMN "sentence"."sentence" IS 'The example sentence.'; COMMENT ON COLUMN "sentence"."translation" IS 'The translation of the sentence.'; COMMENT ON COLUMN "sentence"."conjugation_id" IS 'The unique identifier for this conjugation.'`);
-        await queryRunner.query(`CREATE TABLE "conjugation" ("id" SERIAL NOT NULL, "conjugation" character varying(255) NOT NULL, "verb_id" integer, "tense_id" integer, "form_id" integer, CONSTRAINT "PK_c949b63e4be0da576140703b2ad" PRIMARY KEY ("id")); COMMENT ON COLUMN "conjugation"."id" IS 'The unique identifier for this conjugation.'; COMMENT ON COLUMN "conjugation"."conjugation" IS 'The conjugated form of the verb.'; COMMENT ON COLUMN "conjugation"."verb_id" IS 'The unique identifier for this verb.'; COMMENT ON COLUMN "conjugation"."tense_id" IS 'The unique identifier for this tense.'; COMMENT ON COLUMN "conjugation"."form_id" IS 'The unique identifier for this form.'`);
+        await queryRunner.query(`CREATE TABLE "sentence" ("id" SERIAL NOT NULL, "sentence" text NOT NULL, "translation" text, "conjugation_id" integer, "language_id" integer, CONSTRAINT "PK_eed8b400064f053f70c004b83e7" PRIMARY KEY ("id")); COMMENT ON COLUMN "sentence"."id" IS 'The unique identifier for this sentence.'; COMMENT ON COLUMN "sentence"."sentence" IS 'The example sentence.'; COMMENT ON COLUMN "sentence"."translation" IS 'The translation of the sentence.'; COMMENT ON COLUMN "sentence"."conjugation_id" IS 'The unique identifier for this conjugation.'; COMMENT ON COLUMN "sentence"."language_id" IS 'The unique identifier for this language.'`);
+        await queryRunner.query(`CREATE INDEX "idx_sentence_language_id" ON "sentence" ("language_id") `);
+        await queryRunner.query(`CREATE TABLE "conjugation_translation" ("conjugationTranslationId" SERIAL NOT NULL, "translation" text, "id" integer, "language_id" integer, CONSTRAINT "PK_0fc7aa86ea2fbecfdaa29f2f10d" PRIMARY KEY ("conjugationTranslationId")); COMMENT ON COLUMN "conjugation_translation"."conjugationTranslationId" IS 'The unique identifier for this sentence.'; COMMENT ON COLUMN "conjugation_translation"."translation" IS 'The translation of the conjugation.'; COMMENT ON COLUMN "conjugation_translation"."id" IS 'The unique identifier for this conjugation.'; COMMENT ON COLUMN "conjugation_translation"."language_id" IS 'The unique identifier for this language.'`);
+        await queryRunner.query(`CREATE INDEX "idx_conjugation_translation_language_id" ON "conjugation_translation" ("language_id") `);
+        await queryRunner.query(`CREATE TABLE "conjugation" ("id" SERIAL NOT NULL, "conjugation" character varying(255) NOT NULL, "is_irregular" boolean NOT NULL DEFAULT false, "verb_id" integer, "tense_id" integer, "form_id" integer, CONSTRAINT "PK_c949b63e4be0da576140703b2ad" PRIMARY KEY ("id")); COMMENT ON COLUMN "conjugation"."id" IS 'The unique identifier for this conjugation.'; COMMENT ON COLUMN "conjugation"."conjugation" IS 'The conjugated form of the verb.'; COMMENT ON COLUMN "conjugation"."is_irregular" IS 'If the conjugation is irregular or not.'; COMMENT ON COLUMN "conjugation"."verb_id" IS 'The unique identifier for this verb.'; COMMENT ON COLUMN "conjugation"."tense_id" IS 'The unique identifier for this tense.'; COMMENT ON COLUMN "conjugation"."form_id" IS 'The unique identifier for this form.'`);
         await queryRunner.query(`CREATE TABLE "crossword_topics" ("crossword_id" integer NOT NULL, "topic_id" integer NOT NULL, CONSTRAINT "PK_fd39a2198c96f352abf2c6ecb49" PRIMARY KEY ("crossword_id", "topic_id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_e952e18990faeaba0168517548" ON "crossword_topics" ("crossword_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_01811ea4736f476074fa3f83e9" ON "crossword_topics" ("topic_id") `);
@@ -46,21 +49,14 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "verb" ADD CONSTRAINT "FK_a6cfdfe55fbae9af9ebd85ad150" FOREIGN KEY ("word_id") REFERENCES "word"("word_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "verb" ADD CONSTRAINT "FK_3b10104d82aaa19e5f0e6cd36a0" FOREIGN KEY ("language_id") REFERENCES "languages"("language_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "sentence" ADD CONSTRAINT "FK_a468e0cf39a874476687f86e1c5" FOREIGN KEY ("conjugation_id") REFERENCES "conjugation"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_0cd83eb37226d7ba2e33bd6851a" FOREIGN KEY ("verb_id") REFERENCES "verb"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "sentence" ADD CONSTRAINT "FK_ce7483484e28cdae677f8ee0ac6" FOREIGN KEY ("language_id") REFERENCES "languages"("language_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "conjugation_translation" ADD CONSTRAINT "FK_47ddf8ae604b8acfe4d9f93177b" FOREIGN KEY ("id") REFERENCES "conjugation"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "conjugation_translation" ADD CONSTRAINT "FK_90dab495d8496dd1c9f18cf741f" FOREIGN KEY ("language_id") REFERENCES "languages"("language_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_0cd83eb37226d7ba2e33bd6851a" FOREIGN KEY ("verb_id") REFERENCES "verb"("verb_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_58ffeba09abf0dff3d2732624b7" FOREIGN KEY ("tense_id") REFERENCES "tense"("tense_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_154d2a5e7d20fa7575b84620709" FOREIGN KEY ("form_id") REFERENCES "form"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "conjugation" ADD CONSTRAINT "FK_154d2a5e7d20fa7575b84620709" FOREIGN KEY ("form_id") REFERENCES "form"("form_id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "crossword_topics" ADD CONSTRAINT "FK_e952e18990faeaba01685175489" FOREIGN KEY ("crossword_id") REFERENCES "crossword"("crossword_id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "crossword_topics" ADD CONSTRAINT "FK_01811ea4736f476074fa3f83e9e" FOREIGN KEY ("topic_id") REFERENCES "topic"("topic_id") ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "verb" ADD "irregular" boolean NOT NULL DEFAULT false`);
-        await queryRunner.query(`COMMENT ON COLUMN "verb"."irregular" IS 'Weather the verb is irregular or not.'`);
-        await queryRunner.query(`ALTER TABLE "conjugation" ADD "is_irregular" boolean NOT NULL DEFAULT false`);
-        await queryRunner.query(`COMMENT ON COLUMN "conjugation"."is_irregular" IS 'If the conjugation is irregular or not.'`);
-        await queryRunner.query(`ALTER TABLE "form" RENAME COLUMN "id" TO "form_id"`);
-        await queryRunner.query(`ALTER TABLE "form" RENAME CONSTRAINT "PK_8f72b95aa2f8ba82cf95dc7579e" TO "PK_ed84d8e98178872eb4ce8a3ebe7"`);
-        await queryRunner.query(`ALTER SEQUENCE "form_id_seq" RENAME TO "form_form_id_seq"`);
-        await queryRunner.query(`ALTER TABLE "verb" RENAME COLUMN "id" TO "verb_id"`);
-        await queryRunner.query(`ALTER TABLE "verb" RENAME CONSTRAINT "PK_fc4f17a8417b310d02e8de6674c" TO "PK_3bbad0c86195db8a2b0090da5df"`);
-        await queryRunner.query(`ALTER SEQUENCE "verb_id_seq" RENAME TO "verb_verb_id_seq"`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -69,6 +65,9 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "conjugation" DROP CONSTRAINT "FK_154d2a5e7d20fa7575b84620709"`);
         await queryRunner.query(`ALTER TABLE "conjugation" DROP CONSTRAINT "FK_58ffeba09abf0dff3d2732624b7"`);
         await queryRunner.query(`ALTER TABLE "conjugation" DROP CONSTRAINT "FK_0cd83eb37226d7ba2e33bd6851a"`);
+        await queryRunner.query(`ALTER TABLE "conjugation_translation" DROP CONSTRAINT "FK_90dab495d8496dd1c9f18cf741f"`);
+        await queryRunner.query(`ALTER TABLE "conjugation_translation" DROP CONSTRAINT "FK_47ddf8ae604b8acfe4d9f93177b"`);
+        await queryRunner.query(`ALTER TABLE "sentence" DROP CONSTRAINT "FK_ce7483484e28cdae677f8ee0ac6"`);
         await queryRunner.query(`ALTER TABLE "sentence" DROP CONSTRAINT "FK_a468e0cf39a874476687f86e1c5"`);
         await queryRunner.query(`ALTER TABLE "verb" DROP CONSTRAINT "FK_3b10104d82aaa19e5f0e6cd36a0"`);
         await queryRunner.query(`ALTER TABLE "verb" DROP CONSTRAINT "FK_a6cfdfe55fbae9af9ebd85ad150"`);
@@ -87,6 +86,9 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_e952e18990faeaba0168517548"`);
         await queryRunner.query(`DROP TABLE "crossword_topics"`);
         await queryRunner.query(`DROP TABLE "conjugation"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_conjugation_translation_language_id"`);
+        await queryRunner.query(`DROP TABLE "conjugation_translation"`);
+        await queryRunner.query(`DROP INDEX "public"."idx_sentence_language_id"`);
         await queryRunner.query(`DROP TABLE "sentence"`);
         await queryRunner.query(`DROP INDEX "public"."idx_verbs_language_id"`);
         await queryRunner.query(`DROP INDEX "public"."idx_verbs_word_id"`);
@@ -112,4 +114,5 @@ export class UpdateDatabase1742069418100 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."idx_topic_name"`);
         await queryRunner.query(`DROP TABLE "topic"`);
     }
+
 }

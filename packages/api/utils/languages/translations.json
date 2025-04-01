@@ -158,5 +158,11 @@
 		"en": "Favorite Crossword",
 		"es": "Crucigrama favorito",
 		"fr": "Crossword favori"
+	},
+	"conjugations" :{
+		"en": "Conjugations",
+		"es": "Conjugaciones",
+		"fr": "Conjugaisons"
+	
 	}
 }

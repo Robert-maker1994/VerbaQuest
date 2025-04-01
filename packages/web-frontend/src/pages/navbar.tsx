@@ -34,8 +34,11 @@ export default function Navbar() {
 			case "/crossword":
 				setValue(1);
 				break;
+			case "/conjugation":
+			    setValue(2);
+				break;
 			case "/settings":
-				setValue(2);
+				setValue(3);
 				break;
 			default:
 				setValue(0);
@@ -102,6 +105,11 @@ export default function Navbar() {
 						disableRipple
 						label={translate("crossword")}
 						onClick={() => handleClick("crossword")}
+					/>
+					<Tab
+						disableRipple
+						label={translate("verb_conjugation")}
+						onClick={() => handleClick("verb_conjugation")}
 					/>
 				</Tabs>
 

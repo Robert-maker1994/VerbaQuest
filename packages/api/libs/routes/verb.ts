@@ -37,9 +37,8 @@ verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) 
  */
 verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const {  verbId } = req.params;
-        console.log("helloo", verbId, req.params)
-        const conjugation = await verbService.getConjugationById(Number(verbId));
+        const { verbId } = req.params;
+        const conjugation = await verbService.getConjugationById(Number(verbId), req.user.app_language);
 
         if (!conjugation) {
             throw new VerbError("Conjugation not found", 404);
@@ -63,7 +62,7 @@ const verbService = {
         return verbs.find({
             relations: {
                 word: true,
-                language: true
+                language: true,
             },
             where: {
                 language: {
@@ -89,19 +88,27 @@ const verbService = {
      * @param {number} verbId - The ID of the verb.
      * @returns {Promise<Conjugation | null>}
      */
-    async getConjugationById(verbId: number): Promise<Conjugation[] | null> {
+    async getConjugationById(verbId: number, language_code: LanguageCode): Promise<Conjugation[] | null> {
         const conjugationRepository = AppDataSource.getRepository(Conjugation);
 
         const conjugation = await conjugationRepository.find({
             where: {
                 verb: {
                     verb_id: verbId
+                },
+                translations: {
+                    language: {
+                        language_code
+                    }
                 }
+
             },
             relations: {
                 verb: true,
                 tense: true,
-                form: true
+                form: true,
+                translations: true
+
             },
             select: {
                 id: true,
@@ -114,6 +121,11 @@ const verbService = {
                     tense_id: true,
                     tense: true,
                     mood: true
+                },
+                translations: {
+                    conjugationTranslationId: true,
+                
+                    translation: true
                 },
                 form: {
                     form: true,

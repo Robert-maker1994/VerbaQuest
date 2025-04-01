@@ -3,6 +3,7 @@ import type {
 	CrosswordDetails,
 	CrosswordResponse,
 	Difficulty,
+	Conjugation,
 	GetAllVerbResponse,
 	LanguageCode,
 } from "@verbaquest/types";
@@ -13,23 +14,7 @@ export const api = axios.create({
 		"Content-Type": "application/json",
 	},
 });
-interface Conjugation {
-	id: number;
-	conjugation: string;
-	is_irregular: boolean;
-	verb: {
-	  verb_id: number;
-	};
-	tense: {
-	  tense_id: number;
-	  tense: string;
-	  mood: string;
-	};
-	form: {
-	  form: string;
-	  form_id: number;
-	};
-  }
+
 const backendEndpoints = {
 	async getCrosswordDetails(
 		page?: number,

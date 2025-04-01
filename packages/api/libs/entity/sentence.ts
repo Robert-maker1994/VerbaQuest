@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, Index } from "typeorm";
 import { Conjugation } from "./conjugation";
+import { Languages } from "./language";
 
 @Entity()
 export class Sentence {
@@ -15,4 +16,9 @@ export class Sentence {
 
     @Column({ type: "text", nullable: true, comment: "The translation of the sentence." })
     translation: string | null;
+
+    @ManyToOne(() => Languages, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "language_id" })
+    @Index("idx_sentence_language_id")
+    language: Languages;
 }

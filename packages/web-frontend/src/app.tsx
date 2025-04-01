@@ -53,7 +53,7 @@ const routes = [
 		element: <TermsOfService />,
 	},
 	{
-		path: "verbs",
+		path: "/verb_conjugation",
 		element: <VerbConjugationsPage />,
 	}
 ];

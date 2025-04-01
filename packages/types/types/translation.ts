@@ -30,7 +30,8 @@ export type TranslationKey =
 	| "app_language"
 	| "difficulty"
 	| "saved_notification"
-	| "done";
+	| "done"
+	 "conjugations";
 
 export type TranslationContextType = {
 	[key in TranslationKey]: string;

@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, OneToMany, OneToOne } from "typeorm";
 import { Form } from "./form";
 import { Tense } from "./tenses";
 import { Verb } from "./verb";
 import { Sentence } from "./sentence";
+import { ConjugationTranslation } from "./conjugationTranslation";
 
 @Entity()
 export class Conjugation {
@@ -21,7 +22,6 @@ export class Conjugation {
 
     @ManyToOne(() => Form, { onDelete: "CASCADE" })
     @JoinColumn({ name: "form_id" })
-
     form: Form;
 
     @Column({
@@ -31,6 +31,7 @@ export class Conjugation {
     })
     conjugation: string;
 
+    
     @Column({
         type: "boolean",
         default: false,
@@ -38,7 +39,11 @@ export class Conjugation {
     })
     is_irregular: boolean;
 
-
     @OneToMany(() => Sentence, (sentence) => sentence.conjugation)
     sentences: Sentence[];
+
+    @OneToMany(() => ConjugationTranslation, (translation) => translation.conjugation)
+    translations: ConjugationTranslation[];
+
+
 }
