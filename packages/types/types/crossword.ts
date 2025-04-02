@@ -3,6 +3,7 @@
  * @description This module provides type definitions related to crossword puzzles.
  */
 
+import type { Difficulty } from "./difficulty";
 import type { LanguageName } from "./language";
 
 /**
@@ -33,27 +34,6 @@ export interface WordData {
 }
 
 /**
- * Data for updating an existing crossword puzzle.
- * @interface UpdateCrosswordBody
- * @property {string} [title] - Optional new title for the crossword.
- * @property {string} [topic] - Optional new topic for the crossword.
- * @property {number} [topic_id] - Optional new topic ID for the crossword.
- * @property {string[]} [words] - Optional array of words for the crossword.
- * @property {string} grid_state - The updated grid state as a string.
- * @property {string} id - The ID of the crossword to update.
- * @property {boolean} [completed] - Optional flag indicating if the crossword is completed.
- */
-export interface UpdateCrosswordBody {
-    title?: string;
-    topic?: string;
-    topic_id?: number;
-    words?: string[];
-    grid_state: string;
-    id: string;
-    completed?: boolean;
-}
-
-/**
  * Data for creating a new crossword puzzle.
  * @interface CreateCrosswordBody
  * @property {string} title - The title of the crossword.
@@ -70,53 +50,7 @@ export interface CreateCrosswordBody {
     userId: number;
 }
 
-/**
- * Data for creating a user's crossword entry.
- * @interface createUserCrosswordBody
- * @property {number} crossword_id - The ID of the crossword.
- * @property {boolean} completed - Whether the crossword is completed.
- * @property {string} grid_state - The state of the crossword grid.
- */
-export interface createUserCrosswordBody {
-    crossword_id: number;
-    completed: boolean;
-    grid_state: string;
-}
 
-/**
- * Represents a crossword topic.
- * @interface Topic
- * @property {string} topic_name - The name of the topic.
- * @property {number} topic_id - The ID of the topic.
- * @property {object} language - Language information.
- * @property {string} language.language_code - The language code.
- */
-export interface Topic {
-    topic_name: string;
-    topic_id: number;
-    language: {
-        language_code: string;
-    };
-}
-
-/**
- * Represents the difficulty levels of a crossword.
- * @enum {string}
- * @property {"a1"} A1 - Beginner level.
- * @property {"a2"} A2 - Elementary level.
- * @property {"b1"} B1 - Intermediate level.
- * @property {"b2"} B2 - Upper-intermediate level.
- * @property {"c1"} C1 - Advanced level.
- * @property {"c2"} C2 - Proficiency level.
- */
-export enum Difficulty {
-    A1 = "a1",
-    A2 = "a2",
-    B1 = "b1",
-    B2 = "b2",
-    C1 = "c1",
-    C2 = "c2",
-}
 
 /**
  * Data for a user's crossword attempts.

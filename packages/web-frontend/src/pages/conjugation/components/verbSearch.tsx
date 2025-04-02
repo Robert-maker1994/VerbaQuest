@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Autocomplete, TextField, Box } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import HoverBox from '../../../components/hoverBox';
 
 interface VerbData {

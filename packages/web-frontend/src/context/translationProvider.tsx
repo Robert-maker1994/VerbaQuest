@@ -61,6 +61,10 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({
 		saved_notification: "These changes have been saved.",
 		done: "Done",
 		app_language: "EN",
+		latest_crosswords: "latest crosswords",
+		favorite_crosswords: "favorite crosswords",
+		
+
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { LanguageCode } from "@verbaquest/types";
+import { type Difficulty, LanguageCode } from "@verbaquest/types";
 import csv from "csv-parser";
 import type { MigrationInterface, QueryRunner } from "typeorm";
 import {
@@ -15,7 +15,7 @@ import {
 interface CSVRow {
 	title: string;
 	topics: string;
-	difficulty: string;
+	difficulty: Difficulty;
 	[key: string]: string;
 }
 

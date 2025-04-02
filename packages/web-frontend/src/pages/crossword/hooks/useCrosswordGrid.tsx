@@ -1,4 +1,4 @@
-import type { WordData } from "@verbaquest/shared";
+import type { WordData } from "@verbaquest/types";
 import {
 	type RefObject,
 	useCallback,

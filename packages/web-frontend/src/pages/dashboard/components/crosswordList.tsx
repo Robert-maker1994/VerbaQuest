@@ -43,7 +43,7 @@ const CrosswordList: React.FC<CrosswordListProps> = ({
 		<List>
 			{crosswords.map((item) => (
 				<ListItem
-					key={item.user_crossword_id}
+					key={item.crossword.crossword_id}
 					sx={{
 						display: "flex",
 						flexDirection: "column",

@@ -48,7 +48,7 @@ export class Crossword {
 		enum: Difficulty,
 		comment: "The level of difficulty of the crossword puzzle.",
 	})
-	difficulty: string;
+	difficulty: Difficulty;
 
 	@Column({
 		type: "boolean",

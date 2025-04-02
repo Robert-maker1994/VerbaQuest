@@ -1,28 +1,23 @@
 import type {
 	CreateCrosswordBody,
+	CrosswordDetails,
 	LanguageCode,
-	UpdateCrosswordBody,
 } from "@verbaquest/types";
 import { AppDataSource } from "../../datasource";
 import {
-	Crossword,
-	CrosswordWord,
-	type Languages,
-	Topic,
-	UserCrossword,
-	Word,
+	Crossword
 } from "../entity";
-import { CrosswordError, TopicError } from "../errors";
-import { getLanguage } from "./language";
+import { CrosswordError } from "../errors";
 type crosswordServiceParams = { id?: string; name?: string };
 
 const crosswordService = {
+
 	async getCrosswordDetails(
 		user_id: number,
 		language_code: LanguageCode,
 		searchTerm?: string,
 		page = 1,
-	): Promise<[Crossword[], number]> {
+	): Promise<[CrosswordDetails[], number]> {
 		const pageSize = 9;
 		const offset = (page - 1) * pageSize;
 		const client = AppDataSource;
@@ -80,6 +75,7 @@ const crosswordService = {
 			return [[], 0];
 		}
 
+		
 		return [crosswordResults, count];
 	},
 
@@ -109,81 +105,6 @@ const crosswordService = {
 		return cross;
 	},
 
-	async createCrossword(body: CreateCrosswordBody) {
-		const client = AppDataSource;
-		const queryRunner = client.createQueryRunner();
-
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
-
-		try {
-			const { title, topic, words, language, userId } = body;
-
-			const topicRepo = queryRunner.manager.getRepository(Topic);
-			const crosswordRepo = queryRunner.manager.getRepository(Crossword);
-			const userCrosswordRepo =
-				queryRunner.manager.getRepository(UserCrossword);
-			const wordsRepo = queryRunner.manager.getRepository(Word);
-			const crosswordWordsRepo =
-				queryRunner.manager.getRepository(CrosswordWord);
-
-			const languageEntity = await getLanguage({
-				language_name: language,
-			});
-
-			let topicEntity = await topicRepo.findOneBy({ topic_name: topic });
-
-			if (!topicEntity) {
-				topicEntity = topicRepo.create({
-					topic_name: topic,
-					language: languageEntity,
-				});
-				topicEntity = await topicRepo.save(topicEntity);
-			}
-
-			const crosswordEntity = crosswordRepo.create({
-				title,
-				is_Public: false,
-				language: languageEntity,
-				difficulty: "a1",
-				topics: [topicEntity],
-			});
-			const savedCrossword = await crosswordRepo.save(crosswordEntity);
-
-			const userCrosswordEntity = userCrosswordRepo.create({
-				user: { user_id: userId },
-				crossword: savedCrossword,
-				grid_state: "",
-				completed: false,
-			});
-			await userCrosswordRepo.save(userCrosswordEntity);
-
-			for (const word of words) {
-				let existingWord = await wordsRepo.findOneBy({ word_text: word });
-				if (!existingWord) {
-					existingWord = wordsRepo.create({
-						word_text: word,
-						language: languageEntity,
-					});
-					existingWord = await wordsRepo.save(existingWord);
-				}
-				const crosswordWordEntity = crosswordWordsRepo.create({
-					crossword: savedCrossword,
-					words: existingWord,
-					clue: "Not implemented",
-				});
-				await crosswordWordsRepo.save(crosswordWordEntity);
-			}
-			await queryRunner.commitTransaction();
-			return savedCrossword;
-		} catch (err) {
-			await queryRunner.rollbackTransaction();
-
-			throw err;
-		} finally {
-			await queryRunner.release();
-		}
-	},
 	async deleteCrossword(params: crosswordServiceParams) {
 		const crosswordQuery = AppDataSource.createQueryBuilder(Crossword, "c");
 
@@ -214,109 +135,7 @@ const crosswordService = {
 		}
 
 		await AppDataSource.getRepository(Crossword).remove(crosswordToDelete);
-	},
-	async updateCrosswordService(body: UpdateCrosswordBody, userId: number) {
-		const client = AppDataSource;
-		const queryRunner = client.createQueryRunner();
-
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
-
-		try {
-			const crosswordRepo = queryRunner.manager.getRepository(Crossword);
-			const topicRepo = queryRunner.manager.getRepository(Topic);
-			const wordsRepo = queryRunner.manager.getRepository(Word);
-			const crosswordWordsRepo =
-				queryRunner.manager.getRepository(CrosswordWord);
-			const userCrosswordRepo =
-				queryRunner.manager.getRepository(UserCrossword);
-
-			const userCrosswordEntity = await userCrosswordRepo.findOne({
-				where: {
-					crossword: { crossword_id: Number.parseInt(body.id) },
-					user: { user_id: userId },
-				},
-				relations: ["crossword"],
-			});
-			if (!userCrosswordEntity) {
-				throw new CrosswordError(
-					"Crossword not found or does not belong to the user",
-					404,
-				);
-			}
-
-			const crosswordEntity = userCrosswordEntity.crossword;
-			if (body.grid_state) {
-				userCrosswordEntity.grid_state = body.grid_state;
-			}
-
-			if (body.completed) {
-				userCrosswordEntity.completed = body.completed;
-			}
-
-			if (body?.title) {
-				crosswordEntity.title = body.title;
-			}
-			let language: Languages;
-			if (body?.topic) {
-				let topicEntity = await topicRepo.findOne({
-					where: { topic_id: body.topic_id },
-					relations: ["language"],
-				});
-				language = topicEntity.language;
-				if (!topicEntity) {
-					throw new TopicError("No topic has been found to update", 200);
-				}
-
-				try {
-					if (topicEntity.topic_name !== body.topic) {
-						topicEntity.topic_name = body.topic;
-						topicEntity = await topicRepo.save(topicEntity);
-					}
-				} catch {
-					throw new TopicError("Cannot update title", 200);
-				}
-
-				crosswordEntity.topics = [topicEntity];
-			}
-
-			if (body.words) {
-				await crosswordWordsRepo.delete({ crossword: crosswordEntity });
-
-				for (const word of body.words) {
-					let existingWord = await wordsRepo.findOneBy({ word_text: word });
-					if (!existingWord) {
-						existingWord = wordsRepo.create({
-							word_text: word,
-							language: language,
-						});
-						existingWord = await wordsRepo.save(existingWord);
-					}
-					const crosswordWordEntity = crosswordWordsRepo.create({
-						crossword: crosswordEntity,
-						words: existingWord,
-						clue: "Not implemented",
-					});
-					await crosswordWordsRepo.save(crosswordWordEntity);
-				}
-			}
-
-			const updatedCrossword = await crosswordRepo.save(crosswordEntity);
-
-			const crosswordToReturn = await crosswordRepo.findOne({
-				where: { crossword_id: updatedCrossword.crossword_id },
-				relations: ["crosswordWords", "crosswordWords.words"],
-			});
-			await queryRunner.commitTransaction();
-			return crosswordToReturn;
-		} catch (err) {
-			await queryRunner.rollbackTransaction();
-
-			throw err;
-		} finally {
-			await queryRunner.release();
-		}
-	},
+	}
 };
 
 export default crosswordService;

@@ -1,11 +1,11 @@
 import type {
 	CreateCrosswordBody,
-	CrosswordDetails,
 	CrosswordResponse,
 	Difficulty,
 	Conjugation,
 	GetAllVerbResponse,
 	LanguageCode,
+	CrosswordDetailsResponse,
 } from "@verbaquest/types";
 import axios from "axios";
 export const api = axios.create({
@@ -19,14 +19,14 @@ const backendEndpoints = {
 	async getCrosswordDetails(
 		page?: number,
 		search?: string,
-	): Promise<CrosswordDetails> {
+	): Promise<CrosswordDetailsResponse> {
 		const token = localStorage.getItem("token");
 
 		const params = {
 			page,
 			search,
 		};
-		const response = await api.get<CrosswordDetails>("crossword/details", {
+		const response = await api.get<CrosswordDetailsResponse>("crossword/details", {
 			params,
 			headers: {
 				"Content-Type": "application/json",

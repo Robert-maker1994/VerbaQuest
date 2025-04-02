@@ -1,4 +1,4 @@
-import type { CrosswordResponse } from "@verbaquest/shared";
+import type { CrosswordResponse } from "@verbaquest/types";
 import { createContext, useCallback, useContext, useState } from "react";
 import api from "../../context/api/api";
 

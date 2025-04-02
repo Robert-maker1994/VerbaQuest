@@ -1,147 +1,141 @@
-import type { CrosswordResponse, LanguageCode } from "@verbaquest/types";
+import type {
+	CrosswordDetailsResponse,
+} from "@verbaquest/types";
 import type { NextFunction, Response } from "express";
-import {
-	type CrosswordGrid,
-	type CrosswordMetadata,
-	generateCrossword,
-} from "../../utils/generateCrossword";
-import type { Crossword } from "../entity";
+import { generateCrossword } from "../../utils/generateCrossword";
+import matchCrosswordsForMetadata from "../../utils/matchCrosswordForMetadata";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/questRequest";
-import axios from "axios";
 
-async function crosswordResponse(
-	crossword: Crossword,
-	metadata: CrosswordMetadata,
-	grid: CrosswordGrid,
-	targetLanguage: LanguageCode
-): Promise<CrosswordResponse> {
-	const data = metadata.words_data.map(async (data) => {
-		const matchedWord = crossword.crosswordWords.find(
-			(word) => word.words.word_text === data.word,
-		);
+const crosswordController = {
+	/**
+	 * @async
+	 * @function getById
+	 * @description Retrieves a crossword by its ID.
+	 * @param {AuthRequest} req - The authenticated request object.
+	 * @param {Response} res - The response object.
+	 * @param {NextFunction} next - The next middleware function.
+	 * @returns {Promise<void>} - A promise that resolves when the response is sent.
+	 * @throws {CrosswordError} - Throws an error if the crossword is not found or if there are invalid parameters.
+	 * @returns {CrosswordResponse} - The crossword response.
+	 */
+	async getById(
+		req: AuthRequest,
+		res: Response,
+		next: NextFunction,
+	) {
+		try {
+			if (!req.params.id) {
+				console.info("No id provided for getCrosswordById crossword");
+				throw new CrosswordError("INVALID_PARAMS", 404);
+			}
 
-		if (!matchedWord.words) {
-			console.info("No matched error generating metadata object")
-			throw new CrosswordError("Internal Error", 404)
+			const crossword = await crosswordService.getCrosswordById(
+				Number.parseInt(req.params.id),
+			);
+
+			if (!crossword) {
+				throw new CrosswordError("No crosswords found", 404);
+			}
+
+			const words = crossword.crosswordWords.map((v) => v.words.word_text);
+
+			if (!words.length) {
+				res.send(204);
+				return;
+			}
+
+			const [grid, metadata] = generateCrossword(words);
+
+			const response = await matchCrosswordsForMetadata(
+				crossword,
+				metadata,
+				grid,
+				req.user.app_language,
+			);
+
+			res.send(response);
+		} catch (err) {
+			next(err);
 		}
+	},
 
-		const res = await axios.post<{ translatedText: string }>("http://localhost:5000/translate", {
+	/**
+	 * @async
+	 * @function getDetails
+	 * @description Retrieves details of multiple crosswords with optional search and pagination.
+	 * @returns {Promise<void>} - A promise that resolves when the response is sent.
+	 * @throws {CrosswordError} - Throws an error if there are issues with the crossword data.
+	 * @returns {CrosswordDetailsResponse} {200} - The crossword details response.
+	 * @response {500} {object} - Internal server error.
+	 */
+	async getDetails(
+		req: AuthRequest,
+		res: Response,
+		next: NextFunction,
+	) {
+		try {
+			const { userId, preferred_language } = req.user;
 
-			q: matchedWord.words.word_text,
-			source: "auto",
-			target: targetLanguage,
-			format: "text",
-			alternatives: 1,
-			api_key: ""
-		},
-			{ headers: { "Content-Type": "application/json" } }
-		)
-		if (!res.data.translatedText) {
-			throw new CrosswordError("no translation founf", 404)
+			const search = req?.query.search as string | undefined;
+			const page = req?.query.page as string | undefined;
+			const [crosswords, totalCount] =
+				await crosswordService.getCrosswordDetails(
+					userId,
+					preferred_language,
+					search,
+					page ? Number.parseInt(page) : undefined,
+				);
+
+			const response: CrosswordDetailsResponse = {
+				crosswords,
+				totalCount,
+				currentPage: page ? Number.parseInt(page) : 1,
+				pageSize: 10,
+				totalPages: Math.ceil(totalCount / 10),
+			};
+
+			res.send(response);
+		} catch (err) {
+			next(err);
 		}
-		return {
-			...data,
-			word_id: matchedWord.words.word_id,
-			word: matchedWord.words.word_text,
-			clue: matchedWord.clue,
-			definition: res.data.translatedText,
-		};
-	});
-	return {
-		title: crossword?.title,
-		isComplete: false,
-		id: crossword.crossword_id,
-		metadata: await Promise.all(data),
-		crossword: grid,
-	};
-}
+	},
 
-const getCrosswordById = async (
-	req: AuthRequest,
-	res: Response,
-	next: NextFunction,
-) => {
-	try {
-		const crossword = await crosswordService.getCrosswordById(
-			Number.parseInt(req.params.id),
-		);
+	/**
+	 * @async
+	 * @function deleteUserCrossword
+	 * @description Deletes a crossword by its ID or name.
+	 * @param {AuthRequest} req - The authenticated request object.
+	 * @param {Response} res - The response object.
+	 * @param {NextFunction} next - The next middleware function.
+	 * @returns {Promise<void>} - A promise that resolves when the response is sent.
+	 * @throws {CrosswordError} - Throws an error if the crossword is not found or if there are invalid parameters.
+	 * @response {200} {string} - The crossword has been deleted.
+	 * @response {404} {object} - The crossword was not found.
+	 * @response {500} {object} - Internal server error.
+	 */
+	async deleteUserCrossword(
+		req: AuthRequest,
+		res: Response,
+		next: NextFunction,
+	) {
+		try {
+			const name = req.query?.name && { name: String(req.query?.name) };
+			const id = req.query?.id && { id: String(req.query?.id) };
 
-		if (!crossword) {
-			throw new CrosswordError("No crosswords found", 404);
+			const params = {
+				...id,
+				...name,
+			};
+
+			await crosswordService.deleteCrossword(params);
+
+			res.status(200).send("Crossword has been delete");
+		} catch (err) {
+			next(err);
 		}
-
-		const words = crossword.crosswordWords.map((v) => v.words.word_text);
-		const [grid, metadata] = generateCrossword(words);
-
-		res.send(await crosswordResponse(crossword, metadata, grid, req.user.app_language));
-	} catch (err) {
-		next(err);
-	}
+	},
 };
 
-async function createNewCrossword(
-	req: AuthRequest,
-	res: Response,
-	next: NextFunction,
-) {
-	try {
-		const body = {
-			...req.body,
-			userId: req.user.userId,
-		};
-
-		const crossword = await crosswordService.createCrossword(body);
-
-		res.status(201).send(crossword);
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function deleteUserCrossword(
-	req: AuthRequest,
-	res: Response,
-	next: NextFunction,
-) {
-	try {
-		const name = req.query?.name && { name: String(req.query?.name) };
-		const id = req.query?.id && { id: String(req.query?.id) };
-
-		const params = {
-			...id,
-			...name,
-		};
-
-		await crosswordService.deleteCrossword(params);
-
-		res.status(200).send("Crossword has been delete");
-	} catch (err) {
-		next(err);
-	}
-}
-
-async function updateUserCrossword(
-	req: AuthRequest,
-	res: Response,
-	next: NextFunction,
-) {
-	try {
-		const updatedCrossword = await crosswordService.updateCrosswordService(
-			req.body,
-			req.user.userId,
-		);
-
-		res.status(204).send(updatedCrossword);
-	} catch (err) {
-		next(err);
-	}
-}
-
-export {
-	createNewCrossword,
-	deleteUserCrossword,
-	getCrosswordById,
-	updateUserCrossword,
-};
+export default crosswordController;

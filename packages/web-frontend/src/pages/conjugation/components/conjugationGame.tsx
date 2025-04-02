@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Box, Typography, TextField, Button, Grid2, Paper, Icon } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid2, Icon } from '@mui/material';
 import { CheckCircleOutline, CancelOutlined } from '@mui/icons-material';
 import type { Conjugation } from '@verbaquest/types';
 import HoverBox from '../../../components/hoverBox';

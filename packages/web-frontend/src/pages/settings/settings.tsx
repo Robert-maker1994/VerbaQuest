@@ -14,7 +14,8 @@ import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";
 import { useTranslation } from "../../context/translationProvider";
-import { Difficulty, LanguageCode} from "@verbaquest/types";
+import { } from "@verbaquest/types";
+import { Difficulty, LanguageCode } from "@verbaquest/types";
 
 
 interface SettingsFormData {
@@ -97,7 +98,7 @@ const SettingsPage = () => {
 
 	const isFormChanged =
 		formData.preferred_learning_language !==
-			initialFormData.preferred_learning_language ||
+		initialFormData.preferred_learning_language ||
 		formData.preferred_difficulty !== initialFormData.preferred_difficulty ||
 		formData.app_language !== initialFormData.app_language;
 
@@ -127,8 +128,8 @@ const SettingsPage = () => {
 					label={translate("language")}
 					onChange={(event) =>
 						handleChange(event, "preferred_learning_language")
-						}
-						>
+					}
+				>
 					{Object.values(LanguageCode).map((code) => (
 						<MenuItem key={code} value={code}>
 							{code}
@@ -137,7 +138,7 @@ const SettingsPage = () => {
 				</Select>
 			</FormControl>
 
-	
+
 			<FormControl fullWidth>
 				<InputLabel id="difficulty-label">{translate("difficulty")}</InputLabel>
 				<Select
@@ -195,7 +196,7 @@ const SettingsPage = () => {
 				disabled={isLoading || !isFormChanged}
 			>
 				{isLoading ? <CircularProgress size={24} /> : translate("done")}
-			</Button> 
+			</Button>
 		</Box>
 	);
 };
