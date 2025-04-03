@@ -67,8 +67,9 @@ export default function Navbar() {
       elevation={1}
       sx={{
         borderRadius: 2,
+
         justifySelf: "center",
-        marginBottom: "10px",
+        my: "12px",
       }}
     >
       <Toolbar>

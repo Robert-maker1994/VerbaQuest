@@ -22,13 +22,11 @@ interface VerbSearchProps {
 }
 
 const VerbSearch: React.FC<VerbSearchProps> = ({ verbs, inputValue, onInputChange, selectedVerb }) => {
-  return (
-    <HoverBox>
-      {verbs.length > 0 && (
+  return verbs.length > 0 && (
         <Autocomplete
           id="verb-search"
-          sx={{ width: 300 }}
           options={verbs}
+          
           getOptionLabel={(option) => option.word.word_text}
           value={selectedVerb}
           inputValue={inputValue}
@@ -37,8 +35,7 @@ const VerbSearch: React.FC<VerbSearchProps> = ({ verbs, inputValue, onInputChang
           }}
           renderInput={(params) => <TextField {...params} label="Search for a verb" variant="outlined" />}
         />
-      )}
-    </HoverBox>
+      
   );
 };
 

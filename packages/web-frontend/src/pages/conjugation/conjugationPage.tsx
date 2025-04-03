@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, List, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Chip, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableRowClasses, Typography } from "@mui/material";
 import type { Conjugation } from "@verbaquest/types";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -146,24 +146,60 @@ function VerbConjugationsPage() {
         Verb Conjugations
       </Typography>
 
-      <VerbSearch verbs={verbs} inputValue={inputValue} onInputChange={handleVerbChange} selectedVerb={selectedVerb} />
+      <HoverBox>
+        <VerbSearch verbs={verbs} inputValue={inputValue} onInputChange={handleVerbChange} selectedVerb={selectedVerb} />
 
-      {loading && <CircularProgress />}
+        {loading && <CircularProgress />}
 
-      {!selectedVerb && !loading && (
-        <HoverBox>
-          <List>
-            {verbs.map((verb) => (
-              <ListItemButton onClick={() => handleVerbChange(verb.word.word_text)} key={verb.verb_id}>
-                <ListItemText primary={verb.word.word_text} />
-                <ListItemText color={verb.irregular ? "error" : "success"}>
-                  {verb.irregular ? "Irregular" : "Regular"}
-                </ListItemText>
-              </ListItemButton>
-            ))}
-          </List>
-        </HoverBox>
-      )}
+        {!selectedVerb && !loading && (
+          <TableContainer>
+            <Table  sx={{ my: "10px" }} aria-label="simple table">
+              <TableHead sx={{
+
+              }}>
+                <TableRow sx={{
+                  [`&.${tableRowClasses.head}`]: {
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                  },
+                }}>
+                  <TableCell>Verb</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>My verbs</TableCell>
+                  <TableCell>View</TableCell>
+                </TableRow>
+              </TableHead>
+              {verbs.length > 0 && (
+                <TableBody>
+                  {verbs.map((verb) => (
+                    <TableRow onClick={() => handleVerbChange(verb.word.word_text)} key={verb.verb_id} hover>
+                      <TableCell>{verb.word.word_text}</TableCell>
+                      <TableCell><Chip label={verb.irregular ? "Irregular" : "Regular"} color={verb.irregular ? "warning" : "success"} /></TableCell>
+                      <TableCell>
+                        <Checkbox
+                          color="primary"
+                          checked={false}
+                          aria-label="Select favorite"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="outlined">
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        )}
+
+        {verbs.length === 0 && !loading && (
+          <Typography>No verbs found.</Typography>
+
+        )}
+      </HoverBox>
 
       {selectedVerb && !loading && !gameMode && (
         <ConjugationTable
