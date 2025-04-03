@@ -1,20 +1,12 @@
-import type React from 'react';
-import { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Button,
-  List,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material';
-import backendEndpoints from '../../context/api/api';
-import VerbSearch from './components/verbSearch';
-import ConjugationTable from './components/conjugationTable';
-import ConjugationGame from './components/conjugationGame';
-import HoverBox from '../../components/hoverBox';
-import type { Conjugation } from '@verbaquest/types';
+import { Box, Button, CircularProgress, List, ListItemButton, ListItemText, Typography } from "@mui/material";
+import type { Conjugation } from "@verbaquest/types";
+import type React from "react";
+import { useEffect, useState } from "react";
+import HoverBox from "../../components/hoverBox";
+import backendEndpoints from "../../context/api/api";
+import ConjugationGame from "./components/conjugationGame";
+import ConjugationTable from "./components/conjugationTable";
+import VerbSearch from "./components/verbSearch";
 
 interface Tense {
   tense: string;
@@ -34,24 +26,24 @@ interface VerbData {
 }
 
 const tenses: Tense[] = [
-  { tense: 'Presente', mood: 'indicativo' },
-  { tense: 'Presente', mood: 'subjuntivo' },
-  { tense: 'Pretérito indefinido', mood: 'indicativo' },
-  { tense: 'Present simple', mood: 'indicative' },
-  { tense: 'Past simple', mood: 'indicative' },
+  { tense: "Presente", mood: "indicativo" },
+  { tense: "Presente", mood: "subjuntivo" },
+  { tense: "Pretérito indefinido", mood: "indicativo" },
+  { tense: "Present simple", mood: "indicative" },
+  { tense: "Past simple", mood: "indicative" },
 ];
 
-const forms = ["yo", "tú", "él/ella/usted", "nosotros/nosotras", "vosotros/vosotras", "ellos/ellas/ustedes"]
+const forms = ["yo", "tú", "él/ella/usted", "nosotros/nosotras", "vosotros/vosotras", "ellos/ellas/ustedes"];
 
 function VerbConjugationsPage() {
   const [verbs, setVerbs] = useState<VerbData[]>([]);
   const [selectedVerb, setSelectedVerb] = useState<VerbData | null>(null);
   const [conjugations, setConjugations] = useState<Conjugation[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [gameMode, setGameMode] = useState<boolean>(false);
-  const [currentRound, setCurrentRound] = useState<{ tense: Tense, form: string } | null>(null);
-  const [userAnswer, setUserAnswer] = useState<string>('');
+  const [currentRound, setCurrentRound] = useState<{ tense: Tense; form: string } | null>(null);
+  const [userAnswer, setUserAnswer] = useState<string>("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState<number>(0);
 
@@ -62,7 +54,7 @@ function VerbConjugationsPage() {
         const data = await backendEndpoints.allVerbs();
         setVerbs(data);
       } catch (error) {
-        console.error('Error fetching verbs:', error);
+        console.error("Error fetching verbs:", error);
       } finally {
         setLoading(false);
       }
@@ -79,7 +71,7 @@ function VerbConjugationsPage() {
           const data = await backendEndpoints.getVerbConjugation(selectedVerb.verb_id);
           setConjugations(data);
         } catch (error) {
-          console.error('Error fetching conjugations:', error);
+          console.error("Error fetching conjugations:", error);
         } finally {
           setLoading(false);
         }
@@ -90,19 +82,20 @@ function VerbConjugationsPage() {
   }, [selectedVerb]);
 
   const handleVerbChange = async (event: string) => {
-    const verb = verbs.find(v => v.word.word_text === event);
-    setInputValue(event)
-    console.log(event)
+    const verb = verbs.find((v) => v.word.word_text === event);
+    setInputValue(event);
     try {
       if (!verb) return;
       setSelectedVerb(verb);
     } catch (error) {
-      console.error('Error fetching conjugations:', error);
+      console.error("Error fetching conjugations:", error);
     }
   };
 
   const getConjugation = (tense: string, mood: string, form: string): string | undefined => {
-    const conjugation = conjugations.find(c => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form);
+    const conjugation = conjugations.find(
+      (c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form,
+    );
     return conjugation?.conjugation;
   };
 
@@ -117,7 +110,7 @@ function VerbConjugationsPage() {
     const randomTense = tenses[Math.floor(Math.random() * tenses.length)];
     const randomForm = forms[Math.floor(Math.random() * forms.length)];
     setCurrentRound({ tense: randomTense, form: randomForm });
-    setUserAnswer('');
+    setUserAnswer("");
     setIsCorrect(null);
   };
 
@@ -127,7 +120,11 @@ function VerbConjugationsPage() {
 
   const checkAnswer = () => {
     if (!currentRound || !selectedVerb) return;
-    const correctAnswer = getConjugation(currentRound.tense.tense.toLowerCase(), currentRound.tense.mood.toLowerCase(), currentRound.form);
+    const correctAnswer = getConjugation(
+      currentRound.tense.tense.toLowerCase(),
+      currentRound.tense.mood.toLowerCase(),
+      currentRound.form,
+    );
     if (correctAnswer === undefined) {
       setIsCorrect(false);
       return;
@@ -144,68 +141,56 @@ function VerbConjugationsPage() {
   };
 
   return (
-    <Box sx={{ fontFamily: 'sans-serif', padding: 3 }}>
+    <Box sx={{ fontFamily: "sans-serif", padding: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Verb Conjugations
       </Typography>
 
-      <VerbSearch
-        verbs={verbs}
-        inputValue={inputValue}
-        onInputChange={handleVerbChange}
-        selectedVerb={selectedVerb}
-      />
-
+      <VerbSearch verbs={verbs} inputValue={inputValue} onInputChange={handleVerbChange} selectedVerb={selectedVerb} />
 
       {loading && <CircularProgress />}
 
+      {!selectedVerb && !loading && (
+        <HoverBox>
+          <List>
+            {verbs.map((verb) => (
+              <ListItemButton onClick={() => handleVerbChange(verb.word.word_text)} key={verb.verb_id}>
+                <ListItemText primary={verb.word.word_text} />
+                <ListItemText color={verb.irregular ? "error" : "success"}>
+                  {verb.irregular ? "Irregular" : "Regular"}
+                </ListItemText>
+              </ListItemButton>
+            ))}
+          </List>
+        </HoverBox>
+      )}
 
-      {
-        !selectedVerb && !loading && (
-          <HoverBox>
-            <List>
-              {
-                verbs.map(verb => (
-                  <ListItemButton onClick={() => handleVerbChange(verb.word.word_text)} key={verb.verb_id} >
-                    <ListItemText primary={verb.word.word_text} />
-                    <ListItemText color={verb.irregular ? 'error' : 'success'} >
-                      {verb.irregular ? 'Irregular' : 'Regular'}
-                    </ListItemText>
-                  </ListItemButton>
-                ))
-              }
-            </List>
-          </HoverBox>
-
-
-        )
-      }
-
-      {
-        selectedVerb && !loading && !gameMode && (
-          <ConjugationTable
-            conjugations={conjugations}
-            selectedVerb={selectedVerb}
-            tenses={tenses}
-            toolBar={<Button variant='contained' onClick={handleStartGame}>Play Game</Button>} />
-        )
-      }
-      {
-        gameMode && selectedVerb && currentRound && (
-          <ConjugationGame
-            selectedVerb={selectedVerb}
-            conjugations={conjugations}
-            score={score}
-            currentRound={currentRound}
-            userAnswer={userAnswer}
-            isCorrect={isCorrect}
-            handleAnswerChange={handleAnswerChange}
-            checkAnswer={checkAnswer}
-            handleNextRound={handleNextRound}
-          />
-        )
-      }
-    </Box >
+      {selectedVerb && !loading && !gameMode && (
+        <ConjugationTable
+          conjugations={conjugations}
+          selectedVerb={selectedVerb}
+          tenses={tenses}
+          toolBar={
+            <Button variant="contained" onClick={handleStartGame}>
+              Play Game
+            </Button>
+          }
+        />
+      )}
+      {gameMode && selectedVerb && currentRound && (
+        <ConjugationGame
+          selectedVerb={selectedVerb}
+          conjugations={conjugations}
+          score={score}
+          currentRound={currentRound}
+          userAnswer={userAnswer}
+          isCorrect={isCorrect}
+          handleAnswerChange={handleAnswerChange}
+          checkAnswer={checkAnswer}
+          handleNextRound={handleNextRound}
+        />
+      )}
+    </Box>
   );
 }
 

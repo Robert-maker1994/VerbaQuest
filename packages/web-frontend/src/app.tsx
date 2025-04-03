@@ -18,88 +18,85 @@ const Register = lazy(() => import("./pages/login/register"));
 const Loading = lazy(() => import("./pages/loadingPage"));
 const VerbConjugationsPage = lazy(() => import("./pages/conjugation/conjugationPage"));
 
-
 const routes = [
-	{
-		path: "/",
-		element: <Dashboard />,
-	},
-	{
-		path: "/crossword/:crosswordId",
-		element: <Crossword />,
-	},
-	{
-		path: "/crossword",
-		element: <CrosswordPage />,
-	},
-	{
-		path: "/dashboard",
-		element: <Dashboard />,
-	},
-	{
-		path: "/settings",
-		element: <Settings />,
-	},
-	{
-		path: "/register",
-		element: <Register />,
-	},
-	{
-		path: "/privacy",
-		element: <PrivacyPolicy />,
-	},
-	{
-		path: "/terms",
-		element: <TermsOfService />,
-	},
-	{
-		path: "/verb_conjugation",
-		element: <VerbConjugationsPage />,
-	}
+  {
+    path: "/",
+    element: <Dashboard />,
+  },
+  {
+    path: "/crossword/:crosswordId",
+    element: <Crossword />,
+  },
+  {
+    path: "/crossword",
+    element: <CrosswordPage />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/privacy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "/terms",
+    element: <TermsOfService />,
+  },
+  {
+    path: "/verb_conjugation",
+    element: <VerbConjugationsPage />,
+  },
 ];
 function App() {
-	return (
-		<div className="App">
-			<AppContent />
-		</div>
-	);
+  return (
+    <div className="App">
+      <AppContent />
+    </div>
+  );
 }
 
 function AppContent() {
-	const { isLoggedIn, isLoading } = useAuth();
+  const { isLoggedIn, isLoading } = useAuth();
 
-	if (isLoading) {
-		return <Loading />;
-	}
+  if (isLoading) {
+    return <Loading />;
+  }
 
-	return (
-		<React.Suspense fallback={<Loading />}>
-			{isLoggedIn ? (
-				<TranslationProvider>
-					<Container
-						maxWidth="lg"
-						sx={{
-							minHeight: "90vh",
-						}}
-					>
-						<Navbar />
-						<CrosswordProvider>
-							<Routes>
-								{routes.map((r) => {
-									return (
-										<Route key={r.path} path={r.path} element={r.element} />
-									);
-								})}
-							</Routes>
-						</CrosswordProvider>
-					</Container>
-					<Footer />
-				</TranslationProvider>
-			) : (
-				<Login />
-			)}
-		</React.Suspense>
-	);
+  return (
+    <React.Suspense fallback={<Loading />}>
+      {isLoggedIn ? (
+        <TranslationProvider>
+          <Container
+            maxWidth="lg"
+            sx={{
+              minHeight: "90vh",
+            }}
+          >
+            <Navbar />
+            <CrosswordProvider>
+              <Routes>
+                {routes.map((r) => {
+                  return <Route key={r.path} path={r.path} element={r.element} />;
+                })}
+              </Routes>
+            </CrosswordProvider>
+          </Container>
+          <Footer />
+        </TranslationProvider>
+      ) : (
+        <Login />
+      )}
+    </React.Suspense>
+  );
 }
 
 export default App;

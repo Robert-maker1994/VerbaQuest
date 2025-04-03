@@ -11,9 +11,9 @@
  * @property {"fr"} FRENCH - French language code.
  */
 export enum LanguageCode {
-    ENGLISH = "en",
-    SPANISH = "es",
-    FRENCH = "fr",
+  ENGLISH = "en",
+  SPANISH = "es",
+  FRENCH = "fr",
 }
 
 /**
@@ -24,7 +24,7 @@ export enum LanguageCode {
  * @property {"french"} FRENCH - French language name.
  */
 export enum LanguageName {
-    ENGLISH = "English",
-    SPANISH = "Spanish",
-    FRENCH = "French",
+  ENGLISH = "English",
+  SPANISH = "Spanish",
+  FRENCH = "French",
 }

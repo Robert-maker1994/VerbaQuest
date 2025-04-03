@@ -5,246 +5,247 @@ import { CustomError } from "../errors/customError";
 class UserCrosswordError extends CustomError {}
 
 export const userCrosswordService = {
-	async getByUserCrosswordId(user_id: number, crossword_id: number) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+  async getByUserCrosswordId(user_id: number, crossword_id: number) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
-			const userCrossword = await userCrosswordRepo.findOneBy({
-				user: { user_id },
-				crossword: { crossword_id },
-			});
+      const userCrossword = await userCrosswordRepo.findOneBy({
+        user: { user_id },
+        crossword: { crossword_id },
+      });
 
-			return userCrossword;
-		} catch (err) {
-			throw new UserCrosswordError("Error finding UserCrossword", 404);
-		}
-	},
+      return userCrossword;
+    } catch (err) {
+      console.error("error throw in getByUserCrosswordId", err);
 
-	async getLatest(user_id: number) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+      throw new UserCrosswordError("Error finding UserCrossword", 404);
+    }
+  },
 
-			const userCrossword = await userCrosswordRepo.find({
-				where: {
-					user: {
-						user_id,
-					},
-				},
-				cache: true,
-				relations: {
-					crossword: {
-						topics: true,
-					},
-				},
-				select: {
-					completed: true,
-					completion_timer: true,
-					last_attempted: true,
-					user_crossword_id: true,
-					crossword: {
-						crossword_id: true,
-						title: true,
-						difficulty: true,
-						topics: {
-							topic_id: true,
-							topic_name: true,
-						},
-					},
-				},
-				order: {
-					last_attempted: "DESC",
-				},
-				take: 3,
-			});
+  async getLatest(user_id: number) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
-			return userCrossword;
-		} catch (err) {
-			throw new UserCrosswordError("Error getting UserCrossword", 404);
-		}
-	},
+      const userCrossword = await userCrosswordRepo.find({
+        where: {
+          user: {
+            user_id,
+          },
+        },
+        cache: true,
+        relations: {
+          crossword: {
+            topics: true,
+          },
+        },
+        select: {
+          completed: true,
+          completion_timer: true,
+          last_attempted: true,
+          user_crossword_id: true,
+          crossword: {
+            crossword_id: true,
+            title: true,
+            difficulty: true,
+            topics: {
+              topic_id: true,
+              topic_name: true,
+            },
+          },
+        },
+        order: {
+          last_attempted: "DESC",
+        },
+        take: 3,
+      });
 
-	async getFavorite(user_id: number) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+      return userCrossword;
+    } catch (err) {
+      console.error("error getting latest User crosswords userCrosswordService", err);
 
-			const userCrossword = await userCrosswordRepo.find({
-				where: {
-					user: {
-						user_id,
-					},
-					is_favorite: true,
-				},
-				cache: true,
-				relations: {
-					crossword: {
-						topics: true,
-					},
-				},
-				select: {
-					completed: true,
-					completion_timer: true,
-					last_attempted: true,
-					user_crossword_id: true,
-					crossword: {
-						crossword_id: true,
-						title: true,
-						difficulty: true,
-						topics: {
-							topic_id: true,
-							topic_name: true,
-						},
-					},
-				},
-			});
+      throw new UserCrosswordError("Error getting UserCrossword", 404);
+    }
+  },
 
-			return userCrossword;
-		} catch (err) {
-			throw new UserCrosswordError("Error getting UserCrossword", 404);
-		}
-	},
+  async getFavorite(user_id: number) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
-	async getAll(user_id: number) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+      const userCrossword = await userCrosswordRepo.find({
+        where: {
+          user: {
+            user_id,
+          },
+          is_favorite: true,
+        },
+        cache: true,
+        relations: {
+          crossword: {
+            topics: true,
+          },
+        },
+        select: {
+          completed: true,
+          completion_timer: true,
+          last_attempted: true,
+          user_crossword_id: true,
+          crossword: {
+            crossword_id: true,
+            title: true,
+            difficulty: true,
+            topics: {
+              topic_id: true,
+              topic_name: true,
+            },
+          },
+        },
+      });
 
-			const userCrossword = await userCrosswordRepo.find({
-				where: {
-					user: {
-						user_id,
-					},
-				},
-				cache: true,
-				relations: {
-					crossword: {
-						topics: true,
-					},
-				},
-				select: {
-					completed: true,
-					completion_timer: true,
-					last_attempted: true,
-					user_crossword_id: true,
-					crossword: {
-						crossword_id: true,
-						title: true,
-						difficulty: true,
-						topics: {
-							topic_id: true,
-							topic_name: true,
-						},
-					},
-				},
-			});
+      return userCrossword;
+    } catch (err) {
+      console.error("error getting favorite User crosswords", err);
 
-			return userCrossword;
-		} catch (err) {
-			throw new UserCrosswordError("Error getting UserCrossword", 404);
-		}
-	},
+      throw new UserCrosswordError("Error getting UserCrossword", 404);
+    }
+  },
 
-	async createOrUpdate(
-		crossword_id: number,
-		timer: number,
-		user_id: number,
-		completed: boolean,
-		is_favorite: boolean,
-	) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+  async getAll(user_id: number) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
-			const result = await userCrosswordRepo.upsert(
-				{
-					user: { user_id },
-					crossword: { crossword_id },
-					completed,
-					is_favorite,
-					completion_timer: timer,
-					last_attempted: new Date(),
-				},
-				["user_id", "crossword_id"],
-			);
-			if (!result) {
-				console.info("Error upserting UserCrossword", result);
-				throw new UserCrosswordError("Error upsetting UserCrossword", 404);
-			}
+      const userCrossword = await userCrosswordRepo.find({
+        where: {
+          user: {
+            user_id,
+          },
+        },
+        cache: true,
+        relations: {
+          crossword: {
+            topics: true,
+          },
+        },
+        select: {
+          completed: true,
+          completion_timer: true,
+          last_attempted: true,
+          user_crossword_id: true,
+          crossword: {
+            crossword_id: true,
+            title: true,
+            difficulty: true,
+            topics: {
+              topic_id: true,
+              topic_name: true,
+            },
+          },
+        },
+      });
 
-			const userCrossword = await userCrosswordRepo.findOne({
-				where: {
-					user: { user_id },
-					crossword: { crossword_id },
-				},
-			});
+      return userCrossword;
+    } catch (err) {
+      console.error("error throw getting all User crosswords", err);
 
-			if (!userCrossword) {
-				throw new UserCrosswordError(
-					"Error creating or updating UserCrossword",
-					404,
-				);
-			}
+      throw new UserCrosswordError("Error getting UserCrossword", 404);
+    }
+  },
 
-			return userCrossword;
-		} catch (err) {
-			console.log(err);
-			throw new UserCrosswordError(
-				"Error creating or updating UserCrossword",
-				404,
-			);
-		}
-	},
+  async createOrUpdate(crossword_id: number, timer: number, user_id: number, completed: boolean, is_favorite: boolean) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
 
-	async update(user_id: number, crossword_id: number, is_favorite: boolean) {
-		try {
-			const qb = await AppDataSource.createQueryBuilder()
-				.update(UserCrossword)
-				.set({
-					is_favorite,
-				})
+      const result = await userCrosswordRepo.upsert(
+        {
+          user: { user_id },
+          crossword: { crossword_id },
+          completed,
+          is_favorite,
+          completion_timer: timer,
+          last_attempted: new Date(),
+        },
+        ["user_id", "crossword_id"],
+      );
+      if (!result) {
+        console.info("Error upserting UserCrossword", result);
+        throw new UserCrosswordError("Error upsetting UserCrossword", 404);
+      }
 
-				.where("user_id = :user_id", { user_id })
-				.andWhere("crossword_id = :crossword_id", { crossword_id })
-				.execute();
+      const userCrossword = await userCrosswordRepo.findOne({
+        where: {
+          user: { user_id },
+          crossword: { crossword_id },
+        },
+      });
 
-			if (!qb) {
-				throw new UserCrosswordError("Error updating UserCrossword", 500);
-			}
+      if (!userCrossword) {
+        throw new UserCrosswordError("Error creating or updating UserCrossword", 404);
+      }
 
-			return qb;
-		} catch (err) {
-			throw new UserCrosswordError("Error updating UserCrossword", 404);
-		}
-	},
+      return userCrossword;
+    } catch (err) {
+      console.error("error throw in userCrosswordService", err);
+      throw new UserCrosswordError("Error creating or updating UserCrossword", 404);
+    }
+  },
 
-	async create(user_id: number, crossword_id: number, is_favorite: boolean) {
-		try {
-			const qb = await AppDataSource.createQueryBuilder()
-				.insert()
-				.into(UserCrossword)
-				.values({
-					user: { user_id },
-					crossword: { crossword_id },
-					is_favorite,
-				})
-				.execute();
+  async update(user_id: number, crossword_id: number, is_favorite: boolean) {
+    try {
+      const qb = await AppDataSource.createQueryBuilder()
+        .update(UserCrossword)
+        .set({
+          is_favorite,
+        })
 
-			return qb;
-		} catch (err) {
-			throw new UserCrosswordError("Error updating UserCrossword", 404);
-		}
-	},
+        .where("user_id = :user_id", { user_id })
+        .andWhere("crossword_id = :crossword_id", { crossword_id })
+        .execute();
 
-	async delete(user_id: number, crossword_id: number) {
-		try {
-			const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
-			const userCrossword = await userCrosswordRepo
-				.createQueryBuilder("uc")
-				.delete()
-				.from(UserCrossword)
-				.where("user_id = :user_id", { user_id })
-				.andWhere("crossword_id = :crossword_id", { crossword_id })
-				.execute();
-			return userCrossword;
-		} catch (err) {
-			throw new UserCrosswordError("Error deleting UserCrossword", 404);
-		}
-	},
+      if (!qb) {
+        throw new UserCrosswordError("Error updating UserCrossword", 500);
+      }
+
+      return qb;
+    } catch (err) {
+      console.error("error throw in userCrosswordService", err);
+
+      throw new UserCrosswordError("Error updating UserCrossword", 404);
+    }
+  },
+
+  async create(user_id: number, crossword_id: number, is_favorite: boolean) {
+    try {
+      const qb = await AppDataSource.createQueryBuilder()
+        .insert()
+        .into(UserCrossword)
+        .values({
+          user: { user_id },
+          crossword: { crossword_id },
+          is_favorite,
+        })
+        .execute();
+
+      return qb;
+    } catch (err) {
+      console.error("error throw and unhandled in delete userCrosswordService", err);
+
+      throw new UserCrosswordError("Error updating UserCrossword", 404);
+    }
+  },
+
+  async delete(user_id: number, crossword_id: number) {
+    try {
+      const userCrosswordRepo = AppDataSource.getRepository(UserCrossword);
+      const userCrossword = await userCrosswordRepo
+        .createQueryBuilder("uc")
+        .delete()
+        .from(UserCrossword)
+        .where("user_id = :user_id", { user_id })
+        .andWhere("crossword_id = :crossword_id", { crossword_id })
+        .execute();
+      return userCrossword;
+    } catch (err: unknown) {
+      console.error("error throw and unhandled in delete userCrosswordService", err);
+      throw new UserCrosswordError("Error deleting UserCrossword", 404);
+    }
+  },
 };

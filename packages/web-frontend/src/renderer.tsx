@@ -5,16 +5,16 @@ import { AuthProvider } from "./context/auth/authContext";
 import { ThemeProvider } from "./context/theme/themeContext";
 
 function Renderer() {
-	return (
-		<ThemeProvider>
-			<BrowserRouter>
-				<AuthProvider>
-					<App />
-					<CssBaseline />
-				</AuthProvider>
-			</BrowserRouter>
-		</ThemeProvider>
-	);
+  return (
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+          <CssBaseline />
+        </AuthProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
 }
 
 export default Renderer;

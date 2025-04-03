@@ -1,23 +1,22 @@
 {
-	"display": "Node 22",
-	"_version": "22.0.0",
-	"compilerOptions": {
-		"target": "es2020", 
-		"module": "commonjs", 
-   		"rootDir": "./",
-		"lib": ["es2020", "DOM"],
-		"moduleResolution": "node",
-		"outDir": "./dist",
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		
-		"paths": {
-			"@verbaquest/types": ["./packages/types/dist/types/index.js"]
-		}
-	},
+  "display": "Node 22",
+  "_version": "22.0.0",
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "rootDir": "./",
+    "lib": ["es2020", "DOM"],
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
 
-	"exclude": ["node_modules"],
+    "paths": {
+      "@verbaquest/types": ["./packages/types/dist/types/index.js"]
+    }
+  },
 
+  "exclude": ["node_modules"]
 }

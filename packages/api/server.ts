@@ -8,25 +8,22 @@ import config from "./libs/config";
 import initializeRoutes from "./libs/routes/apiRouter";
 
 AppDataSource.initialize()
-	.then(() => {
-		
-		const app = express();
-		const port = config.port;
-		app.use(cors());
+  .then(() => {
+    const app = express();
+    const port = config.port;
+    app.use(cors());
 
-		app.use(express.json());
-		app.use(express.urlencoded({ extended: true }));
-		app.use(methodOverride());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(methodOverride());
 
-		initializeRoutes(app);
-		app.use(errorHandler);
+    initializeRoutes(app);
+    app.use(errorHandler);
 
-		app.listen(port, () => {
-			console.log(`Server listening on port https://localhost:${port}`);
-		});
-	})
-	.catch((err) => {
-		throw Error(`Error at the core! ${err}`);
-});
-
-
+    app.listen(port, () => {
+      console.info(`Server listening on port https://localhost:${port}`);
+    });
+  })
+  .catch((err) => {
+    throw Error(`Error at the core! ${err}`);
+  });

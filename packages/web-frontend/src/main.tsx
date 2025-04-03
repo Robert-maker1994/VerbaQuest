@@ -4,7 +4,7 @@ import Renderer from "./renderer";
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<Renderer />
-	</StrictMode>,
+  <StrictMode>
+    <Renderer />
+  </StrictMode>,
 );

@@ -20,17 +20,17 @@ type Direction = "horizontal" | "vertical";
  * @property {number} start_row - Row index (0-based) where the word starts.
  * @property {number} start_col - Column index (0-based) where the word starts.
  * @property {string} definition - The word translated in the app language
- * @property {string} clue - The clue in the normal language 
+ * @property {string} clue - The clue in the normal language
  * @property {Direction} direction - The direction of the word ("horizontal" or "vertical").
  */
 export interface WordData {
-    word_id: number;
-    word: string;
-    start_row: number;
-    start_col: number;
-    clue: string;
-    definition: string;
-    direction: Direction;
+  word_id: number;
+  word: string;
+  start_row: number;
+  start_col: number;
+  clue: string;
+  definition: string;
+  direction: Direction;
 }
 
 /**
@@ -43,14 +43,12 @@ export interface WordData {
  * @property {number} userId - The ID of the user creating the crossword.
  */
 export interface CreateCrosswordBody {
-    title: string;
-    topic: string;
-    words: string[];
-    language: LanguageName;
-    userId: number;
+  title: string;
+  topic: string;
+  words: string[];
+  language: LanguageName;
+  userId: number;
 }
-
-
 
 /**
  * Data for a user's crossword attempts.
@@ -67,18 +65,18 @@ export interface CreateCrosswordBody {
  * @property {string} crossword.topics.topic_name - The name of the topic.
  */
 export interface GetUserCrosswords {
-    completed: boolean;
-    completion_timer: number;
-    last_attempted: Date;
-    crossword: {
-        crossword_id: number;
-        title: string;
-        difficulty: string;
-        topics: {
-            topic_id: number;
-            topic_name: string;
-        }[];
-    };
+  completed: boolean;
+  completion_timer: number;
+  last_attempted: Date;
+  crossword: {
+    crossword_id: number;
+    title: string;
+    difficulty: string;
+    topics: {
+      topic_id: number;
+      topic_name: string;
+    }[];
+  };
 }
 
 /**
@@ -91,11 +89,11 @@ export interface GetUserCrosswords {
  * @property {number} totalPages - The total number of pages.
  */
 export interface CrosswordDetailsResponse {
-    crosswords: CrosswordDetails[];
-    totalCount: number;
-    currentPage: number;
-    pageSize: number;
-    totalPages: number;
+  crosswords: CrosswordDetails[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 /**
@@ -116,22 +114,22 @@ export interface CrosswordDetailsResponse {
  * @property {number} userCrosswords.user_crossword_id - The ID of the user's crossword attempt.
  */
 export interface CrosswordDetails {
-    title: string;
-    crossword_id: number;
-    is_Public: boolean;
-    difficulty: Difficulty;
-    topics: {
-        topic_name: string;
-        topic_id: number;
-        language: {
-            language_code: string;
-        };
-    }[];
-    userCrosswords: {
-        completed: boolean;
-        completion_timer: number;
-        user_crossword_id: number;
-    }[];
+  title: string;
+  crossword_id: number;
+  is_Public: boolean;
+  difficulty: Difficulty;
+  topics: {
+    topic_name: string;
+    topic_id: number;
+    language: {
+      language_code: string;
+    };
+  }[];
+  userCrosswords: {
+    completed: boolean;
+    completion_timer: number;
+    user_crossword_id: number;
+  }[];
 }
 
 /**
@@ -144,9 +142,9 @@ export interface CrosswordDetails {
  * @property {number} id - The ID of the crossword.
  */
 export interface CrosswordResponse {
-    crossword: string[][];
-    title: string;
-    isComplete: boolean;
-    metadata: WordData[];
-    id: number;
+  crossword: string[][];
+  title: string;
+  isComplete: boolean;
+  metadata: WordData[];
+  id: number;
 }

@@ -1,15 +1,12 @@
 {
-	"files": [],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@verbaquest/types": ["./packages/types/dist"]
-		},
-		"declaration": true
-	},
-	"exclude": ["node_modules"],
-	"references": [
-		{ "path": "./tsconfig.app.json" },
-		{ "path": "./tsconfig.node.json" }
-	]
+  "files": [],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@verbaquest/types": ["./packages/types/dist"]
+    },
+    "declaration": true
+  },
+  "exclude": ["node_modules"],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

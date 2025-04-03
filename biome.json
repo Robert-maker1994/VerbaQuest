@@ -1,39 +1,47 @@
 {
-	"$schema": "https://biomejs.dev/schemas/json/schema.json",
-	"organizeImports": {
-	  "enabled": true
-	},
-	"linter": {
-	  "enabled": true,
-	  "rules": {
-		"recommended": true,
-		
-		"suspicious": {
-		  "noExplicitAny": "warn",
-		  "noConsoleLog": "warn"
-		},
-		"correctness": {
-		  "noUnusedVariables": "warn",
-		  "noUnreachable": "warn"
-		}
-	  }
-	},
-	"formatter": {
-	  "enabled": true,
-	  "lineWidth": 120,
-	  "indentStyle": "space",
-	  "indentWidth": 2
-	},
-	"javascript": {
-	  "formatter": {
-		"quoteStyle": "double",
-		"semicolons": "always",
-		"bracketSameLine": false,
-		"bracketSpacing": true,
-		"jsxQuoteStyle": "double",
-		"quoteProperties": "asNeeded",
-		"trailingCommas": "all"
-		 
-	  }
-	}
+  "$schema": "https://biomejs.dev/schemas/json/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["node_modules", "tsconfig.node.json", "dist"]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noConsoleLog": "warn"
+      },
+      "correctness": {
+        "noUnusedVariables": "warn",
+        "noUnreachable": "warn"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "lineWidth": 120,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all"
+    }
   }
+}

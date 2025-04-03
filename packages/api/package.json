@@ -1,49 +1,46 @@
 {
-	"name": "@verbaquest/api",
-	"version": "1.0.0",
-	"description": "The backend to power the frontend ",
-	"main": "dist/server.js",
-	"type": "commonjs",
-	"scripts": {
-		"start": "tsc --build && node dist/server.js",
-		"build": "tsc --build --clean",
-		"seeder": "ts-node ./seeder/seeder.ts",
-		"lint": " biome  check",
-		"lint:fix": " biome  check --write",
-		"test": "vitest",
-		"migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/update-database -d ./datasource.ts",
-		"migration:create": "typeorm migration:create",
-		"migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
-	},
-	"keywords": [
-		"language",
-		"learning"
-	],
-	"author": "Robert Lawson",
-	"license": "MIT",
-	"dependencies": {
-		"@verbaquest/types": "*",
-		"axios": "^1.8.4",
-		"cors": "^2.8.5",
-		"csv-parser": "^3.2.0",
-		"dotenv": "^16.4.7",
-		"express": "^4.21.2",
-		"firebase": "^11.3.1",
-		"firebase-admin": "^13.1.0",
-		"method-override": "^3.0.0",
-		"pg": "^8.13.3",
-		"reflect-metadata": "^0.2.2",
-		"typeorm": "^0.3.20",
-		"typescript": "^5.7.3"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@types/cors": "^2.8.17",
-		"@types/express": "^5.0.0",
-		"@types/method-override": "^3.0.0",
-		"@types/node": "^22.13.4",
-		"@types/pg": "^8.11.11",
-		"ts-node": "^10.9.2",
-		"vitest": "^3.0.6"
-	}
+  "name": "@verbaquest/api",
+  "version": "1.0.0",
+  "description": "The backend to power the frontend ",
+  "main": "dist/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "tsc --build && node dist/server.js",
+    "build": "tsc --build --clean",
+    "seeder": "ts-node ./seeder/seeder.ts",
+    "lint": " biome  check",
+    "lint:fix": " biome  check --write",
+    "test": "vitest",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/update-database -d ./datasource.ts",
+    "migration:create": "typeorm migration:create",
+    "migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
+  },
+  "keywords": ["language", "learning"],
+  "author": "Robert Lawson",
+  "license": "MIT",
+  "dependencies": {
+    "@verbaquest/types": "*",
+    "axios": "^1.8.4",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase": "^11.3.1",
+    "firebase-admin": "^13.1.0",
+    "method-override": "^3.0.0",
+    "pg": "^8.13.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/method-override": "^3.0.0",
+    "@types/node": "^22.13.4",
+    "@types/pg": "^8.11.11",
+    "ts-node": "^10.9.2",
+    "vitest": "^3.0.6"
+  }
 }

@@ -15,12 +15,12 @@ const crosswordRouter = express.Router();
  * @swagger
  * /crossword/details:
  *   get:
- *     summary: Get details 
+ *     summary: Get details
  *     description: Retrieve details of multiple crosswords, with optional search and pagination.
  *     tags: [Crossword]
  *     security:
  *       - bearerAuth: []
- *     interface: 
+ *     interface:
  *       - CrosswordResponse
  *     parameters:
  *       - in: query

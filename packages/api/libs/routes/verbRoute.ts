@@ -16,17 +16,17 @@ const verbRouter = Router();
  * @returns {Response<Verb[]>}
  */
 verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) => {
-    try {
-        const verb = await verbService.getAll(req.user.preferred_language);
+  try {
+    const verb = await verbService.getAll(req.user.preferred_language);
 
-        if (!verb) {
-            throw new VerbError("No verbs found", 204);
-        }
-        
-        res.json(verb)
-    } catch (err) {
-        next(err);
+    if (!verb) {
+      throw new VerbError("No verbs found", 204);
     }
+
+    res.json(verb);
+  } catch (err) {
+    next(err);
+  }
 });
 
 /**
@@ -38,107 +38,103 @@ verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) 
  * @returns {Response<Conjugation[]>}
  */
 verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, next: NextFunction) => {
-    try {
-        const { verbId } = req.params;
-        const conjugation = await verbService.getConjugationById(Number(verbId), req.user.app_language);
+  try {
+    const { verbId } = req.params;
+    const conjugation = await verbService.getConjugationById(Number(verbId), req.user.app_language);
 
-        if (!conjugation) {
-            throw new VerbError("Conjugation not found", 404);
-        }
-
-        res.json(conjugation);
-    } catch (err) {
-        next(err);
+    if (!conjugation) {
+      throw new VerbError("Conjugation not found", 404);
     }
+
+    res.json(conjugation);
+  } catch (err) {
+    next(err);
+  }
 });
 
 const verbService = {
-    /**
-     * @description Get all verbs for a specific language.
-     * @param {LanguageCode} language_code - The language code.
-     * @returns {Promise<Verb[]>}
-     */
-    async getAll(language_code: LanguageCode): Promise<Verb[]> {
-        const verbs = AppDataSource.getRepository(Verb);
+  /**
+   * @description Get all verbs for a specific language.
+   * @param {LanguageCode} language_code - The language code.
+   * @returns {Promise<Verb[]>}
+   */
+  async getAll(language_code: LanguageCode): Promise<Verb[]> {
+    const verbs = AppDataSource.getRepository(Verb);
 
-        return verbs.find({
-            relations: {
-                word: true,
-                language: true,
-            },
-            where: {
-                language: {
-                    language_code
-                }
-            },
-            select: {
-                verb_id: true,
-                word: {
-                    word_id: true,
-                    word_text: true
-                },
-                irregular: true,
-                language: {
-                    language_code: true
-                }
-            }
-        });
+    return verbs.find({
+      relations: {
+        word: true,
+        language: true,
+      },
+      where: {
+        language: {
+          language_code,
+        },
+      },
+      select: {
+        verb_id: true,
+        word: {
+          word_id: true,
+          word_text: true,
+        },
+        irregular: true,
+        language: {
+          language_code: true,
+        },
+      },
+    });
+  },
+  /**
+   * @description Get a specific conjugation by verbId and conjugationId.
+   * @param {number} verbId - The ID of the verb.
+   * @returns {Promise<Conjugation | null>}
+   */
+  async getConjugationById(verbId: number, language_code: LanguageCode): Promise<Conjugation[] | null> {
+    const conjugationRepository = AppDataSource.getRepository(Conjugation);
 
-    },
-    /**
-     * @description Get a specific conjugation by verbId and conjugationId.
-     * @param {number} verbId - The ID of the verb.
-     * @returns {Promise<Conjugation | null>}
-     */
-    async getConjugationById(verbId: number, language_code: LanguageCode): Promise<Conjugation[] | null> {
-        const conjugationRepository = AppDataSource.getRepository(Conjugation);
+    const conjugation = await conjugationRepository.find({
+      where: {
+        verb: {
+          verb_id: verbId,
+        },
+        translations: {
+          language: {
+            language_code,
+          },
+        },
+      },
+      relations: {
+        verb: true,
+        tense: true,
+        form: true,
+        translations: true,
+      },
+      select: {
+        id: true,
+        conjugation: true,
+        is_irregular: true,
+        verb: {
+          verb_id: true,
+        },
+        tense: {
+          tense_id: true,
+          tense: true,
+          mood: true,
+        },
+        translations: {
+          conjugationTranslationId: true,
 
-        const conjugation = await conjugationRepository.find({
-            where: {
-                verb: {
-                    verb_id: verbId
-                },
-                translations: {
-                    language: {
-                        language_code
-                    }
-                }
+          translation: true,
+        },
+        form: {
+          form: true,
+          form_id: true,
+        },
+      },
+    });
 
-            },
-            relations: {
-                verb: true,
-                tense: true,
-                form: true,
-                translations: true
-
-            },
-            select: {
-                id: true,
-                conjugation: true,
-                is_irregular: true,
-                verb: {
-                    verb_id: true
-                },
-                tense: {
-                    tense_id: true,
-                    tense: true,
-                    mood: true
-                },
-                translations: {
-                    conjugationTranslationId: true,
-                
-                    translation: true
-                },
-                form: {
-                    form: true,
-                    form_id: true
-                }
-            }
-        });
-
-        return conjugation;
-    }
-
-}
+    return conjugation;
+  },
+};
 
 export default verbRouter;

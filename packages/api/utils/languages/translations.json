@@ -1,168 +1,167 @@
 {
-	"dashboard": {
-		"en": "Dashboard",
-		"es": "Tablero",
-		"fr": "Tableau de bord"
-	},
-	"crossword": {
-		"en": "Crossword",
-		"es": "Crucigrama",
-		"fr": "Mots croisés"
-	},
-	"verb_conjugation": {
-		"en": "Verb Conjugation",
-		"es": "Conjugación de verbos",
-		"fr": "Conjugaison des verbes"
-	},
-	"contact": {
-		"en": "Contact",
-		"es": "Contacto",
-		"fr": "Contact"
-	},
-	"verbaquest": {
-		"en": "Verbaquest",
-		"es": "Verbaquest",
-		"fr": "Verbaquest"
-	},
-	"user settings": {
-		"en": "User Settings",
-		"es": "Configuración de usuario",
-		"fr": "Paramètres utilisateur"
-	},
-	"logout": {
-		"en": "Logout",
-		"es": "Cerrar sesión",
-		"fr": "Déconnexion"
-	},
-	"here_are_the crosswords_you_have_previously_attempted:": {
-		"en": "Here are the crosswords you have previously attempted:",
-		"es": "Aquí están los crucigramas que has intentado anteriormente:",
-		"fr": "Voici les mots croisés que vous avez déjà essayés :"
-	},
-	"not_attempted_crosswords": {
-		"en": "You haven't attempted any crosswords yet.",
-		"es": "Aún no has intentado ningún crucigrama.",
-		"fr": "Vous n'avez pas encore essayé de mots croisés."
-	},
-	"try_it_again": {
-		"en": "Try again!",
-		"es": "¡Inténtalo de nuevo!",
-		"fr": "Réessayez !"
-	},
-	"navigate_to_crossword": {
-		"en": "Navigate to Crossword",
-		"es": "Navegar a Crucigrama",
-		"fr": "Naviguer vers les mots croisés"
-	},
-	"time:": {
-		"en": "Time:",
-		"es": "Tiempo:",
-		"fr": "Temps:"
-	},
-	"play": {
-		"en": "Play",
-		"es": "Jugar",
-		"fr": "Jouer"
-	},
-	"status:": {
-		"en": "Status:",
-		"es": "Estado:",
-		"fr": "Statut:"
-	},
-	"topics:": {
-		"en": "Topics:",
-		"es": "Temas:",
-		"fr": "Sujets:"
-	},
-	"difficulty:": {
-		"en": "Difficulty:",
-		"es": "Dificultad:",
-		"fr": "Difficulté:"
-	},
-	"completed": {
-		"en": "Completed",
-		"es": "Completado",
-		"fr": "Terminé"
-	},
-	"not_attempted": {
-		"en": "Not Attempted",
-		"es": "No intentado",
-		"fr": "Non tenté"
-	},
-	"search_crosswords": {
-		"en": "Search crosswords",
-		"es": "Buscar crucigramas",
-		"fr": "Rechercher des mots croisés"
-	},
-	"crosswords": {
-		"en": "Crosswords",
-		"es": "Crucigramas",
-		"fr": "Mots croisés"
-	},
-	"congratulations": {
-		"en": "Congratulations!",
-		"es": "¡Felicitaciones!",
-		"fr": "Félicitations!"
-	},
-	"puzzle_completed!": {
-		"en": "Puzzle Completed!",
-		"es": "¡Rompecabezas completado!",
-		"fr": "Puzzle terminé!"
-	},
-	"completed_crossword": {
-		"en": "You solved the crossword! Great job!",
-		"es": "¡Resolviste el crucigrama! ¡Buen trabajo!",
-		"fr": "Vous avez résolu les mots croisés ! Excellent travail !"
-	},
-	"do_more_crosswords": {
-		"en": "Do more Crosswords",
-		"es": "Hacer más crucigramas",
-		"fr": "Faire plus de mots croisés"
-	},
-	"close": {
-		"en": "Close",
-		"es": "Cerrar",
-		"fr": "Fermer"
-	},
-	"language": {
-		"en": "Preferred Learning Language",
-		"es": "Idioma de aprendizaje preferido",
-		"fr": "Langue d'apprentissage préférée"
-	},
-	"app_language": {
-		"en": "App Language",
-		"es": "Idioma de la aplicación",
-		"fr": "Langue de l'application"
-	},
-	"difficulty": {
-		"en": "Preferred Difficulty",
-		"es": "Dificultad preferida",
-		"fr": "Difficulté préférée"
-	},
-	"saved_notification": {
-		"en": "These changes have been saved.",
-		"es": "Estos cambios han sido guardados.",
-		"fr": "Ces modifications ont été enregistrées."
-	},
-	"done": {
-		"en": "Done",
-		"es": "Hecho",
-		"fr": "Terminé"
-	},
-	"latest_crosswords": {
-		"en": "Latest Crossword",
-		"es": "Último crucigrama",
-		"fr": "Dernier crossword"
-	},
-	"favorite_crosswords": {
-		"en": "Favorite Crossword",
-		"es": "Crucigrama favorito",
-		"fr": "Crossword favori"
-	},
-	"conjugations" :{
-		"en": "Conjugations",
-		"es": "Conjugaciones",
-		"fr": "Conjugaisons"
-	
-	}
+  "dashboard": {
+    "en": "Dashboard",
+    "es": "Tablero",
+    "fr": "Tableau de bord"
+  },
+  "crossword": {
+    "en": "Crossword",
+    "es": "Crucigrama",
+    "fr": "Mots croisés"
+  },
+  "verb_conjugation": {
+    "en": "Verb Conjugation",
+    "es": "Conjugación de verbos",
+    "fr": "Conjugaison des verbes"
+  },
+  "contact": {
+    "en": "Contact",
+    "es": "Contacto",
+    "fr": "Contact"
+  },
+  "verbaquest": {
+    "en": "Verbaquest",
+    "es": "Verbaquest",
+    "fr": "Verbaquest"
+  },
+  "user settings": {
+    "en": "User Settings",
+    "es": "Configuración de usuario",
+    "fr": "Paramètres utilisateur"
+  },
+  "logout": {
+    "en": "Logout",
+    "es": "Cerrar sesión",
+    "fr": "Déconnexion"
+  },
+  "here_are_the crosswords_you_have_previously_attempted:": {
+    "en": "Here are the crosswords you have previously attempted:",
+    "es": "Aquí están los crucigramas que has intentado anteriormente:",
+    "fr": "Voici les mots croisés que vous avez déjà essayés :"
+  },
+  "not_attempted_crosswords": {
+    "en": "You haven't attempted any crosswords yet.",
+    "es": "Aún no has intentado ningún crucigrama.",
+    "fr": "Vous n'avez pas encore essayé de mots croisés."
+  },
+  "try_it_again": {
+    "en": "Try again!",
+    "es": "¡Inténtalo de nuevo!",
+    "fr": "Réessayez !"
+  },
+  "navigate_to_crossword": {
+    "en": "Navigate to Crossword",
+    "es": "Navegar a Crucigrama",
+    "fr": "Naviguer vers les mots croisés"
+  },
+  "time:": {
+    "en": "Time:",
+    "es": "Tiempo:",
+    "fr": "Temps:"
+  },
+  "play": {
+    "en": "Play",
+    "es": "Jugar",
+    "fr": "Jouer"
+  },
+  "status:": {
+    "en": "Status:",
+    "es": "Estado:",
+    "fr": "Statut:"
+  },
+  "topics:": {
+    "en": "Topics:",
+    "es": "Temas:",
+    "fr": "Sujets:"
+  },
+  "difficulty:": {
+    "en": "Difficulty:",
+    "es": "Dificultad:",
+    "fr": "Difficulté:"
+  },
+  "completed": {
+    "en": "Completed",
+    "es": "Completado",
+    "fr": "Terminé"
+  },
+  "not_attempted": {
+    "en": "Not Attempted",
+    "es": "No intentado",
+    "fr": "Non tenté"
+  },
+  "search_crosswords": {
+    "en": "Search crosswords",
+    "es": "Buscar crucigramas",
+    "fr": "Rechercher des mots croisés"
+  },
+  "crosswords": {
+    "en": "Crosswords",
+    "es": "Crucigramas",
+    "fr": "Mots croisés"
+  },
+  "congratulations": {
+    "en": "Congratulations!",
+    "es": "¡Felicitaciones!",
+    "fr": "Félicitations!"
+  },
+  "puzzle_completed!": {
+    "en": "Puzzle Completed!",
+    "es": "¡Rompecabezas completado!",
+    "fr": "Puzzle terminé!"
+  },
+  "completed_crossword": {
+    "en": "You solved the crossword! Great job!",
+    "es": "¡Resolviste el crucigrama! ¡Buen trabajo!",
+    "fr": "Vous avez résolu les mots croisés ! Excellent travail !"
+  },
+  "do_more_crosswords": {
+    "en": "Do more Crosswords",
+    "es": "Hacer más crucigramas",
+    "fr": "Faire plus de mots croisés"
+  },
+  "close": {
+    "en": "Close",
+    "es": "Cerrar",
+    "fr": "Fermer"
+  },
+  "language": {
+    "en": "Preferred Learning Language",
+    "es": "Idioma de aprendizaje preferido",
+    "fr": "Langue d'apprentissage préférée"
+  },
+  "app_language": {
+    "en": "App Language",
+    "es": "Idioma de la aplicación",
+    "fr": "Langue de l'application"
+  },
+  "difficulty": {
+    "en": "Preferred Difficulty",
+    "es": "Dificultad preferida",
+    "fr": "Difficulté préférée"
+  },
+  "saved_notification": {
+    "en": "These changes have been saved.",
+    "es": "Estos cambios han sido guardados.",
+    "fr": "Ces modifications ont été enregistrées."
+  },
+  "done": {
+    "en": "Done",
+    "es": "Hecho",
+    "fr": "Terminé"
+  },
+  "latest_crosswords": {
+    "en": "Latest Crossword",
+    "es": "Último crucigrama",
+    "fr": "Dernier crossword"
+  },
+  "favorite_crosswords": {
+    "en": "Favorite Crossword",
+    "es": "Crucigrama favorito",
+    "fr": "Crossword favori"
+  },
+  "conjugations": {
+    "en": "Conjugations",
+    "es": "Conjugaciones",
+    "fr": "Conjugaisons"
+  }
 }
