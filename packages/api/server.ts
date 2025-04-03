@@ -3,10 +3,9 @@ import cors from "cors";
 import express from "express";
 import methodOverride from "method-override";
 import { AppDataSource } from "./datasource";
-import { errorHandler } from "./errorHandle";
+import { errorHandler } from "./errorHandler";
 import config from "./libs/config";
-import initializeRoutes from "./libs/routes/router";
-import csv from "csv-parser";
+import initializeRoutes from "./libs/routes/apiRouter";
 
 AppDataSource.initialize()
 	.then(() => {
@@ -28,6 +27,6 @@ AppDataSource.initialize()
 	})
 	.catch((err) => {
 		throw Error(`Error at the core! ${err}`);
-	});
+});
 
 

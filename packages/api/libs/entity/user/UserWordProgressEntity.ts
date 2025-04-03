@@ -5,8 +5,8 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { Word } from "../word"; // Path to your Words entity
-import { User } from "./users"; // Path to your User entity
+import { Word } from "../wordEntity"; // Path to your Words entity
+import { User } from "./usersEntity"; // Path to your User entity
 
 @Entity()
 export class UserWordProgress {

@@ -1,6 +1,6 @@
 import express, { type NextFunction, type Response } from "express";
 import translationService from "../services/translationService";
-import type { AuthRequest } from "../types/questRequest";
+import type { AuthRequest } from "../types/authRequest";
 
 const translationRouter = express.Router();
 

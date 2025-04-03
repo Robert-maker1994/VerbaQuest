@@ -9,10 +9,10 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { CrosswordWord } from "./crosswordWord";
-import { Languages } from "./language";
-import { Topic } from "./topic";
-import { UserCrossword } from "./user/userCrosswords";
+import { CrosswordWord } from "./crosswordWordEntity";
+import { Languages } from "./languageEntity";
+import { Topic } from "./topicEntity";
+import { UserCrossword } from "./user/userCrosswordsEntity";
 
 @Entity()
 export class Crossword {

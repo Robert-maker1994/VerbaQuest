@@ -1,6 +1,6 @@
 import express, { type NextFunction, type Response } from "express";
 import wordService from "../services/wordService";
-import type { AuthRequest } from "../types/questRequest";
+import type { AuthRequest } from "../types/authRequest";
 
 const wordleRouter = express.Router();
 

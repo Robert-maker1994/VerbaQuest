@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, Index,  OneToOne } from "typeorm";
+import { Column, Entity, Index,  JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-import { Conjugation } from "./conjugation";
-import { Languages } from "./language";
+import { Conjugation } from "./conjugationEntity";
+import { Languages } from "./languageEntity";
 
 @Entity()
 export class ConjugationTranslation {

@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
-import { Languages } from "./language";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Languages } from "./languageEntity";
 
 @Entity()
 export class Form {

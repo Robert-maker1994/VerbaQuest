@@ -1,4 +1,4 @@
 export * from "./crosswordService";
-export * from "./user";
-export * from "./userCrossword";
+export * from "./userService";
+export * from "./userCrosswordService";
 export * from "./wordService";

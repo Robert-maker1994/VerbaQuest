@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, OneToMany } from "typeorm";
-import { Languages } from "./language";
-import { Conjugation } from "./conjugation";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Conjugation } from "./conjugationEntity";
+import { Languages } from "./languageEntity";
 
 @Entity()
 export class Tense {

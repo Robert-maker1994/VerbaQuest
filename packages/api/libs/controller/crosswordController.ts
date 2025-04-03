@@ -6,7 +6,7 @@ import { generateCrossword } from "../../utils/generateCrossword";
 import matchCrosswordsForMetadata from "../../utils/matchCrosswordForMetadata";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
-import type { AuthRequest } from "../types/questRequest";
+import type { AuthRequest } from "../types/authRequest";
 
 const crosswordController = {
 	/**
@@ -74,7 +74,7 @@ const crosswordController = {
 		req: AuthRequest,
 		res: Response,
 		next: NextFunction,
-	) {
+	): Promise<void> {
 		try {
 			const { userId, preferred_language } = req.user;
 
@@ -119,7 +119,7 @@ const crosswordController = {
 		req: AuthRequest,
 		res: Response,
 		next: NextFunction,
-	) {
+	): Promise<void> {
 		try {
 			const name = req.query?.name && { name: String(req.query?.name) };
 			const id = req.query?.id && { id: String(req.query?.id) };

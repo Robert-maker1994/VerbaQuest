@@ -1,7 +1,7 @@
-import { type Request, type Response, Router } from "express";
+import { type Response, Router } from "express";
 import { UserError } from "../errors";
-import userService from "../services/user";
-import type { AuthRequest } from "../types/questRequest";
+import userService from "../services/userService";
+import type { AuthRequest } from "../types/authRequest";
 
 const userRouter = Router();
 

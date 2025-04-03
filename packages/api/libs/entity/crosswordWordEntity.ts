@@ -7,8 +7,8 @@ import {
 	PrimaryGeneratedColumn,
 	Unique,
 } from "typeorm";
-import { Crossword } from "./crossword";
-import { Word } from "./word";
+import { Crossword } from "./crosswordEntity";
+import { Word } from "./wordEntity";
 
 @Entity()
 @Unique(["crossword", "words"])

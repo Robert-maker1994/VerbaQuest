@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../auth/authMiddleware";
-import crosswordController from "../controller/crossword";
+import crosswordController from "../controller/crosswordController";
 
 const crosswordRouter = express.Router();
 

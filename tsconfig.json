@@ -1,3 +1,11 @@
 {
-	"exclude": ["node_modules/**"]
+	"exclude": ["node_modules/**"],
+	"compilerOptions": {
+		"strict": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true
+	}
 }

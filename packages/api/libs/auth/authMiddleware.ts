@@ -2,9 +2,9 @@ import type { NextFunction, Response } from "express";
 import config from "../config";
 import type { User } from "../entity";
 import { UnauthorizedError, UserError } from "../errors";
-import userService from "../services/user";
-import type { AuthRequest } from "../types/questRequest";
-import admin from "./admin";
+import userService from "../services/userService";
+import type { AuthRequest } from "../types/authRequest";
+import admin from "./firebaseAdmin";
 
 export enum AuthMode {
 	FIREBASE = "FIREBASE",

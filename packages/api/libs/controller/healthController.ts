@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { AppDataSource } from "../../datasource";
-import admin from "../auth/admin";
+import admin from "../auth/firebaseAdmin";
 
 export const healthCheck = (_req: Request, res: Response) => {
 	res.status(200).json({ status: "ok" });

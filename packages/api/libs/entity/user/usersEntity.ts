@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { Difficulty, LanguageCode } from "@verbaquest/types";
-import { UserWordProgress } from "./UserWordProgress";
-import { UserCrossword } from "./userCrosswords";
+import { UserWordProgress } from "./UserWordProgressEntity";
+import { UserCrossword } from "./userCrosswordsEntity";
 
 @Entity()
 export class User {

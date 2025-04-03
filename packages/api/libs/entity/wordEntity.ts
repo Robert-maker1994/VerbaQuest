@@ -7,9 +7,9 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { CrosswordWord } from "./crosswordWord";
-import { Languages } from "./language";
-import { UserWordProgress } from "./user/UserWordProgress";
+import { CrosswordWord } from "./crosswordWordEntity";
+import { Languages } from "./languageEntity";
+import { UserWordProgress } from "./user/UserWordProgressEntity";
 
 @Entity()
 export class Word {

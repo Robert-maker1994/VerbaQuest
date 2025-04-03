@@ -1,12 +1,12 @@
 import type core from "express";
 import { authMiddleware } from "../auth/authMiddleware";
-import crosswordRouter from "./crossword";
-import healthRouter from "./health";
-import translationRouter from "./translation";
-import userRouter from "./user";
-import userCrosswordRouter from "./userCrossword";
+import crosswordRouter from "./crosswordRoute";
+import healthRouter from "./healthRoute";
+import translationRouter from "./translationRoute";
+import userRouter from "./userRoute";
+import userCrosswordRouter from "./userCrosswordRoute";
 import wordleRouter from "./wordleRoute";
-import verbRouter from "./verb";
+import verbRouter from "./verbRoute";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 

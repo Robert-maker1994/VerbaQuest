@@ -7,8 +7,8 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { Crossword } from "./crossword";
-import { Languages } from "./language";
+import { Crossword } from "./crosswordEntity";
+import { Languages } from "./languageEntity";
 
 @Entity()
 export class Topic {

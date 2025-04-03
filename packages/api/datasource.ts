@@ -15,17 +15,17 @@ import {
 	Verb,
 	Word,
 } from "./libs/entity";
-import { Initial1742069418116 } from "./migrations/1742069418116-inital";
+import { ConjugationTranslation } from "./libs/entity/conjugationTranslationEntity";
 import { UpdateDatabase1742069418100 } from "./migrations/1742069418100-update-database";
-import { Verb1743266154621 } from "./migrations/1743266154621-verb";
+import { Initial1742069418116 } from "./migrations/1742069418116-inital";
 import { Words1743247438960 } from "./migrations/1743247438960-words";
 import { Tense1743248711332 } from "./migrations/1743248711332-tense";
 import { Forms1743250510758 } from "./migrations/1743250510758-forms";
+import { Verb1743266154621 } from "./migrations/1743266154621-verb";
 import { Conjugations1743278126814 } from "./migrations/1743278126814-conjugations";
 import { Spanish1743278126817 } from "./migrations/1743278126817-spanish";
 import { Sentences1743320907018 } from "./migrations/1743320907018-sentences";
 import { ConjugationsTranslations1743488914989 } from "./migrations/1743488914989-conjugations-translations";
-import { ConjugationTranslation } from "./libs/entity/conjugationTranslation";
 
 
 const { host, user, password, database, pg_port } = config;

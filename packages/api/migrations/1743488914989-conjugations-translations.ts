@@ -1,7 +1,7 @@
-import type { MigrationInterface, QueryRunner } from "typeorm";
-import { Languages, Verb, Conjugation } from "../libs/entity";
 import { LanguageCode, LanguageName } from "@verbaquest/types";
-import { ConjugationTranslation } from "../libs/entity/conjugationTranslation";
+import type { MigrationInterface, QueryRunner } from "typeorm";
+import { Conjugation, Languages, Verb } from "../libs/entity";
+import { ConjugationTranslation } from "../libs/entity/conjugationTranslationEntity";
 
 class MigrationError extends Error {
     constructor(message: string, public readonly details?: DebugDetails) {

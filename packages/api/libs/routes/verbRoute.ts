@@ -1,9 +1,9 @@
-import { Router, type Response, type NextFunction } from "express";
-import type { AuthRequest } from "../types/questRequest";
-import { AppDataSource } from "../../datasource";
-import { Verb, Conjugation } from "../entity";
 import type { LanguageCode } from "@verbaquest/types";
+import { type NextFunction, type Response, Router } from "express";
+import { AppDataSource } from "../../datasource";
+import { Conjugation, Verb } from "../entity";
 import { VerbError } from "../errors/verbError";
+import type { AuthRequest } from "../types/authRequest";
 
 const verbRouter = Router();
 
@@ -13,14 +13,16 @@ const verbRouter = Router();
  * @param {AuthRequest} req - The authenticated request object.
  * @param {Response} res - The response object.
  * @param {NextFunction} next - The next middleware function.
- * @returns {Promise<void>}
+ * @returns {Response<Verb[]>}
  */
 verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const verb = await verbService.getAll(req.user.preferred_language);
+
         if (!verb) {
-            throw new VerbError("User not found", 404);
+            throw new VerbError("No verbs found", 204);
         }
+        
         res.json(verb)
     } catch (err) {
         next(err);
@@ -33,7 +35,7 @@ verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) 
  * @param {AuthRequest} req - The authenticated request object.
  * @param {Response} res - The response object.
  * @param {NextFunction} next - The next middleware function.
- * @returns {Promise<void>}
+ * @returns {Response<Conjugation[]>}
  */
 verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
@@ -56,7 +58,7 @@ const verbService = {
      * @param {LanguageCode} language_code - The language code.
      * @returns {Promise<Verb[]>}
      */
-    async getAll(language_code: LanguageCode) {
+    async getAll(language_code: LanguageCode): Promise<Verb[]> {
         const verbs = AppDataSource.getRepository(Verb);
 
         return verbs.find({

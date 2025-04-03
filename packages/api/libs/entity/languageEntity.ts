@@ -1,8 +1,8 @@
 import { LanguageCode, LanguageName } from "@verbaquest/types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Crossword } from "./crossword";
-import { Topic } from "./topic";
-import { Word } from "./word";
+import { Crossword } from "./crosswordEntity";
+import { Topic } from "./topicEntity";
+import { Word } from "./wordEntity";
 
 @Entity()
 export class Languages {

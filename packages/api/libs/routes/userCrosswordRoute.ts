@@ -2,7 +2,7 @@ import express from "express";
 import type { NextFunction, Response } from "express";
 import { CustomError } from "../errors/customError";
 import { userCrosswordService } from "../services";
-import type { AuthRequest } from "../types/questRequest";
+import type { AuthRequest } from "../types/authRequest";
 
 const userCrosswordRouter = express.Router();
 

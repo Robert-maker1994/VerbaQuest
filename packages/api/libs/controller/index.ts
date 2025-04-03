@@ -1,2 +1,2 @@
-export * from "./crossword";
-export * from "./health";
+export * from "./crosswordController";
+export * from "./healthController";
