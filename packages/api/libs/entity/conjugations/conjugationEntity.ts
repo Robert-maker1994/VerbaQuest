@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Form } from "../formEntity";
+import { Sentence } from "../sentenceEntity";
+import { Tense } from "../tenseEntity";
+import { Verb } from "../verbs/verbEntity";
 import { ConjugationTranslation } from "./conjugationTranslationEntity";
-import { Form } from "./formEntity";
-import { Sentence } from "./sentenceEntity";
-import { Tense } from "./tenseEntity";
-import { Verb } from "./verbEntity";
 
 @Entity()
 export class Conjugation {

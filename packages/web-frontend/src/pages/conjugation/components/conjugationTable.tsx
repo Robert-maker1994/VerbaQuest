@@ -105,14 +105,16 @@ const ConjugationTable: React.FC<ConjugationTableProps> = ({ conjugations, selec
                   <TableCell>{form}</TableCell>
                   <TableCell>{getConjugation(tense.tense.toLowerCase(), tense.mood.toLowerCase(), form)}</TableCell>
                   <TableCell>
-                    {conjugations
-                      .find(
-                        (c) =>
-                          c.tense.tense === tense.tense.toLowerCase() &&
-                          c.tense.mood === tense.mood &&
-                          c.form.form === form,
-                      )
-                      ?.translations.map((translation) => translation.translation)}
+                    {
+                      conjugations
+                        .find(
+                          (c) =>
+                            c.tense.tense === tense.tense.toLowerCase() &&
+                            c.tense.mood === tense.mood &&
+                            c.form.form === form,
+                        )
+                        ?.translations.map((translation) => translation.translation)
+                    }
                   </TableCell>
                 </TableRow>
               ))}

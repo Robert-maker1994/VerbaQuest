@@ -15,7 +15,8 @@ import {
   Verb,
   Word,
 } from "./libs/entity";
-import { ConjugationTranslation } from "./libs/entity/conjugationTranslationEntity";
+import { ConjugationTranslation } from "./libs/entity/conjugations/conjugationTranslationEntity";
+import { UserVerbGroup, VerbGroup } from "./libs/entity/verbs/userVerb";
 import { UpdateDatabase1742069418100 } from "./migrations/1742069418100-update-database";
 import { Initial1742069418116 } from "./migrations/1742069418116-inital";
 import { Words1743247438960 } from "./migrations/1743247438960-words";
@@ -26,6 +27,7 @@ import { Conjugations1743278126814 } from "./migrations/1743278126814-conjugatio
 import { Spanish1743278126817 } from "./migrations/1743278126817-spanish";
 import { Sentences1743320907018 } from "./migrations/1743320907018-sentences";
 import { ConjugationsTranslations1743488914989 } from "./migrations/1743488914989-conjugations-translations";
+import { UpdateDatabase1743693755037 } from "./migrations/1743693755037-update-database";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -51,6 +53,8 @@ export const AppDataSource = new DataSource({
     Word,
     Verb,
     Sentence,
+    UserVerbGroup,
+    VerbGroup,
     User,
     UserCrossword,
     UserWordProgress,
@@ -67,6 +71,7 @@ export const AppDataSource = new DataSource({
     Spanish1743278126817,
     Sentences1743320907018,
     ConjugationsTranslations1743488914989,
+    UpdateDatabase1743693755037,
   ],
   migrationsTableName: "verba_migrations",
 });

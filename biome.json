@@ -22,6 +22,7 @@
         "noConsoleLog": "warn"
       },
       "correctness": {
+
         "noUnusedVariables": "warn",
         "noUnreachable": "warn"
       }
@@ -34,7 +35,9 @@
     "indentWidth": 2
   },
   "javascript": {
+
     "formatter": {
+      
       "quoteStyle": "double",
       "semicolons": "always",
       "bracketSameLine": false,

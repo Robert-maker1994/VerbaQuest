@@ -7,6 +7,7 @@ import healthRouter from "./healthRoute";
 import translationRouter from "./translationRoute";
 import userCrosswordRouter from "./userCrosswordRoute";
 import userRouter from "./userRoute";
+import userVerbRouter from "./userVerbRouter";
 import verbRouter from "./verbRoute";
 import wordleRouter from "./wordleRoute";
 
@@ -17,8 +18,10 @@ export default function initializeRoutes(app: core.Express) {
   app.use("/translation", authMiddleware, translationRouter);
   app.use("/user", authMiddleware, userRouter);
   app.use("/usercrossword", authMiddleware, userCrosswordRouter);
+  app.use("/user-verb", authMiddleware, userVerbRouter);
+
   app.use("/verb", authMiddleware, verbRouter);
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
 const swaggerSpec = swaggerJSDoc({
