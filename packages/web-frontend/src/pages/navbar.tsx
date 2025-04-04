@@ -24,7 +24,7 @@ export default function Navbar() {
       case "/crossword":
         setValue(1);
         break;
-      case "/conjugation":
+      case "/verbs":
         setValue(2);
         break;
       case "/settings":
@@ -89,7 +89,7 @@ export default function Navbar() {
         >
           <Tab disableRipple label={translate("dashboard")} onClick={() => handleClick("dashboard")} />
           <Tab disableRipple label={translate("crossword")} onClick={() => handleClick("crossword")} />
-          <Tab disableRipple label={translate("verb_conjugation")} onClick={() => handleClick("verb_conjugation")} />
+          <Tab disableRipple label={translate("verb_conjugation")} onClick={() => handleClick("verbs")} />
         </Tabs>
 
         <IconButton

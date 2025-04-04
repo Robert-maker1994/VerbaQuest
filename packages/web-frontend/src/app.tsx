@@ -7,6 +7,7 @@ import { TranslationProvider } from "./context/translationProvider";
 import { CrosswordProvider } from "./pages/crossword/crosswordContext";
 import Login from "./pages/login/login";
 import Navbar from "./pages/navbar";
+import ConjugationTable from "./pages/conjugation/components/conjugationTable";
 
 const Settings = lazy(() => import("./pages/settings/settings"));
 const Crossword = lazy(() => import("./pages/crossword/crossword"));
@@ -17,6 +18,7 @@ const TermsOfService = lazy(() => import("./pages/termsOfService"));
 const Register = lazy(() => import("./pages/login/register"));
 const Loading = lazy(() => import("./pages/loadingPage"));
 const VerbConjugationsPage = lazy(() => import("./pages/conjugation/conjugationPage"));
+const VerbConjugationsTable = lazy(() => import("./pages/conjugation/components/conjugationTable"));
 
 const routes = [
   {
@@ -52,9 +54,17 @@ const routes = [
     element: <TermsOfService />,
   },
   {
-    path: "/verb_conjugation",
+    path: "/verbs",
     element: <VerbConjugationsPage />,
   },
+  {
+    path: "/verbs/conjugations/:id",
+    element: <VerbConjugationsTable />,
+  },
+  {
+    path: "/verbs/game/:id",
+    element: <Login />,
+  }
 ];
 function App() {
   return (
