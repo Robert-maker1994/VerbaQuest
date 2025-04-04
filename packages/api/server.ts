@@ -21,7 +21,7 @@ AppDataSource.initialize()
     app.use(errorHandler);
 
     app.listen(port, () => {
-      console.info(`Server listening on port https://localhost:${port}`);
+      console.info(`Server listening on port http://localhost:${port}`);
     });
   })
   .catch((err) => {

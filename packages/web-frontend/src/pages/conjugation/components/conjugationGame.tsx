@@ -3,6 +3,7 @@ import { Box, Button, Grid2, Icon, TextField, Typography } from "@mui/material";
 import type { Conjugation } from "@verbaquest/types";
 import type React from "react";
 import HoverBox from "../../../components/hoverBox";
+import { useState } from "react";
 
 interface Tense {
   tense: string;
@@ -32,17 +33,64 @@ interface ConjugationGameProps {
   checkAnswer: () => void;
   handleNextRound: () => void;
 }
+// Component not in use
+//  Handle the conjugation Game with the url params, we need to be able to post a verb is in or a verbgroup. 
+const ConjugationGame: React.FC<ConjugationGameProps> = () => {
+  const [gameMode, setGameMode] = useState<boolean>(false);
+  const [currentRound, setCurrentRound] = useState<{ tense: Tense; form: string } | null>(null);
+  const [userAnswer, setUserAnswer] = useState<string>("");
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [score, setScore] = useState<number>(0);
+  const [conjugations, setConjugations] = useState<Conjugation[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  
 
-const ConjugationGame: React.FC<ConjugationGameProps> = ({
-  selectedVerb,
-  score,
-  currentRound,
-  userAnswer,
-  isCorrect,
-  handleAnswerChange,
-  checkAnswer,
-  handleNextRound,
-}) => {
+  const getConjugation = (tense: string, mood: string, form: string): string | undefined => {
+    const conjugation = conjugations.find(
+      (c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form,
+    );
+    return conjugation?.conjugation;
+  };
+  const handleStartGame = () => {
+    setGameMode(true);
+    setScore(0);
+    setIsCorrect(null);
+    startNewRound();
+  };
+
+  const startNewRound = () => {
+    const randomTense = tenses[Math.floor(Math.random() * tenses.length)];
+    const randomForm = forms[Math.floor(Math.random() * forms.length)];
+    setCurrentRound({ tense: randomTense, form: randomForm });
+    setUserAnswer("");
+    setIsCorrect(null);
+  };
+
+  const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserAnswer(event.target.value);
+  };
+
+  const checkAnswer = () => {
+    if (!currentRound || !selectedVerb) return;
+    const correctAnswer = getConjugation(
+      currentRound.tense.tense.toLowerCase(),
+      currentRound.tense.mood.toLowerCase(),
+      currentRound.form,
+    );
+    if (correctAnswer === undefined) {
+      setIsCorrect(false);
+      return;
+    }
+    const isUserCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+    setIsCorrect(isUserCorrect);
+    if (isUserCorrect) {
+      setScore(score + 1);
+    }
+  };
+
+  const handleNextRound = () => {
+    startNewRound();
+  };
   return (
     <HoverBox sx={{ mt: 2 }}>
       <Typography variant="h5" component="h2" gutterBottom>

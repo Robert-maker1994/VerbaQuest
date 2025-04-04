@@ -8,6 +8,7 @@ import type {
   LanguageCode,
 } from "@verbaquest/types";
 import axios from "axios";
+import { ConjugationResponse } from "../../pages/conjugation/components/conjugationTable";
 export const api = axios.create({
   baseURL: "http://localhost:5001/",
   headers: {
@@ -243,7 +244,7 @@ const backendEndpoints = {
     if (!token) {
       throw new Error("No token found");
     }
-    const response = await api.get<Conjugation[]>(`/verb/conjugation/${verbId}`, {
+    const response = await api.get<ConjugationResponse>(`/verb/conjugation/${verbId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

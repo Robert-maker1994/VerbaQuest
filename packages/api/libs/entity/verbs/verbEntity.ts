@@ -1,5 +1,6 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { Languages, Word } from ".";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Languages, Word } from "..";
+import { UserVerbGroup } from "./userVerb";
 
 @Entity()
 export class Verb {
@@ -18,4 +19,10 @@ export class Verb {
 
   @Column({ type: "boolean", default: false, nullable: false, comment: "Weather the verb is irregular or not." })
   irregular: boolean;
+
+  @OneToMany(
+    () => UserVerbGroup,
+    (userVerb) => userVerb.verb,
+  )
+  userVerbs: UserVerbGroup[];
 }

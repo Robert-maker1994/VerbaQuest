@@ -1,5 +1,5 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Conjugation } from "./conjugationEntity";
+import { Conjugation } from "./conjugations/conjugationEntity";
 import { Languages } from "./languageEntity";
 
 @Entity()
