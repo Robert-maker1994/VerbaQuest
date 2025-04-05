@@ -1,5 +1,4 @@
 import type {
-  Conjugation,
   CreateCrosswordBody,
   CrosswordDetailsResponse,
   CrosswordResponse,
@@ -8,7 +7,7 @@ import type {
   LanguageCode,
 } from "@verbaquest/types";
 import axios from "axios";
-import { ConjugationResponse } from "../../pages/conjugation/components/conjugationTable";
+import type { ApiVerb, ConjugationResponse } from "../../pages/conjugation/components/conjugationTable";
 export const api = axios.create({
   baseURL: "http://localhost:5001/",
   headers: {
@@ -17,6 +16,80 @@ export const api = axios.create({
 });
 
 const backendEndpoints = {
+  async editGroup(body: { verbsIds: number[], title: string, groupId: number }) {
+    const token = localStorage.getItem("token");
+
+
+    const response = await api.patch<CrosswordDetailsResponse>("user-verb", body, {
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+  async getVerbsByIds(ids: number[]) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No token found");
+    }
+    const response = await api.get<ApiVerb[]>("/verb/", 
+      {
+      params: {
+        ids: ids.join(","),
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.status) {
+      throw new Error(`Failed to get verbs: ${response.statusText}`);
+    }
+    return response.data;
+  },
+
+  async getGroups() {
+    const token = localStorage.getItem("token");
+
+
+    const response = await api.get("user-verb", {
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+  async deleteGroup(id: number) {
+    const token = localStorage.getItem("token");
+
+
+    const response = await api.delete(`user-verb/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+  async createNewGroup(body: { verbsIds: number[], title: string }) {
+    const token = localStorage.getItem("token");
+
+
+    const response = await api.post<CrosswordDetailsResponse>("user-verb", body, {
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
   async getCrosswordDetails(page?: number, search?: string): Promise<CrosswordDetailsResponse> {
     const token = localStorage.getItem("token");
 
@@ -245,6 +318,23 @@ const backendEndpoints = {
       throw new Error("No token found");
     }
     const response = await api.get<ConjugationResponse>(`/verb/conjugation/${verbId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.status) {
+      throw new Error(`Failed to get verbs: ${response.statusText}`);
+    }
+    return response.data;
+  },
+  async searchVerbs(search: string) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No token found");
+    }
+    const response = await api.get<ApiVerb[]>(`/verb/${search}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

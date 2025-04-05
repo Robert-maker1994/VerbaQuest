@@ -46,6 +46,60 @@ export const userVerbService = {
     }
   },
 
+  async update(userId: number, verbIds: number[], groupId: number, title: string) {
+    try {
+      const verbGroupRepo = AppDataSource.getRepository(VerbGroup);
+      const userVerbGroupRepo = AppDataSource.getRepository(UserVerbGroup);
+      const verbRepo = AppDataSource.getRepository(Verb);
+
+      const group = await verbGroupRepo.findOne({
+        where: {
+          user: {
+            user_id: userId,
+          },
+          group_id: groupId,
+        },
+        relations: {
+          userVerbGroups: true,
+        },
+      });
+
+      if (!group) {
+        throw new UserVerbServiceError("Group not found", 404);
+      }
+
+      group.group_name = title;
+      await verbGroupRepo.save(group);
+
+      await userVerbGroupRepo.delete({ group: { group_id: groupId } });
+
+      const verbs = await verbRepo.find({
+        where: verbIds.map((id) => ({ verb_id: id })),
+      });
+
+      if (verbs.length !== verbIds.length) {
+        throw new UserVerbServiceError("Verbs not found", 404);
+      }
+
+      const userVerbs = verbs.map((verb) => {
+        return userVerbGroupRepo.create({
+          group,
+          verb,
+        });
+      });
+
+      await userVerbGroupRepo.save(userVerbs);
+
+      return group;
+    } catch (err) {
+      console.error("error throw in update userVerbService", err);
+      if (err instanceof UserVerbServiceError) {
+        throw err;
+      }
+      throw new UserVerbServiceError("Error updating UserVerbGroup", 500);
+    }
+  },
+
   async create(userId: number, verbId: number[], title: string) {
     try {
       const verbGroupRepo = AppDataSource.getRepository(VerbGroup);

@@ -16,23 +16,6 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../../context/api/api";
 
-interface Tense {
-  tense: string;
-  mood: string;
-}
-
-interface VerbData {
-  verb_id: number;
-  word: {
-    word_id: number;
-    word_text: string;
-  };
-  irregular: boolean;
-  language: {
-    language_code: string;
-  };
-}
-
 
 export interface ApiVerb {
   verb_id: number;

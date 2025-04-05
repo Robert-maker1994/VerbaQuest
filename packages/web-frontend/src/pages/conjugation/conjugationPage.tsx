@@ -76,13 +76,13 @@ function VerbConjugationsPage() {
       field: "word",
       headerName: "Verb",
       flex: 1, // Use flex: 1 to distribute space evenly
-      valueGetter: (value: GridValueGetterParams) => value,
+      valueGetter: (value) => value,
     },
     {
       field: "type",
       headerName: "Type",
       flex: 1, // Use flex: 1 to distribute space evenly
-      renderCell: (params: GridValueGetterParams) => {
+      renderCell: (params) => {
         return <Chip
           label={params.row.type ? "Irregular" : "Regular"}
           color={params.row.type ? "warning" : "success"}
@@ -91,18 +91,10 @@ function VerbConjugationsPage() {
 
     },
     {
-      field: "myVerbs",
-      headerName: "My verbs",
-      flex: 1, // Use flex: 1 to distribute space evenly
-      renderCell: (_params: GridValueGetterParams) => (
-        <Checkbox color="primary" checked={false} aria-label="Select favorite" />
-      ),
-    },
-    {
       field: "view",
       headerName: "View",
       flex: 1, // Use flex: 1 to distribute space evenly
-      renderCell: (params: GridValueGetterParams) => (
+      renderCell: (params) => (
         <Button variant="outlined" onClick={(e) => {
           e.preventDefault();
           handleVerbChange(params.row.id)
@@ -134,7 +126,7 @@ function VerbConjugationsPage() {
         {!selectedVerb && !loading && verbs.length > 0 && (
           <Box my={2} >
             <DataGrid
-              rows={verbs.map((verb) => ({ word: verb?.word?.word_text, type: verb.irregular, id: verb.verb_id, myVerbs: false }))} columns={columns}
+              rows={verbs.map((verb) => ({ word: verb?.word?.word_text, type: verb.irregular, id: verb.verb_id }))} columns={columns}
               pageSizeOptions={[5, 10, 25]}
               initialState={{
                 pagination: {

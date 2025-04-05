@@ -126,19 +126,45 @@ userVerbRouter.post("/", async (req: AuthRequest, res: Response, next: NextFunct
     if (!verbsIds.length || !title) {
       throw new CustomError("INVALID_PARAMS", 400);
     }
-    
+
     for (let i = 0; i < verbsIds.length; i++) {
       const newVerbs = []
-      if(newVerbs.includes(verbsIds[i])) {
+      if (newVerbs.includes(verbsIds[i])) {
         console.info("Cannot add the same verb twice to the group")
         throw new CustomError("INVALID_PARAMS", 405);
       }
       newVerbs.push(verbsIds[i])
-      
+
     }
 
     const userVerb = await userVerbService.create(userId, verbsIds, title);
     res.status(201).json(userVerb);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userVerbRouter.patch("/", async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user.userId;
+    const { verbsIds, title, groupId } = req.body;
+    if (!verbsIds.length || !title) {
+      throw new CustomError("INVALID_PARAMS", 400);
+    }
+
+    for (let i = 0; i < verbsIds.length; i++) {
+      const newVerbs = []
+      if (newVerbs.includes(verbsIds[i])) {
+        console.info("Cannot add the same verb twice to the group")
+        throw new CustomError("INVALID_PARAMS", 405);
+      }
+      newVerbs.push(verbsIds[i])
+
+    }
+
+    const userVerb = await userVerbService.update(userId, verbsIds, groupId, title);
+
+    res.status(200).json(userVerb);
   } catch (error) {
     next(error);
   }
