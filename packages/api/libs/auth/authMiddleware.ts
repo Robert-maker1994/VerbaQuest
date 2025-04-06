@@ -5,7 +5,6 @@ import { UnauthorizedError, UserError } from "../errors";
 import userService from "../services/userService";
 import type { AuthRequest } from "../types/authRequest";
 import admin from "./firebaseAdmin";
-import { Difficulty } from "@verbaquest/types";
 
 export enum AuthMode {
   FIREBASE = "FIREBASE",

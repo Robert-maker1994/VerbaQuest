@@ -39,25 +39,27 @@ const VerbSearch: React.FC<VerbSearchProps> = ({ onVerbSelected }) => {
     }
   }, []);
 
-  return <Autocomplete
-    id="verb-search"
-    sx={{
-      my: "10px"
-    }}
-    options={verbs}
-    getOptionLabel={(option) => option.word.word_text}
-    inputValue={inputValue}
-    onChange={(_event, newValue) => {
-      if (newValue) {
-        setInputValue(newValue.word.word_text);
-        onVerbSelected(newValue);
-      }
-    }}
-    onInputChange={(_event, newInputValue) => {
-      handleVerbChange(newInputValue);
-    }}
-    renderInput={(params) => <TextField {...params} label="Search for a verb" variant="outlined" />}
-  />
+  return (
+    <Autocomplete
+      id="verb-search"
+      sx={{
+        my: "10px",
+      }}
+      options={verbs}
+      getOptionLabel={(option) => option.word.word_text}
+      inputValue={inputValue}
+      onChange={(_event, newValue) => {
+        if (newValue) {
+          setInputValue(newValue.word.word_text);
+          onVerbSelected(newValue);
+        }
+      }}
+      onInputChange={(_event, newInputValue) => {
+        handleVerbChange(newInputValue);
+      }}
+      renderInput={(params) => <TextField {...params} label="Search for a verb" variant="outlined" />}
+    />
+  );
 };
 
 export default VerbSearch;

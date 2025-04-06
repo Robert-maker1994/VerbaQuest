@@ -16,12 +16,10 @@ export const api = axios.create({
 });
 
 const backendEndpoints = {
-  async editGroup(body: { verbsIds: number[], title: string, groupId: number }) {
+  async editGroup(body: { verbsIds: number[]; title: string; groupId: number }) {
     const token = localStorage.getItem("token");
 
-
     const response = await api.patch<CrosswordDetailsResponse>("user-verb", body, {
-
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -35,8 +33,7 @@ const backendEndpoints = {
     if (!token) {
       throw new Error("No token found");
     }
-    const response = await api.get<ApiVerb[]>("/verb/", 
-      {
+    const response = await api.get<ApiVerb[]>("/verb/", {
       params: {
         ids: ids.join(","),
       },
@@ -54,7 +51,6 @@ const backendEndpoints = {
   async getGroups() {
     const token = localStorage.getItem("token");
 
-
     const response = await api.get("user-verb", {
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +63,6 @@ const backendEndpoints = {
   async deleteGroup(id: number) {
     const token = localStorage.getItem("token");
 
-
     const response = await api.delete(`user-verb/${id}`, {
       headers: {
         "Content-Type": "application/json",
@@ -77,12 +72,10 @@ const backendEndpoints = {
     });
     return response.data;
   },
-  async createNewGroup(body: { verbsIds: number[], title: string }) {
+  async createNewGroup(body: { verbsIds: number[]; title: string }) {
     const token = localStorage.getItem("token");
 
-
     const response = await api.post<CrosswordDetailsResponse>("user-verb", body, {
-
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

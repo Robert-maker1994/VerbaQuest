@@ -10,9 +10,9 @@
     "declaration": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node" ,
-    "preserveConstEnums": true,
-   },
+    "moduleResolution": "node",
+    "preserveConstEnums": true
+  },
   "include": ["types/**/*"],
   "exclude": ["node_modules"]
 }

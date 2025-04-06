@@ -3,4 +3,4 @@ export * from "./userService";
 export * from "./userCrosswordService";
 export * from "./wordService";
 export * from "./userVerbService";
-export * from "./verbService"
+export * from "./verbService";

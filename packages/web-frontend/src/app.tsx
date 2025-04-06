@@ -20,7 +20,6 @@ const VerbConjugationsPage = lazy(() => import("./pages/conjugation/conjugationP
 const VerbConjugationsTable = lazy(() => import("./pages/conjugation/components/conjugationTable"));
 const VerbGame = lazy(() => import("./pages/conjugation/components/verbGame"));
 
-
 const routes = [
   {
     path: "/",
@@ -69,7 +68,7 @@ const routes = [
   {
     path: "/verbs/game/:id",
     element: <Login />,
-  }
+  },
 ];
 function App() {
   return (

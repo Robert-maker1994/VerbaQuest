@@ -1,9 +1,9 @@
 import { type NextFunction, type Response, Router } from "express";
 import { AppDataSource } from "../../datasource";
-import {  Form, Tense } from "../entity";
+import { Form, Tense } from "../entity";
 import { VerbError } from "../errors/verbError";
-import type { AuthRequest } from "../types/authRequest";
 import { verbService } from "../services";
+import type { AuthRequest } from "../types/authRequest";
 
 const verbRouter = Router();
 
@@ -18,7 +18,6 @@ const verbRouter = Router();
 verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     if (req.query.ids) {
-
       const ids = (req.query.ids as string).split(",");
       const verbs = await verbService.getById(ids.map(Number));
 
@@ -40,9 +39,8 @@ verbRouter.get("/", async (req: AuthRequest, res: Response, next: NextFunction) 
   }
 });
 
-
 /**
- * @description 
+ * @description
  * @route GET /:search
  * @param {AuthRequest} req - The authenticated request object.
  * @param {Response} res - The response object.
@@ -86,7 +84,7 @@ verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, n
         },
       },
     });
-    const verb = await verbService.getById([Number(verbId)])
+    const verb = await verbService.getById([Number(verbId)]);
 
     const forms = await AppDataSource.getRepository(Form).find({
       where: {
@@ -104,7 +102,7 @@ verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, n
       conjugation,
       tenses,
       forms,
-      verb
+      verb,
     });
   } catch (err) {
     next(err);

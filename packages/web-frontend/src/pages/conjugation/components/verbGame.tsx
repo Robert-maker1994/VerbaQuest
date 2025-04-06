@@ -1,16 +1,8 @@
-import {
-  Box,
-  Button,
-  Grid2,
-  TextField,
-  Typography,
-  Paper,
-  Divider,
-} from "@mui/material";
+import { Box, Button, Divider, Grid2, Paper, TextField, Typography } from "@mui/material";
 import type React from "react";
-import HoverBox from "../../../components/hoverBox";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import HoverBox from "../../../components/hoverBox";
 import backendEndpoints from "../../../context/api/api";
 
 import type { ApiConjugation, ApiForm, ApiTense, ApiVerb } from "./conjugationTable";
@@ -38,20 +30,24 @@ const VerbGame: React.FC = () => {
         try {
           const data = await backendEndpoints.getVerbConjugation(Number(id));
           setSelectedVerb(data.verb);
-          const matchTense = data?.tenses?.map((t) => {
-            const match = data.conjugation.find((tense) => tense.tense.tense_id === t.tense_id);
-            if (match) {
-              return match.tense;
-            }
-            return undefined;
-          }).filter((f) => f !== undefined);
-          const matchForm = data?.forms?.map((t) => {
-            const match = data.conjugation.find((tense) => tense.form.form_id === t.form_id);
-            if (match) {
-              return match.form;
-            }
-            return undefined;
-          }).filter((f) => f !== undefined);
+          const matchTense = data?.tenses
+            ?.map((t) => {
+              const match = data.conjugation.find((tense) => tense.tense.tense_id === t.tense_id);
+              if (match) {
+                return match.tense;
+              }
+              return undefined;
+            })
+            .filter((f) => f !== undefined);
+          const matchForm = data?.forms
+            ?.map((t) => {
+              const match = data.conjugation.find((tense) => tense.form.form_id === t.form_id);
+              if (match) {
+                return match.form;
+              }
+              return undefined;
+            })
+            .filter((f) => f !== undefined);
           setTenses(matchTense);
           setForms(matchForm);
           setConjugations(data.conjugation);

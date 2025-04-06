@@ -11,11 +11,10 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import type React from "react";
-import HoverBox from "../../../components/hoverBox";
-import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import HoverBox from "../../../components/hoverBox";
 import backendEndpoints from "../../../context/api/api";
-
 
 export interface ApiVerb {
   verb_id: number;
@@ -67,8 +66,6 @@ const ConjugationTable: React.FC = () => {
   const [tenses, setTenses] = useState<ApiTense[]>([]);
   const [conjugations, setConjugations] = useState<ConjugationResponse | null>(null);
 
-
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const fetchConjugations = async () => {
@@ -77,16 +74,17 @@ const ConjugationTable: React.FC = () => {
           const data = await backendEndpoints.getVerbConjugation(Number.parseInt(params.id));
 
           setConjugations(data);
-          const matchTense = data?.tenses?.map((t) => {
-            const match = data.conjugation.find((tense) => tense.tense.tense_id === t.tense_id)
-            if (match) {
-              return match.tense
-            }
-            return undefined;
-          }).filter((f) => f !== undefined)
+          const matchTense = data?.tenses
+            ?.map((t) => {
+              const match = data.conjugation.find((tense) => tense.tense.tense_id === t.tense_id);
+              if (match) {
+                return match.tense;
+              }
+              return undefined;
+            })
+            .filter((f) => f !== undefined);
 
           setTenses(matchTense);
-
         } catch (error) {
           console.error("Error fetching conjugations:", error);
         }
@@ -96,7 +94,6 @@ const ConjugationTable: React.FC = () => {
     fetchConjugations();
   }, [params]);
 
-
   const getConjugation = (tense: string, mood: string, form: string): string | undefined => {
     return conjugations?.conjugation.find(
       (c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form,
@@ -104,9 +101,11 @@ const ConjugationTable: React.FC = () => {
   };
 
   const getTranslations = (tense: string, mood: string, form: string): string[] => {
-    return conjugations?.conjugation
-      .find((c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form)
-      ?.translations.map((translation) => translation.translation) || [];
+    return (
+      conjugations?.conjugation
+        .find((c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form)
+        ?.translations.map((translation) => translation.translation) || []
+    );
   };
   if (!conjugations) {
     return <Typography>Loading conjugations...</Typography>;
@@ -118,14 +117,16 @@ const ConjugationTable: React.FC = () => {
           Conjugations for: {conjugations.verb?.word.word_text}
         </Typography>
 
-        <Button variant="contained" onClick={() => {
-          if (conjugations.verb?.verb_id) {
-            nav(`/verbs/quiz/${conjugations.verb?.verb_id}`)
-          }
-        }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (conjugations.verb?.verb_id) {
+              nav(`/verbs/quiz/${conjugations.verb?.verb_id}`);
+            }
+          }}
+        >
           Quiz {conjugations.verb?.word.word_text}
         </Button>
-
       </HoverBox>
 
       {tenses?.map((tense) => (

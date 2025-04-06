@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Button,
   CircularProgress,
   FormControl,
@@ -12,10 +11,10 @@ import {
 } from "@mui/material";
 import { Difficulty, LanguageCode } from "@verbaquest/types";
 import { useEffect, useState } from "react";
+import HoverBox from "../../components/hoverBox";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";
 import { useTranslation } from "../../context/translationProvider";
-import HoverBox from "../../components/hoverBox";
 
 interface SettingsFormData {
   preferred_learning_language: LanguageCode;
@@ -41,7 +40,6 @@ const SettingsPage = () => {
   const { refreshTranslations, translate } = useTranslation();
 
   useEffect(() => {
-
     if (user) {
       setFormData({
         preferred_learning_language: user.preferred_learning_language,

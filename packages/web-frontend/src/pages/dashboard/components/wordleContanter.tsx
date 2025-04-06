@@ -12,7 +12,7 @@ const WordleContainer: React.FC = () => {
         <Box key={crypto.randomUUID()} display="flex" justifyContent={"center"}>
           {Array.from({ length: 5 }, (_, colIndex) => {
             const active = activeCell?.row === rowIndex && activeCell.col === colIndex;
-            const key = `${rowIndex}-${colIndex}`
+            const key = `${rowIndex}-${colIndex}`;
             return (
               <StyledCell
                 key={key}

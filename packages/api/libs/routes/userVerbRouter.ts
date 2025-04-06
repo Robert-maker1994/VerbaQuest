@@ -128,13 +128,12 @@ userVerbRouter.post("/", async (req: AuthRequest, res: Response, next: NextFunct
     }
 
     for (let i = 0; i < verbsIds.length; i++) {
-      const newVerbs = []
+      const newVerbs = [];
       if (newVerbs.includes(verbsIds[i])) {
-        console.info("Cannot add the same verb twice to the group")
+        console.info("Cannot add the same verb twice to the group");
         throw new CustomError("INVALID_PARAMS", 405);
       }
-      newVerbs.push(verbsIds[i])
-
+      newVerbs.push(verbsIds[i]);
     }
 
     const userVerb = await userVerbService.create(userId, verbsIds, title);
@@ -153,13 +152,12 @@ userVerbRouter.patch("/", async (req: AuthRequest, res: Response, next: NextFunc
     }
 
     for (let i = 0; i < verbsIds.length; i++) {
-      const newVerbs = []
+      const newVerbs = [];
       if (newVerbs.includes(verbsIds[i])) {
-        console.info("Cannot add the same verb twice to the group")
+        console.info("Cannot add the same verb twice to the group");
         throw new CustomError("INVALID_PARAMS", 405);
       }
-      newVerbs.push(verbsIds[i])
-
+      newVerbs.push(verbsIds[i]);
     }
 
     const userVerb = await userVerbService.update(userId, verbsIds, groupId, title);

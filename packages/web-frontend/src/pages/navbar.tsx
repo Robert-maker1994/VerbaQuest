@@ -14,12 +14,12 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { translate } = useTranslation();
-  const open = Boolean(anchorEl); 
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     if (location.pathname.includes("/dashboard")) {
       setValue(0);
-    } else if (location.pathname.includes( "/crossword")) {
+    } else if (location.pathname.includes("/crossword")) {
       setValue(1);
     } else if (location.pathname.includes("/verbs")) {
       setValue(2);
@@ -27,8 +27,8 @@ export default function Navbar() {
       setValue(0);
     } else {
       setValue(0);
-    }  }, [location.pathname]);
-
+    }
+  }, [location.pathname]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

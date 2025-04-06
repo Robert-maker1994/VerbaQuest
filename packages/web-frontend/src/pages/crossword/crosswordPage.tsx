@@ -16,6 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import type { CrosswordDetailsResponse } from "@verbaquest/types";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -23,8 +24,6 @@ import HoverBox from "../../components/hoverBox";
 import api from "../../context/api/api";
 import backendEndpoints from "../../context/api/api";
 import { useTranslation } from "../../context/translationProvider";
-import type { CrosswordDetailsResponse } from "@verbaquest/types";
-
 
 export interface CrosswordDetails {
   title: string;
