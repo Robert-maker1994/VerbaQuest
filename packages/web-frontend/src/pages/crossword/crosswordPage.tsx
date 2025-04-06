@@ -23,14 +23,8 @@ import HoverBox from "../../components/hoverBox";
 import api from "../../context/api/api";
 import backendEndpoints from "../../context/api/api";
 import { useTranslation } from "../../context/translationProvider";
+import type { CrosswordDetailsResponse } from "@verbaquest/types";
 
-export interface CrosswordDetailsResponse {
-  crosswords: CrosswordDetails[];
-  totalCount: number;
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-}
 
 export interface CrosswordDetails {
   title: string;
@@ -53,7 +47,7 @@ export interface CrosswordDetails {
 }
 
 const crosswordMatchesSearchTerm = async (searchLowerCase: string) => {
-  if (searchLowerCase === "") return [];
+  if (searchLowerCase === "") return;
 
   return await backendEndpoints.getCrosswordDetails(undefined, searchLowerCase);
 };
@@ -123,7 +117,7 @@ const CrosswordPage = () => {
     const searchLowerCase = string.toLowerCase();
     setTimeout(async () => {
       const matches = await crosswordMatchesSearchTerm(searchLowerCase);
-      if (matches.length) {
+      if (matches) {
         setCrosswordData(matches);
       }
     }, 1);

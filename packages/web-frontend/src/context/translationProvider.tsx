@@ -10,7 +10,7 @@ interface TranslationContextType {
 
 const TranslationContext = createContext<TranslationContextType>({
   translate: (key: TranslationKey) => key,
-  refreshTranslations: () => {},
+  refreshTranslations: () => { },
 });
 
 interface TranslationProviderProps {
@@ -59,6 +59,7 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({ childr
       try {
         const response = await backendEndpoints.getPageTranslations();
         setTranslations(response);
+
       } catch (error) {
         console.error("Error fetching translations:", error);
       }
@@ -79,8 +80,14 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({ childr
     [user, translations],
   );
 
-  const refreshTranslations = useCallback(() => {
-    console.info("Refreshing translations...");
+  const refreshTranslations = useCallback(async () => {
+    try {
+      const response = await backendEndpoints.getPageTranslations();
+      setTranslations(response);
+
+    } catch (error) {
+      console.error("Error fetching translations:", error);
+    }
   }, []);
 
   const value: TranslationContextType = {

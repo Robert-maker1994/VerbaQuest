@@ -31,7 +31,6 @@ const VerbSearch: React.FC<VerbSearchProps> = ({ onVerbSelected }) => {
 
   const handleVerbChange = useCallback(async (inputValue: string) => {
     try {
-      console.log(inputValue)
       const verbs = await backendEndpoints.searchVerbs(inputValue.trim());
       setVerbs(verbs);
       setInputValue(inputValue);

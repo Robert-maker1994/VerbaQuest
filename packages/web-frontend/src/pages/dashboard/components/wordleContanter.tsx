@@ -9,15 +9,13 @@ const WordleContainer: React.FC = () => {
   return (
     <Box>
       {Array.from({ length: 5 }, (_, rowIndex) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <Box key={rowIndex} display="flex" justifyContent={"center"}>
+        <Box key={crypto.randomUUID()} display="flex" justifyContent={"center"}>
           {Array.from({ length: 5 }, (_, colIndex) => {
             const active = activeCell?.row === rowIndex && activeCell.col === colIndex;
-
+            const key = `${rowIndex}-${colIndex}`
             return (
               <StyledCell
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                key={`${rowIndex}-${colIndex}`}
+                key={key}
                 state={guesses[rowIndex]?.evaluation[colIndex]}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
                 active={active}

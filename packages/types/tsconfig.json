@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es2022"],
-    "module": "NodeNext",
+    "module": "ESNext",
     "target": "es2022",
     "outDir": "./dist",
     "strict": true,
@@ -10,8 +10,9 @@
     "declaration": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node16"
-  },
+    "moduleResolution": "node" ,
+    "preserveConstEnums": true,
+   },
   "include": ["types/**/*"],
   "exclude": ["node_modules"]
 }

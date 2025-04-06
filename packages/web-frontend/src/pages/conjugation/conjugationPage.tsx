@@ -1,24 +1,18 @@
 import {
   Box,
   Button,
-  Checkbox,
   Chip,
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { DataGrid, type GridColDef, type GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import HoverBox from "../../components/hoverBox";
 import backendEndpoints from "../../context/api/api";
-
 import VerbSearch from "./components/verbSearch";
 import { VerbGroups } from "./components/verbGroups";
 import { useNavigate } from "react-router";
-
-interface Tense {
-  tense: string;
-  mood: string;
-}
+import type { ApiVerb } from "./components/conjugationTable";
 
 interface VerbData {
   verb_id: number;
@@ -34,9 +28,7 @@ interface VerbData {
 
 function VerbConjugationsPage() {
   const [verbs, setVerbs] = useState<VerbData[]>([]);
-  const [selectedVerb, setSelectedVerb] = useState<VerbData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState("");
   const nav = useNavigate();
 
   useEffect(() => {
@@ -56,16 +48,14 @@ function VerbConjugationsPage() {
   }, []);
 
   const handleVerbChange = async (event: number) => {
-    const verb = verbs.find((v) => v.verb_id === event);
-
-    if (!verb) {
-      throw new Error("Verb not found handle verb change");
-    }
-    nav(`/verbs/conjugations/${verb.verb_id}`)
-    setInputValue(verb?.word.word_text);
     try {
-      if (!verb) return;
-      setSelectedVerb(verb);
+      const verb = verbs.find((v) => v.verb_id === event);
+
+      if (!verb) {
+        throw new Error("Verb not found handle verb change");
+      }
+      nav(`/verbs/conjugations/${verb.verb_id}`)
+
     } catch (error) {
       console.error("Error fetching conjugations:", error);
     }
@@ -75,13 +65,13 @@ function VerbConjugationsPage() {
     {
       field: "word",
       headerName: "Verb",
-      flex: 1, // Use flex: 1 to distribute space evenly
+      flex: 1,
       valueGetter: (value) => value,
     },
     {
       field: "type",
       headerName: "Type",
-      flex: 1, // Use flex: 1 to distribute space evenly
+      flex: 1, 
       renderCell: (params) => {
         return <Chip
           label={params.row.type ? "Irregular" : "Regular"}
@@ -93,7 +83,7 @@ function VerbConjugationsPage() {
     {
       field: "view",
       headerName: "View",
-      flex: 1, // Use flex: 1 to distribute space evenly
+      flex: 1,
       renderCell: (params) => (
         <Button variant="outlined" onClick={(e) => {
           e.preventDefault();
@@ -112,21 +102,18 @@ function VerbConjugationsPage() {
       </Typography>
 
       <HoverBox>
-        {/* <VerbSearch
-          verbs={verbs}
-          inputValue={inputValue}
-          onInputChange={(e) => {
-         
+        <VerbSearch
+          onVerbSelected={(newVerb: ApiVerb) => {
+            nav(`/verbs/conjugations/${newVerb.verb_id}`)
           }}
-          selectedVerb={selectedVerb}
-        /> */}
-
+        />
         {loading && <CircularProgress />}
 
-        {!selectedVerb && !loading && verbs.length > 0 && (
+        {!loading && verbs.length > 0 && (
           <Box my={2} >
             <DataGrid
-              rows={verbs.map((verb) => ({ word: verb?.word?.word_text, type: verb.irregular, id: verb.verb_id }))} columns={columns}
+              rows={verbs.map((verb) => ({ word: verb?.word?.word_text, type: verb.irregular, id: verb.verb_id }))}
+              columns={columns}
               pageSizeOptions={[5, 10, 25]}
               initialState={{
                 pagination: {

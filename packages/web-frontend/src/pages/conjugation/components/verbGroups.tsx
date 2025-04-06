@@ -1,15 +1,15 @@
 
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Box, Button, Grid2, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid2, IconButton, Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import {  useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import HoverBox from '../../../components/hoverBox';
 import backendEndpoints from '../../../context/api/api';
 
 import CreateGroupDialog from './createGroupDialog';
 import { StyledDeleteIcon } from '../../../components/styledComponents/styledDeleteIcon';
+import { useNavigate } from 'react-router';
 
 export function VerbGroups() {
     const [openNewGroup, setOpenNewGroup] = useState<boolean>(false);
@@ -23,6 +23,7 @@ export function VerbGroups() {
         groupId: number,
         verbIds: number[]
     }[]>([])
+    const nav = useNavigate();
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
@@ -61,9 +62,9 @@ export function VerbGroups() {
     }, []);
 
 
-    const handlePlay = () => {
-        console.log('Play clicked');
-        // Add your play logic here
+    const handlePlay = (verbsId: number[]) => {
+        if (!verbsId.length) return;
+        nav(`/verbs/${verbsId.join("-")}`);
     };
 
     const handleDelete = async (groupId: number) => {
@@ -116,7 +117,11 @@ export function VerbGroups() {
                             </Box>
                             <Box>
                                 <Tooltip title="Play">
-                                    <IconButton aria-label="play" onClick={handlePlay} color="primary">
+                                    <IconButton aria-label="play" onClick={(e) => {
+                                        e.preventDefault();
+                                        handlePlay(group.verbIds)
+                                    }}
+                                        color="primary">
                                         <PlayArrowIcon />
                                     </IconButton>
                                 </Tooltip>

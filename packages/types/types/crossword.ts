@@ -129,6 +129,7 @@ export interface CrosswordDetails {
     completed: boolean;
     completion_timer: number;
     user_crossword_id: number;
+    is_favorite: boolean;
   }[];
 }
 

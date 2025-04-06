@@ -10,12 +10,12 @@ import {
   type SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import {} from "@verbaquest/types";
 import { Difficulty, LanguageCode } from "@verbaquest/types";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../context/api/api";
 import { useAuth } from "../../context/auth/useAuth";
 import { useTranslation } from "../../context/translationProvider";
+import HoverBox from "../../components/hoverBox";
 
 interface SettingsFormData {
   preferred_learning_language: LanguageCode;
@@ -41,6 +41,7 @@ const SettingsPage = () => {
   const { refreshTranslations, translate } = useTranslation();
 
   useEffect(() => {
+
     if (user) {
       setFormData({
         preferred_learning_language: user.preferred_learning_language,
@@ -58,7 +59,7 @@ const SettingsPage = () => {
   const handleChange = (event: SelectChangeEvent, name: keyof SettingsFormData) => {
     setFormData({
       ...formData,
-      [name]: event.target.value as LanguageCode | Difficulty,
+      [name]: event.target.value,
     });
     setIsSaved(false);
   };
@@ -95,8 +96,7 @@ const SettingsPage = () => {
     formData.app_language !== initialFormData.app_language;
 
   return (
-    <Box
-      component="form"
+    <HoverBox
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -182,7 +182,7 @@ const SettingsPage = () => {
       >
         {isLoading ? <CircularProgress size={24} /> : translate("done")}
       </Button>
-    </Box>
+    </HoverBox>
   );
 };
 

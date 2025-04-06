@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import type React from "react";
 import HoverBox from "../../../components/hoverBox";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import backendEndpoints from "../../../context/api/api";
 
@@ -63,6 +63,7 @@ export interface ConjugationResponse {
 
 const ConjugationTable: React.FC = () => {
   const params = useParams();
+  const nav = useNavigate();
   const [tenses, setTenses] = useState<ApiTense[]>([]);
   const [conjugations, setConjugations] = useState<ConjugationResponse | null>(null);
 
@@ -117,8 +118,12 @@ const ConjugationTable: React.FC = () => {
           Conjugations for: {conjugations.verb?.word.word_text}
         </Typography>
 
-        <Button variant="contained">
-            Quiz {conjugations.verb?.word.word_text}
+        <Button variant="contained" onClick={() => {
+          if (conjugations.verb?.verb_id) {
+            nav(`/verbs/quiz/${conjugations.verb?.verb_id}`)
+          }
+        }}>
+          Quiz {conjugations.verb?.word.word_text}
         </Button>
 
       </HoverBox>
@@ -131,7 +136,7 @@ const ConjugationTable: React.FC = () => {
             marginTop: 2,
           }}
         >
-           <Table>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell
@@ -179,7 +184,7 @@ const ConjugationTable: React.FC = () => {
                 </TableRow>
               ))}
             </TableBody>
-          </Table> 
+          </Table>
         </TableContainer>
       ))}
     </Box>
