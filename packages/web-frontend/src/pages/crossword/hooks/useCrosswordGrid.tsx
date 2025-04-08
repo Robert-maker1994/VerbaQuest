@@ -1,5 +1,5 @@
 import type { WordData } from "@verbaquest/types";
-import { type RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { type RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type CellData, CellState } from "../interface";
 import type { UseCrosswordGridProps, UseCrosswordGridReturn } from "../interface";
 
@@ -23,6 +23,19 @@ export const useCrosswordGrid = ({ crosswordGrid, metadata }: UseCrosswordGridPr
   const inputRefs: RefObject<{ [key: string]: HTMLInputElement | null }> = useRef({});
   const clueListRef = useRef<HTMLDivElement>(null);
 
+  // Pre-calculate a map of start_row and start_col to WordData array
+  const wordMap = useMemo(() => {
+    const map: Record<string, WordData[]> = {};
+    for (const word of metadata) {
+      const key = `${word.start_row}-${word.start_col}`;
+      if (!map[key]) {
+        map[key] = [];
+      }
+      map[key].push(word);
+    }
+    return map;
+  }, [metadata]);
+
   useEffect(() => {
     if (crosswordGrid) {
       const newCellData = new Map<string, CellData>();
@@ -45,25 +58,28 @@ export const useCrosswordGrid = ({ crosswordGrid, metadata }: UseCrosswordGridPr
     }
   }, [crosswordGrid, metadata]);
 
-  useEffect(() => {
-    const completed = metadata
-      .filter((word) => {
-        for (let i = 0; i < word.word.length; i++) {
-          const row = word.start_row + (word.direction === "vertical" ? i : 0);
-          const col = word.start_col + (word.direction === "horizontal" ? i : 0);
-          const key = `${row}-${col}`;
-          const cell = cellData.get(key);
-          if (!cell) {
-            return false;
-          }
-          if (cell.state === CellState.Empty || cell.state === CellState.Incorrect) {
-            return false;
-          }
+  // Calculate completed words and add isCompleted flag to metadata
+  const wordsWithStatus = useMemo(() => {
+    const completed = new Set<number>();
+    const updatedMetadata = metadata.map((word) => {
+      let isComplete = true;
+      for (let i = 0; i < word.word.length; i++) {
+        const row = word.start_row + (word.direction === "vertical" ? i : 0);
+        const col = word.start_col + (word.direction === "horizontal" ? i : 0);
+        const key = `${row}-${col}`;
+        const cell = cellData.get(key);
+        if (!cell || cell.state === CellState.Empty || cell.state === CellState.Incorrect) {
+          isComplete = false;
+          break;
         }
-        return true;
-      })
-      .map((word) => word.word_id);
-    setCompletedWords(completed);
+      }
+      if (isComplete) {
+        completed.add(word.word_id);
+      }
+      return { ...word, isCompleted: isComplete };
+    });
+    setCompletedWords(Array.from(completed));
+    return updatedMetadata;
   }, [cellData, metadata]);
 
   const findAdjacentWord = useCallback(
@@ -279,5 +295,7 @@ export const useCrosswordGrid = ({ crosswordGrid, metadata }: UseCrosswordGridPr
     selectedWord,
     onCellSelect,
     manageCellNavigation,
+    wordsWithStatus,
+    wordMap,
   };
 };
