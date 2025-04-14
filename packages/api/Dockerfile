@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
 ARG USER
 ARG DB_USER
@@ -22,7 +22,6 @@ COPY package.json ./
 RUN npm install
 
 COPY . .
-
 EXPOSE 5001
 
-CMD ["sh", "-c", "npm run start"]
+CMD ["sh", "-c", "npm run dev"]

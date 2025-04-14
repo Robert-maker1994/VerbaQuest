@@ -4,7 +4,8 @@ import { type ReactNode, createContext, useState } from "react";
 interface ThemeProviderProps {
   children: ReactNode;
 }
-interface ThemeContextType {
+
+export interface ThemeContextType {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
 }

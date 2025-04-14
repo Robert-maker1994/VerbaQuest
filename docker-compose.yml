@@ -1,4 +1,11 @@
 services:
+  libretranslate:
+      image: libretranslate/libretranslate:latest
+      ports:
+        - "5000:5000"
+      restart: unless-stopped
+      volumes:
+        - verbaquest_data:/app/data
   verbaquest-db:
     image: postgres:17
     restart: always
@@ -11,8 +18,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - verbaquest
-  
+      - verbaquest  
   backend:
     depends_on:
       - verbaquest-db

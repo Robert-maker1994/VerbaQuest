@@ -17,7 +17,7 @@
     "@mui/material": "^6.4.6",
     "@mui/x-data-grid": "^7.28.3",
     "@testing-library/react": "^16.2.0",
-    "@verbaquest/types": "*",
+    "@verbaquest/types": "file:../types",
     "axios": "^1.8.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",

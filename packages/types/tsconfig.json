@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "lib": ["es2022"],
-    "module": "ESNext",
-    "target": "es2022",
-    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "declaration": true,
+    "outDir": "../../dist/types",
     "strict": true,
     "esModuleInterop": true,
-    "composite": true,
-    "declaration": true,
+    "moduleResolution": "node",
+
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "preserveConstEnums": true
+    "rootDir": "./",
+    "composite": true
   },
-  "include": ["types/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

@@ -13,6 +13,13 @@ export default defineConfig(({ mode }) => {
     test: {
       environment: "jsdom",
     },
+    build: {
+      rollupOptions: {
+        external: [
+          "@verbaquest/types"
+        ]
+      }
+    },
     preview: {
       port: 8080,
       strictPort: true,

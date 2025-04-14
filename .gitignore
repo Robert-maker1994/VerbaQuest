@@ -2,7 +2,7 @@
 .env
 /packages/*/coverage/*
 /packages/*/genToken.ts
-
+dist
 packages\*\.env
 packages\*\docker.env
 /packages/api/verba-quest.json

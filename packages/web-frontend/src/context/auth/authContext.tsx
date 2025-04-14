@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { checkAuth, login, logout, register } from "./authProvider";
 import type { LoginData, QuestUser } from "./interfaces";
 
-interface AuthContextType {
+export interface AuthContextType {
   isLoggedIn: boolean;
   user: QuestUser | null;
   error: string | null;

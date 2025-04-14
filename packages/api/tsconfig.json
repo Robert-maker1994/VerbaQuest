@@ -1,22 +1,26 @@
 {
-  "display": "Node 22",
-  "_version": "22.0.0",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "rootDir": "./",
-    "lib": ["es2020", "DOM"],
-    "moduleResolution": "node",
-    "outDir": "./dist",
-    "skipLibCheck": true,
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "../../dist/api",
+    "rootDir": "../../",
+    "strict": false,
     "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
 
+    "sourceMap": true,
+    "noEmit": false,
+    "baseUrl": "./src",
     "paths": {
-      "@verbaquest/types": ["./packages/types/dist/types/index.js"]
-    }
+      "@verbaquest/types": ["../../dist/types/*"]
+    },
+    "composite": true
   },
+  "include": ["./"],
+  "exclude": ["node_modules"],
 
-  "exclude": ["node_modules"]
 }

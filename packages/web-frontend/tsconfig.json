@@ -1,12 +1,33 @@
 {
-  "files": [],
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "es2020",
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
+
+    "module": "es2020",
+    "jsx": "react-jsx",
+"outDir": "../../dist/api",
+    "rootDir": "../../",
+
+    // "useDefineForClassFields": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
     "paths": {
-      "@verbaquest/types": ["./packages/types/dist/types/index.js"]
+      "@verbaquest/types": ["../../dist/types/*"]
     },
     "declaration": true
   },
+  "include": ["vite.config.ts"],
+
   "exclude": ["node_modules"],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+
 }
