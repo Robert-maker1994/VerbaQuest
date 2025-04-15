@@ -2,11 +2,12 @@
   "name": "@verbaquest/api",
   "version": "1.0.0",
   "description": "The backend to power the frontend ",
-  "exports": "./server.ts",
+  "exports": "./dist/server.js",
+
   "scripts": {
-    "dev": "tsc --build && ts-node server.ts",
-    "build": "tsc --build --clean",
-    "node": "node ../../dist/api/server.js",
+    "dev": "tsc --build && node ./dist/server.js",
+    "build": "tsc --build ",
+    "node": "node ./dist/api/server.js",
     "seeder": "ts-node ./seeder/seeder.ts",
     "lint": " biome  check",
     "lint:fix": " biome  check --write",
