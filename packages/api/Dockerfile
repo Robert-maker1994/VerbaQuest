@@ -19,7 +19,8 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN npm install
+RUN npm install ../types  --install-links
+
 
 COPY . .
 EXPOSE 5001
