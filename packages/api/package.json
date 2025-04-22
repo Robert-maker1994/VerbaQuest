@@ -12,7 +12,7 @@
     "lint": " biome  check",
     "lint:fix": " biome  check --write",
     "test": "vitest",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/update-database -d ./datasource.ts",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/all-conjugations -d ./datasource.ts",
     "migration:create": "typeorm migration:create",
     "migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
   },  

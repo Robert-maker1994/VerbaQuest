@@ -34,15 +34,15 @@ export class Sentences1743320907018 implements MigrationInterface {
       }
 
       const presenteIndicative = await tenseRepository.findOne({
-        where: { tense: "presente", mood: "indicativo", language: spanish },
+        where: { tense: "presente indicativo", mood: "indicativo", language: spanish },
       });
       const presenteSubjunctive = await tenseRepository.findOneBy({
-        tense: "presente",
+        tense: "presente indicativo",
         mood: "subjuntivo",
         language: spanish,
       });
       const preteritoIndicative = await tenseRepository.findOne({
-        where: { tense: "pretérito indefinido", mood: "indicativo", language: spanish },
+        where: { tense: "pretérito indefinido indicativo", mood: "indicativo", language: spanish },
       });
 
       if (!presenteIndicative || !presenteSubjunctive || !preteritoIndicative) {

@@ -21,13 +21,13 @@ export class Conjugations1743278126814 implements MigrationInterface {
         const listenWord = await wordRepository.findOne({ where: { word_text: "listen", language: english } });
 
         const presenteIndicativeSpanish = await tenseRepository.findOne({
-          where: { tense: "presente", mood: "indicativo", language: spanish },
+          where: { tense: "presente indicativo", mood: "indicativo", language: spanish },
         });
         const presenteSubjunctiveSpanish = await tenseRepository.findOne({
-          where: { tense: "presente", mood: "subjuntivo", language: spanish },
+          where: { tense: "presente indicativo", mood: "subjuntivo", language: spanish },
         });
         const preteritoIndefinidoIndicativeSpanish = await tenseRepository.findOne({
-          where: { tense: "pretérito indefinido", mood: "indicativo", language: spanish },
+          where: { tense: "pretérito indefinido indicativo", mood: "indicativo", language: spanish },
         });
         const presentSimpleIndicativeEnglish = await tenseRepository.findOne({
           where: { tense: "present simple", mood: "indicative", language: english },

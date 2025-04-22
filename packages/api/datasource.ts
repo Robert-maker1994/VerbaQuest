@@ -28,6 +28,7 @@ import { Spanish1743278126817 } from "./migrations/1743278126817-spanish";
 import { Sentences1743320907018 } from "./migrations/1743320907018-sentences";
 import { ConjugationsTranslations1743488914989 } from "./migrations/1743488914989-conjugations-translations";
 import { UpdateDatabase1743693755037 } from "./migrations/1743693755037-update-database";
+import { AllConjugations1745319705824 } from "./migrations/1745319705824-all-conjugations";
 
 const { host, user, password, database, pg_port } = config;
 
@@ -72,6 +73,7 @@ export const AppDataSource = new DataSource({
     Sentences1743320907018,
     ConjugationsTranslations1743488914989,
     UpdateDatabase1743693755037,
+    AllConjugations1745319705824,
   ],
   migrationsTableName: "verba_migrations",
 });

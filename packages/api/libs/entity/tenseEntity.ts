@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Conjugation } from "./conjugations/conjugationEntity";
 import { Languages } from "./languageEntity";
+import type{ VerbaquestTense } from "@verbaquest/types";
 
 @Entity()
 export class Tense {
@@ -16,7 +17,7 @@ export class Tense {
     length: 50,
     comment: "The name of the tense (e.g., present, past, future).",
   })
-  tense: string;
+  tense: VerbaquestTense;
 
   @Column({
     type: "text",
