@@ -27,7 +27,7 @@ export class Conjugations1743278126814 implements MigrationInterface {
           where: { tense: "presente indicativo", mood: "subjuntivo", language: spanish },
         });
         const preteritoIndefinidoIndicativeSpanish = await tenseRepository.findOne({
-          where: { tense: "pretérito indefinido indicativo", mood: "indicativo", language: spanish },
+          where: { tense: "pretérito indefinido", mood: "indicativo", language: spanish },
         });
         const presentSimpleIndicativeEnglish = await tenseRepository.findOne({
           where: { tense: "present simple", mood: "indicative", language: english },

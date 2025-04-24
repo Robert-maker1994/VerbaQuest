@@ -37,12 +37,12 @@ export class Sentences1743320907018 implements MigrationInterface {
         where: { tense: "presente indicativo", mood: "indicativo", language: spanish },
       });
       const presenteSubjunctive = await tenseRepository.findOneBy({
-        tense: "presente indicativo",
+        tense: "presente subjuntivo",
         mood: "subjuntivo",
         language: spanish,
       });
       const preteritoIndicative = await tenseRepository.findOne({
-        where: { tense: "pretérito indefinido indicativo", mood: "indicativo", language: spanish },
+        where: { tense: "pretérito indefinido", mood: "indicativo", language: spanish },
       });
 
       if (!presenteIndicative || !presenteSubjunctive || !preteritoIndicative) {

@@ -148,7 +148,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "pretérito imperfecto indicativo",
+        tense: "pretérito imperfecto",
         mood: "indicativo",
         description:
           "Se usa para acciones habituales en el pasado, descripciones en el pasado y acciones en progreso en el pasado.",
@@ -157,7 +157,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "pretérito indefinido indicativo",
+        tense: "pretérito indefinido",
         mood: "indicativo",
         description: "Se usa para acciones completadas en el pasado.",
 
@@ -165,21 +165,21 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "futuro perfecto indicativo",
+        tense: "futuro simple",
         mood: "indicativo",
         description: "Se usa para predicciones, decisiones espontáneas y promesas.",
         conjugations: [],
       },
       {
         language: spanish,
-        tense: "condicional simple indicativo",
+        tense: "condicional simple",
         mood: "indicativo",
         description: "Se usa para situaciones hipotéticas y sus consecuencias.",
         conjugations: [],
       },
       {
         language: spanish,
-        tense: "presente perfecto indicativo",
+        tense: "presente perfecto",
         mood: "indicativo",
         description:
           "Se usa para acciones que comenzaron en el pasado y continúan hasta el presente o tienen un resultado en el presente.",
@@ -187,21 +187,21 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "pretérito pluscuamperfecto indicativo",
+        tense: "pretérito pluscuamperfecto",
         mood: "indicativo",
         description: "Se usa para acciones completadas antes de otra acción en el pasado.",
         conjugations: [],
       },
       {
         language: spanish,
-        tense: "futuro perfecto indicativo",
+        tense: "futuro perfecto",
         mood: "indicativo",
         description: "Se usa para acciones que se habrán completado antes de un momento específico en el futuro.",
         conjugations: [],
       },
       {
         language: spanish,
-        tense: "condicional perfecto indicativo",
+        tense: "condicional perfecto",
         mood: "indicativo",
         description: "Se usa para acciones hipotéticas que se habrían completado.",
         conjugations: [],
@@ -215,14 +215,14 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "pretérito imperfecto subjuntivo",
+        tense: "pretérito imperfecto",
         mood: "subjuntivo",
         description: "Se usa para expresar deseos, dudas, posibilidades, emociones y juicios de valor en el pasado.",
         conjugations: [],
       },
       {
         language: spanish,
-        tense: "pretérito perfecto subjuntivo",
+        tense: "pretérito perfecto",
         mood: "subjuntivo",
         description:
           "Se usa para expresar acciones completadas antes de otra acción en el pasado en el contexto de deseos, dudas, posibilidades, emociones y juicios de valor.",
@@ -230,7 +230,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "pretérito pluscuamperfecto subjuntivo",
+        tense: "pretérito pluscuamperfecto",
         mood: "subjuntivo",
         description:
           "Se usa para expresar acciones que se habían completado antes de otra acción en el pasado en el contexto de deseos, dudas, posibilidades, emociones y juicios de valor.",
@@ -238,7 +238,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "futuro simple subjuntivo",
+        tense: "futuro simple",
         mood: "subjuntivo",
         description:
           "Se usa para expresar acciones futuras en el contexto de deseos, dudas, posibilidades, emociones y juicios de valor.",
@@ -246,7 +246,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "futuro perfecto subjuntivo",
+        tense: "futuro perfecto",
         mood: "subjuntivo",
         description:
           "Se usa para expresar acciones que se habrán completado antes de un momento específico en el futuro en el contexto de deseos, dudas, posibilidades, emociones y juicios de valor.",

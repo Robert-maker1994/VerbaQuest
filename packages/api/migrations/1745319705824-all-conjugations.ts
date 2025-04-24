@@ -154,7 +154,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                     } = row;
 
                     const infinitiveLower = verb_infinitive.toLowerCase();
-                    const tenseNameLower = spanish_tense.toLowerCase();
+                
                     const formNameLower = form_name.toLowerCase();
 
                     // --- 5a. Get Language ---
@@ -249,7 +249,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
 
                 // --- 8. Batch Insertion ---
                 console.info(`Attempting to insert ${conjugationsToInsert.length} conjugations...`);
-                // Important: Save conjugations first to get their IDs
+          
                 await queryRunner.manager.save(Conjugation, conjugationsToInsert, { chunk: 500 }); // Use chunking for large datasets
                 console.info("Conjugations inserted successfully.");
 
@@ -274,10 +274,10 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                 await queryRunner.commitTransaction();
                 console.info("Migration completed successfully.");
             } catch (error) {
-                // --- 9. Rollback Transaction on Error ---
+    
                 console.error("Error during migration process. Rolling back transaction.", error);
                 await queryRunner.rollbackTransaction();
-                throw error; // Re-throw error to signal migration failure
+                throw error; 
             }
         }
 

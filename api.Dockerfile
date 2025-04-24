@@ -11,30 +11,46 @@ COPY packages/api/package.json ./packages/api/
 RUN npm install --loglevel error
 
 # ---- Builder ----
-# Build the types and api packages using the full node_modules
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 RUN npm run build -w @verbaquest/types
+
+# Needed for type decorations for the api 
+RUN npm install
+
 RUN npm run build -w @verbaquest/api
 
 # ---- Prune Dev Dependencies ---
 FROM base AS prod-deps
+ARG USER
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_HOST
+ARG DB_NAME
+ARG PG_PORT
+
+ENV USER=${USER}
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_HOST=${DB_HOST}
+ENV DB_NAME=${DB_NAME}
+ENV PG_PORT=5432
 COPY package.json package-lock.json* ./
 COPY packages/api/package.json ./packages/api/
 RUN npm ci --omit=dev --loglevel error
 
 # ---- Runner ----
-FROM node:18-alpine AS runner
-WORKDIR /app
+# FROM node:18-alpine AS runner
+# WORKDIR /app
 
-# Set NODE_ENV to production
+# # Set NODE_ENV to production
 ENV NODE_ENV=production
 ENV PORT=8080
 
 COPY /packages/api/seeder ./packages/api/seeder
-COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/node_modules ./node_modules
 
 COPY --from=builder /app/packages/api/dist ./packages/api/dist
 COPY --from=builder /app/packages/api/package.json ./packages/api/package.json
@@ -44,5 +60,4 @@ COPY --from=builder /app/packages/types/dist ./node_modules/@verbaquest/types/di
 
 EXPOSE 8080
 
-# Define the command to run the application using the api's built entrypoint
 CMD ["node", "packages/api/dist/server.js"]

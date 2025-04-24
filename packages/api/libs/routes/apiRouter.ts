@@ -1,6 +1,4 @@
 import type core from "express";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
 import { authMiddleware } from "../auth/authMiddleware";
 import crosswordRouter from "./crosswordRoute";
 import healthRouter from "./healthRoute";
@@ -21,17 +19,5 @@ export default function initializeRoutes(app: core.Express) {
   app.use("/user-verb", authMiddleware, userVerbRouter);
 
   app.use("/verb", authMiddleware, verbRouter);
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
-const swaggerSpec = swaggerJSDoc({
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Verbaquest API",
-      version: "1.0.0",
-      description: "API documentation for the Verbaquest application",
-    },
-  },
-  apis: ["./libs/controller/*.ts", "./libs/routes/*.ts"],
-});
