@@ -1,5 +1,4 @@
 
-// --- Moods (Extracted from your Tense migration) ---
 export type Mood = "indicativo"| "indicative" | "indicativo" | "subjuntivo"   | "imperative";
 // --- English Tenses ---
 export type EnglishTense =
@@ -21,11 +20,10 @@ export type EnglishTense =
   | "conditional perfect continuous";
 
 // --- Spanish Tenses ---
-// Based on 1743248711332-tense.ts
-// Combining tense name and mood for clarity, as they are distinct entries
+// Combining tense name as they are distinct entries
 export type SpanishTense =
   // Indicativo
-  | "presente indicativo"
+  | "presente"
   | "pretérito imperfecto"
   | "pretérito indefinido"  
   | "futuro simple" 
@@ -39,7 +37,7 @@ export type SpanishTense =
   | "pretérito imperfecto"
   | "pretérito perfecto"
   | "pretérito pluscuamperfecto"
-  | "futuro simple" // Note: Relatively rare in modern Spanish
-  | "futuro perfecto"; // Note: Relatively rare in modern Spanish
+  | "futuro simple" 
+  | "futuro perfecto"; 
 
 export type VerbaquestTense = EnglishTense | SpanishTense;

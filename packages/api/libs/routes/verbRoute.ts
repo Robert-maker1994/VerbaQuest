@@ -4,6 +4,7 @@ import { Form, Tense } from "../entity";
 import { VerbError } from "../errors/verbError";
 import { verbService } from "../services";
 import type { AuthRequest } from "../types/authRequest";
+import axios from "axios";
 
 const verbRouter = Router();
 
@@ -76,7 +77,7 @@ verbRouter.get("/:search", async (req: AuthRequest, res: Response, next: NextFun
 verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { verbId } = req.params;
-    const conjugation = await verbService.getConjugationById(Number(verbId), req.user.app_language);
+    const conjugation = await verbService.getConjugationById(Number(verbId));
     const tenses = await AppDataSource.getRepository(Tense).find({
       where: {
         language: {
@@ -94,12 +95,30 @@ verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, n
       },
     });
 
-    if (!conjugation) {
-      throw new VerbError("Conjugation not found", 404);
-    }
+     // create a translation object 
+     const getTranslations = conjugation.map(async (conj) => {
+      const string = `${conj.form.form} ${conj.tense.tense}`;
+      const res = await axios.post<{ translatedText: string }>(
+        "http://localhost:5000/translate",
+        {
+          q: string,
+          source: "auto",
+          target: req.user.preferred_language,
+          format: "text",
+          caches: true,
+          alternatives: 1,
+          api_key: "",
+        },
+        { headers: { "Content-Type": "application/json" } },
+      );
+      return {
+        ...conj,
+        directTranslation: res.data.translatedText ? res.data.translatedText : conj.conjugation,
+      }
+    });
 
     res.json({
-      conjugation,
+      conjugation: Promise.all(getTranslations),
       tenses,
       forms,
       verb,

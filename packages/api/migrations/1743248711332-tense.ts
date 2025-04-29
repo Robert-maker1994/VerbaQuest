@@ -140,7 +140,7 @@ export class Tense1743248711332 implements MigrationInterface {
       },
       {
         language: spanish,
-        tense: "presente indicativo",
+        tense: "presente",
         mood: "indicativo",
         description: "Se usa para acciones habituales, rutinas, verdades generales y hechos.",
 

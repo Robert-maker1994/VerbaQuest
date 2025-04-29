@@ -34,7 +34,7 @@ export class Sentences1743320907018 implements MigrationInterface {
       }
 
       const presenteIndicative = await tenseRepository.findOne({
-        where: { tense: "presente indicativo", mood: "indicativo", language: spanish },
+        where: { tense: "presente", mood: "indicativo", language: spanish },
       });
       const presenteSubjunctive = await tenseRepository.findOneBy({
         tense: "presente subjuntivo",

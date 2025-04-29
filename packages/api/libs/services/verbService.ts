@@ -2,6 +2,7 @@ import type { LanguageCode } from "@verbaquest/types";
 import { In, Like } from "typeorm";
 import { AppDataSource } from "../../datasource";
 import { Conjugation, Verb } from "../entity";
+import { VerbError } from "../errors/verbError";
 
 export const verbService = {
   /**
@@ -98,18 +99,13 @@ export const verbService = {
    * @param {number} verbId - The ID of the verb.
    * @returns {Promise<Conjugation | null>}
    */
-  async getConjugationById(verbId: number, languageCode: LanguageCode): Promise<Conjugation[] | null> {
+  async getConjugationById(verbId: number): Promise<Conjugation[] | null> {
     const conjugationRepository = AppDataSource.getRepository(Conjugation);
 
     const conjugation = await conjugationRepository.find({
       where: {
         verb: {
           verb_id: verbId,
-        },
-        translations: {
-          language: {
-            language_code: languageCode,
-          },
         },
       },
       relations: {
@@ -127,11 +123,7 @@ export const verbService = {
           tense: true,
           mood: true,
         },
-        translations: {
-          conjugationTranslationId: true,
 
-          translation: true,
-        },
         form: {
           form: true,
           form_id: true,
@@ -139,6 +131,11 @@ export const verbService = {
       },
     });
 
+    if (!conjugation.length) {
+      throw new VerbError("Conjugation not found", 404);
+    }
+
+   
     return conjugation;
   },
 };

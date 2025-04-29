@@ -2,32 +2,40 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["es2020", "DOM", "DOM.Iterable"],
-
     "module": "ESNext",
-    "jsx": "react-jsx",
-    "outDir": "dist",
-    "rootDir": "./",
-
-    // "useDefineForClassFields": true,
+    "jsx": "react-jsx", // Correct for modern React/Vite
+    "outDir": "dist", // Standard output dir (though Vite handles bundling)
+    "useDefineForClassFields": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler", // Good choice for Vite
     "resolveJsonModule": true,
-    "sourceMap": true,
+    "sourceMap": true, // Good for debugging
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
     "paths": {
+
       "@verbaquest/types": ["../dist/types/*"]
     },
-    "declaration": true
+    // "declaration": true // Remove if web-frontend is ONLY an application, not a library
+    "isolatedModules": true, // Often recommended with bundlers like Vite/esbuild
+    "noEmit": true // Vite handles the emitting/bundling, TS is mainly for type checking
   },
-  "include": ["vite.config.ts"],
-
-  "exclude": ["node_modules"],
-
+  // --- THIS IS THE MOST IMPORTANT CHANGE ---
+  "include": [
+    "src", // Include all files in the src directory
+    "vite.config.ts" // Keep including Vite config
+    // Add other top-level TS files if needed, e.g., setupTests.ts
+  ],
+  "exclude": [
+    "node_modules",
+    "dist" // Good practice to explicitly exclude dist
+  ],
+  "references": [
+    // If using project references for the types package (alternative to paths)
+    // { "path": "../types" }
+  ]
 }

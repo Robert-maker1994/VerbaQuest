@@ -10,11 +10,11 @@ import {
   Typography,
   tableCellClasses,
 } from "@mui/material";
-import type React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import HoverBox from "../../../components/hoverBox";
 import backendEndpoints from "../../../context/api/api";
+import type React from "react";
 
 export interface ApiVerb {
   verb_id: number;
@@ -49,7 +49,7 @@ export interface ApiConjugation {
   conjugation: string;
   is_irregular: boolean;
   tense: ApiTense;
-  translations: ApiTranslation[];
+  directTranslation: string;
   form: ApiForm;
 }
 
@@ -100,11 +100,11 @@ const ConjugationTable: React.FC = () => {
     )?.conjugation;
   };
 
-  const getTranslations = (tense: string, mood: string, form: string): string[] => {
+  const getTranslations = (tense: string, mood: string, form: string): string => {
     return (
       conjugations?.conjugation
         .find((c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form)
-        ?.translations.map((translation) => translation.translation) || []
+        ?.directTranslation || ''
     );
   };
   if (!conjugations) {
@@ -132,11 +132,19 @@ const ConjugationTable: React.FC = () => {
       {tenses?.map((tense) => (
         <TableContainer
           key={tense.tense + tense.mood}
+
           component={HoverBox}
           sx={{
             marginTop: 2,
           }}
         >
+          <Typography variant="h6"
+            component="h2" gutterBottom>
+            {conjugations.verb?.word.word_text} in the {tense.tense}  with the mood of {tense.mood}
+          </Typography>
+          <Typography variant="h6"
+            component="h2" gutterBottom>
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
@@ -180,13 +188,14 @@ const ConjugationTable: React.FC = () => {
                     {getConjugation(tense.tense.toLowerCase(), tense.mood.toLowerCase(), form.form)}
                   </TableCell>
                   <TableCell>
-                    {getTranslations(tense.tense.toLowerCase(), tense.mood.toLowerCase(), form.form).join(", ")}
+                    {getTranslations(tense.tense.toLowerCase(), tense.mood.toLowerCase(), form.form)}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
       ))}
     </Box>
   );

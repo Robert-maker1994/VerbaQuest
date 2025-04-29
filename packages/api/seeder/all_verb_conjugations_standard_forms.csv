@@ -1,0 +1,271 @@
+verb_infinitive,verb_language_code,spanish_tense,spanish_mood,form_name,conjugated_form,is_irregular
+hacer,es,presente,indicativo,yo,hago,Yes
+hacer,es,presente,indicativo,tú,haces,No
+hacer,es,presente,indicativo,él/ella/usted,hace,No
+hacer,es,presente,indicativo,nosotros/nosotras,hacemos,No
+hacer,es,presente,indicativo,vosotros/vosotras,hacéis,No
+hacer,es,presente,indicativo,ellos/ellas/ustedes,hacen,No
+hacer,es,pretérito indefinido,indicativo,yo,hice,Yes
+hacer,es,pretérito indefinido,indicativo,tú,hiciste,Yes
+hacer,es,pretérito indefinido,indicativo,él/ella/usted,hizo,Yes
+hacer,es,pretérito indefinido,indicativo,nosotros/nosotras,hicimos,Yes
+hacer,es,pretérito indefinido,indicativo,vosotros/vosotras,hicisteis,Yes
+hacer,es,pretérito indefinido,indicativo,ellos/ellas/ustedes,hicieron,Yes
+hacer,es,pretérito imperfecto,indicativo,yo,hacía,No
+hacer,es,pretérito imperfecto,indicativo,tú,hacías,No
+hacer,es,pretérito imperfecto,indicativo,él/ella/usted,hacía,No
+hacer,es,pretérito imperfecto,indicativo,nosotros/nosotras,hacíamos,No
+hacer,es,pretérito imperfecto,indicativo,vosotros/vosotras,hacíais,No
+hacer,es,pretérito imperfecto,indicativo,ellos/ellas/ustedes,hacían,No
+hacer,es,futuro simple,indicativo,yo,haré,Yes
+hacer,es,futuro simple,indicativo,tú,harás,Yes
+hacer,es,futuro simple,indicativo,él/ella/usted,hará,Yes
+hacer,es,futuro simple,indicativo,nosotros/nosotras,haremos,Yes
+hacer,es,futuro simple,indicativo,vosotros/vosotras,haréis,Yes
+hacer,es,futuro simple,indicativo,ellos/ellas/ustedes,harán,Yes
+hacer,es,condicional simple,indicativo,yo,haría,Yes
+hacer,es,condicional simple,indicativo,tú,harías,Yes
+hacer,es,condicional simple,indicativo,él/ella/usted,haría,Yes
+hacer,es,condicional simple,indicativo,nosotros/nosotras,haríamos,Yes
+hacer,es,condicional simple,indicativo,vosotros/vosotras,haríais,Yes
+hacer,es,condicional simple,indicativo,ellos/ellas/ustedes,harían,Yes
+hacer,es,presente perfecto,indicativo,yo,he hecho,Yes
+hacer,es,presente perfecto,indicativo,tú,has hecho,Yes
+hacer,es,presente perfecto,indicativo,él/ella/usted,ha hecho,Yes
+hacer,es,presente perfecto,indicativo,nosotros/nosotras,hemos hecho,Yes
+hacer,es,presente perfecto,indicativo,vosotros/vosotras,habéis hecho,Yes
+hacer,es,presente perfecto,indicativo,ellos/ellas/ustedes,han hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,yo,había hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,tú,habías hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,él/ella/usted,había hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,nosotros/nosotras,habíamos hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,vosotros/vosotras,habíais hecho,Yes
+hacer,es,pretérito pluscuamperfecto,indicativo,ellos/ellas/ustedes,habían hecho,Yes
+hacer,es,futuro perfecto,indicativo,yo,habré hecho,Yes
+hacer,es,futuro perfecto,indicativo,tú,habrás hecho,Yes
+hacer,es,futuro perfecto,indicativo,él/ella/usted,habrá hecho,Yes
+hacer,es,futuro perfecto,indicativo,nosotros/nosotras,habremos hecho,Yes
+hacer,es,futuro perfecto,indicativo,vosotros/vosotras,habréis hecho,Yes
+hacer,es,futuro perfecto,indicativo,ellos/ellas/ustedes,habrán hecho,Yes
+hacer,es,condicional perfecto,indicativo,yo,habría hecho,Yes
+hacer,es,condicional perfecto,indicativo,tú,habrías hecho,Yes
+hacer,es,condicional perfecto,indicativo,él/ella/usted,habría hecho,Yes
+hacer,es,condicional perfecto,indicativo,nosotros/nosotras,habríamos hecho,Yes
+hacer,es,condicional perfecto,indicativo,vosotros/vosotras,habríais hecho,Yes
+hacer,es,condicional perfecto,indicativo,ellos/ellas/ustedes,habrían hecho,Yes
+hacer,es,presente,subjuntivo,yo,haga,Yes
+hacer,es,presente,subjuntivo,tú,hagas,Yes
+hacer,es,presente,subjuntivo,él/ella/usted,haga,Yes
+hacer,es,presente,subjuntivo,nosotros/nosotras,hagamos,Yes
+hacer,es,presente,subjuntivo,vosotros/vosotras,hagáis,Yes
+hacer,es,presente,subjuntivo,ellos/ellas/ustedes,hagan,Yes
+hacer,es,pretérito imperfecto,subjuntivo,yo,hiciera,Yes
+hacer,es,pretérito imperfecto,subjuntivo,tú,hicieras,Yes
+hacer,es,pretérito imperfecto,subjuntivo,él/ella/usted,hiciera,Yes
+hacer,es,pretérito imperfecto,subjuntivo,nosotros/nosotras,hiciéramos,Yes
+hacer,es,pretérito imperfecto,subjuntivo,vosotros/vosotras,hicierais,Yes
+hacer,es,pretérito imperfecto,subjuntivo,ellos/ellas/ustedes,hicieran,Yes
+hacer,es,futuro simple,subjuntivo,yo,hiciere,Yes
+hacer,es,futuro simple,subjuntivo,tú,hicieres,Yes
+hacer,es,futuro simple,subjuntivo,él/ella/usted,hiciere,Yes
+hacer,es,futuro simple,subjuntivo,nosotros/nosotras,hiciéremos,Yes
+hacer,es,futuro simple,subjuntivo,vosotros/vosotras,hiciereis,Yes
+hacer,es,futuro simple,subjuntivo,ellos/ellas/ustedes,hicieren,Yes
+hacer,es,pretérito perfecto,subjuntivo,yo,haya hecho,Yes
+hacer,es,pretérito perfecto,subjuntivo,tú,hayas hecho,Yes
+hacer,es,pretérito perfecto,subjuntivo,él/ella/usted,haya hecho,Yes
+hacer,es,pretérito perfecto,subjuntivo,nosotros/nosotras,hayamos hecho,Yes
+hacer,es,pretérito perfecto,subjuntivo,vosotros/vosotras,hayáis hecho,Yes
+hacer,es,pretérito perfecto,subjuntivo,ellos/ellas/ustedes,hayan hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,yo,hubiera hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,tú,hubieras hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,él/ella/usted,hubiera hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,nosotros/nosotras,hubiéramos hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,vosotros/vosotras,hubierais hecho,Yes
+hacer,es,pretérito pluscuamperfecto,subjuntivo,ellos/ellas/ustedes,hubieran hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,yo,hubiere hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,tú,hubieres hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,él/ella/usted,hubiere hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,nosotros/nosotras,hubiéremos hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,vosotros/vosotras,hubiereis hecho,Yes
+hacer,es,futuro perfecto,subjuntivo,ellos/ellas/ustedes,hubieren hecho,Yes
+ser,es,presente,indicativo,yo,soy,Yes
+ser,es,presente,indicativo,tú,eres,Yes
+ser,es,presente,indicativo,él/ella/usted,es,Yes
+ser,es,presente,indicativo,nosotros/nosotras,somos,Yes
+ser,es,presente,indicativo,vosotros/vosotras,sois,Yes
+ser,es,presente,indicativo,ellos/ellas/ustedes,son,Yes
+ser,es,pretérito indefinido,indicativo,yo,fui,Yes
+ser,es,pretérito indefinido,indicativo,tú,fuiste,Yes
+ser,es,pretérito indefinido,indicativo,él/ella/usted,fue,Yes
+ser,es,pretérito indefinido,indicativo,nosotros/nosotras,fuimos,Yes
+ser,es,pretérito indefinido,indicativo,vosotros/vosotras,fuisteis,Yes
+ser,es,pretérito indefinido,indicativo,ellos/ellas/ustedes,fueron,Yes
+ser,es,pretérito imperfecto,indicativo,yo,era,Yes
+ser,es,pretérito imperfecto,indicativo,tú,eras,Yes
+ser,es,pretérito imperfecto,indicativo,él/ella/usted,era,Yes
+ser,es,pretérito imperfecto,indicativo,nosotros/nosotras,éramos,Yes
+ser,es,pretérito imperfecto,indicativo,vosotros/vosotras,erais,Yes
+ser,es,pretérito imperfecto,indicativo,ellos/ellas/ustedes,eran,Yes
+ser,es,futuro simple,indicativo,yo,seré,No
+ser,es,futuro simple,indicativo,tú,serás,No
+ser,es,futuro simple,indicativo,él/ella/usted,será,No
+ser,es,futuro simple,indicativo,nosotros/nosotras,seremos,No
+ser,es,futuro simple,indicativo,vosotros/vosotras,seréis,No
+ser,es,futuro simple,indicativo,ellos/ellas/ustedes,serán,No
+ser,es,condicional simple,indicativo,yo,sería,No
+ser,es,condicional simple,indicativo,tú,serías,No
+ser,es,condicional simple,indicativo,él/ella/usted,sería,No
+ser,es,condicional simple,indicativo,nosotros/nosotras,seríamos,No
+ser,es,condicional simple,indicativo,vosotros/vosotras,seríais,No
+ser,es,condicional simple,indicativo,ellos/ellas/ustedes,serían,No
+ser,es,presente perfecto,indicativo,yo,he sido,No
+ser,es,presente perfecto,indicativo,tú,has sido,No
+ser,es,presente perfecto,indicativo,él/ella/usted,ha sido,No
+ser,es,presente perfecto,indicativo,nosotros/nosotras,hemos sido,No
+ser,es,presente perfecto,indicativo,vosotros/vosotras,habéis sido,No
+ser,es,presente perfecto,indicativo,ellos/ellas/ustedes,han sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,yo,había sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,tú,habías sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,él/ella/usted,había sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,nosotros/nosotras,habíamos sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,vosotros/vosotras,habíais sido,No
+ser,es,pretérito pluscuamperfecto,indicativo,ellos/ellas/ustedes,habían sido,No
+ser,es,futuro perfecto,indicativo,yo,habré sido,No
+ser,es,futuro perfecto,indicativo,tú,habrás sido,No
+ser,es,futuro perfecto,indicativo,él/ella/usted,habrá sido,No
+ser,es,futuro perfecto,indicativo,nosotros/nosotras,habremos sido,No
+ser,es,futuro perfecto,indicativo,vosotros/vosotras,habréis sido,No
+ser,es,futuro perfecto,indicativo,ellos/ellas/ustedes,habrán sido,No
+ser,es,condicional perfecto,indicativo,yo,habría sido,No
+ser,es,condicional perfecto,indicativo,tú,habrías sido,No
+ser,es,condicional perfecto,indicativo,él/ella/usted,habría sido,No
+ser,es,condicional perfecto,indicativo,nosotros/nosotras,habríamos sido,No
+ser,es,condicional perfecto,indicativo,vosotros/vosotras,habríais sido,No
+ser,es,condicional perfecto,indicativo,ellos/ellas/ustedes,habrían sido,No
+ser,es,presente,subjuntivo,yo,sea,Yes
+ser,es,presente,subjuntivo,tú,seas,Yes
+ser,es,presente,subjuntivo,él/ella/usted,sea,Yes
+ser,es,presente,subjuntivo,nosotros/nosotras,seamos,Yes
+ser,es,presente,subjuntivo,vosotros/vosotras,seáis,Yes
+ser,es,presente,subjuntivo,ellos/ellas/ustedes,sean,Yes
+ser,es,pretérito imperfecto,subjuntivo,yo,fuera,Yes
+ser,es,pretérito imperfecto,subjuntivo,tú,fueras,Yes
+ser,es,pretérito imperfecto,subjuntivo,él/ella/usted,fuera,Yes
+ser,es,pretérito imperfecto,subjuntivo,nosotros/nosotras,fuéramos,Yes
+ser,es,pretérito imperfecto,subjuntivo,vosotros/vosotras,fuerais,Yes
+ser,es,pretérito imperfecto,subjuntivo,ellos/ellas/ustedes,fueran,Yes
+ser,es,futuro simple,subjuntivo,yo,fuere,Yes
+ser,es,futuro simple,subjuntivo,tú,fueres,Yes
+ser,es,futuro simple,subjuntivo,él/ella/usted,fuere,Yes
+ser,es,futuro simple,subjuntivo,nosotros/nosotras,fuéremos,Yes
+ser,es,futuro simple,subjuntivo,vosotros/vosotras,fuereis,Yes
+ser,es,futuro simple,subjuntivo,ellos/ellas/ustedes,fueren,Yes
+ser,es,pretérito perfecto,subjuntivo,yo,haya sido,No
+ser,es,pretérito perfecto,subjuntivo,tú,hayas sido,No
+ser,es,pretérito perfecto,subjuntivo,él/ella/usted,haya sido,No
+ser,es,pretérito perfecto,subjuntivo,nosotros/nosotras,hayamos sido,No
+ser,es,pretérito perfecto,subjuntivo,vosotros/vosotras,hayáis sido,No
+ser,es,pretérito perfecto,subjuntivo,ellos/ellas/ustedes,hayan sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,yo,hubiera sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,tú,hubieras sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,él/ella/usted,hubiera sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,nosotros/nosotras,hubiéramos sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,vosotros/vosotras,hubierais sido,No
+ser,es,pretérito pluscuamperfecto,subjuntivo,ellos/ellas/ustedes,hubieran sido,No
+ser,es,futuro perfecto,subjuntivo,yo,hubiere sido,No
+ser,es,futuro perfecto,subjuntivo,tú,hubieres sido,No
+ser,es,futuro perfecto,subjuntivo,él/ella/usted,hubiere sido,No
+ser,es,futuro perfecto,subjuntivo,nosotros/nosotras,hubiéremos sido,No
+ser,es,futuro perfecto,subjuntivo,vosotros/vosotras,hubiereis sido,No
+ser,es,futuro perfecto,subjuntivo,ellos/ellas/ustedes,hubieren sido,No
+estar,es,presente,indicativo,yo,estoy,Yes
+estar,es,presente,indicativo,tú,estás,Yes
+estar,es,presente,indicativo,él/ella/usted,está,Yes
+estar,es,presente,indicativo,nosotros/nosotras,estamos,No
+estar,es,presente,indicativo,vosotros/vosotras,estáis,No
+estar,es,presente,indicativo,ellos/ellas/ustedes,están,Yes
+estar,es,pretérito indefinido,indicativo,yo,estuve,Yes
+estar,es,pretérito indefinido,indicativo,tú,estuviste,Yes
+estar,es,pretérito indefinido,indicativo,él/ella/usted,estuvo,Yes
+estar,es,pretérito indefinido,indicativo,nosotros/nosotras,estuvimos,Yes
+estar,es,pretérito indefinido,indicativo,vosotros/vosotras,estuvisteis,Yes
+estar,es,pretérito indefinido,indicativo,ellos/ellas/ustedes,estuvieron,Yes
+estar,es,pretérito imperfecto,indicativo,yo,estaba,No
+estar,es,pretérito imperfecto,indicativo,tú,estabas,No
+estar,es,pretérito imperfecto,indicativo,él/ella/usted,estaba,No
+estar,es,pretérito imperfecto,indicativo,nosotros/nosotras,estábamos,No
+estar,es,pretérito imperfecto,indicativo,vosotros/vosotras,estabais,No
+estar,es,pretérito imperfecto,indicativo,ellos/ellas/ustedes,estaban,No
+estar,es,futuro simple,indicativo,yo,estaré,No
+estar,es,futuro simple,indicativo,tú,estarás,No
+estar,es,futuro simple,indicativo,él/ella/usted,estará,No
+estar,es,futuro simple,indicativo,nosotros/nosotras,estaremos,No
+estar,es,futuro simple,indicativo,vosotros/vosotras,estaréis,No
+estar,es,futuro simple,indicativo,ellos/ellas/ustedes,estarán,No
+estar,es,condicional simple,indicativo,yo,estaría,No
+estar,es,condicional simple,indicativo,tú,estarías,No
+estar,es,condicional simple,indicativo,él/ella/usted,estaría,No
+estar,es,condicional simple,indicativo,nosotros/nosotras,estaríamos,No
+estar,es,condicional simple,indicativo,vosotros/vosotras,estaríais,No
+estar,es,condicional simple,indicativo,ellos/ellas/ustedes,estarían,No
+estar,es,presente perfecto,indicativo,yo,he estado,No
+estar,es,presente perfecto,indicativo,tú,has estado,No
+estar,es,presente perfecto,indicativo,él/ella/usted,ha estado,No
+estar,es,presente perfecto,indicativo,nosotros/nosotras,hemos estado,No
+estar,es,presente perfecto,indicativo,vosotros/vosotras,habéis estado,No
+estar,es,presente perfecto,indicativo,ellos/ellas/ustedes,han estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,yo,había estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,tú,habías estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,él/ella/usted,había estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,nosotros/nosotras,habíamos estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,vosotros/vosotras,habíais estado,No
+estar,es,pretérito pluscuamperfecto,indicativo,ellos/ellas/ustedes,habían estado,No
+estar,es,futuro perfecto,indicativo,yo,habré estado,No
+estar,es,futuro perfecto,indicativo,tú,habrás estado,No
+estar,es,futuro perfecto,indicativo,él/ella/usted,habrá estado,No
+estar,es,futuro perfecto,indicativo,nosotros/nosotras,habremos estado,No
+estar,es,futuro perfecto,indicativo,vosotros/vosotras,habréis estado,No
+estar,es,futuro perfecto,indicativo,ellos/ellas/ustedes,habrán estado,No
+estar,es,condicional perfecto,indicativo,yo,habría estado,No
+estar,es,condicional perfecto,indicativo,tú,habrías estado,No
+estar,es,condicional perfecto,indicativo,él/ella/usted,habría estado,No
+estar,es,condicional perfecto,indicativo,nosotros/nosotras,habríamos estado,No
+estar,es,condicional perfecto,indicativo,vosotros/vosotras,habríais estado,No
+estar,es,condicional perfecto,indicativo,ellos/ellas/ustedes,habrían estado,No
+estar,es,presente,subjuntivo,yo,esté,Yes
+estar,es,presente,subjuntivo,tú,estés,Yes
+estar,es,presente,subjuntivo,él/ella/usted,esté,Yes
+estar,es,presente,subjuntivo,nosotros/nosotras,estemos,No
+estar,es,presente,subjuntivo,vosotros/vosotras,estéis,No
+estar,es,presente,subjuntivo,ellos/ellas/ustedes,estén,Yes
+estar,es,pretérito imperfecto,subjuntivo,yo,estuviera,Yes
+estar,es,pretérito imperfecto,subjuntivo,tú,estuvieras,Yes
+estar,es,pretérito imperfecto,subjuntivo,él/ella/usted,estuviera,Yes
+estar,es,pretérito imperfecto,subjuntivo,nosotros/nosotras,estuviéramos,Yes
+estar,es,pretérito imperfecto,subjuntivo,vosotros/vosotras,estuvierais,Yes
+estar,es,pretérito imperfecto,subjuntivo,ellos/ellas/ustedes,estuvieran,Yes
+estar,es,futuro simple,subjuntivo,yo,estuviere,Yes
+estar,es,futuro simple,subjuntivo,tú,estuvieres,Yes
+estar,es,futuro simple,subjuntivo,él/ella/usted,estuviere,Yes
+estar,es,futuro simple,subjuntivo,nosotros/nosotras,estuviéremos,Yes
+estar,es,futuro simple,subjuntivo,vosotros/vosotras,estuviereis,Yes
+estar,es,futuro simple,subjuntivo,ellos/ellas/ustedes,estuvieren,Yes
+estar,es,pretérito perfecto,subjuntivo,yo,haya estado,No
+estar,es,pretérito perfecto,subjuntivo,tú,hayas estado,No
+estar,es,pretérito perfecto,subjuntivo,él/ella/usted,haya estado,No
+estar,es,pretérito perfecto,subjuntivo,nosotros/nosotras,hayamos estado,No
+estar,es,pretérito perfecto,subjuntivo,vosotros/vosotras,hayáis estado,No
+estar,es,pretérito perfecto,subjuntivo,ellos/ellas/ustedes,hayan estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,yo,hubiera estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,tú,hubieras estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,él/ella/usted,hubiera estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,nosotros/nosotras,hubiéramos estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,vosotros/vosotras,hubierais estado,No
+estar,es,pretérito pluscuamperfecto,subjuntivo,ellos/ellas/ustedes,hubieran estado,No
+estar,es,futuro perfecto,subjuntivo,yo,hubiere estado,No
+estar,es,futuro perfecto,subjuntivo,tú,hubieres estado,No
+estar,es,futuro perfecto,subjuntivo,él/ella/usted,hubiere estado,No
+estar,es,futuro perfecto,subjuntivo,nosotros/nosotras,hubiéremos estado,No
+estar,es,futuro perfecto,subjuntivo,vosotros/vosotras,hubiereis estado,No
+estar,es,futuro perfecto,subjuntivo,ellos/ellas/ustedes,hubieren estado,No

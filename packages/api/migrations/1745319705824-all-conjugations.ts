@@ -27,7 +27,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         // Schema change from the original file (keep if needed)
 
-        const csvFilePath = path.join(__dirname, "../../seeder/all_verb_conjugations_detailed.csv");
+        const csvFilePath = path.join(__dirname, "../../seeder/all_verb_conjugations_standard_forms.csv");
 
         // --- 1. Pre-computation / Caching Setup ---
         console.info("Caching prerequisite data...");
@@ -42,13 +42,12 @@ export class AllConjugations1745319705824 implements MigrationInterface {
         for (const tense of tenseEntity) {
             if (tense.language) {
                 // Composite key: languageCode-tenseName-mood
-                const key = `${tense.language.language_code}-${tense.tense}`;
+                const key = `${tense.mood}-${tense.tense}`;
                 tenseMap.set(key.toLowerCase(), tense); // Use lowercase for case-insensitive matching
             } else {
                 console.warn(`Tense with ID ${tense.tense_id} has no associated language.`);
             }
         }
-
 
         const formMap = new Map<string, Form>();
         const formEnity = await queryRunner.manager.find(Form, { relations: ["language"] })
@@ -81,6 +80,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                     wordMap.set(key.toLowerCase(), word);
                 }
             }
+            console.info(tenseMap.keys());
 
             const existingVerbs = await queryRunner.manager.find(Verb, { relations: ["word", "language"] });
             for (const verb of existingVerbs) {
@@ -160,6 +160,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                     // --- 5a. Get Language ---
                     const verbLanguage = languageMap.get(verb_language_code);
                     if (!verbLanguage) {
+                        
                         throw new Error(`Language with code '${verb_language_code}' not found in cache (Row ${index + 1})`);
                     }
 
@@ -189,9 +190,8 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                         const newVerb = new Verb();
                         newVerb.word = wordEntity;
                         newVerb.language = verbLanguage;
-                        // Note: 'irregular' at the Verb level might need different logic
-                        // Here, we default it to false, as irregularity is handled per conjugation.
-                        newVerb.irregular = false;
+                  
+                        newVerb.irregular = parseBoolean(is_irregular);;
 
                         verbEntity = await queryRunner.manager.save(Verb, newVerb); // Save immediately
                         verbMap.set(verbKey, verbEntity); // Cache the newly created verb
@@ -201,6 +201,11 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                     const tenseKey = `${verb_language_code}-${spanish_tense}`;
                     const tenseEntity = tenseMap.get(tenseKey);
                     if (!tenseEntity) {
+                        console.log({
+                            verb_infinitive,
+                            verb_language_code,
+                            spanish_tense,
+                            form_name});
                         throw new Error(
                             `Tense with name '${spanish_tense}', mood '${spanish_tense}', language '${verb_language_code}' not found in cache (Row ${index + 1
                             })`,
@@ -268,8 +273,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                     console.info("Conjugation translations inserted successfully.");
                 } else {
                     console.info("No conjugation translations to insert.");
-                }
-
+           }
                 // --- 9. Commit Transaction ---
                 await queryRunner.commitTransaction();
                 console.info("Migration completed successfully.");
@@ -279,7 +283,7 @@ export class AllConjugations1745319705824 implements MigrationInterface {
                 await queryRunner.rollbackTransaction();
                 throw error; 
             }
-        }
+         }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         console.warn("Rolling back AllConjugations migration...");
