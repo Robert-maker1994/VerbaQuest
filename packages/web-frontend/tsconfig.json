@@ -17,7 +17,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-
       "@verbaquest/types": ["../dist/types/*"]
     },
     // "declaration": true // Remove if web-frontend is ONLY an application, not a library

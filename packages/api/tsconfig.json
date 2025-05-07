@@ -20,5 +20,5 @@
     "composite": true
   },
   "include": ["libs", "migrations", "utils", "./**.ts", "seeder"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

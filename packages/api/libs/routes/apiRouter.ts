@@ -20,4 +20,3 @@ export default function initializeRoutes(app: core.Express) {
 
   app.use("/verb", authMiddleware, verbRouter);
 }
-

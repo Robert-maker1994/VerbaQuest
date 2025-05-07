@@ -1,7 +1,6 @@
 import type { WordData } from "@verbaquest/types";
 import type { RefObject } from "react";
 
-
 export interface WordStatus extends WordData {
   isCompleted: boolean;
 }
@@ -86,10 +85,10 @@ export interface UseCrosswordGridReturn {
     col: number,
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-    /**
+  /**
    * An array of WordData objects, each with an added `isCompleted` property.
    */
-   wordsWithStatus: WordStatus[];
+  wordsWithStatus: WordStatus[];
   /**
    * A map of start_row and start_col to WordData array
    */

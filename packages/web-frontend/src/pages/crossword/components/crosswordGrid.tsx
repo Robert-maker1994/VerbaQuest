@@ -25,11 +25,18 @@ interface CrosswordProps {
   handleCompletion: (completed: boolean) => void;
 }
 
-
 const CrosswordGridComponent: React.FC<CrosswordProps> = ({ crosswordGrid, metadata, handleCompletion }) => {
-  const { cellData,
-    completedWords, inputRefs, clueListRef, selectedWord, onCellSelect, manageCellNavigation, wordsWithStatus, wordMap } =
-    useCrosswordGrid({ crosswordGrid, metadata });
+  const {
+    cellData,
+    completedWords,
+    inputRefs,
+    clueListRef,
+    selectedWord,
+    onCellSelect,
+    manageCellNavigation,
+    wordsWithStatus,
+    wordMap,
+  } = useCrosswordGrid({ crosswordGrid, metadata });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -60,11 +67,7 @@ const CrosswordGridComponent: React.FC<CrosswordProps> = ({ crosswordGrid, metad
       </Grid2>
       <Grid2 size={4}>
         <Box ref={clueListRef} sx={{ maxHeight: "600px", overflowY: "auto" }}>
-          <ClueList
-            metadata={wordsWithStatus}
-            onClueClick={onCellSelect}
-            selectedWord={selectedWord}
-          />
+          <ClueList metadata={wordsWithStatus} onClueClick={onCellSelect} selectedWord={selectedWord} />
         </Box>
       </Grid2>
     </Grid2>

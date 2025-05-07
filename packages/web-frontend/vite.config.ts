@@ -15,10 +15,8 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       rollupOptions: {
-        external: [
-          "@verbaquest/types"
-        ]
-      }
+        external: ["@verbaquest/types"],
+      },
     },
     preview: {
       port: 8080,

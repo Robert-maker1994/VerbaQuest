@@ -1,10 +1,10 @@
+import axios from "axios";
 import { type NextFunction, type Response, Router } from "express";
 import { AppDataSource } from "../../datasource";
 import { Form, Tense } from "../entity";
 import { VerbError } from "../errors/verbError";
 import { verbService } from "../services";
 import type { AuthRequest } from "../types/authRequest";
-import axios from "axios";
 
 const verbRouter = Router();
 
@@ -95,8 +95,8 @@ verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, n
       },
     });
 
-     // create a translation object 
-     const getTranslations = conjugation.map(async (conj) => {
+    // create a translation object
+    const getTranslations = conjugation.map(async (conj) => {
       const string = `${conj.form.form} ${conj.tense.tense}`;
       const res = await axios.post<{ translatedText: string }>(
         "http://localhost:5000/translate",
@@ -114,7 +114,7 @@ verbRouter.get("/conjugation/:verbId", async (req: AuthRequest, res: Response, n
       return {
         ...conj,
         directTranslation: res.data.translatedText ? res.data.translatedText : conj.conjugation,
-      }
+      };
     });
 
     res.json({

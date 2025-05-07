@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React from "react";
+import type React from "react";
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -9,7 +9,7 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   height: "100vh",
   width: "100vw",
-  backgroundColor: theme.palette.background.default, 
+  backgroundColor: theme.palette.background.default,
 }));
 
 const LoadingPage: React.FC = () => {

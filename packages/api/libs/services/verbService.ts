@@ -135,7 +135,6 @@ export const verbService = {
       throw new VerbError("Conjugation not found", 404);
     }
 
-   
     return conjugation;
   },
 };

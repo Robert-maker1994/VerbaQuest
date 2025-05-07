@@ -11,10 +11,10 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import type React from "react";
 import { useNavigate, useParams } from "react-router";
 import HoverBox from "../../../components/hoverBox";
 import backendEndpoints from "../../../context/api/api";
-import type React from "react";
 
 export interface ApiVerb {
   verb_id: number;
@@ -102,9 +102,8 @@ const ConjugationTable: React.FC = () => {
 
   const getTranslations = (tense: string, mood: string, form: string): string => {
     return (
-      conjugations?.conjugation
-        .find((c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form)
-        ?.directTranslation || ''
+      conjugations?.conjugation.find((c) => c.tense.tense === tense && c.tense.mood === mood && c.form.form === form)
+        ?.directTranslation || ""
     );
   };
   if (!conjugations) {
@@ -132,19 +131,15 @@ const ConjugationTable: React.FC = () => {
       {tenses?.map((tense) => (
         <TableContainer
           key={tense.tense + tense.mood}
-
           component={HoverBox}
           sx={{
             marginTop: 2,
           }}
         >
-          <Typography variant="h6"
-            component="h2" gutterBottom>
-            {conjugations.verb?.word.word_text} in the {tense.tense}  with the mood of {tense.mood}
+          <Typography variant="h6" component="h2" gutterBottom>
+            {conjugations.verb?.word.word_text} in the {tense.tense} with the mood of {tense.mood}
           </Typography>
-          <Typography variant="h6"
-            component="h2" gutterBottom>
-          </Typography>
+          <Typography variant="h6" component="h2" gutterBottom></Typography>
           <Table>
             <TableHead>
               <TableRow>
@@ -195,7 +190,6 @@ const ConjugationTable: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
       ))}
     </Box>
   );

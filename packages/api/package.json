@@ -15,7 +15,7 @@
     "migration:generate": "typeorm-ts-node-commonjs migration:generate ./migrations/all-conjugations -d ./datasource.ts",
     "migration:create": "typeorm migration:create",
     "migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
-  },  
+  },
   "keywords": ["language", "learning"],
   "author": "Robert Lawson",
   "license": "MIT",

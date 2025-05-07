@@ -1,7 +1,7 @@
+import type { VerbaquestTense } from "@verbaquest/types";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Conjugation } from "./conjugations/conjugationEntity";
 import { Languages } from "./languageEntity";
-import type{ VerbaquestTense } from "@verbaquest/types";
 
 @Entity()
 export class Tense {

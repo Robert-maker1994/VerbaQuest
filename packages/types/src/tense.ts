@@ -1,5 +1,4 @@
-
-export type Mood = "indicativo"| "indicative" | "indicativo" | "subjuntivo"   | "imperative";
+export type Mood = "indicativo" | "indicative" | "indicativo" | "subjuntivo" | "imperative";
 // --- English Tenses ---
 export type EnglishTense =
   | "present simple"
@@ -25,9 +24,9 @@ export type SpanishTense =
   // Indicativo
   | "presente"
   | "pretérito imperfecto"
-  | "pretérito indefinido"  
-  | "futuro simple" 
-  | "condicional simple" 
+  | "pretérito indefinido"
+  | "futuro simple"
+  | "condicional simple"
   | "presente perfecto"
   | "pretérito pluscuamperfecto"
   | "futuro perfecto"
@@ -37,7 +36,7 @@ export type SpanishTense =
   | "pretérito imperfecto"
   | "pretérito perfecto"
   | "pretérito pluscuamperfecto"
-  | "futuro simple" 
-  | "futuro perfecto"; 
+  | "futuro simple"
+  | "futuro perfecto";
 
 export type VerbaquestTense = EnglishTense | SpanishTense;
