@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "The backend to power the frontend ",
   "exports": "./dist/server.js",
-
   "scripts": {
     "dev": "tsc --build && node ./dist/server.js",
     "build": "tsc --build ",
@@ -16,12 +15,15 @@
     "migration:create": "typeorm migration:create",
     "migrations:run": "typeorm-ts-node-commonjs migration:run -- -d ./datasource.ts"
   },
-  "keywords": ["language", "learning"],
+  "keywords": [
+    "language",
+    "learning"
+  ],
   "author": "Robert Lawson",
   "license": "MIT",
   "dependencies": {
     "@verbaquest/types": "file:../types",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
     "cors": "^2.8.5",
     "csv-parser": "^3.2.0",
     "dotenv": "^16.4.7",

@@ -1,4 +1,4 @@
-import type { CreateCrosswordBody, CrosswordDetails, LanguageCode } from "@verbaquest/types";
+import type { CrosswordDetails, LanguageCode } from "@verbaquest/types";
 import { AppDataSource } from "../../datasource";
 import { Crossword } from "../entity";
 import { CrosswordError } from "../errors";

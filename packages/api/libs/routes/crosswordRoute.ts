@@ -69,6 +69,9 @@ crosswordRouter.get("/details", authMiddleware, crosswordController.getDetails);
  */
 crosswordRouter.get("/:id", authMiddleware, crosswordController.getById);
 
+
+crosswordRouter.post("/create", authMiddleware, crosswordController.createWithTopic)
+
 /**
  * @swagger
  * /crossword:

@@ -1,15 +1,14 @@
-import type { CrosswordDetailsResponse } from "@verbaquest/types";
+import type { CrosswordDetailsResponse, CrosswordResponse } from "@verbaquest/types";
 import type { NextFunction, Response } from "express";
 import { generateCrossword } from "../../utils/generateCrossword";
 import matchCrosswordsForMetadata from "../../utils/matchCrosswordForMetadata";
 import { CrosswordError } from "../errors";
 import crosswordService from "../services/crosswordService";
 import type { AuthRequest } from "../types/authRequest";
+import axios from "axios";
 
 const crosswordController = {
   /**
-   * @async
-   * @function getById
    * @description Retrieves a crossword by its ID.
    * @param {AuthRequest} req - The authenticated request object.
    * @param {Response} res - The response object.
@@ -85,7 +84,26 @@ const crosswordController = {
   },
 
   /**
-   * @async
+  * @function createWithTopic
+  * @description Creates a crossword by the string that it is provided.
+  * 
+  */
+  async createWithTopic(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+    const text = req.body?.text && { prompt: String(req.body?.text) };
+    const ress = await axios({
+      url: "http://localhost:8000/verba",
+      method: "post",
+      data: {
+        prompt: text?.prompt
+
+      }
+    });
+
+  
+   res.status(200).send()
+  },
+
+  /**
    * @function deleteUserCrossword
    * @description Deletes a crossword by its ID or name.
    * @param {AuthRequest} req - The authenticated request object.
@@ -93,9 +111,6 @@ const crosswordController = {
    * @param {NextFunction} next - The next middleware function.
    * @returns {Promise<void>} - A promise that resolves when the response is sent.
    * @throws {CrosswordError} - Throws an error if the crossword is not found or if there are invalid parameters.
-   * @response {200} {string} - The crossword has been deleted.
-   * @response {404} {object} - The crossword was not found.
-   * @response {500} {object} - Internal server error.
    */
   async deleteUserCrossword(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
     try {
